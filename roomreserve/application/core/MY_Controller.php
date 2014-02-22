@@ -16,7 +16,7 @@ class MY_Controller extends CI_Controller
 	//function library
 	public $fl;
 	
-	public $default_perpage=1;
+	public $default_perpage=10;
 	function __construct()
 	{
 		parent::__construct();

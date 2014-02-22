@@ -31,8 +31,10 @@ echo $head;
 		      					<option value="">เลือก</option>
 		      					<option value="report_reserve">รายงานการจอง</option>
 		      					<option selected value="report_room_use">รายงานการใช้ห้อง</option>
+		      					<option value="report_room_stat">รายงานสถิติการใช้ห้อง</option>
 		      				</select>
 		      			</div>
+		      			<!-- 
 		      			<div class="form-group" id="c_room">
 		      				<label for="se_room" >ห้อง</label>
 		      				<select class="form-control" name="se_room" id="se_room">
@@ -41,6 +43,11 @@ echo $head;
 		      					<option value="02">C202</option>
 		      				</select>
 		      			</div>
+		      			 -->
+		      			<?php 
+		      			echo $se_room_type;
+		      			echo $se_room;
+		      			?>
 		      			<div class="form-group">
 		      				<label for="">ระยะเวลา</label>
 	      					<select class="form-control" name="se_time_length" id="se_time_length">
@@ -85,6 +92,7 @@ echo $head;
 	      					<select class="form-control" name="se_year" id="se_year">
 	      						<option value="2013">2013</option>
 	      						<option value="2014" selected>2014</option>
+	      						<option value="2014" selected>2015</option>
 	      					</select>
 		      			</div>
 		      			<div class="form-group" id="c_custom_begin">
@@ -164,16 +172,17 @@ echo $js;
 		/**
 		* show hide select option
 		*/
-		$("#c_room").hide();
+		$("#select_room,#select_room_type").parent('div').hide();
+		//$("#select_room_type").parent('div').hide();
 		$("#se_report_type").on("change keyup",function(){
 			var val = $(this).find("option:selected").val();
-			if(val=="report_room_use")
+			if(val=="report_room_use" || val=="report_room_stat")
 			{
-				$("#c_room").show();
+				$("#select_room,#select_room_type").parent().show();
 			}
 			else 
 			{
-				$("#c_room").hide();
+				$("#select_room,#select_room_type").parent().hide();
 			}
 		});
 		
@@ -206,8 +215,38 @@ echo $js;
 			}
 		});
 
+		/*
+		*แสดงข้อมูลห้องใน dropdown (Get room list)
+		*/
+		$("#select_room_type").on("keyup change",function(){
+			if($(this).find("option:selected").val()!=""){
+				$.ajax({
+					url:"?d=report&c=report&m=select_room_list",
+					data:{room_type_id:$(this).find("option:selected").val()},
+					type:"POST",
+					dataType:"json",
+					success:function(resp){
+						$("#select_room").find("option:gt(0)").remove();
+						if(resp.room_list!=null)
+						{
+							$("#select_room").append('<option value="all">ทั้งหมด</option>');
+							$("#select_room").append(resp.room_list);
+						}
+						
+					},
+					error:function(error){
+						alert("Error : "+error);
+					}
+				});
+			}
+			else
+			{
+				$("#select_room").find("option:gt(0)").remove();
+			}
+		});
+		
+		//test
 		$("#se_report_type").change();
-		$("#se_room").change();
 
 		init_datetimepicker();
 	});

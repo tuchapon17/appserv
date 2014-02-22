@@ -12,6 +12,30 @@ class Report extends MY_Controller {
 	
 	function report_type()
 	{
+		$se_room_type=array(
+				"LB_text"=>"ประเภทห้อง",
+				"LB_attr"=>$this->eml->span_redstar(),
+				"S_class"=>'',
+				"S_name"=>"select_room_type",
+				"S_id"=>"select_room_type",
+				"S_old_value"=>$this->input->post($this->lang->line("select_room_type")),
+				"S_data"=>$this->emm->get_select("tb_room_type","room_type_name"),
+				"S_id_field"=>"room_type_id",
+				"S_name_field"=>"room_type_name",
+				"help_text"=>''
+		);
+		$se_room=array(
+				"LB_text"=>"ห้อง",
+				"LB_attr"=>$this->eml->span_redstar(),
+				"S_class"=>'',
+				"S_name"=>"select_room",
+				"S_id"=>"select_room",
+				"S_old_value"=>$this->input->post($this->lang->line("select_room")),
+				"S_data"=>'',
+				"S_id_field"=>"",
+				"S_name_field"=>"",
+				"help_text"=>''
+		);
 		$data=array(
 				"htmlopen"=>$this->pel->htmlopen(),
 				"head"=>$this->pel->head("รายงาน"),
@@ -20,13 +44,16 @@ class Report extends MY_Controller {
 				"js"=>$this->pel->js(),
 				"footer"=>$this->pel->footer(),
 				"bodyclose"=>$this->pel->bodyclose(),
-				"htmlclose"=>$this->pel->htmlclose()
+				"htmlclose"=>$this->pel->htmlclose(),
+				"se_room_type"=>$this->eml->form_select($se_room_type),
+				"se_room"=>$this->eml->form_select($se_room)
 		);
 		$this->load->view("report/report_type",$data);
 	}
 	function report_type_process()
 	{
 		//if (ob_get_contents()) ob_end_clean();
+		/*
 		//$year สำหรับออกรายงานรายปี และใช้กำหนดปีสำหรับออกรายงาน
 		$year=$this->input->post("se_year");
 		$month=$this->input->post("se_month");
@@ -70,7 +97,7 @@ class Report extends MY_Controller {
 		$month_name_th=array("มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม");
 		$month_last_date=date('Y-'.$month.'-t',strtotime($month_name[((int)$month-1)].' '.$year));
 		$month_time=array("begin"=>$year."-".$month."-01 00:00:00","end"=>$month_last_date." 23:59:59");
-		
+		*/
 		//เลือกประเภทรายงาน
 		if($this->input->post("se_report_type")=="report_reserve")
 		{
@@ -80,6 +107,7 @@ class Report extends MY_Controller {
 			->join("tb_reserve_has_person","tb_reserve_has_person.tb_reserve_id=tb_reserve.reserve_id")
 			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
 			;
+			/*
 			if($post_time_length=="tl_month")
 			{
 				$select_time_length="รายเดือน";
@@ -108,10 +136,33 @@ class Report extends MY_Controller {
 				$this->db->where("reserve_datetime_begin >=",$year_time['begin']);
 				$this->db->where("reserve_datetime_end <=",$year_time['end']);
 			}
+			else if($post_time_length=="tl_custom")
+			{
+				if($this->input->post("input_c_begin") && $this->input->post("input_c_end"))
+				{
+					$c_begin=$this->input->post("input_c_begin");
+					$c_end=$this->input->post("input_c_end");
+					preg_match('/(\d\d\-\d\d\-\d\d\d\d)/', $c_begin, $match_begin);
+					preg_match('/(\d\d\-\d\d\-\d\d\d\d)/', $c_end, $match_end);
+					if(sizeof($match_begin)>0)
+						$c_begin=$match_begin[0];
+					if(sizeof($match_end)>0)
+						$c_end=$match_end[0];
+					$reverse_begin=date('Y-m-d',strtotime($c_begin))." 00:00:00";
+					$reverse_end=date('Y-m-d',strtotime($c_end))." 23:59:59";
+						
+					$select_time_length="";
+					$on_time_text="ระหว่างวันที่ ".$this->en2th_date($c_begin)." - ".$this->en2th_date($c_end);
+					$this->db->where("reserve_datetime_begin >=",$reverse_begin);
+					$this->db->where("reserve_datetime_end <=",$reverse_end);
+				}
+			}
+			*/
+			$text=$this->check_time_length($this->input->post());
 			$report_type_query=$this->db->get()->result_array();
 			//print_r($report_type_query);
 			
-			$this->report_reserve_output($report_type_query, $select_time_length, $on_time_text);
+			$this->report_reserve_output($report_type_query, $text["select_time_length"], $text["on_time_text"]);
 		}
 		else if($this->input->post("se_report_type")=="report_room_use")
 		{
@@ -123,7 +174,8 @@ class Report extends MY_Controller {
 			->join("tb_reserve_has_person","tb_reserve_has_person.tb_reserve_id=tb_reserve.reserve_id")
 			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
 			->where("tb_room.room_id",$room_id);
-			
+			$text=$this->check_time_length($this->input->post());
+			/*
 			if($post_time_length=="tl_month")
 			{
 				$select_time_length="รายเดือน";
@@ -172,10 +224,91 @@ class Report extends MY_Controller {
 					$this->db->where("reserve_datetime_begin >=",$reverse_begin);
 					$this->db->where("reserve_datetime_end <=",$reverse_end);
 				}
-			}
+			}*/
 			$report_room_data=$this->db->get()->result_array();
 				//echo $this->db->last_query();
-			$this->report_room_output($report_room_data, $select_time_length, $on_time_text);
+			$this->report_room_output($report_room_data, $text["select_time_length"], $text["on_time_text"]);
+		}
+		else if($this->input->post("se_report_type")=="report_room_stat")
+		{
+			$room_id=$this->input->post("select_room");
+			$room_type_id=$this->input->post("select_room_type");
+			$text='';
+			$this->db->select("room_name,room_id")->from("tb_room");
+			$this->where_room_id($room_id);
+			$room_name=$this->db->get()->result_array();
+			foreach ($room_name as $key=>$val)
+			{
+				$this->db->select("tb_reserve.reserve_id")->from("tb_room")
+				->join("tb_room_type","tb_room_type.room_type_id=tb_room.tb_room_type_id")
+				->join("tb_reserve","tb_reserve.tb_room_id=tb_room.room_id")
+				->join("tb_reserve_has_datetime","tb_reserve_has_datetime.tb_reserve_id=tb_reserve.reserve_id")
+				->where("tb_room_type.room_type_id",$room_type_id);
+				$this->where_room_id($val["room_id"]);
+				$this->check_time_length($this->input->post());
+				$this->db->group_by("tb_reserve.reserve_id");
+				//จำนวนการจองของห้อง xx
+				$count_reserve=$this->db->get()->num_rows();
+				
+				$this->db->select("count(tb_person_type.person_type_id) as count_person_type01")->from("tb_room")
+				->join("tb_room_type","tb_room_type.room_type_id=tb_room.tb_room_type_id")
+				->join("tb_reserve","tb_reserve.tb_room_id=tb_room.room_id")
+				->join("tb_reserve_has_datetime","tb_reserve_has_datetime.tb_reserve_id=tb_reserve.reserve_id")
+				->join("tb_reserve_has_person","tb_reserve_has_person.tb_reserve_id=tb_reserve.reserve_id")
+				->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
+				->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
+				->where("tb_person_type.person_type_id","01")
+				->where("tb_room_type.room_type_id",$room_type_id);;
+				$this->where_room_id($val["room_id"]);
+				$this->check_time_length($this->input->post());
+				//$this->db->group_by("tb_person_type.person_type_id");
+				//จำนวนผู้จอง บุคคลภายใน มหาวิทยาลัยราชภัฏอุตรดิตถ์
+				$this->db->group_by("tb_reserve.reserve_id");
+				$count_person_type01=$this->db->get()->num_rows();
+				//$count_person_type01=$this->db->get()->result_array();
+				//$count_person_type01=$this->sum_count_array($count_person_type01, "count_person_type01");
+				
+				$this->db->select("count(tb_person_type.person_type_id) as count_person_type02")->from("tb_room")
+				->join("tb_room_type","tb_room_type.room_type_id=tb_room.tb_room_type_id")
+				->join("tb_reserve","tb_reserve.tb_room_id=tb_room.room_id")
+				->join("tb_reserve_has_datetime","tb_reserve_has_datetime.tb_reserve_id=tb_reserve.reserve_id")
+				->join("tb_reserve_has_person","tb_reserve_has_person.tb_reserve_id=tb_reserve.reserve_id")
+				->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
+				->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
+				->where("tb_person_type.person_type_id","02")
+				->where("tb_room_type.room_type_id",$room_type_id);
+				$this->where_room_id($val["room_id"]);
+				$this->check_time_length($this->input->post());
+				//$this->db->group_by("tb_person_type.person_type_id");
+				//จำนวนผู้จอง บุคคลภายนอก มหาวิทยาลัยราชภัฏอุตรดิตถ์
+				$this->db->group_by("tb_reserve.reserve_id");
+				$count_person_type02=$this->db->get()->num_rows();
+				//$count_person_type02=$this->db->get()->result_array();
+				//$count_person_type02=$this->sum_count_array($count_person_type02, "count_person_type02");
+				
+				$this->db->select("count(tb_reserve_has_datetime.reserve_datetime_begin) as count_use")->from("tb_room")
+				->join("tb_room_type","tb_room_type.room_type_id=tb_room.tb_room_type_id")
+				->join("tb_reserve","tb_reserve.tb_room_id=tb_room.room_id")
+				->join("tb_reserve_has_datetime","tb_reserve_has_datetime.tb_reserve_id=tb_reserve.reserve_id")
+				->where("tb_room_type.room_type_id",$room_type_id);;
+				$this->where_room_id($val["room_id"]);
+				$text=$this->check_time_length($this->input->post());
+				$count_use=$this->db->get()->result_array();
+				//จำนวนครั้งการใช้งาน 1 การจอง ใช้ได้หลายครั้ง
+				$count_use=$this->sum_count_array($count_use, "count_use");
+				
+				/*echo "reserve:".$count_reserve
+				.",persontype01:".$count_person_type01
+				.",persontype02:".$count_person_type02
+				.",use_times:",$count_use;*/
+				
+				$room_name[$key]["count_reserve"]=$count_reserve;
+				$room_name[$key]["count_person_type01"]=$count_person_type01;
+				$room_name[$key]["count_person_type02"]=$count_person_type02;
+				$room_name[$key]["count_use"]=$count_use;
+			}//foreach room_name
+			//print_r($room_name);
+			$this->room_stat_output($room_name, $text["select_time_length"], $text["on_time_text"]);
 		}
 		
 		/*
@@ -258,6 +391,7 @@ EOT;
 		
 		foreach($report as $r)
 		{
+			
 				//กำหนดความยาวของหน้า(สำหรับเนื้อหา) เพื่อขึ้นหน้าใหม่
 				if($pdf->getY()<$pdf->getPageHeight()-23.5)
 				{
@@ -353,14 +487,14 @@ EOT;
 			}
 		</style>
 		<div><hr></div>
-		<table class="tbl_report" cellspacing="0" cellpadding="1" border="0.2">
+		<table class="tbl_report" cellspacing="0" cellpadding="1" border="0.1">
 		<tr>
 				<th class="text-center" width="{$width[0]}%">ลำดับ</th>
 				<th class="text-center" width="{$width[2]}%">ห้อง</th>
 				<th class="text-center" width="{$width[1]}%">โครงการ</th>
 				<th class="text-center" width="{$width[5]}%">บุคคล</th>
 				<th class="text-center" width="{$width[3]}%">วันเวลาจอง</th>
-				<th class="text-center" width="{$width[4]}%">จำนวนผู้เข้าร่วม</th>
+				<th class="text-center" width="{$width[4]}%">จำนวนผู้<br>เข้าร่วม</th>
 				
 		</tr>
 		</table>
@@ -386,7 +520,7 @@ EOT;
 					}
 				</style>
 			
-			<table class="tbl_report" cellspacing="0" cellpadding="1" border="0.2">
+			<table class="tbl_report" cellspacing="0" cellpadding="1" border="0.1">
 EOT;
 		//for($i=1;$i<=10;$i++)
 		//{
@@ -489,7 +623,111 @@ EOT;
 		//ob_clean();
 		$pdf->Output('My-File-Name.pdf', 'I');
 	}
-	
+	function room_stat_output($report, $select_time_length, $on_time_text)
+	{
+		//http://www.tcpdf.org/examples/example_048.phps
+		//http://www.tcpdf.org/examples/example_048.pdf
+		//www.php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc
+		$report = $report;
+		if (ob_get_contents()) ob_end_clean();
+		$this->load->library("pdf");
+		$pdf=$this->pdf;
+		
+		/*
+		 * public function __construct($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8', $diskcache=false, $pdfa=false) {
+		*/
+		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+		//$fontname = $pdf->addTTFfont($_SERVER['DOCUMENT_ROOT'].'/roomreserve/plugins/fonts/THSarabunNewI.ttf', 'TrueTypeUnicode', '', 32);
+		$pdf->SetTitle('My Title');
+		$pdf->SetHeaderMargin(0);
+		$pdf->SetFooterMargin(0);
+		$margin=array(
+				"top"=>23.5,
+				"right"=>23.5,
+				"left"=>23.5
+		);
+		$pdf->SetMargins($margin["left"], $margin["top"],$margin["right"],true);
+		//$pdf->SetMargins(15, $pdf->top_margin, 15);
+		//$pdf->SetAutoPageBreak(TRUE, 23.5);
+		$pdf->SetAuthor('Author');
+		$pdf->SetDisplayMode('real', 'default');
+		$pdf->setFontSubsetting(false);
+		$pdf->SetFont('thsarabunnewb', '', 18);
+		
+		$pdf->AddPage();
+		$pdf->Cell(0, 15, 'รายงานสถิติการใช้ห้อง'.$select_time_length, 0, false, 'C', 0, '', 0, false, 'M', 'M');
+		$pdf->Ln(7.5);
+		$pdf->Cell(0, 15, $on_time_text, 0, false, 'C', 0, '', 0, false, 'M', 'M');
+		$pdf->SetFont('thsarabunnew', '', 16);
+		$width=array(6,18.8,18.8,18.8,18.8,18.8);
+		//table
+		$tbl=<<<EOT
+		<style>
+			.text-center{
+				text-align:center;
+			}
+			table.tbl_report{
+				width:100%;
+				display:block;
+			}
+		</style>
+		<div><hr></div>
+		<table class="tbl_report" cellspacing="0" cellpadding="1" border="0.1">
+		<tr>
+				<th class="text-center" width="{$width[0]}%">ลำดับ</th>
+				<th class="text-center" width="{$width[2]}%">ห้อง</th>
+				<th class="text-center" width="{$width[1]}%">จำนวนการจอง</th>
+				<th class="text-center" width="{$width[5]}%">บุคคลภายใน มรอ.</th>
+				<th class="text-center" width="{$width[3]}%">บุคคลภายนอก มรอ.</th>
+				<th class="text-center" width="{$width[4]}%">จำนวนการใช้ห้อง</th>
+		
+		</tr>
+		</table>
+EOT;
+		$pdf->writeHTML($tbl, false, false, false, false, '');
+		$tbl=<<<EOT
+				<style>
+					.text-center{
+						text-align:center;
+					}
+					table.tbl_report{
+						width:100%;
+						display:block;
+					}
+				</style>
+		
+			<table class="tbl_report" cellspacing="0" cellpadding="1" border="0.1">
+EOT;
+		$count=1;
+		foreach($report as $r)
+		{
+			if($pdf->getY() < ($pdf->getPageHeight()-23.5) )
+			{
+				//rowspan="{$room_name_num[$r['room_name']]}"
+				//rowspan="{$project_name_num[$r['project_name']]}"
+				$tbl.=<<<EOT
+				<tr nobr="true">
+				<td class="text-center" width="{$width[0]}%">{$count}</td>
+				<td width="{$width[2]}%">{$r['room_name']}</td>
+				<td width="{$width[1]}%">{$r['count_reserve']}</td>
+				<td width="{$width[5]}%">{$r['count_person_type01']}</td>
+				<td width="{$width[3]}%">{$r['count_person_type02']}</td>
+				<td width="{$width[4]}%">{$r['count_use']}</td>
+				</tr>
+EOT;
+			}
+			else
+			{
+				$pdf->AddPage();
+			}
+			$count++;
+		}
+		$tbl.=<<<EOT
+			</table>
+EOT;
+		$pdf->writeHTML($tbl, false, false, false, false, '');
+		$pdf->Output('My-File-Name.pdf', 'I');
+	}
 	
 	function getTime($datetime)
 	{
@@ -605,7 +843,133 @@ EOT;
 		return (int)$d."/".(int)$m."/".(int)$y;
 	}
 	
+	function check_time_length($post_data)
+	{
+		//$year สำหรับออกรายงานรายปี และใช้กำหนดปีสำหรับออกรายงาน
+		$year=$post_data["se_year"];
+		$month=$post_data["se_month"];
+		$post_time_length=$post_data["se_time_length"];
+		
+		//กำหนดเวลาเริ่ม-สิ้นสุด สำหรับรายปี
+		$year_time=array("begin"=>$year."-01-01 00:00:00","end"=>$year."-12-31 23:59:59");
+		
+		//กำหนดเวลาเริ่ม-สิ้นสุด สำหรับรายเทอม
+		if($post_data["se_term"]=="term1")
+			$term_time=array("begin"=>$year."-05-31 00:00:00","end"=>$year."-10-31 23:59:59");
+		else if($post_data["se_term"]=="term2")
+			$term_time=array("begin"=>$year."-11-01 00:00:00","end"=>($year+1)."-03-01 23:59:59");
+		else if($post_data["se_term"]=="term3")
+			$term_time=array("begin"=>($year+1)."-03-02 00:00:00","end"=>($year+1)."-05-30 23:59:59");
+		
+		//กำหนดเวลาเริ่ม-สิ้นสุด สำหรับรายไตรมาส
+		if($post_data["se_quarter"]=="quarter1")
+		{
+			//หาวันที่สุดท้ายของเดือนกุมภาพันธ์ find last date of Feb
+			$timestamp = strtotime('February '.$year);
+			//$first_second = date('m-01-Y 00:00:00', $timestamp);
+			$last_feb  = date('Y-m-t', $timestamp);
+			$quarter_time = array("begin"=>($year-1)."-12-01 00:00:00","end"=>$last_feb." 23:59:59");
+		}
+		else if($post_data["se_quarter"]=="quarter2")
+		{
+			$quarter_time=array("begin"=>$year."-03-01 00:00:00","end"=>$year."-05-31 23:59:59");
+		}
+		else if($post_data["se_quarter"]=="quarter3")
+		{
+			$quarter_time=array("begin"=>$year."-06-01 00:00:00","end"=>$year."-08-31 23:59:59");
+		}
+		else if($post_data["se_quarter"]=="quarter4")
+		{
+			$quarter_time=array("begin"=>$year."-09-01 00:00:00","end"=>$year."-11-30 23:59:59");
+		}
+		
+		//กำหนดเวลาเริ่ม-สิ้นสุด สำหรับรายเดือน (รูปแบบ : y-m-01 - y-m-วันสุดท้ายของเดือน)
+		$month_name=array("January","February","March","April","May","June","July","August","September","October","November","December");
+		$month_name_th=array("มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม");
+		$month_last_date=date('Y-'.$month.'-t',strtotime($month_name[((int)$month-1)].' '.$year));
+		$month_time=array("begin"=>$year."-".$month."-01 00:00:00","end"=>$month_last_date." 23:59:59");
+		
+		if($post_time_length=="tl_month")
+		{
+			$select_time_length="รายเดือน";
+			$on_time_text="ประจำเดือน ".$month_name_th[((int)$month-1)]." ปี ".($year+543);
+			$this->db->where("reserve_datetime_begin >=",$month_time['begin']);
+			$this->db->where("reserve_datetime_end <=",$month_time['end']);
+		}
+		else if($post_time_length=="tl_quarter")
+		{
+			$select_time_length="รายไตรมาส";
+			$on_time_text="ประจำไตรมาสที่ ".str_replace("quarter", "", $post_data["se_quarter"])." ปี ".($year+543);
+			$this->db->where("reserve_datetime_begin >=",$quarter_time['begin']);
+			$this->db->where("reserve_datetime_end <=",$quarter_time['end']);
+		}
+		else if($post_time_length=="tl_term")
+		{
+			$on_time_text="ประจำเทอมที่ ".str_replace("term", "", $post_data["se_term"])." ปี ".($year+543);
+			$select_time_length="รายภาคการศึกษา";
+			$this->db->where("reserve_datetime_begin >=",$term_time['begin']);
+			$this->db->where("reserve_datetime_end <=",$term_time['end']);
+		}
+		else if($post_time_length=="tl_year")
+		{
+			$select_time_length="รายปี";
+			$on_time_text="ประจำปี ".($year+543);
+			$this->db->where("reserve_datetime_begin >=",$year_time['begin']);
+			$this->db->where("reserve_datetime_end <=",$year_time['end']);
+		}
+		else if($post_time_length=="tl_custom")
+		{
+			if($post_data["input_c_begin"] && $post_data["input_c_end"])
+			{
+				$c_begin=$post_data["input_c_begin"];
+				$c_end=$post_data["input_c_end"];
+				preg_match('/(\d\d\-\d\d\-\d\d\d\d)/', $c_begin, $match_begin);
+				preg_match('/(\d\d\-\d\d\-\d\d\d\d)/', $c_end, $match_end);
+				if(sizeof($match_begin)>0)
+					$c_begin=$match_begin[0];
+				if(sizeof($match_end)>0)
+					$c_end=$match_end[0];
+				$reverse_begin=date('Y-m-d',strtotime($c_begin))." 00:00:00";
+				$reverse_end=date('Y-m-d',strtotime($c_end))." 23:59:59";
+					
+				$select_time_length="";
+				$on_time_text="ระหว่างวันที่ ".$this->en2th_date($c_begin)." - ".$this->en2th_date($c_end);
+				$this->db->where("reserve_datetime_begin >=",$reverse_begin);
+				$this->db->where("reserve_datetime_end <=",$reverse_end);
+			}
+		}
+		return array("select_time_length"=>$select_time_length,"on_time_text"=>$on_time_text);
+	}
 	
+	function sum_count_array($arr, $key)
+	{
+		$sum=0;
+		foreach ($arr as $a)
+		{
+			$sum+=$a[$key];
+		}
+		return $sum;
+	}
 	
-	
+	function where_room_id($post_room_id)
+	{
+		if($post_room_id!="all") $this->db->where("tb_room.room_id",$post_room_id);
+	}
+	function select_room_list()
+	{
+		/*
+		 * Return JSON
+		*/
+		if($this->input->post("room_type_id")!=''):
+		$query=$this->emm->reserve_room_list($this->input->post("room_type_id"));
+		$data='';
+		if($query>0):
+		foreach($query AS $ar):
+		$data.="<option value='".$ar['room_id']."'>".$ar['room_name']."</option>";
+		endforeach;
+		endif;
+		echo json_encode(array("room_list"=>$data));
+		else: echo "";
+		endif;
+	}
 }

@@ -77,8 +77,9 @@ class MY_Model extends CI_Model
 		$session_message_type=$message_type."_message";
 			$this->db->set($data)->insert($table_name);
 		if($this->db->trans_status()===FALSE):
+			$err_num=$this->db->_error_number();
 			$this->db->trans_rollback();
-			$this->session->set_flashdata($session_message_type,"<p class='text-danger'>".$error_message."</p>");
+			$this->session->set_flashdata($session_message_type,"<p class='text-danger'>".$error_message.$err_num."</p>");
 			redirect(base_url().$error_link);
 		else:
 			$this->db->trans_commit();

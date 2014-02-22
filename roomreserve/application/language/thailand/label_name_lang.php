@@ -1,5 +1,5 @@
 <?php
-$lang["label_username"]="ชื่อผู้เข้าใช้";
+$lang["label_username"]="ชื่อผู้เข้าใช้ (Username)";
 $lang["label_password0"]="รหัสผ่านเดิม";
 $lang["label_password"]="รหัสผ่านใหม่";
 $lang["label_password2"]="ยืนยันรหัสผ่านใหม่";
