@@ -1,5 +1,7 @@
 <?php 
-
+$ci=&get_instance();
+$ci->load->library("element_lib");
+$eml=$ci->element_lib;
 echo $htmlopen;
 echo $head;
 ?>
@@ -18,7 +20,7 @@ echo $head;
     <div class="container">
       <div class="row">
       	<div class="col-lg-12">
-      		<h2>ประเภทรายงาน</h2>
+      		<h2>รายงาน</h2>
       		<div class="panel panel-default">
       			<div class="panel-heading">
       			เลือกประเภทรายงาน
@@ -30,20 +32,10 @@ echo $head;
 		      				<select class="form-control" name="se_report_type" id="se_report_type">
 		      					<option value="">เลือก</option>
 		      					<option value="report_reserve">รายงานการจอง</option>
-		      					<option selected value="report_room_use">รายงานการใช้ห้อง</option>
+		      					<option value="report_room_use">รายงานการใช้ห้อง</option>
 		      					<option value="report_room_stat">รายงานสถิติการใช้ห้อง</option>
 		      				</select>
 		      			</div>
-		      			<!-- 
-		      			<div class="form-group" id="c_room">
-		      				<label for="se_room" >ห้อง</label>
-		      				<select class="form-control" name="se_room" id="se_room">
-		      					<option value="">เลือก</option>
-		      					<option selected value="01">C201</option>
-		      					<option value="02">C202</option>
-		      				</select>
-		      			</div>
-		      			 -->
 		      			<?php 
 		      			echo $se_room_type;
 		      			echo $se_room;
@@ -55,7 +47,7 @@ echo $head;
 	      						<option value="tl_month">รายเดือน</option>
 	      						<option value="tl_quarter">รายไตรมาส</option>
 	      						<option value="tl_term">รายเทอม</option>
-	      						<option selected value="tl_year">รายปี</option>
+	      						<option value="tl_year">รายปี</option>
 	      						<option value="tl_custom">กำหนดเอง</option>
 	      					</select>
 		      			</div>
@@ -91,28 +83,25 @@ echo $head;
 		      				<label for="">เลือกปี</label>
 	      					<select class="form-control" name="se_year" id="se_year">
 	      						<option value="2013">2013</option>
-	      						<option value="2014" selected>2014</option>
-	      						<option value="2014" selected>2015</option>
+	      						<option value="2014">2014</option>
+	      						<option value="2014">2015</option>
 	      					</select>
 		      			</div>
 		      			<div class="form-group" id="c_custom_begin">
 		      				<label for="c_begin">เวลาเริ่มต้น</label>
 	      					<div class='input-group date c_begin'>
-			                    <input type='text' class="form-control" name="input_c_begin" readonly/>
+			                    <input type='text' class="form-control" name="input_c_begin" id="input_c_begin" readonly />
 			                    <span class="input-group-addon"><span class=""></span>
 			                </div>
 		      			</div>
 		      			<div class="form-group" id="c_custom_end">
 		      				<label for="c_begin">เวลาสิ้นสุด</label>
 	      					<div class='input-group date c_end'>
-			                    <input type='text' data-name="input_c_end" class="form-control" name="input_c_end" readonly/>
+			                    <input type='text' id="input_c_end" class="form-control" name="input_c_end" readonly/>
 			                    <span class="input-group-addon"><span class=""></span>
 			                </div>
 		      			</div>
-		      			
-		      			<div class="form-group">
-		      				<button type="submit" class="btn btn-primary">submit</button>
-		      			</div>
+		      				<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 	      			</form>
       			</div>
       		</div>
@@ -140,14 +129,40 @@ echo $js;
 		/**
 		*jquery validation
 		*/
-		$.validator.addMethod("check_se_room", function(value, element){
-			if($("#se_report_type").val()=="report_room_use")
+		$.validator.addMethod("check_room_type", function(value, element){
+			if($("#se_report_type").val()=="report_room_use" || $("#se_report_type").val()=="report_room_stat")
 			{
 				if(value=="") return false;
 				else return true;
 			}
 			else return true;
 		}, "โปรดระบุข้อมูล.");
+		$.validator.addMethod("check_room", function(value, element){
+			if($("#se_report_type").val()=="report_room_use" || $("#se_report_type").val()=="report_room_stat")
+			{
+				if(value=="") return false;
+				else return true;
+			}
+			else return true;
+		}, "โปรดระบุข้อมูล.");
+		$.validator.addMethod("input_custom_time_required", function(value, element){
+			if($("#se_time_length").val()=="tl_custom")
+			{
+				if(value=="") return false;
+				else return true;
+			}
+			else return true;
+		}, "โปรดระบุข้อมูล.");
+		$.validator.addMethod("input_custom_time_compare_begin", function(value, element){
+			if($("#se_time_length").val()=="tl_custom")
+			{
+				var begin=new Date(reverse_date($("#input_c_begin").val()));
+				var end=new Date(reverse_date($("#input_c_end").val()));
+				if(begin>end) return false;
+				else return true;
+			}
+			else return true;
+		}, "โปรดระบุวันเริ่มต้นให้น้อยกว่าวันสิ้นสุด.");
 		$("#form_report_type").validate({
 			lang:'th',
 			errorClass: "my-error-class",
@@ -155,11 +170,21 @@ echo $js;
 				"se_report_type":{
 					required:true
 				},
-				"se_room":{
-					check_se_room:true
+				"select_room":{
+					check_room:true
 				},
 				"se_time_length":{
 					required:true
+				},
+				"select_room_type":{
+					check_room_type:true
+				},
+				"input_c_begin":{
+					input_custom_time_required:true,
+					input_custom_time_compare_begin:true
+				},
+				"input_c_end":{
+					input_custom_time_required:true
 				}
 			},
 			messages:{
@@ -169,11 +194,13 @@ echo $js;
 			}
 		});
 
+		$("#form_report_type").submit(function(e){
+			
+		});
 		/**
 		* show hide select option
 		*/
 		$("#select_room,#select_room_type").parent('div').hide();
-		//$("#select_room_type").parent('div').hide();
 		$("#se_report_type").on("change keyup",function(){
 			var val = $(this).find("option:selected").val();
 			if(val=="report_room_use" || val=="report_room_stat")
@@ -211,6 +238,7 @@ echo $js;
 			}
 			else if(val=="tl_custom")
 			{
+				hide_all_time_length();
 				$("#c_custom_begin,#c_custom_end").show();
 			}
 		});
@@ -218,26 +246,34 @@ echo $js;
 		/*
 		*แสดงข้อมูลห้องใน dropdown (Get room list)
 		*/
+		$("#select_room_type").prepend('<option value="all">ทั้งหมด</option>');
 		$("#select_room_type").on("keyup change",function(){
 			if($(this).find("option:selected").val()!=""){
-				$.ajax({
-					url:"?d=report&c=report&m=select_room_list",
-					data:{room_type_id:$(this).find("option:selected").val()},
-					type:"POST",
-					dataType:"json",
-					success:function(resp){
-						$("#select_room").find("option:gt(0)").remove();
-						if(resp.room_list!=null)
-						{
-							$("#select_room").append('<option value="all">ทั้งหมด</option>');
-							$("#select_room").append(resp.room_list);
+				if($(this).find("option:selected").val()=="all")
+				{
+					$("#select_room").parent().hide();
+				}
+				else
+				{
+					$("#select_room").parent().show();
+					$.ajax({
+						url:"?d=report&c=report&m=select_room_list",
+						data:{room_type_id:$(this).find("option:selected").val()},
+						type:"POST",
+						dataType:"json",
+						success:function(resp){
+							$("#select_room").find("option:gt(0)").remove();
+							if(resp.room_list!=null)
+							{
+								$("#select_room").append('<option value="all">ทั้งหมด</option>');
+								$("#select_room").append(resp.room_list);
+							}
+						},
+						error:function(error){
+							alert("Error : "+error);
 						}
-						
-					},
-					error:function(error){
-						alert("Error : "+error);
-					}
-				});
+					});
+				}
 			}
 			else
 			{
@@ -246,7 +282,7 @@ echo $js;
 		});
 		
 		//test
-		$("#se_report_type").change();
+		//$("#se_report_type").change();
 
 		init_datetimepicker();
 	});
@@ -282,6 +318,13 @@ echo $js;
 			},
 			format:"LL"
         });
+	}
+	function reverse_date(inDate)
+	{
+		var a = inDate.split("-");
+		a.reverse();
+		var reversed = a.join("-");
+		return reversed;
 	}
 	//-->
 	</script>

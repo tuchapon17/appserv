@@ -105,8 +105,7 @@ class Report extends MY_Controller {
 			->join("tb_reserve","tb_reserve.reserve_id=tb_reserve_has_datetime.tb_reserve_id")
 			->join("tb_room","tb_room.room_id=tb_reserve.tb_room_id")
 			->join("tb_reserve_has_person","tb_reserve_has_person.tb_reserve_id=tb_reserve.reserve_id")
-			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
-			;
+			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id");
 			/*
 			if($post_time_length=="tl_month")
 			{
@@ -159,6 +158,7 @@ class Report extends MY_Controller {
 			}
 			*/
 			$text=$this->check_time_length($this->input->post());
+			$this->db->order_by("CONVERT(tb_room.room_name USING TIS620)","ASC");
 			$report_type_query=$this->db->get()->result_array();
 			//print_r($report_type_query);
 			
@@ -172,9 +172,11 @@ class Report extends MY_Controller {
 			->join("tb_reserve","tb_reserve.tb_room_id=tb_room.room_id")
 			->join("tb_reserve_has_datetime","tb_reserve_has_datetime.tb_reserve_id=tb_reserve.reserve_id")
 			->join("tb_reserve_has_person","tb_reserve_has_person.tb_reserve_id=tb_reserve.reserve_id")
-			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
-			->where("tb_room.room_id",$room_id);
+			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id");
+			$this->where_room_id($room_id);
 			$text=$this->check_time_length($this->input->post());
+			$this->db->group_by("tb_reserve.reserve_id");
+			$this->db->order_by("CONVERT(tb_room.room_name USING TIS620)","ASC");
 			/*
 			if($post_time_length=="tl_month")
 			{
@@ -225,8 +227,10 @@ class Report extends MY_Controller {
 					$this->db->where("reserve_datetime_end <=",$reverse_end);
 				}
 			}*/
+			
 			$report_room_data=$this->db->get()->result_array();
-				//echo $this->db->last_query();
+			
+			//echo $this->db->last_query();
 			$this->report_room_output($report_room_data, $text["select_time_length"], $text["on_time_text"]);
 		}
 		else if($this->input->post("se_report_type")=="report_room_stat")
@@ -242,8 +246,8 @@ class Report extends MY_Controller {
 				$this->db->select("tb_reserve.reserve_id")->from("tb_room")
 				->join("tb_room_type","tb_room_type.room_type_id=tb_room.tb_room_type_id")
 				->join("tb_reserve","tb_reserve.tb_room_id=tb_room.room_id")
-				->join("tb_reserve_has_datetime","tb_reserve_has_datetime.tb_reserve_id=tb_reserve.reserve_id")
-				->where("tb_room_type.room_type_id",$room_type_id);
+				->join("tb_reserve_has_datetime","tb_reserve_has_datetime.tb_reserve_id=tb_reserve.reserve_id");
+				$this->where_room_type_id($room_type_id);
 				$this->where_room_id($val["room_id"]);
 				$this->check_time_length($this->input->post());
 				$this->db->group_by("tb_reserve.reserve_id");
@@ -257,8 +261,8 @@ class Report extends MY_Controller {
 				->join("tb_reserve_has_person","tb_reserve_has_person.tb_reserve_id=tb_reserve.reserve_id")
 				->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
 				->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
-				->where("tb_person_type.person_type_id","01")
-				->where("tb_room_type.room_type_id",$room_type_id);;
+				->where("tb_person_type.person_type_id","01");
+				$this->where_room_type_id($room_type_id);
 				$this->where_room_id($val["room_id"]);
 				$this->check_time_length($this->input->post());
 				//$this->db->group_by("tb_person_type.person_type_id");
@@ -275,8 +279,8 @@ class Report extends MY_Controller {
 				->join("tb_reserve_has_person","tb_reserve_has_person.tb_reserve_id=tb_reserve.reserve_id")
 				->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
 				->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
-				->where("tb_person_type.person_type_id","02")
-				->where("tb_room_type.room_type_id",$room_type_id);
+				->where("tb_person_type.person_type_id","02");
+				$this->where_room_type_id($room_type_id);
 				$this->where_room_id($val["room_id"]);
 				$this->check_time_length($this->input->post());
 				//$this->db->group_by("tb_person_type.person_type_id");
@@ -289,8 +293,8 @@ class Report extends MY_Controller {
 				$this->db->select("count(tb_reserve_has_datetime.reserve_datetime_begin) as count_use")->from("tb_room")
 				->join("tb_room_type","tb_room_type.room_type_id=tb_room.tb_room_type_id")
 				->join("tb_reserve","tb_reserve.tb_room_id=tb_room.room_id")
-				->join("tb_reserve_has_datetime","tb_reserve_has_datetime.tb_reserve_id=tb_reserve.reserve_id")
-				->where("tb_room_type.room_type_id",$room_type_id);;
+				->join("tb_reserve_has_datetime","tb_reserve_has_datetime.tb_reserve_id=tb_reserve.reserve_id");
+				$this->where_room_type_id($room_type_id);
 				$this->where_room_id($val["room_id"]);
 				$text=$this->check_time_length($this->input->post());
 				$count_use=$this->db->get()->result_array();
@@ -709,10 +713,10 @@ EOT;
 				<tr nobr="true">
 				<td class="text-center" width="{$width[0]}%">{$count}</td>
 				<td width="{$width[2]}%">{$r['room_name']}</td>
-				<td width="{$width[1]}%">{$r['count_reserve']}</td>
-				<td width="{$width[5]}%">{$r['count_person_type01']}</td>
-				<td width="{$width[3]}%">{$r['count_person_type02']}</td>
-				<td width="{$width[4]}%">{$r['count_use']}</td>
+				<td class="text-center" width="{$width[1]}%">{$r['count_reserve']}</td>
+				<td class="text-center" width="{$width[5]}%">{$r['count_person_type01']}</td>
+				<td class="text-center" width="{$width[3]}%">{$r['count_person_type02']}</td>
+				<td class="text-center" width="{$width[4]}%">{$r['count_use']}</td>
 				</tr>
 EOT;
 			}
@@ -953,7 +957,11 @@ EOT;
 	
 	function where_room_id($post_room_id)
 	{
-		if($post_room_id!="all") $this->db->where("tb_room.room_id",$post_room_id);
+		if($post_room_id!="all" && $post_room_id!="") $this->db->where("tb_room.room_id",$post_room_id);
+	}
+	function where_room_type_id($post_room_type_id)
+	{
+		if($post_room_type_id!="all" && $post_room_type_id!="") $this->db->where("tb_room_type.room_type_id",$post_room_type_id);
 	}
 	function select_room_list()
 	{
@@ -972,4 +980,5 @@ EOT;
 		else: echo "";
 		endif;
 	}
+	
 }
