@@ -2,6 +2,7 @@
 $ci=&get_instance();
 $ci->load->library("element_lib");
 $eml=$ci->element_lib;
+$m_name="login";
 echo $htmlopen;
 echo $head;
 ?>
@@ -45,7 +46,7 @@ echo $navbar;
 				    <label for="input_password">รหัสผ่าน<span class="red-text"> *</span></label>
 				    <input type="password" class="form-control" name="input_password" id="input_password" placeholder="">
 				  </div> -->
-				  <div class="text-center">ยังไม่มีบัญชีใช่หรือไม่ <a href="<?php echo base_url();?>?c=register&m=step1">ลงทะเบียน</a></div>
+				  <div class="text-center"><a href="<?php echo base_url();?>?c=register&m=step1">ลงทะเบียน</a> | <a href="<?php echo base_url();?>?c=login&m=forgot_password">ลืมรหัสผ่าน</a></div>
 				  <br>
 				  <div class="text-right"><button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button></div>
 				</form>
@@ -71,6 +72,16 @@ echo $js;
 	<!--
 	$(function(){
 		$("#input_username").focus();
+		
+		/*#################################################
+		Show bootbox alert after 
+		###################################################*/
+		<?php 
+		if($this->session->flashdata($m_name."_message_from_reset"))
+		{?>
+			bootbox.alert("<?php echo $this->session->flashdata($m_name."_message_from_reset");?>"); 
+		<?php
+		}?>
 	});
 	//-->
 	</script>

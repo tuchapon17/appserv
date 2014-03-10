@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Test extends CI_Controller {
+class Test extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -155,7 +155,65 @@ class Test extends CI_Controller {
 		echo '<button type="submit">test</button></form>';
 		
 	}
-	
+	function mail()
+	{
+		$this->load->library("my_phpmailer");
+		$mail             = new PHPMailer();
+
+		//$body             = file_get_contents('contents.html');
+		//$body             = eregi_replace("[\]",'',$body);
+		$body='contentทดสอบข้อความ';
+		$mail->IsSMTP(); // telling the class to use SMTP
+		$mail->Host       = "smtp.gmail.com"; // SMTP server
+		//$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+		                                           // 1 = errors and messages
+		                                           // 2 = messages only
+		$mail->CharSet="utf-8";		                                           
+		$mail->SMTPAuth   = true;                  // enable SMTP authentication
+		$mail->SMTPSecure = "tls";                 // sets the prefix to the servier
+		$mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
+		$mail->Port       = 587;                   // set the SMTP port for the GMAIL server
+		$mail->Username   = "tuchapon33@gmail.com";  // GMAIL username
+		$mail->Password   = "g0554290402";            // GMAIL password
+		
+		$mail->SetFrom('tuchapon33@gmail.com', 'no-reply - tuchapon33@gmail.com');//ชื่อผู้ส่ง
+		
+		$mail->AddReplyTo("tuchapon33@gmail.com","no-reply - tuchapon33@gmail.com");//เมลสำหรับตอบกลับ , ชื่อ แสดงเมื่อตอบกลับ
+		
+		$mail->Subject    = "หัวเรื่อง";
+		
+		$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
+		
+		$mail->MsgHTML($body);
+		
+		$address = "tuchapon33@hotmail.com";
+		$mail->AddAddress($address, "John Doe");//เมล , ชื่อผู้รับ
+		
+		//$mail->AddAttachment("images/phpmailer.gif");      // attachment
+		//$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
+		
+		if(!$mail->Send()) {
+			echo json_encode(array("error",$mail->ErrorInfo));
+		  //echo "Mailer Error: " . $mail->ErrorInfo;
+		} else {
+			echo json_encode(array("sent","Message sent!"));
+		  //echo "Message sent!";
+		}
+	}
+	function viewtestmail()
+	{
+		$data=array(
+				"htmlopen"=>$this->pel->htmlopen(),
+				"head"=>$this->pel->head("เพิ่มครุภัณฑ์/อุปกรณ์"),
+				"bodyopen"=>$this->pel->bodyopen(),
+				"navbar"=>$this->pel->navbar(),
+				"js"=>$this->pel->js(),
+				"footer"=>$this->pel->footer(),
+				"bodyclose"=>$this->pel->bodyclose(),
+				"htmlclose"=>$this->pel->htmlclose()
+		);
+		$this->load->view("viewtestmail",$data);
+	}
 }
 
 /* End of file welcome.php */
