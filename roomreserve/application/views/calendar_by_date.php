@@ -43,6 +43,16 @@ echo $head;
 			text-overflow: ellipsis;
 			line-height:2em;
 		}
+		.fleft{
+			float:left;
+			border:solid 1px #ccc;
+			text-align:center;
+			position:absolute;
+			z-index:99;
+		}
+		.pd{
+			background-color:#E4EFF8;
+		}
     </style>
 <?php
 	echo $bodyopen;
@@ -55,9 +65,49 @@ echo $head;
       	<?php //echo $titlename_tab;?>				
       		 	<h2>วันที่<span id="cdate"></span></h2>
       			<div>
+      					<div class="fleft"><strong>คาบเรียนที่</strong></div>
+      					<div class="fleft pd pointer" id="pd01">1</div>
+      					<div class="fleft pd pointer" id="pd02">2</div>
+      					<div class="fleft pd pointer" id="pd03">3</div>
+      					<div class="fleft pd pointer" id="pd04">4</div>
+      					<div class="fleft pd pointer" id="pd05">5</div>
+      					<div class="fleft pd pointer" id="pd06">6</div>
+      					<div class="fleft pd pointer" id="pd07">7</div>
+      					<div class="fleft pd pointer" id="pd08">8</div>
+      					<div class="fleft pd pointer" id="pd09">9</div>
+      					<div class="fleft pd pointer" id="pd10">10</div>
+      					<div class="fleft pd pointer" id="pd11">11</div>
+      					<div class="fleft pd pointer" id="pd12">12</div>
+      					<div class="fleft pd pointer" id="pd13">13</div>
+      					<div class="fleft pd pointer" id="pd14">14</div>
+      				<br>
 					<table id="table_bydate2">
+						
 						<tr>
-							<td id="00">00.00</td><td id="01">01.00</td><td id="02">02.00</td><td id="03">03.00</td><td id="04">04.00</td><td id="05">05.00</td><td id="06">06.00</td><td id="07">07.00</td><td id="08">08.00</td><td id="09">09.00</td><td id="10">10.00</td><td id="11">11.00</td><td id="12">12.00</td><td id="13">13.00</td><td id="14">14.00</td><td id="15">15.00</td><td id="16">16.00</td><td id="17">17.00</td><td id="18">18.00</td><td id="19">19.00</td><td id="20">20.00</td><td id="21">21.00</td><td id="22">22.00</td><td id="23">23.00</td>
+							<td id="00">00.00</td>
+							<td id="01">01.00</td>
+							<td id="02">02.00</td>
+							<td id="03">03.00</td>
+							<td id="04">04.00</td>
+							<td id="05">05.00</td>
+							<td id="06">06.00</td>
+							<td id="07">07.00</td>
+							<td id="08">08.00</td>
+							<td id="09">09.00</td>
+							<td id="10">10.00</td>
+							<td id="11">11.00</td>
+							<td id="12">12.00</td>
+							<td id="13">13.00</td>
+							<td id="14">14.00</td>
+							<td id="15">15.00</td>
+							<td id="16">16.00</td>
+							<td id="17">17.00</td>
+							<td id="18">18.00</td>
+							<td id="19">19.00</td>
+							<td id="20">20.00</td>
+							<td id="21">21.00</td>
+							<td id="22">22.00</td>
+							<td id="23">23.00</td>
 						</tr>
 						<tr>
 							<td colspan="24" class="content2"></td>
@@ -87,11 +137,91 @@ echo $js;
 		//var date_reversed=date_array.join('-');
 		$("#cdate").text("วัน"+thday[a.getDay()]+" "+dateToText(date_array[0],date_array[1],date_array[2]));
 		
+		var period_time = new Array(
+				"8.30 น. - 9.20 น.",//1
+				"9.20 น. - 10.10 น.",//2
+				"10.15 น. - 11.05 น.",//3
+				"11.05 น. - 11.55 น.",//4
+				"12.00 น. - 12.50 น.",//5
+				"12.50 น. - 13.40 น.",//6
+				"13.45 น. - 14.35 น.",//7
+				"14.35 น. - 15.25 น.",//8
+				"15.30 น. - 16.20 น.",//9
+				"16.20 น. - 17.10 น.",//10
+				"17.15 น. - 18.05 น.",//11
+				"18.05 น. - 18.55 น.",//12
+				"19.00 น. - 19.50 น.",//13
+				"19.50 น. - 20.40 น."//14
+				);
+
+		//create event show period detail
+		<?php
+		 for($i=1; $i<=14; $i++):
+		 	if($i<=9):
+		?>
+				$("#pd0<?=$i?>").click(function(){
+					bootbox.dialog({
+						message: period_time[<?=$i-1?>],
+						title: "คาบเรียนที่ <?=$i?>",
+						buttons: {
+							success: {
+								label: "ตกลง",
+								className: "btn-primary",
+								callback: function() {
+		
+								}
+							}
+						}
+					});
+				});
+		<?php
+			else:
+		?>
+				$("#pd<?=$i?>").click(function(){
+					bootbox.dialog({
+						message: period_time[<?=$i-1?>],
+						title: "คาบเรียนที่ <?=$i?>",
+						buttons: {
+							success: {
+								label: "ตกลง",
+								className: "btn-primary",
+								callback: function() {
+		
+								}
+							}
+						}
+					});
+				});
+		<?php endif ?>
+		<?php endfor; ?>
+
+		
 		var likedate=getParameterByName("cdate");
 		var dateRegex = /[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/;
 		if(dateRegex.test(likedate)==true)
 		{
 			var content2_height=0;
+			
+			//set period position1
+			var w_td = $("#table_bydate2").width()/24;
+			var ratio = w_td/60;//เดิมสูง 60px =60 min | width per minute
+			$(".pd").width(ratio*50);
+			$("#pd01").offset({left:($("td#08").offset().left+(30*ratio))});
+			$("#pd02").offset({left:($("td#09").offset().left+(20*ratio))});
+			$("#pd03").offset({left:($("td#10").offset().left+(15*ratio))});
+			$("#pd04").offset({left:($("td#11").offset().left+(5*ratio))});
+			$("#pd05").offset({left:($("td#12").offset().left+(0*ratio))});
+			$("#pd06").offset({left:($("td#12").offset().left+(50*ratio))});
+			$("#pd07").offset({left:($("td#13").offset().left+(45*ratio))});
+			$("#pd08").offset({left:($("td#14").offset().left+(35*ratio))});
+			$("#pd09").offset({left:($("td#15").offset().left+(30*ratio))});
+			$("#pd10").offset({left:($("td#16").offset().left+(20*ratio))});
+			$("#pd11").offset({left:($("td#17").offset().left+(15*ratio))});
+			$("#pd12").offset({left:($("td#18").offset().left+(5*ratio))});
+			$("#pd13").offset({left:($("td#19").offset().left+(0*ratio))});
+			$("#pd14").offset({left:($("td#19").offset().left+(50*ratio))});
+			
+			
 			$.ajax({
 				url:"?c=calendar&m=getdatetime",
 				data:{likedate:likedate},
@@ -131,10 +261,28 @@ echo $js;
 						var a = $("#table_bydate2").parent().width();
 						$("#table_bydate2 tr:nth-child(1) td").width(a/24);
 						var w_td = $("#table_bydate2").width()/24;
-						var ratio = w_td/60;//เดิมสูง 60px =60 min
+						var ratio = w_td/60;//เดิมสูง 60px =60 min | width per minute
+						
+						//set period position2
+						$(".pd").width(ratio*50);
+						$("#pd01").offset({left:($("td#08").offset().left+(30*ratio))});
+						$("#pd02").offset({left:($("td#09").offset().left+(20*ratio))});
+						$("#pd03").offset({left:($("td#10").offset().left+(15*ratio))});
+						$("#pd04").offset({left:($("td#11").offset().left+(5*ratio))});
+						$("#pd05").offset({left:($("td#12").offset().left+(0*ratio))});
+						$("#pd06").offset({left:($("td#12").offset().left+(50*ratio))});
+						$("#pd07").offset({left:($("td#13").offset().left+(45*ratio))});
+						$("#pd08").offset({left:($("td#14").offset().left+(35*ratio))});
+						$("#pd09").offset({left:($("td#15").offset().left+(30*ratio))});
+						$("#pd10").offset({left:($("td#16").offset().left+(20*ratio))});
+						$("#pd11").offset({left:($("td#17").offset().left+(15*ratio))});
+						$("#pd12").offset({left:($("td#18").offset().left+(5*ratio))});
+						$("#pd13").offset({left:($("td#19").offset().left+(0*ratio))});
+						$("#pd14").offset({left:($("td#19").offset().left+(50*ratio))});
+						
 						$(".content2").append("<div id='divcontent2-"+i+"' class='divbydate-"+resp[i].datetime_id+"'>"+room_name+" "+hour_start+":"+min_start_string+" - "+hour_end+":"+min_end_string+"</div>");
 						
-						$("#divcontent2-"+i).offset({left:($("td#"+hour_start).offset().left+(min_start*ratio)),top:($("tr:nth-child(1)").offset().top+$("tr:nth-child(1)").height())});
+						$("#divcontent2-"+i).offset({left:($("td#"+hour_start).offset().left+(min_start*ratio)),top:($("#table_bydate2 tr:nth-child(1)").offset().top+$("#table_bydate2 tr:nth-child(1)").height())});
 						
 						if($("#divcontent2-"+(i-1)).length > 0)
 						{
@@ -144,6 +292,8 @@ echo $js;
 						//width each td = 47px (47/60=0.78333333)
 						$("#divcontent2-"+i).css({width:(s*ratio)});
 						content2_height+=$("#divcontent2-"+i).height();
+
+						
 						//show reserve detail
 						$("#divcontent2-"+i).bind("click",function(){
 							$.ajax({
@@ -210,6 +360,8 @@ echo $js;
 						});//on click
 					});//each
 					$("td.content2").height(content2_height+2);
+					
+					
 				},
 				error:function(error){
 					alert("Error : "+error);

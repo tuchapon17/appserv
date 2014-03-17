@@ -119,7 +119,7 @@ class Login extends MY_Controller
 			$new_pass=$this->generateRandomString(7);
 			
 			$email_sender="roomreserve17@gmail.com";
-			$this->load->library("my_phpmailer");
+			$this->load->library("MY_phpmailer");
 			$mail             = new PHPMailer();
 			//$body             = file_get_contents('contents.html');
 			//$body             = eregi_replace("[\]",'',$body);

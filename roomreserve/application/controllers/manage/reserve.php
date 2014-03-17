@@ -323,8 +323,11 @@ class Reserve extends MY_Controller
 			//insert tb_reserve_has_datetime
 			if($this->input->post("reserve_time")=="reserve_time1")
 			{
-				$post_begin_time1=$this->input->post("input-begin-time1");
-				$post_end_time1=$this->input->post("input-end-time1");
+				$post_date1=$this->input->post("input-time1-1-date1");
+				$post_begin_time1=$this->input->post("input-begin-time1-1");
+				$post_end_time1=$this->input->post("input-end-time1-1");
+				print_r($post_begin_time1);
+				break;
 				foreach($post_begin_time1 as $key=>$val)
 				{
 					$convert_begin_time1=$this->convert_datetime($post_begin_time1[$key]);
@@ -859,8 +862,8 @@ class Reserve extends MY_Controller
 			echo "กำหนดเวลา";
 			echo "<hr>";
 			echo "<p>radio: ".$this->input->post("reserve_time")."</p>";
-			echo "<p>input-begin-time1[] : ".print_r($post_begin_time1)."</p>";
-			echo "<p>input-end-time1[] : ".print_r($post_end_time1)."</p>";
+			echo "<p>input-begin-time1-1[] : ".print_r($post_begin_time1)."</p>";
+			echo "<p>input-end-time1-1[] : ".print_r($post_end_time1)."</p>";
 			echo "<p>input-begin-time2 : ".$post_begin_time2."</p>";
 			echo "<p>input-end-time2 : ".$post_end_time2."</p>";
 			echo "<p>day-time2[] : ".print_r($this->input->post("day-time2"))."</p>";
