@@ -322,70 +322,84 @@ class Reserve extends MY_Controller
 			
 			//insert tb_reserve_has_datetime
 			if($this->input->post("reserve_time")=="reserve_time1")
-			{
-				$post_date1=$this->input->post("input-time1-1-date1");
-				$post_begin_time1=$this->input->post("input-begin-time1-1");
-				$post_end_time1=$this->input->post("input-end-time1-1");
-				print_r($post_begin_time1);
-				break;
-				foreach($post_begin_time1 as $key=>$val)
+			{ 
+				//แบบวันที่ รายวัน
+				if($this->input->post("reserve_time-sub1")=="reserve_time1-1")
 				{
-					$convert_begin_time1=$this->convert_datetime($post_begin_time1[$key]);
-					$convert_end_time1=$this->convert_datetime($post_end_time1[$key]);
-					
-					$convert_val=$this->convert_datetime($val);
-					//วันเริ่ม กับ สิ้นสุดต้องเป็นวันเดียวกัน
-					if($convert_begin_time1["date"] == $convert_end_time1["date"])
+					$date11 = $this->input->post("input-time1-1-date1");
+					$time11b = $this->input->post("input-begin-time1-1");
+					$time11e = $this->input->post("input-end-time1-1");
+					foreach ($date11 as $key=>$val)
 					{
-						$beginDT=new DateTime($convert_val["date"]." ".$convert_val["time"]);
-						$endDT=new DateTime($convert_end_time1["date"]." ".$convert_end_time1["time"]);
-						
-						$data3=array(
+						$c_time11b = $this->convert_datetime($time11b[$key]);
+						$c_time11b = $c_time11b["time"];
+						$c_time11e = $this->convert_datetime($time11e[$key]);
+						$c_time11e = $c_time11e["time"];
+						$c_date11 = $val;
+						$beginDT = new DateTime($c_date11." ".$c_time11b);
+						$endDT = new DateTime($c_date11." ".$c_time11e);
+						$data11 = array(
 								"datetime_id"=>$this->load_reserve_model->get_maxid(6,"datetime_id","tb_reserve_has_datetime"),
 								"tb_reserve_id"=>$reserve_id,
 								"reserve_datetime_begin"=>$beginDT->format('Y-m-d H:i:s'),
 								"reserve_datetime_end"=>$endDT->format('Y-m-d H:i:s')
 						);
-						$this->load_reserve_model->manage_add2($data3,"tb_reserve_has_datetime");
-						
-						/* for php >= 5.3
-						$interval = DateInterval::createFromDateString('1 day');
-						//หาระยะเวลา
-						$period = new DatePeriod($beginDT, $interval, $endDT);
-						foreach ( $period as $dt )
-						{
-							$begin1=$dt->format( "Y-m-d H:i:s" );
-							$pattern = "/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/";
-							preg_match($pattern,$dt->format( "Y-m-d H:i:s" ), $enddate);
-							$end1=$enddate[0]." ".$convert_end_time1["time"];
-							$data3=array(
-									"datetime_id"=>$this->load_reserve_model->get_maxid(6,"datetime_id","tb_reserve_has_datetime"),
-									"tb_reserve_id"=>$reserve_id,
-									"reserve_datetime_begin"=>$begin1,
-									"reserve_datetime_end"=>$end1
-							);
-							$this->load_reserve_model->manage_add2($data3,"tb_reserve_has_datetime");
-						}
-						*/					
+						$this->load_reserve_model->manage_add2($data11,"tb_reserve_has_datetime");
+					}
+				}
+				//แบบคาบเรียน รายวัน
+				else if($this->input->post("reserve_time-sub1")=="reserve_time1-2")
+				{
+					$date12 = $this->input->post("input-period-date1");
+					$time12b = $this->input->post("time1-period-begin");
+					$time12e = $this->input->post("time1-period-end");
+					foreach ($date12 as $key=>$val)
+					{
+						$c_time12b = $this->convert_datetime($time12b[$key]);
+						$c_time12b = $c_time12b["time"];
+						$c_time12e = $this->convert_datetime($time12e[$key]);
+						$c_time12e = $c_time12e["time"];
+						$c_date12 = $val;
+						$beginDT = new DateTime($c_date12." ".$c_time12b);
+						$endDT = new DateTime($c_date12." ".$c_time12e);
+						$data12 = array(
+								"datetime_id"=>$this->load_reserve_model->get_maxid(6,"datetime_id","tb_reserve_has_datetime"),
+								"tb_reserve_id"=>$reserve_id,
+								"reserve_datetime_begin"=>$beginDT->format('Y-m-d H:i:s'),
+								"reserve_datetime_end"=>$endDT->format('Y-m-d H:i:s')
+						);
+						$this->load_reserve_model->manage_add2($data12,"tb_reserve_has_datetime");
 					}
 				}
 			}
+			//ระยะยาว
 			else if($this->input->post("reserve_time")=="reserve_time2")
 			{
-				$post_begin_time2=$this->input->post("input-begin-time2");
-				$post_end_time2=$this->input->post("input-end-time2");
+				//แบบวันที่
+				if($this->input->post("reserve_time-sub2")=="reserve_time2-1")
+				{
+					$post_begin_time2=$this->convert_datetime($this->input->post("input-begin-time2"));
+					$post_end_time2=$this->convert_datetime($this->input->post("input-end-time2"));
+					$c_begin_date2 = $this->convert_datetime($this->input->post("input-time2-1-date1Begin"));
+					$c_end_date2 = $this->convert_datetime($this->input->post("input-time2-1-date1End"));
+				}
+				//แบบคาบเรียน
+				else if($this->input->post("reserve_time-sub2")=="reserve_time2-2")
+				{
+					$post_begin_time2=$this->convert_datetime($this->input->post("time2-period-begin"));
+					$post_end_time2=$this->convert_datetime($this->input->post("time2-period-end"));
+					$c_begin_date2 = $this->convert_datetime($this->input->post("input-time2-2-date1Begin"));
+					$c_end_date2 = $this->convert_datetime($this->input->post("input-time2-2-date1End"));
+				}
+				$yearBegin=substr($c_begin_date2["date"],0,4);
+					$monthBegin=substr($c_begin_date2["date"],5,2);
+						$dateBegin=substr($c_begin_date2["date"],8,2);
+				$yearEnd=substr($c_end_date2["date"],0,4);
+					$monthEnd=substr($c_end_date2["date"],5,2);
+						$dateEnd=substr($c_end_date2["date"],8,2);
+				$timeBegin=$post_begin_time2["time"];
+				$timeEnd=$post_end_time2["time"];
 				
-				$convert_begin_time2=$this->convert_datetime($post_begin_time2);
-				$convert_end_time2=$this->convert_datetime($post_end_time2);
-				
-				$yearBegin=substr($convert_begin_time2["date"],0,4);
-				$monthBegin=substr($convert_begin_time2["date"],5,2);
-				$dateBegin=substr($convert_begin_time2["date"],8,2);
-				$yearEnd=substr($convert_end_time2["date"],0,4);
-				$monthEnd=substr($convert_end_time2["date"],5,2);
-				$dateEnd=substr($convert_end_time2["date"],8,2);
-				$timeBegin=$convert_begin_time2["time"];
-				$timeEnd=$convert_end_time2["time"];
 				$arrDateTimeBegin=array();
 				$arrDateTimeEnd=array();
 				$arr_dayofweek=$this->input->post("day-time2");

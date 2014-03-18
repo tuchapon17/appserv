@@ -58,7 +58,7 @@ echo $head;
       		 		echo form_error($em_name["in_fee_over_unit_lump_sum"]);*/
       		 	?>
       			</div>
-      			<form role="form" action="?d=manage&c=reserve&m=add" method="post" id="reserve_add" enctype="multipart/form-data" autocomplete="off">  
+      			<form role="form" action="?d=manage&c=reserve&m=add" method="post" id="reserve_add" enctype="multipart/form-data" autocomplete="on">  
       			<!--<form role="form" action="?c=test" method="post" id="reserve_add" enctype="multipart/form-data" autocomplete="off">-->
       			
       			<div class="panel panel-success">
@@ -837,9 +837,9 @@ echo $js;
 						var endtime=match_time($("input[name='input-end-time2']").val()).toString();
 						var datestat=0;
 						var timestat=0;
-						if(begindate.getDate()<=enddate.getDate())
+						if(begindate<=enddate)
 						{
-							if(begindate.getDate()==enddate.getDate())
+							if(begindate==enddate)
 							{
 								if(begintime==endtime)
 								{
@@ -888,9 +888,9 @@ echo $js;
 					{
 						var begindate=new Date(reverse_date(match_date($("input[name='input-time2-2-date1Begin']").val())));
 						var enddate=new Date(reverse_date(match_date($("input[name='input-time2-2-date1End']").val())));
-						if(begindate.getDate()<=enddate.getDate())
+						if(begindate<=enddate)
 						{
-							if(begindate.getDate()==enddate.getDate())
+							if(begindate==enddate)
 							{
 								if(!compare_two_time($("select[name='time2-period-begin']").val(),$("select[name='time2-period-end']").val()))
 								{
