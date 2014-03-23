@@ -1597,8 +1597,10 @@ echo $js;
 	* compare two time format like : hh:ii:ss
 	* bt = beginTime, et=endTime
 	*/
-	function compare_two_time(bt='', et='')
+	function compare_two_time(bt, et)
 	{
+		if(typeof(bt)==='undefined') bt = '';
+		if(typeof(et)==='undefined') et = '';
 		var hBegin=bt.substr(0,2);
 		var hEnd=et.substr(0,2);
 		var iBegin=bt.substr(3,2);

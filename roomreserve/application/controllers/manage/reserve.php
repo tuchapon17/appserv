@@ -2254,6 +2254,122 @@ function edit4()
 		$referer_query_string = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY);
 		$this->load_reserve_model->del_reserve($this->input->post("del_reserve"),$referer_query_string);
 	}
+	
+	/**
+	 * edit reserve detail such as reserve datetime, reserve info
+	 */
+	function edit_detail()
+	{
+		if(isset($_GET["id"]) && isset($_GET["t"]))
+		{
+			if($_GET["t"]=="room")
+			{
+				$q = $this->db->select()->from("tb_reserve")
+				->where("reserve_id",$_GET["id"])->limit(1)->get();
+				$nr = $q->num_rows();
+				if($nr > 0)
+				{
+					$nr = $q->result_array();
+					$config=array(
+							array(
+									"field"=>"input_reserve_name",
+									"label"=>"ชื่อห้อง",
+									"rules"=>""
+							)
+					);
+					$this->frm->set_rules($config);
+					$this->frm->set_message("rule","message");
+					if($this->frm->run() == false)
+					{
+						$se_room_type=array(
+								"LB_text"=>"ประเภทห้อง",
+								"LB_attr"=>$this->eml->span_redstar(),
+								"S_class"=>'',
+								"S_name"=>"select_room_type",
+								"S_id"=>"select_room_type",
+								"S_old_value"=>"select_room_type",
+								"S_data"=>$this->emm->get_select("tb_room_type","room_type_name"),
+								"S_id_field"=>"room_type_id",
+								"S_name_field"=>"room_type_name",
+								"help_text"=>""
+						);
+						$se_room=array(
+								"LB_text"=>"ห้อง",
+								"LB_attr"=>$this->eml->span_redstar(),
+								"S_class"=>'',
+								"S_name"=>"select_room",
+								"S_id"=>"select_room",
+								"S_old_value"=>"select_room",
+								"S_data"=>"",
+								"S_id_field"=>"",
+								"S_name_field"=>"",
+								"help_text"=>""
+						);
+						$data=array(
+								"htmlopen"=>$this->pel->htmlopen(),
+								"head"=>$this->pel->head("แก้ไขห้อง"),
+								"bodyopen"=>$this->pel->bodyopen(),
+								"navbar"=>$this->pel->navbar(),
+								"js"=>$this->pel->js(),
+								"footer"=>$this->pel->footer(),
+								"bodyclose"=>$this->pel->bodyclose(),
+								"htmlclose"=>$this->pel->htmlclose(),
+								"se_room_type"=>$this->eml->form_select($se_room_type),
+								"se_room"=>$this->eml->form_select($se_room),
+								"nr"=>$nr
+						);
+						$this->load->view("manage/reserve/edit_room",$data);
+					}
+					else 
+					{
+						
+					}
+				}
+			}//if room
+			else if($_GET["t"]=="datetime")
+			{
+				$q = $this->db->select()->from("tb_reserve_has_datetime")
+				->where("tb_reserve_id",$_GET["id"])->get();
+				$nr = $q->result_array();
+				if($nr > 0)
+				{
+					$nr = $q->result_array();
+					$config=array(
+							array(
+									"field"=>"input_reserve_name",
+									"label"=>"ชื่อห้อง",
+									"rules"=>""
+							)
+					);
+					$this->frm->set_rules($config);
+					$this->frm->set_message("rule","message");
+					if($this->frm->run() == false)
+					{
+						$data=array(
+								"htmlopen"=>$this->pel->htmlopen(),
+								"head"=>$this->pel->head("แก้ไขห้อง"),
+								"bodyopen"=>$this->pel->bodyopen(),
+								"navbar"=>$this->pel->navbar(),
+								"js"=>$this->pel->js(),
+								"footer"=>$this->pel->footer(),
+								"bodyclose"=>$this->pel->bodyclose(),
+								"htmlclose"=>$this->pel->htmlclose(),
+								"nr"=>$nr
+						);
+						$this->load->view("manage/reserve/edit_datetime",$data);
+					}
+					else 
+					{
+						
+					}
+				}
+			}//if datetime
+		}
+		else
+		{
+			
+		}
+	}
 }
 
 
