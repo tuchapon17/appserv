@@ -148,12 +148,14 @@ class Page_element_lib
 	            <li class="active"><a href="?c=home">หน้าแรก</a></li>
 		';
 		//<li class="active">
+		$html.='<li><a href="?c=calendar&m=main">ปฏิทิน</a></li>';
+		$html.='<li><a href="?d=front&c=room&m=view">ห้อง</a></li>';
 		$html.='<li><a href="?d=manage&c=reserve&m=add">จองห้อง</a></li>';
-		if($this->fl->check_group_privilege(array("07"),true))
+		/*if($this->fl->check_group_privilege(array("07"),true))
 		{
 			$html.='<li><a href="?d=manage&c=reserve&m=reserve_list">ประวัติการจองห้อง</a></li>';
-		}
-		if($this->fl->check_group_privilege(array("02","05","06"),true,"OR"))
+		}*/
+		if($this->fl->check_group_privilege(array("02","04","05","06"),true,"OR"))
 		{
 			$html.='<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">จัดการข้อมูล<b class="caret"></b></a>
@@ -179,35 +181,38 @@ class Page_element_lib
 				$html.='<li><a href="?d=manage&c=occupation&m=add">อาชีพ</a></li>';
 				$html.='<li class="divider"></li>';
 			}
-
+			if($this->fl->check_group_privilege(array("04"),true))
+			{
+				$html.='<li><a href="?d=manage&c=reserve&m=edit">จัดการการจอง</a></li>';
+			}
 			if($this->fl->check_group_privilege(array("06"),true))
 				$html.='<li><a href="?d=manage&c=user&m=edit">ผู้ใช้งาน</a></li>';
-			
 			$html.='<li class="divider"></li>';
-			
 			$html.='</ul>
 				</li>
 			';
 		}
 		if($this->fl->check_group_privilege(array("05"),true))
 			$html.='<li><a href="?d=manage&c=auth_log&m=edit">บันทึกการเข้าสู่ระบบ</a></li>';
-		if($this->fl->check_group_privilege(array("04"),true))
+		/*if($this->fl->check_group_privilege(array("04"),true))
 		{
 			$html.='<li><a href="?d=manage&c=reserve&m=edit">จัดการการจอง</a></li>';
-		}
+		}*/
 		if($this->fl->check_group_privilege(array("03"),true))
 		{
 			$html.='<li><a href="?d=report&c=report&m=report_type">รายงาน</a></li>';
 		}
-		if($this->fl->check_group_privilege(array("01","02","03","04","05","06"),true,"OR"))
+		/*if($this->fl->check_group_privilege(array("01","02","03","04","05","06"),true,"OR"))
 		{
 			$html.='<li><a href="?d=privilege&c=assign&m=add">โอนสิทธิ์</a></li>';
+		}*/
+		if($this->fl->check_group_privilege(array("02"),true))
+		{
+			$html.='<li><a href="?c=b_calendar&m=main">ปฏิทินเจ้าหน้าที่</a></li>';
 		}
-		$html.='<li><a href="?d=front&c=room&m=view">ห้อง</a></li>';
-		$html.='<li><a href="?c=calendar&m=main">ปฏิทิน</a></li>';
 		$html.='</ul>';
 				
-		//user
+		// user
 		$html.='<ul class="nav navbar-nav navbar-right">';
 		if(!$this->ci->session->userdata("rs_username"))
 		{
@@ -223,8 +228,18 @@ class Page_element_lib
 			$html.='<li class="dropdown active">
 				       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user fa-fw fa-white"></i> '.$firstname.'<b class="caret"></b></a>
 				        <ul class="dropdown-menu">
-				          <li><a href="?c=user_profile&m=view_profile"><i class="fa fa-user"></i> ข้อมูลส่วนตัว</a></li>
-				          <li><a id="logout_menu" class="pointer"><i class="fa fa-sign-out"></i> ออกจากระบบ</a></li>
+				          	<li><a href="?c=user_profile&m=view_profile"><i class="fa fa-user"></i> ข้อมูลส่วนตัว</a></li>
+				   	';
+			if($this->fl->check_group_privilege(array("07"),true))
+			{
+				$html.='<li><a href="?d=manage&c=reserve&m=reserve_list"><i class="fa fa-book"></i> ประวัติการจอง</a></li>';
+			}
+			if($this->fl->check_group_privilege(array("01","02","03","04","05","06"),true,"OR"))
+			{
+				$html.='<li><a href="?d=manage&c=reserve&m=reserve_list"><i class="fa fa-exchange"></i> โอนสิทธิ์</a></li>';
+			}
+			$html.='
+				          	<li><a id="logout_menu" class="pointer"><i class="fa fa-sign-out"></i> ออกจากระบบ</a></li>
 				        </ul>
 			      	</li>';
 		}

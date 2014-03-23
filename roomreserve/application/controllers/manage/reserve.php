@@ -322,67 +322,84 @@ class Reserve extends MY_Controller
 			
 			//insert tb_reserve_has_datetime
 			if($this->input->post("reserve_time")=="reserve_time1")
-			{
-				$post_begin_time1=$this->input->post("input-begin-time1");
-				$post_end_time1=$this->input->post("input-end-time1");
-				foreach($post_begin_time1 as $key=>$val)
+			{ 
+				//แบบวันที่ รายวัน
+				if($this->input->post("reserve_time-sub1")=="reserve_time1-1")
 				{
-					$convert_begin_time1=$this->convert_datetime($post_begin_time1[$key]);
-					$convert_end_time1=$this->convert_datetime($post_end_time1[$key]);
-					
-					$convert_val=$this->convert_datetime($val);
-					//วันเริ่ม กับ สิ้นสุดต้องเป็นวันเดียวกัน
-					if($convert_begin_time1["date"] == $convert_end_time1["date"])
+					$date11 = $this->input->post("input-time1-1-date1");
+					$time11b = $this->input->post("input-begin-time1-1");
+					$time11e = $this->input->post("input-end-time1-1");
+					foreach ($date11 as $key=>$val)
 					{
-						$beginDT=new DateTime($convert_val["date"]." ".$convert_val["time"]);
-						$endDT=new DateTime($convert_end_time1["date"]." ".$convert_end_time1["time"]);
-						
-						$data3=array(
+						$c_time11b = $this->convert_datetime($time11b[$key]);
+						$c_time11b = $c_time11b["time"];
+						$c_time11e = $this->convert_datetime($time11e[$key]);
+						$c_time11e = $c_time11e["time"];
+						$c_date11 = $val;
+						$beginDT = new DateTime($c_date11." ".$c_time11b);
+						$endDT = new DateTime($c_date11." ".$c_time11e);
+						$data11 = array(
 								"datetime_id"=>$this->load_reserve_model->get_maxid(6,"datetime_id","tb_reserve_has_datetime"),
 								"tb_reserve_id"=>$reserve_id,
 								"reserve_datetime_begin"=>$beginDT->format('Y-m-d H:i:s'),
 								"reserve_datetime_end"=>$endDT->format('Y-m-d H:i:s')
 						);
-						$this->load_reserve_model->manage_add2($data3,"tb_reserve_has_datetime");
-						
-						/* for php >= 5.3
-						$interval = DateInterval::createFromDateString('1 day');
-						//หาระยะเวลา
-						$period = new DatePeriod($beginDT, $interval, $endDT);
-						foreach ( $period as $dt )
-						{
-							$begin1=$dt->format( "Y-m-d H:i:s" );
-							$pattern = "/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])/";
-							preg_match($pattern,$dt->format( "Y-m-d H:i:s" ), $enddate);
-							$end1=$enddate[0]." ".$convert_end_time1["time"];
-							$data3=array(
-									"datetime_id"=>$this->load_reserve_model->get_maxid(6,"datetime_id","tb_reserve_has_datetime"),
-									"tb_reserve_id"=>$reserve_id,
-									"reserve_datetime_begin"=>$begin1,
-									"reserve_datetime_end"=>$end1
-							);
-							$this->load_reserve_model->manage_add2($data3,"tb_reserve_has_datetime");
-						}
-						*/					
+						$this->load_reserve_model->manage_add2($data11,"tb_reserve_has_datetime");
+					}
+				}
+				//แบบคาบเรียน รายวัน
+				else if($this->input->post("reserve_time-sub1")=="reserve_time1-2")
+				{
+					$date12 = $this->input->post("input-period-date1");
+					$time12b = $this->input->post("time1-period-begin");
+					$time12e = $this->input->post("time1-period-end");
+					foreach ($date12 as $key=>$val)
+					{
+						$c_time12b = $this->convert_datetime($time12b[$key]);
+						$c_time12b = $c_time12b["time"];
+						$c_time12e = $this->convert_datetime($time12e[$key]);
+						$c_time12e = $c_time12e["time"];
+						$c_date12 = $val;
+						$beginDT = new DateTime($c_date12." ".$c_time12b);
+						$endDT = new DateTime($c_date12." ".$c_time12e);
+						$data12 = array(
+								"datetime_id"=>$this->load_reserve_model->get_maxid(6,"datetime_id","tb_reserve_has_datetime"),
+								"tb_reserve_id"=>$reserve_id,
+								"reserve_datetime_begin"=>$beginDT->format('Y-m-d H:i:s'),
+								"reserve_datetime_end"=>$endDT->format('Y-m-d H:i:s')
+						);
+						$this->load_reserve_model->manage_add2($data12,"tb_reserve_has_datetime");
 					}
 				}
 			}
+			//ระยะยาว
 			else if($this->input->post("reserve_time")=="reserve_time2")
 			{
-				$post_begin_time2=$this->input->post("input-begin-time2");
-				$post_end_time2=$this->input->post("input-end-time2");
+				//แบบวันที่
+				if($this->input->post("reserve_time-sub2")=="reserve_time2-1")
+				{
+					$post_begin_time2=$this->convert_datetime($this->input->post("input-begin-time2"));
+					$post_end_time2=$this->convert_datetime($this->input->post("input-end-time2"));
+					$c_begin_date2 = $this->convert_datetime($this->input->post("input-time2-1-date1Begin"));
+					$c_end_date2 = $this->convert_datetime($this->input->post("input-time2-1-date1End"));
+				}
+				//แบบคาบเรียน
+				else if($this->input->post("reserve_time-sub2")=="reserve_time2-2")
+				{
+					$post_begin_time2=$this->convert_datetime($this->input->post("time2-period-begin"));
+					$post_end_time2=$this->convert_datetime($this->input->post("time2-period-end"));
+					$c_begin_date2 = $this->convert_datetime($this->input->post("input-time2-2-date1Begin"));
+					$c_end_date2 = $this->convert_datetime($this->input->post("input-time2-2-date1End"));
+				}
+				$yearBegin=substr($c_begin_date2["date"],0,4);
+					$monthBegin=substr($c_begin_date2["date"],5,2);
+						$dateBegin=substr($c_begin_date2["date"],8,2);
+				$yearEnd=substr($c_end_date2["date"],0,4);
+					$monthEnd=substr($c_end_date2["date"],5,2);
+						$dateEnd=substr($c_end_date2["date"],8,2);
+				$timeBegin=$post_begin_time2["time"];
+				$timeEnd=$post_end_time2["time"];
 				
-				$convert_begin_time2=$this->convert_datetime($post_begin_time2);
-				$convert_end_time2=$this->convert_datetime($post_end_time2);
-				
-				$yearBegin=substr($convert_begin_time2["date"],0,4);
-				$monthBegin=substr($convert_begin_time2["date"],5,2);
-				$dateBegin=substr($convert_begin_time2["date"],8,2);
-				$yearEnd=substr($convert_end_time2["date"],0,4);
-				$monthEnd=substr($convert_end_time2["date"],5,2);
-				$dateEnd=substr($convert_end_time2["date"],8,2);
-				$timeBegin=$convert_begin_time2["time"];
-				$timeEnd=$convert_end_time2["time"];
 				$arrDateTimeBegin=array();
 				$arrDateTimeEnd=array();
 				$arr_dayofweek=$this->input->post("day-time2");
@@ -859,8 +876,8 @@ class Reserve extends MY_Controller
 			echo "กำหนดเวลา";
 			echo "<hr>";
 			echo "<p>radio: ".$this->input->post("reserve_time")."</p>";
-			echo "<p>input-begin-time1[] : ".print_r($post_begin_time1)."</p>";
-			echo "<p>input-end-time1[] : ".print_r($post_end_time1)."</p>";
+			echo "<p>input-begin-time1-1[] : ".print_r($post_begin_time1)."</p>";
+			echo "<p>input-end-time1-1[] : ".print_r($post_end_time1)."</p>";
 			echo "<p>input-begin-time2 : ".$post_begin_time2."</p>";
 			echo "<p>input-end-time2 : ".$post_end_time2."</p>";
 			echo "<p>day-time2[] : ".print_r($this->input->post("day-time2"))."</p>";
@@ -2236,6 +2253,122 @@ function edit4()
 	{
 		$referer_query_string = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY);
 		$this->load_reserve_model->del_reserve($this->input->post("del_reserve"),$referer_query_string);
+	}
+	
+	/**
+	 * edit reserve detail such as reserve datetime, reserve info
+	 */
+	function edit_detail()
+	{
+		if(isset($_GET["id"]) && isset($_GET["t"]))
+		{
+			if($_GET["t"]=="room")
+			{
+				$q = $this->db->select()->from("tb_reserve")
+				->where("reserve_id",$_GET["id"])->limit(1)->get();
+				$nr = $q->num_rows();
+				if($nr > 0)
+				{
+					$nr = $q->result_array();
+					$config=array(
+							array(
+									"field"=>"input_reserve_name",
+									"label"=>"ชื่อห้อง",
+									"rules"=>""
+							)
+					);
+					$this->frm->set_rules($config);
+					$this->frm->set_message("rule","message");
+					if($this->frm->run() == false)
+					{
+						$se_room_type=array(
+								"LB_text"=>"ประเภทห้อง",
+								"LB_attr"=>$this->eml->span_redstar(),
+								"S_class"=>'',
+								"S_name"=>"select_room_type",
+								"S_id"=>"select_room_type",
+								"S_old_value"=>"select_room_type",
+								"S_data"=>$this->emm->get_select("tb_room_type","room_type_name"),
+								"S_id_field"=>"room_type_id",
+								"S_name_field"=>"room_type_name",
+								"help_text"=>""
+						);
+						$se_room=array(
+								"LB_text"=>"ห้อง",
+								"LB_attr"=>$this->eml->span_redstar(),
+								"S_class"=>'',
+								"S_name"=>"select_room",
+								"S_id"=>"select_room",
+								"S_old_value"=>"select_room",
+								"S_data"=>"",
+								"S_id_field"=>"",
+								"S_name_field"=>"",
+								"help_text"=>""
+						);
+						$data=array(
+								"htmlopen"=>$this->pel->htmlopen(),
+								"head"=>$this->pel->head("แก้ไขห้อง"),
+								"bodyopen"=>$this->pel->bodyopen(),
+								"navbar"=>$this->pel->navbar(),
+								"js"=>$this->pel->js(),
+								"footer"=>$this->pel->footer(),
+								"bodyclose"=>$this->pel->bodyclose(),
+								"htmlclose"=>$this->pel->htmlclose(),
+								"se_room_type"=>$this->eml->form_select($se_room_type),
+								"se_room"=>$this->eml->form_select($se_room),
+								"nr"=>$nr
+						);
+						$this->load->view("manage/reserve/edit_room",$data);
+					}
+					else 
+					{
+						
+					}
+				}
+			}//if room
+			else if($_GET["t"]=="datetime")
+			{
+				$q = $this->db->select()->from("tb_reserve_has_datetime")
+				->where("tb_reserve_id",$_GET["id"])->get();
+				$nr = $q->result_array();
+				if($nr > 0)
+				{
+					$nr = $q->result_array();
+					$config=array(
+							array(
+									"field"=>"input_reserve_name",
+									"label"=>"ชื่อห้อง",
+									"rules"=>""
+							)
+					);
+					$this->frm->set_rules($config);
+					$this->frm->set_message("rule","message");
+					if($this->frm->run() == false)
+					{
+						$data=array(
+								"htmlopen"=>$this->pel->htmlopen(),
+								"head"=>$this->pel->head("แก้ไขห้อง"),
+								"bodyopen"=>$this->pel->bodyopen(),
+								"navbar"=>$this->pel->navbar(),
+								"js"=>$this->pel->js(),
+								"footer"=>$this->pel->footer(),
+								"bodyclose"=>$this->pel->bodyclose(),
+								"htmlclose"=>$this->pel->htmlclose(),
+								"nr"=>$nr
+						);
+						$this->load->view("manage/reserve/edit_datetime",$data);
+					}
+					else 
+					{
+						
+					}
+				}
+			}//if datetime
+		}
+		else
+		{
+			
+		}
 	}
 }
 

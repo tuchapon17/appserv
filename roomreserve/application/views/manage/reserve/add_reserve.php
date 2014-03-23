@@ -58,7 +58,7 @@ echo $head;
       		 		echo form_error($em_name["in_fee_over_unit_lump_sum"]);*/
       		 	?>
       			</div>
-      			<form role="form" action="?d=manage&c=reserve&m=add" method="post" id="reserve_add" enctype="multipart/form-data" autocomplete="off">  
+      			<form role="form" action="?d=manage&c=reserve&m=add" method="post" id="reserve_add" enctype="multipart/form-data" autocomplete="on">  
       			<!--<form role="form" action="?c=test" method="post" id="reserve_add" enctype="multipart/form-data" autocomplete="off">-->
       			
       			<div class="panel panel-success">
@@ -147,21 +147,6 @@ echo $head;
 					</div>
 				</div>
 				
-				<!-- 
-					<fieldset class="scheduler-border" id="used_article">
-						<legend class="scheduler-border">ครุภัณฑ์/อุปกรณ์ที่ใช้</legend>
-						<div class="checkbox">
-						<label>
-							<input type="checkbox" name="other_article_checkbox" value="">ครุภัณฑ์/อุปกรณ์ อื่นๆ
-						</label>
-						<span>
-							<br/>
-							<textarea name="other_article" class="form-control "></textarea>
-						</span>
-						</div>
-
-					</fieldset>
-				 -->
 				 
 				 <div class="panel panel-success">
 					<div class="panel-heading">
@@ -191,184 +176,264 @@ echo $head;
 						<div class="radio" id="div_time1">
 							<label>
 								<input type="radio" name="reserve_time" id="reserve_time1" value="reserve_time1">
-								กำหนดระยะเวลารายวัน
+								<strong>กำหนดระยะเวลารายวัน</strong>
 							</label>
 						</div>
-						<span id="span-time1">
-		                <fieldset class="scheduler-border fieldset-time1" >
-		                	<legend class="scheduler-border"><span>วันที่</span><span class="daynum">1</span></legend>
-			                <label for="input-begin">วัน/เวลาเริ่ม <span class="red-text">*</span></label>
-							<div class='input-group date datetimepickerBegin-time1'>
-			                    <input type='text' class="form-control" name="input-begin-time1[]" readonly/>
-			                    <span class="input-group-addon"><span class=""></span>
-			                    </span>
-			                </div>
-			                <label for="input-begin">วัน/เวลาสิ้นสุด <span class="red-text">*</span></label>
-							<div class='input-group date datetimepickerEnd-time1'>
-			                    <input type='text' class="form-control" name="input-end-time1[]" readonly/>
-			                    <span class="input-group-addon"><span class=""></span>
-			                    </span>
-			                </div>
-			                
-		                </fieldset>
-		                <div class="text-right" ><i style="cursor:pointer;" class="fa fa-plus-square fa-lg" id="add-time1"></i> กำหนดวันเพิ่มเติม</div>
+						<span id="span-time-radio1">
+							<div class="radio">
+								<label>
+									<input type="radio" name="reserve_time-sub1" id="reserve_time1-1" value="reserve_time1-1">
+									แบบ วันที่
+								</label>
+							</div>
+							<div class="radio">
+								<label>
+									<input type="radio" name="reserve_time-sub1" id="reserve_time1-2" value="reserve_time1-2">
+									แบบ คาบเรียน
+								</label>
+							</div>
+						</span>
+						
+						<span id="span-time1-1">
+			                <fieldset class="scheduler-border fieldset-time1-1" >
+			                	<legend class="scheduler-border"><span>วันที่</span><span class="daynum">1</span></legend>
+				                <label for="input-time1-1-date1">วันที่<span class="red-text">*</span></label>
+				                <div class='input-group date datetimepickerBegin-Date1-1'>
+				                    <input type='text' class="form-control" name="input-time1-1-date1[]" readonly/>
+				                    <span class="input-group-addon">
+				                    	<span class=""></span>
+				                    </span>
+				                </div>
+				                <label for="input-begin-time1-1">เวลาเริ่ม <span class="red-text">*</span></label>
+								<div class='input-group date datetimepickerBegin-time1'>
+				                    <input type='text' class="form-control" name="input-begin-time1-1[]" readonly/>
+				                    <span class="input-group-addon">
+				                    	<span class=""></span>
+				                    </span>
+				                </div>
+				                <label for="input-end-time1-1">เวลาสิ้นสุด <span class="red-text">*</span></label>
+								<div class='input-group date datetimepickerEnd-time1'>
+				                    <input type='text' class="form-control" name="input-end-time1-1[]" readonly/>
+				                    <span class="input-group-addon">
+				                    	<span class=""></span>
+				                    </span>
+				                </div>
+			                </fieldset>
+		                	<div class="text-right" ><i style="cursor:pointer;" class="fa fa-plus-square fa-lg" id="add-time1-1"></i> กำหนดวันเพิ่ม</div>
 		                </span>
+		                <span id="span-time1-2">
+			                <fieldset class="scheduler-border fieldset-time1-2" >
+			                	<input type='hidden' class="form-control input-period-datetime" name="input-period-datetime-begin1[]"/>
+			                	<input type='hidden' class="form-control input-period-datetime" name="input-period-datetime-end1[]"/>
+			                	<legend class="scheduler-border"><span>วันที่</span><span class="daynum">1</span></legend>
+			                	<label for="input-period-date1">วันที่ <span class="red-text">*</span></label>
+			                	<div class='input-group date datetimepickerPeriod-Date1-2'>
+				                    <input type='text' class="form-control" name="input-period-date1[]" readonly/>
+				                    <span class="input-group-addon">
+				                    	<span class=""></span>
+				                    </span>
+				                </div>
+				                <label for="time1-period-begin">คาบเรียนเริ่ม <span class="red-text">*</span></label>
+								<div class='form-group'>
+				                    <select class="form-control" name="time1-period-begin[]">
+				                    	<option value="">เลือกคาบเรียน</option>
+				                    	<option value="08:30:00">คาบเรียน 1 (08.30 - )</option>
+				                    	<option value="09:20:00">คาบเรียน 2 (09.20 - )</option>
+				                    	<option value="10:15:00">คาบเรียน 3 (10.15 - )</option>
+				                    	<option value="11:05:00">คาบเรียน 4 (11.05 - )</option>
+				                    	<option value="12:00:00">คาบเรียน 5 (12.00 - )</option>
+				                    	<option value="12:50:00">คาบเรียน 6 (12.50 - )</option>
+				                    	<option value="13:45:00">คาบเรียน 7 (13.45 - )</option>
+				                    	<option value="14:35:00">คาบเรียน 8 (14.35 - )</option>
+				                    	<option value="15:30:00">คาบเรียน 9 (15.30 - )</option>
+				                    	<option value="16:20:00">คาบเรียน 10 (16.20 - )</option>
+				                    	<option value="17:15:00">คาบเรียน 11 (17.15 - )</option>
+				                    	<option value="18:05:00">คาบเรียน 12 (18.05 - )</option>
+				                    	<option value="19:00:00">คาบเรียน 13 (19.00 - )</option>
+				                    	<option value="19:50:00">คาบเรียน 14 (19.50 - )</option>
+				                    </select>
+				                </div>
+				                <label for="time1-period-end">คาบเรียนสิ้นสุด <span class="red-text">*</span></label>
+								<div class='form-group'>
+				                    <select class="form-control" name="time1-period-end[]">
+				                    	<option value="">เลือกคาบเรียน</option>
+				                    	<option value="09:20:00">คาบเรียน 1 ( - 09.20)</option>
+				                    	<option value="10:10:00">คาบเรียน 2 ( - 10.10)</option>
+				                    	<option value="11:05:00">คาบเรียน 3 ( - 11.05)</option>
+				                    	<option value="11:55:00">คาบเรียน 4 ( - 11.55)</option>
+				                    	<option value="12:50:00">คาบเรียน 5 ( - 12.50)</option>
+				                    	<option value="13:40:00">คาบเรียน 6 ( - 13.40)</option>
+				                    	<option value="14:35:00">คาบเรียน 7 ( - 14.35)</option>
+				                    	<option value="15:25:00">คาบเรียน 8 ( - 15.25)</option>
+				                    	<option value="16:20:00">คาบเรียน 9 ( - 16.20)</option>
+				                    	<option value="17:10:00">คาบเรียน 10 ( - 17.10)</option>
+				                    	<option value="18:05:00">คาบเรียน 11 ( - 18.05)</option>
+				                    	<option value="18:55:00">คาบเรียน 12 ( - 18.55)</option>
+				                    	<option value="19:50:00">คาบเรียน 13 ( - 19.50)</option>
+				                    	<option value="20:40:00">คาบเรียน 14 ( - 20.40)</option>
+				                    </select>
+				                </div>
+			                </fieldset>
+			                <div class="text-right" ><i style="cursor:pointer;" class="fa fa-plus-square fa-lg" id="add-time1-2"></i> กำหนดวันเพิ่ม</div>
+		                </span>
+		                
 		                
 						<div class="radio" id="div_time2">
 							<label>
 								<input type="radio" name="reserve_time" id="reserve_time2" value="reserve_time2">
-								กำหนดระยะเวลา ระยะยาว
+								<strong>กำหนดระยะเวลา ระยะยาว</strong>
 							</label>
 						</div>
+						<span id="span-time-radio2">
+							<div class="radio">
+								<label>
+									<input type="radio" name="reserve_time-sub2" id="reserve_time2-1" value="reserve_time2-1">
+									แบบ วันที่
+								</label>
+							</div>
+							<div class="radio">
+								<label>
+									<input type="radio" name="reserve_time-sub2" id="reserve_time2-2" value="reserve_time2-2">
+									แบบ คาบเรียน
+								</label>
+							</div>
+						</span>
 						<span id="span-time2">
-		                <fieldset class="scheduler-border fieldset-time2" >
-			                <label for="input-begin">วัน/เวลาเริ่ม <span class="red-text">*</span></label>
-							<div class='input-group date datetimepickerBegin-time2'>
-			                    <input type='text' class="form-control" name="input-begin-time2" readonly/>
-			                    <span class="input-group-addon"><span class=""></span>
-			                    </span>
-			                </div>
-			                <label for="input-begin">วัน/เวลาสิ้นสุด <span class="red-text">*</span></label>
-							<div class='input-group date datetimepickerEnd-time2'>
-			                    <input type='text' class="form-control" name="input-end-time2" readonly/>
-			                    <span class="input-group-addon"><span class=""></span>
-			                    </span>
-			                </div>
-			            
-			            <span id="span-day-time2">
-			            	<p><strong>ระบุวันที่ต้องการจอง</strong></p>
-		                	<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="0">อาทิตย์
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="1">จันทร์
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="2">อังคาร
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="3">พุธ
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="4">พฤหัสบดี
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="5">ศุกร์
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="6">เสาร์
-								</label>
-							</div>
-		                </span>
-		                </fieldset>
-		                </span>
+							<span id="span-time2-1">
+				                <fieldset class="scheduler-border fieldset-time2" >
+				                	<label for="input-time2-1-date1Begin">วันที่เริ่ม<span class="red-text">*</span></label>
+					                <div class='input-group date datetimepickerBegin-Date2-1'>
+					                    <input type='text' class="form-control" name="input-time2-1-date1Begin" readonly/>
+					                    <span class="input-group-addon">
+					                    	<span class=""></span>
+					                    </span>
+					                </div>
+					                <label for="input-time2-1-date1End">วันที่สิ้นสุด<span class="red-text">*</span></label>
+					                <div class='input-group date datetimepickerEnd-Date2-1'>
+					                    <input type='text' class="form-control" name="input-time2-1-date1End" readonly/>
+					                    <span class="input-group-addon">
+					                    	<span class=""></span>
+					                    </span>
+					                </div>
+					                <label for="input-begin">เวลาเริ่ม <span class="red-text">*</span></label>
+									<div class='input-group date datetimepickerBegin-time2'>
+					                    <input type='text' class="form-control" name="input-begin-time2" readonly/>
+					                    <span class="input-group-addon">
+					                    	<span class=""></span>
+					                    </span>
+					                </div>
+					                <label for="input-begin">เวลาสิ้นสุด <span class="red-text">*</span></label>
+									<div class='input-group date datetimepickerEnd-time2'>
+					                    <input type='text' class="form-control" name="input-end-time2" readonly/>
+					                    <span class="input-group-addon"><span class=""></span>
+					                    </span>
+					                </div>
+					            
+				                </fieldset>
+			                </span><!-- span-time2-1 -->
+			                
+			                <span id="span-time2-2">
+				                <fieldset class="scheduler-border fieldset-time2-2" >
+				                	<input type='hidden' class="form-control input-period-datetime" name="input-period-datetime-begin2"/>
+				                	<input type='hidden' class="form-control input-period-datetime" name="input-period-datetime-end2"/>
+				                	<legend class="scheduler-border"></legend>
+					                <label for="input-time2-1-date1Begin">วันที่เริ่ม<span class="red-text">*</span></label>
+					                <div class='input-group date datetimepickerBegin-Date2-2'>
+					                    <input type='text' class="form-control" name="input-time2-2-date1Begin" readonly/>
+					                    <span class="input-group-addon">
+					                    	<span class=""></span>
+					                    </span>
+					                </div>
+					                <label for="input-time2-1-date1End">วันที่สิ้นสุด<span class="red-text">*</span></label>
+					                <div class='input-group date datetimepickerEnd-Date2-2'>
+					                    <input type='text' class="form-control" name="input-time2-2-date1End" readonly/>
+					                    <span class="input-group-addon">
+					                    	<span class=""></span>
+					                    </span>
+					                </div>
+					                <label for="time1-period-begin">คาบเรียนเริ่ม <span class="red-text">*</span></label>
+									<div class='form-group'>
+					                    <select class="form-control" name="time2-period-begin">
+					                    	<option value="">เลือกคาบเรียน</option>
+					                    	<option value="08:30:00">คาบเรียน 1 (08.30 - )</option>
+					                    	<option value="09:20:00">คาบเรียน 2 (09.20 - )</option>
+					                    	<option value="10:15:00">คาบเรียน 3 (10.15 - )</option>
+					                    	<option value="11:05:00">คาบเรียน 4 (11.05 - )</option>
+					                    	<option value="12:00:00">คาบเรียน 5 (12.00 - )</option>
+					                    	<option value="12:50:00">คาบเรียน 6 (12.50 - )</option>
+					                    	<option value="13:45:00">คาบเรียน 7 (13.45 - )</option>
+					                    	<option value="14:35:00">คาบเรียน 8 (14.35 - )</option>
+					                    	<option value="15:30:00">คาบเรียน 9 (15.30 - )</option>
+					                    	<option value="16:20:00">คาบเรียน 10 (16.20 - )</option>
+					                    	<option value="17:15:00">คาบเรียน 11 (17.15 - )</option>
+					                    	<option value="18:05:00">คาบเรียน 12 (18.05 - )</option>
+					                    	<option value="19:00:00">คาบเรียน 13 (19.00 - )</option>
+					                    	<option value="19:50:00">คาบเรียน 14 (19.50 - )</option>
+					                    </select>
+					                </div>
+					                <label for="time1-period-end">คาบเรียนสิ้นสุด <span class="red-text">*</span></label>
+									<div class='form-group'>
+					                    <select class="form-control" name="time2-period-end">
+					                    	<option value="">เลือกคาบเรียน</option>
+					                    	<option value="09:20:00">คาบเรียน 1 ( - 09.20)</option>
+					                    	<option value="10:10:00">คาบเรียน 2 ( - 10.10)</option>
+					                    	<option value="11:05:00">คาบเรียน 3 ( - 11.05)</option>
+					                    	<option value="11:55:00">คาบเรียน 4 ( - 11.55)</option>
+					                    	<option value="12:50:00">คาบเรียน 5 ( - 12.50)</option>
+					                    	<option value="13:40:00">คาบเรียน 6 ( - 13.40)</option>
+					                    	<option value="14:35:00">คาบเรียน 7 ( - 14.35)</option>
+					                    	<option value="15:25:00">คาบเรียน 8 ( - 15.25)</option>
+					                    	<option value="16:20:00">คาบเรียน 9 ( - 16.20)</option>
+					                    	<option value="17:10:00">คาบเรียน 10 ( - 17.10)</option>
+					                    	<option value="18:05:00">คาบเรียน 11 ( - 18.05)</option>
+					                    	<option value="18:55:00">คาบเรียน 12 ( - 18.55)</option>
+					                    	<option value="19:50:00">คาบเรียน 13 ( - 19.50)</option>
+					                    	<option value="20:40:00">คาบเรียน 14 ( - 20.40)</option>
+					                    </select>
+					                </div>
+				                </fieldset>
+		                	</span><!-- span-time2-2 -->
+			                <span id="span-day-time2">
+					            	<p><strong>ระบุวันที่ต้องการจอง</strong></p>
+				                	<div class="checkbox">
+										<label>
+									    	<input type="checkbox" name="day-time2[]" value="0">อาทิตย์
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+									    	<input type="checkbox" name="day-time2[]" value="1">จันทร์
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+									    	<input type="checkbox" name="day-time2[]" value="2">อังคาร
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+									    	<input type="checkbox" name="day-time2[]" value="3">พุธ
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+									    	<input type="checkbox" name="day-time2[]" value="4">พฤหัสบดี
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+									    	<input type="checkbox" name="day-time2[]" value="5">ศุกร์
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+									    	<input type="checkbox" name="day-time2[]" value="6">เสาร์
+										</label>
+									</div>
+				            </span><!-- span-day-time2 -->
+			        	</span><!-- span-time2 -->
 					</div>
 				</div>
-				<!-- 
-					<fieldset class="scheduler-border">
-						<legend class="scheduler-border">กำหนดเวลา</legend>
-						<div class="radio" id="div_time1">
-							<label>
-								<input type="radio" name="reserve_time" id="reserve_time1" value="reserve_time1">
-								กำหนดระยะเวลา ระยะสั้น
-							</label>
-						</div>
-						<span id="span-time1">
-		                <fieldset class="scheduler-border fieldset-time1" >
-		                	<legend class="scheduler-border">1</legend>
-			                <label for="input-begin">วัน/เวลาเริ่ม <span class="red-text">*</span></label>
-							<div class='input-group date datetimepickerBegin-time1'>
-			                    <input type='text' class="form-control" name="input-begin-time1[]" readonly/>
-			                    <span class="input-group-addon"><span class=""></span>
-			                    </span>
-			                </div>
-			                <label for="input-begin">วัน/เวลาสิ้นสุด <span class="red-text">*</span></label>
-							<div class='input-group date datetimepickerEnd-time1'>
-			                    <input type='text' class="form-control" name="input-end-time1[]" readonly/>
-			                    <span class="input-group-addon"><span class=""></span>
-			                    </span>
-			                </div>
-			                
-		                </fieldset>
-		                <div class="text-right"><i class="fa fa-plus-square fa-lg" id="add-time1"></i> กำหนดระยะเวลาเพิ่มเติม</div>
-		                </span>
-		                
-						<div class="radio" id="div_time2">
-							<label>
-								<input type="radio" name="reserve_time" id="reserve_time2" value="reserve_time2">
-								กำหนดระยะเวลา ระยะยาว
-							</label>
-						</div>
-						<span id="span-time2">
-		                <fieldset class="scheduler-border fieldset-time2" >
-			                <label for="input-begin">วัน/เวลาเริ่ม <span class="red-text">*</span></label>
-							<div class='input-group date datetimepickerBegin-time2'>
-			                    <input type='text' class="form-control" name="input-begin-time2" readonly/>
-			                    <span class="input-group-addon"><span class=""></span>
-			                    </span>
-			                </div>
-			                <label for="input-begin">วัน/เวลาสิ้นสุด <span class="red-text">*</span></label>
-							<div class='input-group date datetimepickerEnd-time2'>
-			                    <input type='text' class="form-control" name="input-end-time2" readonly/>
-			                    <span class="input-group-addon"><span class=""></span>
-			                    </span>
-			                </div>
-			            
-			            <span id="span-day-time2">
-			            	<p><strong>ระบุวันที่ต้องการจอง</strong></p>
-		                	<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="0">อาทิตย์
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="1">จันทร์
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="2">อังคาร
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="3">พุธ
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="4">พฤหัสบดี
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="5">ศุกร์
-								</label>
-							</div>
-							<div class="checkbox">
-								<label>
-							    	<input type="checkbox" name="day-time2[]" value="6">เสาร์
-								</label>
-							</div>
-		                </span>
-		                </fieldset>
-		                </span>
-		              </fieldset>
-		             -->
 						<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 				</form>
       		</div>
@@ -585,6 +650,9 @@ echo $js;
 		* เมื่อ submit form การจอง
 		###################################################*/
 		$("#reserve_add").submit(function(e){
+			$("input[name='input-period-datetime-begin1']").val($("input[name='input-period-date1']").val()+" "+$("select[name='time1-period-begin']").val());
+			$("input[name='input-period-datetime-end1']").val($("input[name='input-period-date1']").val()+" "+$("select[name='time1-period-end']").val());
+			
 			//ตรวจสอบจำนวน อุปกรณ์ที่เลือก
 			var checked=0;
 			$("input[name='article[]']").each(function(){
@@ -652,130 +720,221 @@ echo $js;
 			//จองระยะสั้น
 			if($("#reserve_time1").is(":checked"))
 			{
-				$("#span-time1").show();
-				var message=new Array();
-				var alertmessage='';
-				var begindate=new Array();
-				var enddate=new Array();
-				var begintime=new Array();
-				var endtime=new Array();
-				//ตรวจสอบ pattern ของวัน/เวลา เริ่มต้น
-				$.each($("input[name='input-begin-time1[]']"),function(i,value){
-					
-					//alert($(this).val().match(/(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-[0-9]{4}/)[0]+"----"+i);
-					begindate[i]=match_date($(this).val());
-					begintime[i]=match_time($(this).val());
-				});
-				//ตรวจสอบ pattern ของวัน/เวลา สิ้นสุด
-				$.each($("input[name='input-end-time1[]']"),function(i,value){
-					//alert($(this).val().match(/(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-[0-9]{4}/)[0]+"----"+i);
-					enddate[i]=match_date($(this).val());
-					endtime[i]=match_time($(this).val());
-				});
-				//ถ้า string length เริ่ม = สิ้นสุด
-				if(begindate.length==enddate.length)
+				if($("#reserve_time1-1").is(":checked"))
 				{
-					var datestat=0;
-					for(var i=0;i<begindate.length;i++)
+					$("#span-time1-1").show();
+					var message=new Array();
+					var alertmessage='';
+					var begindate=new Array();
+					var enddate=new Array();
+					var begintime=new Array();
+					var endtime=new Array();
+					$.each($("input[name='input-time1-1-date1[]']"),function(i,value){
+						begindate[i]=match_date($(this).val());
+						enddate[i]=match_date($(this).val());
+					});
+					//ตรวจสอบ pattern ของวัน/เวลา เริ่มต้น
+					$.each($("input[name='input-begin-time1-1[]']"),function(i,value){
+						//begindate[i]=match_date($(this).val());
+						begintime[i]=match_time($(this).val());
+					});
+					//ตรวจสอบ pattern ของวัน/เวลา สิ้นสุด
+					$.each($("input[name='input-end-time1-1[]']"),function(i,value){
+						//enddate[i]=match_date($(this).val());
+						endtime[i]=match_time($(this).val());
+					});
+					//ถ้า string length เริ่ม = สิ้นสุด
+					if(begindate.length==enddate.length)
 					{
-						//วันเริ่มเท่ากับวันสิ้นสุด มากว่าหรือน้อยกว่าไม่ได้
-						if(begindate[i]==enddate[i])
-						//if(compare_date(begindate[i],enddate[i]))
+						var datestat=0;
+						for(var i=0;i<begindate.length;i++)
 						{
-							//if(begindate[i]==enddate[i])
-							//{
-								if(begintime[i]==endtime[i])
-								{
-									message[i]="โปรดตรวจสอบ เวลาเริ่มต้น และเวลาสิ้นสุด";
-								}
-							//}
-						}
-						else 
-						{
-							message[i]="โปรดตรวจสอบวันเริ่มต้น และวันสิ้นสุด";
-						}
-					}
-				}
-				//แสดง error message ในแต่ละ datetime picker
-				$.each(message,function(index,val){
-					if(val)
-					{
-						$(".fieldset-time1").each(function(){
-							if($(this).find('legend>.daynum').text()==(index+1))
+							//วันเริ่มเท่ากับวันสิ้นสุด มากว่าหรือน้อยกว่าไม่ได้
+							if(begindate[i]==enddate[i])
+							//if(compare_date(begindate[i],enddate[i]))
 							{
-								//แสดงต่อจาก .datetimepickerEnd-time1
-								$(this).find('.datetimepickerEnd-time1').after("<label class='my-error-class'>"+val+"</label>");
+									if(!compare_two_time(begintime[i],endtime[i]))
+										message[i]="โปรดตรวจสอบ เวลาเริ่มต้น และเวลาสิ้นสุด";
+									/*if(begintime[i]==endtime[i])
+									{
+										message[i]="โปรดตรวจสอบ เวลาเริ่มต้น และเวลาสิ้นสุด";
+									}*/
 							}
-						});
-						e.preventDefault();
+							else 
+							{
+								message[i]="โปรดตรวจสอบวันเริ่มต้น และวันสิ้นสุด";
+							}
+						}
 					}
-				});
+					//แสดง error message ในแต่ละ datetime picker
+					$.each(message,function(index,val){
+						if(val)
+						{
+							$(".fieldset-time1-1").each(function(){
+								if($(this).find('legend>.daynum').text()==(index+1))
+								{
+									//แสดงต่อจาก .datetimepickerEnd-time1
+									$(this).find('.datetimepickerEnd-time1').after("<label class='my-error-class'>"+val+"</label>");
+								}
+							});
+							e.preventDefault();
+						}
+					});
+				}//time1-1 checked
+				else if($("#reserve_time1-2").is(":checked"))
+				{
+					$.each($("input[name='input-period-date1[]']"),function(i,value){
+						//check date format dd-mm-yyyy
+						if(/(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-[0-9]{4}/i.test($(this).val()))
+						{
+							if($("select[name='time1-period-begin[]']").eq(i).val()=="" || $("select[name='time1-period-end[]']").eq(i).val()=="")
+							{
+								$("select[name='time1-period-end[]']").eq(i).after("<label class='my-error-class'>โปรดเลือกคาบเรียน</label>");
+								e.preventDefault();
+							}
+						}
+						else
+						{
+							$(this).after("<label class='my-error-class'>โปรดเลือกวันที่</label>");
+							e.preventDefault();
+						}
+
+						if(!compare_two_time($("select[name='time1-period-begin[]']").eq(i).val(),$("select[name='time1-period-end[]']").eq(i).val()))
+						{
+							$("select[name='time1-period-end[]']").eq(i).after("<label class='my-error-class'>คาบเรียนเริ่มต้นต้องน้อยกว่าคาบเรียนสิ้นสุด</label>");
+							e.preventDefault();
+						}
+						
+					});
+				}//time1-2 checked
+				else
+				{
+					$("#reserve_time1-2").parent().parent().after("<label class='my-error-class'>โปรดเลือก</label>");
+				}
 			}
+			
 			//จองระยะยาว
 			else if($("#reserve_time2").is(":checked"))
 			{
-				if($("input[name='input-begin-time2']").val()!='' && $("input[name='input-end-time2']").val()!='')
+				if($("#reserve_time2-1").is(":checked"))
 				{
-					$("#span-time2").show();
-					var alertmessage='';
-					//matchdate = ตัดเอาเฉพาะวันที่มาใช้ ได้เป็นรูปแบบ 01-12-2013
-					//reverse_date สลับจาก 01-12-2013 เป็น 2013-12-01
-					var begindate=new Date(reverse_date(match_date($("input[name='input-begin-time2']").val())));
-					var enddate=new Date(reverse_date(match_date($("input[name='input-end-time2']").val())));
-					var begintime=match_time($("input[name='input-begin-time2']").val()).toString();
-					var endtime=match_time($("input[name='input-end-time2']").val()).toString();
-					var datestat=0;
-					var timestat=0;
-					
-					if(begindate<=enddate)
+					if($("input[name='input-time2-1-date1Begin']").val()=='' || $("input[name='input-time2-1-date1Begin']").val()=='')
 					{
-						if(begindate==enddate)
+						$(".datetimepickerEnd-Date2-1").after("<label class='my-error-class'>โปรดเลือกวัน</label><p class='my-error-class'></p>");
+						e.preventDefault();
+					}
+					if($("input[name='input-begin-time2']").val()!='' || $("input[name='input-end-time2']").val()!='')
+					{
+						//$("#span-time2").show();
+						var alertmessage='';
+						//matchdate = ตัดเอาเฉพาะวันที่มาใช้ ได้เป็นรูปแบบ 01-12-2013
+						//reverse_date สลับจาก 01-12-2013 เป็น 2013-12-01
+						//var begindate=new Date(reverse_date(match_date($("input[name='input-begin-time2']").val())));
+						//var enddate=new Date(reverse_date(match_date($("input[name='input-end-time2']").val())));
+						var begindate=new Date(reverse_date(match_date($("input[name='input-time2-1-date1Begin']").val())));
+						var enddate=new Date(reverse_date(match_date($("input[name='input-time2-1-date1End']").val())));
+						var begintime=match_time($("input[name='input-begin-time2']").val()).toString();
+						var endtime=match_time($("input[name='input-end-time2']").val()).toString();
+						var datestat=0;
+						var timestat=0;
+						if(begindate<=enddate)
 						{
-							if(begintime==endtime)
+							if(begindate==enddate)
 							{
-								//alertmessage+="<li>กรุณาตรวจสอบ เวลา</li>";
-								$(".datetimepickerEnd-time2").after("<label class='my-error-class'>โปรดตรวจสอบ เวลาเริ่มต้น และเวลาสิ้นสุด1</label>");
-								e.preventDefault();
+								if(begintime==endtime)
+								{
+									$(".datetimepickerEnd-time2").after("<label class='my-error-class'>โปรดตรวจสอบ เวลาเริ่มต้น และเวลาสิ้นสุด</label>");
+									e.preventDefault();
+								}
+							}
+							//ถ้า เริ่ม น้อยกว่า สิ้นสุด
+							else
+							{
+								//ถ้าเวลาเริ่มมากกว่า แสดง message
+								if(begintime>endtime)
+								{
+									$(".datetimepickerEnd-time2").after("<label class='my-error-class'>โปรดตรวจสอบ เวลาเริ่มต้น และเวลาสิ้นสุด</label>");
+									e.preventDefault();
+								}
 							}
 						}
-						//ถ้า เริ่ม น้อยกว่า สิ้นสุด
 						else
 						{
-							//ถ้าเวลาเริ่มมากกว่า แสดง message
-							if(begintime>endtime)
-							{
-								$(".datetimepickerEnd-time2").after("<label class='my-error-class'>โปรดตรวจสอบ เวลาเริ่มต้น และเวลาสิ้นสุด2</label>");
-								e.preventDefault();
-							}
+							$(".datetimepickerEnd-Date2-1").after("<label class='my-error-class'>โปรดตรวจสอบวันเริ่มต้น และวันสิ้นสุด</label><br>");
+							e.preventDefault();
 						}
+						
 					}
 					else
 					{
-						$(".datetimepickerEnd-time2").after("<label class='my-error-class'>โปรดตรวจสอบวันเริ่มต้น และวันสิ้นสุด3</label>");
+						$(".datetimepickerEnd-time2").after("<label class='my-error-class'>โปรดเลือกเวลา</label>");
 						e.preventDefault();
 					}
-					//ตรวจสอบการเลือกวันในสัปดาห์
-					var daystat=0;
-					$.each($("input[name='day-time2[]']"),function(){
-						if($(this).is(':checked')) daystat++;
-					});
-					//แสดง error ของ การเลือกวันในสัปดาห์
-					if(daystat==0)
+				}
+				//แบบคาบเรียน 2-2
+				else if($("#reserve_time2-2").is(":checked"))
+				{
+					if($("input[name='input-time2-2-date1Begin']").val()=='' || $("input[name='input-time2-2-date1End']").val()=='' )
 					{
-						$("#span-day-time2").find(".checkbox").last().after("<label class='my-error-class'>โปรดเลือกอย่างน้อยหนึ่งวัน</label>");
+						$(".datetimepickerEnd-Date2-2").after("<label class='my-error-class'>โปรดเลือกวัน</label><p class='my-error-class'></p>");
 						e.preventDefault();
+					}
+					if($("select[name='time2-period-begin']").val()=='' || $("select[name='time2-period-end']").val()=='')
+					{
+						$("select[name='time2-period-end']").after("<label class='my-error-class'>โปรดเลือกคาบเรียน</label>");
+						e.preventDefault();
+					}
+					else
+					{
+						var begindate=new Date(reverse_date(match_date($("input[name='input-time2-2-date1Begin']").val())));
+						var enddate=new Date(reverse_date(match_date($("input[name='input-time2-2-date1End']").val())));
+						if(begindate<=enddate)
+						{
+							if(begindate==enddate)
+							{
+								if(!compare_two_time($("select[name='time2-period-begin']").val(),$("select[name='time2-period-end']").val()))
+								{
+									$("select[name='time2-period-end']").after("<label class='my-error-class'>คาบเรียนเริ่มต้นต้องน้อยกว่าคาบเรียนสิ้นสุด</label>");
+									e.preventDefault();
+								}
+							}
+							//ถ้า เริ่ม น้อยกว่า สิ้นสุด
+							else
+							{
+								if(!compare_two_time($("select[name='time2-period-begin']").val(),$("select[name='time2-period-end']").val()))
+								{
+									$("select[name='time2-period-end']").after("<label class='my-error-class'>คาบเรียนเริ่มต้นต้องน้อยกว่าคาบเรียนสิ้นสุด</label>");
+									e.preventDefault();
+								}
+							}
+						}
+						else
+						{
+							$(".datetimepickerEnd-Date2-2").after("<label class='my-error-class'>โปรดตรวจสอบวันเริ่มต้น และวันสิ้นสุด</label><br>");
+							e.preventDefault();
+						}
 					}
 				}
 				else
 				{
-					$(".datetimepickerEnd-time2").after("<label class='my-error-class'>โปรดเลือกวันเวลา</label>");
+					$("#reserve_time2-2").parent().parent().after("<label class='my-error-class'>โปรดเลือก</label>");
+				}
+				//ตรวจสอบการเลือกวันในสัปดาห์
+				var daystat=0;
+				$.each($("input[name='day-time2[]']"),function(){
+					if($(this).is(':checked')) daystat++;
+				});
+				//แสดง error ของ การเลือกวันในสัปดาห์
+				if(daystat==0)
+				{
+					$("#span-day-time2").find(".checkbox").last().after("<label class='my-error-class'>โปรดเลือกอย่างน้อยหนึ่งวัน</label>");
 					e.preventDefault();
 				}
 			}
 			//แสดง error เมื่อไม่ได้เลือกระยะเวลาการจอง
 			else
 			{
-				$("#span-time2").after("<label class='my-error-class'>โปรดเลือก</label>");
+				$("#div_time1").before("<label class='my-error-class'>โปรดเลือก</label>");
 				e.preventDefault();
 			}
 			
@@ -1101,36 +1260,65 @@ echo $js;
 		});
 
 		
-		/*----------------------------------- 
+		/*-----------------------------------
 		* กำหนดเวลา
 		-----------------------------------*/
 		//ซ่อนการจองระยะยาว จองระยะยาวให้สำหรับบุคคลภายในเท่านั้น
 		$("#div_time2").hide();
-		$("#span-time1").hide();
-		$("#span-time2").hide();
+		$("#span-time-radio1,#span-time1-1,#span-time1-2").hide();
 		$("#reserve_time1").change(function(){
 			if($("#reserve_time1").is(":checked"))
 			{
-				$("#span-time1").show();$("#span-time2").hide();
-
+				$("#span-time-radio1").show();
+				$("#span-time2,#span-time-radio2").hide();
+			}
+			else $("#span-time-radio1,#span-time1-1,#span-time1-2").hide();
+		});
+		$("#reserve_time1-1,#reserve_time1-2").change(function(){
+			if($("#reserve_time1-1").is(":checked"))
+			{
+				$("#span-time1-1").show();
+				$("#span-time1-2").hide();
 				//show popover for calendar button
-				$(".datetimepickerBegin-time1 span.input-group-addon").popover({
+				$(".datetimepickerBegin-Date1-1 span.input-group-addon").popover({
 					content:"คลิกที่นี่เพื่อเลือกวัน/เวลาการจอง",
 					placement:"top"
 				});
 				//show popover and destroy after 7 sec
-				$(".datetimepickerBegin-time1 span.input-group-addon").popover('show'),
-				setTimeout(function () {
-			        $(".datetimepickerBegin-time1 span.input-group-addon").popover('destroy');
+				$(".datetimepickerBegin-Date1-1 span.input-group-addon").popover('show'),
+				setTimeout(function(){
+			        $(".datetimepickerBegin-Date1-1 span.input-group-addon").popover('destroy');
 			    }, 7000);
 			}
-			else $("#span-time1").hide();
+			else if($("#reserve_time1-2").is(":checked"))
+			{
+				$("#span-time1-2").show();
+				$("#span-time1-1").hide();
+				//show popover for calendar button
+				$(".datetimepickerPeriod-Date1-2 span.input-group-addon").popover({
+					content:"คลิกที่นี่เพื่อเลือกวันการจอง",
+					placement:"top"
+				});
+				//show popover and destroy after 7 sec
+				$(".datetimepickerPeriod-Date1-2 span.input-group-addon").popover('show'),
+				setTimeout(function(){
+			        $(".datetimepickerPeriod-Date1-2 span.input-group-addon").popover('destroy');
+			    }, 7000);
+			}
 		});
 		
+		$("#span-time-radio2,#span-time2,#span-day-time2,#span-time2-1,#span-time2-2").hide();
 		$("#reserve_time2").change(function(){
 			if($("#reserve_time2").is(":checked"))
 			{
-				$("#span-time2").show();$("#span-time1").hide();
+				$("#span-time-radio2,#span-day-time2,#span-time2").show();
+				$("#span-time1,#span-time-radio1,#span-time1-1,#span-time1-2").hide();
+			}
+			else $("#span-time-radio1,#span-time2-1,#span-time2-2").hide();
+			
+			/*if($("#reserve_time2").is(":checked"))
+			{
+				$("#span-time2").show();$("#span-time1-1").hide();
 				//show popover for calendar button
 				$(".datetimepickerBegin-time2 span.input-group-addon").popover({
 					content:"คลิกที่นี่เพื่อเลือกวัน/เวลาการจอง",
@@ -1142,27 +1330,79 @@ echo $js;
 			        $(".datetimepickerBegin-time2 span.input-group-addon").popover('destroy');
 			    }, 7000);
 			}
-			else $("#span-time2").hide();
+			else $("#span-time2").hide();*/
+		});
+		$("#reserve_time2-1,#reserve_time2-2").change(function(){
+			if($("#reserve_time2-1").is(":checked"))
+			{
+				$("#span-time2-1").show();
+				$("#span-time2-2").hide();
+				
+				//show popover for calendar button
+				$(".datetimepickerBegin-Date2-1 span.input-group-addon").popover({
+					content:"คลิกที่นี่เพื่อเลือกวันการจอง",
+					placement:"top"
+				});
+				//show popover and destroy after 7 sec
+				$(".datetimepickerBegin-Date2-1 span.input-group-addon").popover('show'),
+				setTimeout(function(){
+			        $(".datetimepickerBegin-Date2-1 span.input-group-addon").popover('destroy');
+			    }, 7000);
+			}
+			else if($("#reserve_time2-2").is(":checked"))
+			{
+				$("#span-time2-2").show();
+				$("#span-time2-1").hide();
+				//show popover for calendar button
+				$(".datetimepickerPeriod-Date2-2 span.input-group-addon").popover({
+					content:"คลิกที่นี่เพื่อเลือกวันการจอง",
+					placement:"top"
+				});
+				//show popover and destroy after 7 sec
+				$(".datetimepickerPeriod-Date2-2 span.input-group-addon").popover('show'),
+				setTimeout(function(){
+			        $(".datetimepickerPeriod-Date2-2 span.input-group-addon").popover('destroy');
+			    }, 7000);
+			}
 		});
 
-		$(document.body).on('click', '#del-time1' ,function(){
+		
+		$(document.body).on('click', '#del-time1-1' ,function(){
 			$(this).parent().parent().remove();
 		});
-		//คลิกเพิ่ม ช่องกำหนดเวลาของ reserve-time1
-		$('#add-time1').click(function(){
+		$(document.body).on('click', '#del-time1-2' ,function(){
+			$(this).parent().parent().remove();
+		});
+		//คลิกเพิ่ม ช่องกำหนดเวลาของ reserve-time1-1
+		$('#add-time1-1').click(function(){
 			//destroy popover
 			$(".datetimepickerBegin-time1 span.input-group-addon").popover('destroy');
 
-			var num=parseInt($('.fieldset-time1').last().find('legend>.daynum').text())+1;
-			//$('.fieldset-time1:first').clone().appendTo('#span-time1');
-			$('.fieldset-time1').last().after($('.fieldset-time1:first').clone());
-			$('.fieldset-time1').last().find('div input[class="form-control"]').val('');	
-			$('.fieldset-time1').last().find('legend>.daynum').text(num);
-			$('.fieldset-time1').last().find('label.my-error-class').remove();
-			$('<br><div class="text-right"><i style="cursor:pointer;" class="fa fa-minus-square fa-lg" id="del-time1"></i> ลบ</div>').appendTo('.fieldset-time1:last');
+			var num=parseInt($('.fieldset-time1-1').last().find('legend>.daynum').text())+1;
+			//$('.fieldset-time1-1:first').clone().appendTo('#span-time1-1');
+			$('.fieldset-time1-1').last().after($('.fieldset-time1-1:first').clone());
+			$('.fieldset-time1-1').last().find('div input[class="form-control"]').val('');	
+			$('.fieldset-time1-1').last().find('legend>.daynum').text(num);
+			$('.fieldset-time1-1').last().find('label.my-error-class').remove();
+			$('<br><div class="text-right"><i style="cursor:pointer;" class="fa fa-minus-square fa-lg" id="del-time1-1"></i> ลบ</div>').appendTo('.fieldset-time1-1:last');
+			init_datetimepicker();
+		});
+		//คลิกเพิ่ม ช่องกำหนดเวลาของ reserve-time1-2
+		$('#add-time1-2').click(function(){
+			//destroy popover
+			$(".datetimepickerPeriod-Date1-2 span.input-group-addon").popover('destroy');
+
+			var num=parseInt($('.fieldset-time1-2').last().find('legend>.daynum').text())+1;
+			//$('.fieldset-time1-2:first').clone().appendTo('#span-time1-2');
+			$('.fieldset-time1-2').last().after($('.fieldset-time1-2:first').clone());
+			$('.fieldset-time1-2').last().find('div input[class="form-control"]').val('');	
+			$('.fieldset-time1-2').last().find('legend>.daynum').text(num);
+			$('.fieldset-time1-2').last().find('label.my-error-class').remove();
+			$('<div class="text-right"><i style="cursor:pointer;" class="fa fa-minus-square fa-lg" id="del-time1-2"></i> ลบ</div>').appendTo('.fieldset-time1-2:last');
 			init_datetimepicker();
 		});
 		init_datetimepicker();
+		
 
 		//------------------------------------------------------
 
@@ -1251,7 +1491,8 @@ echo $js;
 	###################################################*/
 	function init_datetimepicker()
 	{
-		$('.datetimepickerBegin-time1').datetimepicker({
+		$('.datetimepickerBegin-Date1-1,.datetimepickerBegin-Date2-1,.datetimepickerEnd-Date2-1,.datetimepickerBegin-Date2-2,.datetimepickerEnd-Date2-2').datetimepicker({
+			pickTime:false,
 			pick12HourFormat: false,
             language: 'th',
             icons: {
@@ -1260,9 +1501,10 @@ echo $js;
 				up: "fa fa-arrow-up",
 				down: "fa fa-arrow-down"
 			},
-			format:"LLLL"
+			format:"LL"
         });
-		$('.datetimepickerEnd-time1').datetimepicker({
+		$('.datetimepickerBegin-time1,.datetimepickerBegin-time2').datetimepicker({
+			pickDate:false,
 			pick12HourFormat: false,
             language: 'th',
             icons: {
@@ -1271,9 +1513,21 @@ echo $js;
 				up: "fa fa-arrow-up",
 				down: "fa fa-arrow-down"
 			},
-			format:"LLLL"
+			format:"LT"
         });
-		$('.datetimepickerBegin-time2').datetimepicker({
+		$('.datetimepickerEnd-time1,.datetimepickerEnd-time2').datetimepicker({
+			pickDate:false,
+			pick12HourFormat: false,
+            language: 'th',
+            icons: {
+				time: "fa fa-clock-o",
+				date: "fa fa-calendar",
+				up: "fa fa-arrow-up",
+				down: "fa fa-arrow-down"
+			},
+			format:"LT"
+        });
+		/*$('.datetimepickerBegin-time2').datetimepicker({
 			pick12HourFormat: false,
             language: 'th',
             icons: {
@@ -1294,6 +1548,19 @@ echo $js;
 				down: "fa fa-arrow-down"
 			},
 			format:"LLLL"
+        });*/
+		
+		$('.datetimepickerPeriod-Date1-2,.datetimepickerPeriod-Date2-2').datetimepicker({
+			pickTime:false,
+			pick12HourFormat: false,
+            language: 'th',
+            icons: {
+				time: "fa fa-clock-o",
+				date: "fa fa-calendar",
+				up: "fa fa-arrow-up",
+				down: "fa fa-arrow-down"
+			},
+			format:"LL"
         });
 	}
 	function match_date(in_date)
@@ -1324,6 +1591,29 @@ echo $js;
 		a.reverse();
 		var reversed = a.join("-");
 		return reversed;
+	}
+	
+	/*
+	* compare two time format like : hh:ii:ss
+	* bt = beginTime, et=endTime
+	*/
+	function compare_two_time(bt, et)
+	{
+		if(typeof(bt)==='undefined') bt = '';
+		if(typeof(et)==='undefined') et = '';
+		var hBegin=bt.substr(0,2);
+		var hEnd=et.substr(0,2);
+		var iBegin=bt.substr(3,2);
+		var iEnd=et.substr(3,2);
+		var sBegin=bt.substr(6,2); 
+		var sEnd=et.substr(6,2);
+		if(hBegin<hEnd) return true;
+		else if(hBegin==hEnd)
+		{
+			if(iBegin<iEnd) return true;
+			else return false;
+		}
+		else return false;
 	}
 	//------------------------------------------------------
 	

@@ -22,7 +22,7 @@ $lang["textarea_for_use"]="textarea_for_use";
 
 
 
-$lang["label_select_faculty"]="คณะ";
+$lang["label_select_faculty"]="คณะ/กอง";
 $lang["label_select_department"]="สาขา/งาน";
 $lang["label_select_job_position"]="ตำแหน่งงาน";
 $lang["label_select_room_type"]="ประเภทห้อง";
