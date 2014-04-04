@@ -275,7 +275,7 @@ echo $head;
 				                </div>
 			                </fieldset>
 			                <div class="text-right" ><i style="cursor:pointer;" class="fa fa-plus-square fa-lg" id="add-time1-2"></i> กำหนดวันเพิ่ม</div>
-		                </span>
+		                </span><!-- span-time1-2 -->
 		                
 		                
 						<div class="radio" id="div_time2">

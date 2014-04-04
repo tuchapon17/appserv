@@ -54,7 +54,8 @@ echo $head;
 	      		 				<dt>ชื่อโครงการ</dt>
 	      		 				<dd><?php echo $rd['project_name'];?></dd>
 	      		 				<dt>ห้องที่จอง</dt>
-	      		 				<dd><a href="<?php echo base_url();?>?d=front&c=room&m=view&rmid=<?php echo $rd['room_id'];?>" target="_blank"><?php echo $rd['room_name'];?></a>&nbsp;<a href="<?php echo base_url();?>?d=manage&c=reserve&m=edit_detail&id=<?php echo $rd['reserve_id'];?>&t=room"><i class="fa fa-edit"></i></a></dd>
+	      		 						<!-- edit room button <a href="<?php echo base_url();?>?d=manage&c=reserve&m=edit_detail&id=<?php echo $rd['reserve_id'];?>&t=room"><i class="fa fa-edit"></i></a> -->
+	      		 				<dd><a href="<?php echo base_url();?>?d=front&c=room&m=view&rmid=<?php echo $rd['room_id'];?>" target="_blank"><?php echo $rd['room_name'];?></a>&nbsp;</dd>
 	      		 				<dt>จำนวนคนที่เข้าใช้</dt>
 	      		 				<dd><?php echo $rd['num_of_people'];?></dd>
 	      		 				<dt>วันที่จอง</dt>
@@ -83,7 +84,15 @@ echo $head;
 	      		 					//echo "<dd>".$val['reserve_datetime_begin']."</dd>";
 	      		 					//echo "<dt>".$val['reserve_datetime_begin']."</dt>";
 	      		 					//echo "<dd>- ".$val['reserve_datetime_end']."</dd>";
-	      		 					echo "<dd>".($index+1).". <a href='".base_url()."?c=calendar&m=bydate&cdate=".substr($val['reserve_datetime_begin'],0,10)."' target='_blank'>".compress_two_datetime($val['reserve_datetime_begin'], $val['reserve_datetime_end'])."</a></dd>";
+	      		 					echo "<dd>".($index+1).".
+									<a href='".base_url()."?c=calendar&m=bydate&cdate=".
+									substr($val['reserve_datetime_begin'],0,10)."' target='_blank'>".
+	      		 					compress_two_datetime($val['reserve_datetime_begin'], $val['reserve_datetime_end']).
+	      		 					"</a>&nbsp;
+      								<a href='".base_url()."?d=manage&c=reserve&m=edit_detail&id="
+									.$rd["reserve_id"]."&t=datetime&did=".$val["datetime_id"]."'>
+									<i class='fa fa-edit'></i></a>
+      								</dd>";
 	      		 				}
 	      		 				?>
 	      		 			</dl>
@@ -199,6 +208,16 @@ echo $js;
 	<script type="text/javascript">
 	<!--
 	$(function(){
+		/*#################################################
+		Show bootbox alert after edited profile1
+		###################################################*/
+		<?php 
+		if($this->session->flashdata("edit_reserve_datetime_message"))
+		{?>
+			bootbox.alert("<?php echo $this->session->flashdata("edit_reserve_datetime_message");?>"); 
+		<?php
+		}?>
+		
 		//ซ่อน/แสดง รายละเอียดการจอง
 		$("#detail-body").hide();
 		$("#detail-heading").click(function(){

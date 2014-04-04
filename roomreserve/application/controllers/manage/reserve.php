@@ -355,7 +355,7 @@ class Reserve extends MY_Controller
 					$time12e = $this->input->post("time1-period-end");
 					foreach ($date12 as $key=>$val)
 					{
-						$c_time12b = $this->convert_datetime($time12b[$key]);
+						$c_time12b = $this->convert_datetime($time12b);
 						$c_time12b = $c_time12b["time"];
 						$c_time12e = $this->convert_datetime($time12e[$key]);
 						$c_time12e = $c_time12e["time"];
@@ -2262,9 +2262,12 @@ function edit4()
 	{
 		if(isset($_GET["id"]) && isset($_GET["t"]))
 		{
+			//แก้ไข room ยังไม่ใช้
 			if($_GET["t"]=="room")
 			{
+				//ไม่สามารถ แก้ไขห้องได้ เพราะ มีการคำนวณ ราคาอุปกรณ์ ของห้อง ในห้อง view_reserve
 				$q = $this->db->select()->from("tb_reserve")
+				->join("tb_room","tb_room.room_id=tb_reserve.tb_room_id")
 				->where("reserve_id",$_GET["id"])->limit(1)->get();
 				$nr = $q->num_rows();
 				if($nr > 0)
@@ -2272,9 +2275,14 @@ function edit4()
 					$nr = $q->result_array();
 					$config=array(
 							array(
-									"field"=>"input_reserve_name",
-									"label"=>"ชื่อห้อง",
-									"rules"=>""
+									"field"=>"select_room_type",
+									"label"=>"ประเภทห้อง",
+									"rules"=>"required"
+							),
+							array(
+									"field"=>"select_room",
+									"label"=>"ห้อง",
+									"rules"=>"required"
 							)
 					);
 					$this->frm->set_rules($config);
@@ -2322,14 +2330,21 @@ function edit4()
 					}
 					else 
 					{
-						
+						$set = array("tb_room_id"=>$this->input->post("select_room"));
+						$where = array("reserve_id"=>$nr[0]["reserve_id"]);
+						$this->db->update("tb_reserve",$set,$where,1);
+						echo $this->db->last_query();break;
+						redirect(base_url()."?d=manage&c=reserve&m=view&id=".$nr[0]["reserve_id"]);
 					}
 				}
 			}//if room
-			else if($_GET["t"]=="datetime")
+			else if($_GET["t"]=="datetime" && isset($_GET["did"]))
 			{
 				$q = $this->db->select()->from("tb_reserve_has_datetime")
-				->where("tb_reserve_id",$_GET["id"])->get();
+				->join("tb_reserve","tb_reserve.reserve_id=tb_reserve_has_datetime.tb_reserve_id")
+				->where("tb_reserve_id",$_GET["id"])
+				->where("datetime_id",$_GET["did"])
+				->get();
 				$nr = $q->result_array();
 				if($nr > 0)
 				{
@@ -2347,7 +2362,7 @@ function edit4()
 					{
 						$data=array(
 								"htmlopen"=>$this->pel->htmlopen(),
-								"head"=>$this->pel->head("แก้ไขห้อง"),
+								"head"=>$this->pel->head("แก้ไขวันเวลาการจอง"),
 								"bodyopen"=>$this->pel->bodyopen(),
 								"navbar"=>$this->pel->navbar(),
 								"js"=>$this->pel->js(),
@@ -2360,7 +2375,79 @@ function edit4()
 					}
 					else 
 					{
-						
+						$reserve_id = $nr[0]["reserve_id"];
+						if($this->input->post("reserve_time-sub1")=="reserve_time1-1")
+						{
+							$date11 = $this->input->post("input-time1-1-date1");
+							$time11b = $this->input->post("input-begin-time1-1");
+							$time11e = $this->input->post("input-end-time1-1");
+							
+							$c_time11b = $this->convert_datetime($time11b);
+							$c_time11b = $c_time11b["time"];
+							$c_time11e = $this->convert_datetime($time11e);
+							$c_time11e = $c_time11e["time"];
+							$c_date11 = $date11;
+							$beginDT = new DateTime($c_date11." ".$c_time11b);
+							$endDT = new DateTime($c_date11." ".$c_time11e);
+							//$this->load_reserve_model->manage_add2($data11,"tb_reserve_has_datetime");
+							$prev_url = base_url()."?d=manage&c=reserve&m=view&id=".$reserve_id;
+							$set=array(
+									"reserve_datetime_begin"=>$beginDT->format('Y-m-d H:i:s'),
+									"reserve_datetime_end"=>$endDT->format('Y-m-d H:i:s')
+							);
+							$where=array(
+									"datetime_id"=>$nr[0]["datetime_id"],
+									"tb_reserve_id"=>$reserve_id
+							);
+							$this->load_reserve_model->manage_edit2(
+									$set, 
+									$where, 
+									"tb_reserve_has_datetime",
+									"edit_reserve_datetime", 
+									"แก้ไขสำเร็จ", 
+									"แก้ไขไม่สำเร็จ", 
+									$prev_url
+							);
+						}
+						//แบบคาบเรียน รายวัน
+						else if($this->input->post("reserve_time-sub1")=="reserve_time1-2")
+						{
+							$date12 = $this->input->post("input-period-date1");
+							$time12b = $this->input->post("time1-period-begin");
+							$time12e = $this->input->post("time1-period-end");
+							
+							$c_time12b = $this->convert_datetime($time12b);
+							$c_time12b = $c_time12b["time"];
+							$c_time12e = $this->convert_datetime($time12e);
+							$c_time12e = $c_time12e["time"];
+							$c_date12 = $date12;
+							$beginDT = new DateTime($c_date12." ".$c_time12b);
+							$endDT = new DateTime($c_date12." ".$c_time12e);
+							$data12 = array(
+									"tb_reserve_id"=>$reserve_id,
+									"reserve_datetime_begin"=>$beginDT->format('Y-m-d H:i:s'),
+									"reserve_datetime_end"=>$endDT->format('Y-m-d H:i:s')
+							);
+							//$this->load_reserve_model->manage_add2($data12,"tb_reserve_has_datetime");
+							$prev_url = base_url()."?d=manage&c=reserve&m=view&id=".$reserve_id;
+							$set=array(
+									"reserve_datetime_begin"=>$beginDT->format('Y-m-d H:i:s'),
+									"reserve_datetime_end"=>$endDT->format('Y-m-d H:i:s')
+							);
+							$where=array(
+									"datetime_id"=>$nr[0]["datetime_id"],
+									"tb_reserve_id"=>$reserve_id
+							);
+							$this->load_reserve_model->manage_edit2(
+									$set,
+									$where,
+									"tb_reserve_has_datetime",
+									"edit_reserve_datetime",
+									"แก้ไขสำเร็จ",
+									"แก้ไขไม่สำเร็จ",
+									$prev_url
+							);
+						}
 					}
 				}
 			}//if datetime
