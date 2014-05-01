@@ -145,7 +145,7 @@ class Page_element_lib
 	        </div>-->
 	        <div class="collapse navbar-collapse">
 	          <ul class="nav navbar-nav ">
-	            <li class="active"><a href="?c=home">หน้าแรก</a></li>
+	            <li><a href="?c=home">หน้าแรก</a></li>
 		';
 		//<li class="active">
 		$html.='<li><a href="?c=calendar&m=main">ปฏิทิน</a></li>';
@@ -172,7 +172,7 @@ class Page_element_lib
 				$html.='<li class="divider"></li>';
 				$html.='<li><a href="?d=manage&c=titlename&m=add">คำนำหน้าชื่อ</a></li>';
 				$html.='<li><a href="?d=manage&c=condition&m=edit">ระเบียบการใช้งานระบบ</a></li>';
-				$html.='<li><a href="?d=manage&c=reserve&m=edit">จัดการข้อมูลการจอง</a></li>';
+				//$html.='<li><a href="?d=manage&c=reserve&m=edit">จัดการข้อมูลการจอง</a></li>';
 				$html.='<li class="divider"></li>';
 				$html.='<li><a href="?d=manage&c=faculty&m=add">คณะ/กอง</a></li>';
 				$html.='<li><a href="?d=manage&c=job_position&m=add">ตำแหน่งงาน</a></li>';
@@ -217,7 +217,7 @@ class Page_element_lib
 		if(!$this->ci->session->userdata("rs_username"))
 		{
 			$html.='<li><a href="?c=register&m=step1">ลงทะเบียน</a></li>
-					<li><a href="?c=login&m=auth">ลงชื่อเข้าใช้</a></li>';
+					<li><a href="?c=login&m=auth">เข้าสู่ระบบ</a></li>';
 		}
 		else
 		{
@@ -236,7 +236,7 @@ class Page_element_lib
 			}
 			if($this->fl->check_group_privilege(array("01","02","03","04","05","06"),true,"OR"))
 			{
-				$html.='<li><a href="?d=manage&c=reserve&m=reserve_list"><i class="fa fa-exchange"></i> โอนสิทธิ์</a></li>';
+				$html.='<li><a href="?d=privilege&c=assign&m=add"><i class="fa fa-exchange"></i> โอนสิทธิ์</a></li>';
 			}
 			$html.='
 				          	<li><a id="logout_menu" class="pointer"><i class="fa fa-sign-out"></i> ออกจากระบบ</a></li>

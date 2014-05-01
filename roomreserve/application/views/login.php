@@ -25,7 +25,7 @@ echo $navbar;
       	<div class="col-lg-12">
       		<div class="col-lg-6 col-lg-offset-3" id="loginform">
       			
-      		 	<h2>ลงชื่อเข้าใช้</h2>
+      		 	<h2>เข้าสู่ระบบ</h2>
       		 	<div class="alert-danger" id="login-alert">
       			<?php 
       				echo form_error("input_username");

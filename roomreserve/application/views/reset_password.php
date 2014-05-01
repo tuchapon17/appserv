@@ -27,7 +27,7 @@ echo $head;
       <div class="row">
       	<div class="col-lg-12">
       		<div class="col-lg-6 col-lg-offset-3" id="loginform">
-      			<h2>ลืมรหัสผ่าน</h2>
+      			<h2>กำหนดรหัสผ่านใหม่</h2>
       			<div class="alert-danger" id="login-alert">
 	      			<?php 
 		      			echo form_error("input_password");

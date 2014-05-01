@@ -72,7 +72,7 @@ echo $js;
 
 		
 		$("#forgot_password_form").submit(function(e){
-			$("#sendEmailModalBody").html("<p>กรุณารอสักครู่...<br>ระบบกำลังดำเนินการรีเซตรหัสผ่าน และส่งอีเมล</p>");
+			$("#sendEmailModalBody").html("<p>กรุณารอสักครู่...<br>ระบบกำลังดำเนินการส่งลิงค์สำหรับกำหนดรหัสผ่านใหม่ทางอีเมล...</p>");
 			$("#sendEmailModal").modal('show');
 			$.ajax({
 				url:"?c=login&m=mail_reset_password",

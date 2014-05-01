@@ -23,11 +23,9 @@ echo $navbar;
         <p></p>
       </div>
     </div>
-
     <div class="container">
-      <!-- Example row of columns -->
-      
       <div class="row">
+      <!-- 
         <div class="col-lg-4">
           	<h2>ลงทะเบียน</h2>
           	<p></p>
@@ -45,7 +43,7 @@ echo $navbar;
 	    </div>
       </div>
       <div class="row">
-      <div class="col-lg-4">
+      	<div class="col-lg-4">
 	        <h2>จองห้อง</h2>
 	        <p></p>
 	        <p><a class="btn btn-default" href="?d=manage&c=reserve&m=add">เพิ่มเติม &raquo;</a></p>
@@ -54,18 +52,12 @@ echo $navbar;
           	<h2>ระเบียบการใช้งาน</h2>
 	        <p></p>
 	        <p><a class="btn btn-default" href="?d=front&c=condition&m=view">เพิ่มเติม &raquo;</a></p>
-	        </div>
+		</div>
       </div>
-	  
-	  
-      
+	   -->
       <hr>
-
       <?php echo $footer;?>
     </div>
-
-
-
 <?php 
 echo $js;
 ?>

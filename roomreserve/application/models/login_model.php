@@ -21,39 +21,54 @@ class Login_model extends MY_Model
 		{
 			$r = $query->row();
 			
-			/*#################################################
-			 * Insert login logs 
-			#################################################*/
-			//$this->db->select("MAX(auth_log_id) AS auth_log_id")->from("tb_auth_log")->limit(1);
-			//$r2=$this->db->get()->row();
-			$auth_maxid=$this->get_maxid(7, "auth_log_id", "tb_auth_log");
-			$auth_log=array(
-					//"auth_log_id"=>str_pad((int)$r2->auth_log_id+1,7,"0",STR_PAD_LEFT),
-					"auth_log_id"=>$auth_maxid,
-					"tb_user_username"=>$r->username,
-					"ip_address"=>$this->input->ip_address(),
-					"login_on"=>date('Y-m-d H:i:s')
+			//check is reset password
+			$where2=array(
+					"username"=>$username,
+					"reset_password"=>"0"
 			);
-			$this->db->trans_begin();
-			$this->db->insert("tb_auth_log",$auth_log);
-			if($this->db->trans_status()===FALSE):
+			$this->db->select("reset_password")->from("tb_user")->where($where2)->limit(1);
+			$r2 = $this->db->get();
+			if($r2->num_rows()===1)
+			{
+				/*#################################################
+				 * Insert login logs
+				#################################################*/
+				//$this->db->select("MAX(auth_log_id) AS auth_log_id")->from("tb_auth_log")->limit(1);
+				//$r2=$this->db->get()->row();
+				$auth_maxid=$this->get_maxid(7, "auth_log_id", "tb_auth_log");
+				$auth_log=array(
+						//"auth_log_id"=>str_pad((int)$r2->auth_log_id+1,7,"0",STR_PAD_LEFT),
+						"auth_log_id"=>$auth_maxid,
+						"tb_user_username"=>$r->username,
+						"ip_address"=>$this->input->ip_address(),
+						"login_on"=>date('Y-m-d H:i:s')
+				);
+				$this->db->trans_begin();
+				$this->db->insert("tb_auth_log",$auth_log);
+				if($this->db->trans_status()===FALSE):
 				$this->db->trans_rollback();
 				echo "Log Error";
-			else:
+				else:
 				$this->db->trans_commit();
-			endif;
-			
-			/*#################################################
-			 * Set session
-			#################################################*/
-			$set_session=array(
-					"rs_username"=>$r->username,
-					"rs_usergroup"=>$r->tb_usergroup_id,
-					"login_validated"=>"1",
-			);
-			$this->session->set_userdata($set_session);
-			
-			return true;
+				endif;
+					
+				/*#################################################
+				 * Set session
+				#################################################*/
+				$set_session=array(
+						"rs_username"=>$r->username,
+						"rs_usergroup"=>$r->tb_usergroup_id,
+						"login_validated"=>"1",
+				);
+				$this->session->set_userdata($set_session);
+					
+				return true;
+			}
+			else
+			{
+				$this->session->set_flashdata("login_message_from_reset","<p>ชื่อผู้ใช้นี้อยู่ระหว่างการกำหนดรหัสผ่านใหม่</p><p>กรุณากำหนดรหัสผ่านใหม่จากลิงค์ที่ได้รับทางอีเมล</p>");
+				return false;
+			}
 		}
 		else return false;
 	}

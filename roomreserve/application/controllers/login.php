@@ -125,7 +125,7 @@ class Login extends MY_Controller
 			//$body             = eregi_replace("[\]",'',$body);
 			
 			$body='<p><strong>เรียนคุณ '.$r[0]['firstname'].' '.$r[0]['lastname'].'</strong></p>';
-			$body.='<p>ขณะนี้ระบบได้ทำการรีเซตรหัสผ่านของท่านเรียบร้อยแล้ว</p>';
+			//$body.='<p>ขณะนี้ระบบได้ทำการรีเซตรหัสผ่านของท่านเรียบร้อยแล้ว</p>';
 			//$body.='<p>โดยรหัสผ่านใหม่ คือ <h3>'.$new_pass.'</h3></p>';
 			$body.='<p></p>';
 			//$body.='<p>ท่านสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่นี้ ได้ที่ <a href="'.base_url().'?c=login&m=auth" target="_blank">คลิก</a></p>';
@@ -143,7 +143,7 @@ class Login extends MY_Controller
 			$mail->Password   = "tuchapon17";            // GMAIL password
 			$mail->SetFrom($email_sender, 'no-reply - '.$email_sender);//ชื่อผู้ส่ง
 			$mail->AddReplyTo($email_sender,"no-reply - ".$email_sender);//เมลสำหรับตอบกลับ , ชื่อ แสดงเมื่อตอบกลับ
-			$mail->Subject    = "รีเซตรหัสผ่าน - ระบบจัดการการจองห้อง";
+			$mail->Subject    = "กำหนดรหัสผ่านใหม่- ระบบจัดการการจองห้อง";
 			$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
 			$mail->MsgHTML($body);
 			$address = $r[0]['email'];
@@ -151,7 +151,7 @@ class Login extends MY_Controller
 			//$mail->AddAttachment("images/phpmailer.gif");      // attachment
 			//$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
 			if(!$mail->Send()) {
-				echo json_encode(array("error","รีเซตรหัสผ่าน และส่งอีเมลไม่สำเร็จ<br>".$mail->ErrorInfo));
+				echo json_encode(array("error","ส่งลิงค์สำหรับกำหนดรหัสผ่านใหม่ทางอีเมลไม่สำเร็จ<br>".$mail->ErrorInfo));
 				//echo "Mailer Error: " . $mail->ErrorInfo;
 			} else {
 				//change password in database
@@ -160,7 +160,7 @@ class Login extends MY_Controller
 				//table, set, where, limit
 				$this->db->update("tb_user",$set,$where,1);
 				
-				echo json_encode(array("sent","รีเซตรหัสผ่าน และส่งอีเมลสำเร็จ"));
+				echo json_encode(array("sent","ส่งลิงค์สำหรับกำหนดรหัสผ่านใหม่ทางอีเมลสำเร็จ"));
 				//echo "Message sent!";
 			}
 		}
@@ -224,11 +224,21 @@ class Login extends MY_Controller
 						$where=array(
 								"username"=>$username
 						);
+						$this->db->trans_begin();
 						//table, set, where, limit
 						$this->db->update("tb_user",$set,$where,1);
-						
-						$this->session->set_flashdata("login_message_from_reset","<span class='text-success'>รีเซตรหัสผ่านสำเร็จ กรุณาทดสอบเข้าสู่ระบบ</span>");
-						redirect(base_url()."?c=login&m=auth");
+						if($this->db->trans_status()===FALSE)
+						{
+							$this->db->trans_rollback();
+							$this->session->set_flashdata("login_message_from_reset","<span class='text-success'>รีเซตรหัสผ่านไม่สำเร็จ กรุณาลองใหม่อีกครั้ง</span>");
+							redirect(base_url()."?c=login&m=auth");
+						}
+						else
+						{
+							$this->db->trans_commit();
+							$this->session->set_flashdata("login_message_from_reset","<span class='text-success'>รีเซตรหัสผ่านสำเร็จ กรุณาทดสอบเข้าสู่ระบบ</span>");
+							redirect(base_url()."?c=login&m=auth");
+						}
 					}
 				}
 				else show_404();
