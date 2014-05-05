@@ -72,6 +72,7 @@ echo $js;
 	<script type="text/javascript">
 	<!--
 	$(function(){
+		
 		/**
 		* Highlight the <input> <select> 
 		* If span text length > 0 change input border color to red

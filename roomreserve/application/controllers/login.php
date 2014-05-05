@@ -113,58 +113,67 @@ class Login extends MY_Controller
 		$num_rows=$query->num_rows();
 		if($num_rows > 0)
 		{
-			$r=$query->result_array();
-			$h=md5($r[0]['username'].$r[0]['email'].$r[0]['regis_on'].$r[0]['password']);
-			
-			$new_pass=$this->generateRandomString(7);
-			
-			$email_sender="roomreserve17@gmail.com";
-			$this->load->library("MY_phpmailer");
-			$mail             = new PHPMailer();
-			//$body             = file_get_contents('contents.html');
-			//$body             = eregi_replace("[\]",'',$body);
-			
-			$body='<p><strong>เรียนคุณ '.$r[0]['firstname'].' '.$r[0]['lastname'].'</strong></p>';
-			//$body.='<p>ขณะนี้ระบบได้ทำการรีเซตรหัสผ่านของท่านเรียบร้อยแล้ว</p>';
-			//$body.='<p>โดยรหัสผ่านใหม่ คือ <h3>'.$new_pass.'</h3></p>';
-			$body.='<p></p>';
-			//$body.='<p>ท่านสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่นี้ ได้ที่ <a href="'.base_url().'?c=login&m=auth" target="_blank">คลิก</a></p>';
-			$body.='<p>ท่านสามารถกำหนดรหัสผ่านใหม่ได้<a href="'.base_url().'?c=login&m=reset_password&u='.$username.'&h='.$h.'">ที่นี่</a></p>';
-			$mail->IsSMTP(); // telling the class to use SMTP
-			//$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
-			// 1 = errors and messages
-			// 2 = messages only
-			$mail->CharSet="utf-8";
-			$mail->SMTPAuth   = true;                  // enable SMTP authentication
-			$mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-			$mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
-			$mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-			$mail->Username   = $email_sender;  // GMAIL username
-			$mail->Password   = "tuchapon17";            // GMAIL password
-			$mail->SetFrom($email_sender, 'no-reply - '.$email_sender);//ชื่อผู้ส่ง
-			$mail->AddReplyTo($email_sender,"no-reply - ".$email_sender);//เมลสำหรับตอบกลับ , ชื่อ แสดงเมื่อตอบกลับ
-			$mail->Subject    = "กำหนดรหัสผ่านใหม่- ระบบจัดการการจองห้อง";
-			$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
-			$mail->MsgHTML($body);
-			$address = $r[0]['email'];
-			$mail->AddAddress($address, $r[0]['firstname'].' '.$r[0]['lastname']);//เมล , ชื่อผู้รับ
-			//$mail->AddAttachment("images/phpmailer.gif");      // attachment
-			//$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
-			if(!$mail->Send()) {
-				echo json_encode(array("error","ส่งลิงค์สำหรับกำหนดรหัสผ่านใหม่ทางอีเมลไม่สำเร็จ<br>".$mail->ErrorInfo));
-				//echo "Mailer Error: " . $mail->ErrorInfo;
-			} else {
-				//change password in database
-				$set=array("reset_password"=>1);
-				$where=array("username"=>$username,"email"=>$email);
-				//table, set, where, limit
-				$this->db->update("tb_user",$set,$where,1);
+			$r = $query->result_array();
+			if($r[0]["reset_password"] == "0")
+			{
+				$h=md5($r[0]['username'].$r[0]['email'].$r[0]['regis_on'].$r[0]['password']);
+					
+				$new_pass=$this->generateRandomString(7);
+					
+				$email_sender="roomreserve17@gmail.com";
+				$this->load->library("MY_phpmailer");
+				$mail             = new PHPMailer();
+				//$body             = file_get_contents('contents.html');
+				//$body             = eregi_replace("[\]",'',$body);
+					
+				$body='<p><strong>เรียนคุณ '.$r[0]['firstname'].' '.$r[0]['lastname'].'</strong></p>';
+				//$body.='<p>ขณะนี้ระบบได้ทำการรีเซตรหัสผ่านของท่านเรียบร้อยแล้ว</p>';
+				//$body.='<p>โดยรหัสผ่านใหม่ คือ <h3>'.$new_pass.'</h3></p>';
+				$body.='<p></p>';
+				//$body.='<p>ท่านสามารถเข้าสู่ระบบด้วยรหัสผ่านใหม่นี้ ได้ที่ <a href="'.base_url().'?c=login&m=auth" target="_blank">คลิก</a></p>';
+				$body.='<p>ท่านสามารถกำหนดรหัสผ่านใหม่ได้<a href="'.base_url().'?c=login&m=reset_password&u='.$username.'&h='.$h.'">ที่นี่</a></p>';
+				$mail->IsSMTP(); // telling the class to use SMTP
+				//$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+				// 1 = errors and messages
+				// 2 = messages only
+				$mail->CharSet="utf-8";
+				$mail->SMTPAuth   = true;                  // enable SMTP authentication
+				$mail->SMTPSecure = "tls";                 // sets the prefix to the servier
+				$mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
+				$mail->Port       = 587;                   // set the SMTP port for the GMAIL server
+				$mail->Username   = $email_sender;  // GMAIL username
+				$mail->Password   = "tuchapon17";            // GMAIL password
+				$mail->SetFrom($email_sender, 'no-reply - '.$email_sender);//ชื่อผู้ส่ง
+				$mail->AddReplyTo($email_sender,"no-reply - ".$email_sender);//เมลสำหรับตอบกลับ , ชื่อ แสดงเมื่อตอบกลับ
+				$mail->Subject    = "กำหนดรหัสผ่านใหม่- ระบบจัดการการจองห้อง";
+				$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
+				$mail->MsgHTML($body);
+				$address = $r[0]['email'];
+				$mail->AddAddress($address, $r[0]['firstname'].' '.$r[0]['lastname']);//เมล , ชื่อผู้รับ
+				//$mail->AddAttachment("images/phpmailer.gif");      // attachment
+				//$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
+				if(!$mail->Send()) {
+					echo json_encode(array("error","ส่งลิงค์สำหรับกำหนดรหัสผ่านใหม่ทางอีเมลไม่สำเร็จ<br>".$mail->ErrorInfo));
+					//echo "Mailer Error: " . $mail->ErrorInfo;
+				}
+				else
+				{
+					//change password in database
+					$set=array("reset_password"=>1);
+					$where=array("username"=>$username,"email"=>$email);
+					//table, set, where, limit
+					$this->db->update("tb_user",$set,$where,1);
 				
-				echo json_encode(array("sent","ส่งลิงค์สำหรับกำหนดรหัสผ่านใหม่ทางอีเมลสำเร็จ"));
-				//echo "Message sent!";
+					echo json_encode(array("sent","ส่งลิงค์สำหรับกำหนดรหัสผ่านใหม่ทางอีเมลสำเร็จ"));
+					//echo "Message sent!";
+				}
+			}
+			else
+			{
+				echo json_encode(array("error","ผู้ใช้นี้อยู่ระหว่างการกำหนดรหัสผ่านใหม่"));
 			}
 		}
-		else echo json_encode(array("error","ไม่พบชื่อผู้เข้าใช้(Username) หรือ อีเมล ที่ระบุ"));
+		else echo json_encode(array("error","ไม่พบชื่อผู้เข้าใช้ หรืออีเมลที่ระบุ"));
 	}
 	
 	function reset_password()
@@ -230,7 +239,7 @@ class Login extends MY_Controller
 						if($this->db->trans_status()===FALSE)
 						{
 							$this->db->trans_rollback();
-							$this->session->set_flashdata("login_message_from_reset","<span class='text-success'>รีเซตรหัสผ่านไม่สำเร็จ กรุณาลองใหม่อีกครั้ง</span>");
+							$this->session->set_flashdata("login_message_from_reset","<span class='text-danger'>รีเซตรหัสผ่านไม่สำเร็จ กรุณาลองใหม่อีกครั้ง</span>");
 							redirect(base_url()."?c=login&m=auth");
 						}
 						else

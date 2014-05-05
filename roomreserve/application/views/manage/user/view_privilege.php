@@ -62,7 +62,7 @@ echo $js;
 	});
 	function set_per_page(num)
 	{
-		set_page_num_center(num, b_url, "?d=manage&c=<?=$controller?>&m=edit");
+		set_page_num_center(num, b_url, "?d=manage&c=<?=$controller?>&m=view_privilege");
 	}
 	function select_orderby()
 	{

@@ -181,9 +181,17 @@ class Page_element_lib
 				$html.='<li><a href="?d=manage&c=occupation&m=add">อาชีพ</a></li>';
 				$html.='<li class="divider"></li>';
 			}
-			if($this->fl->check_group_privilege(array("04"),true))
+			if($this->fl->check_group_privilege(array("01", "04"),true,"OR"))
 			{
-				$html.='<li><a href="?d=manage&c=reserve&m=edit">จัดการการจอง</a></li>';
+				//02 คือ จัดการข้อมูลทั่วไป = เจ้าหน้าที่
+				if($this->fl->check_group_privilege(array("02"),true))
+				{
+					$html.='<li><a href="?d=manage&c=reserve&m=edit">จัดการการจอง</a></li>';
+				}
+				else 
+				{
+					$html.='<li><a href="?d=manage&c=reserve&m=edit2">จัดการการจอง</a></li>';
+				}
 			}
 			if($this->fl->check_group_privilege(array("06"),true))
 				$html.='<li><a href="?d=manage&c=user&m=edit">ผู้ใช้งาน</a></li>';
@@ -239,7 +247,7 @@ class Page_element_lib
 				$html.='<li><a href="?d=privilege&c=assign&m=add"><i class="fa fa-exchange"></i> โอนสิทธิ์</a></li>';
 			}
 			$html.='
-				          	<li><a id="logout_menu" class="pointer"><i class="fa fa-sign-out"></i> ออกจากระบบ</a></li>
+				          	<li><a href="'.base_url().'?c=login&m=logout" id="logout_menu" class="pointer"><i class="fa fa-sign-out"></i> ออกจากระบบ</a></li>
 				        </ul>
 			      	</li>';
 		}
@@ -259,11 +267,15 @@ class Page_element_lib
 	    <!-- Placed at the end of the document so the pages load faster -->
 	    <script src="'.base_url().'plugins/bootstrap3.0/assets/js/jquery.js"></script>
 	    <script src="'.base_url().'plugins/bootstrap3.0/dist/js/bootstrap.min.js"></script>
-	    <script src="'.base_url().'js/bootbox4.0.0.min.js"></script>
+	    <script src="'.base_url().'js/bootbox4.0.0.js"></script>
 	    <script src="'.base_url().'js/public_script.js"></script>
     	<script src="'.base_url().'js/function.js"></script>
     	<script>
-    	 var b_url="'.base_url().'";
+    	 	var b_url="'.base_url().'";
+    		$(function(){
+    	 		//this function saved in function.js
+				bootbox_default();
+			});
     	</script>
 		';
 		return $html;

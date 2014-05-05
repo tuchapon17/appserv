@@ -459,7 +459,7 @@ echo $js;
 	    $("#exitpopover").click(function(){
 	    	$("span#input_username_hint").popover('hide');
 		 });
-		 
+		
 		/**
 		Show bootbox alert(confirm) after passed form validation
 		*/

@@ -592,6 +592,11 @@ window.bootbox = window.bootbox || (function init($, undefined) {
       OK      : "OK",
       CANCEL  : "取消",
       CONFIRM : "確認"
+    },
+	th : {
+      OK      : "ตกลง",
+      CANCEL  : "ยกเลิก",
+      CONFIRM : "ตกลง"
     }
   };
 

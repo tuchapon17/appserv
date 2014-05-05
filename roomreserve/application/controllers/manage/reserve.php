@@ -1023,7 +1023,7 @@ class Reserve extends MY_Controller
 	}
 	function edit()
 	{
-		$this->fl->check_group_privilege(array("01"));
+		$this->fl->check_group_privilege(array("02"));
 		$config=array(
 				array(
 						"field"=>"input_reserve_name",
@@ -1224,9 +1224,9 @@ class Reserve extends MY_Controller
 	
 		}
 	}
-function edit4()
+	function edit4()
 	{
-		$this->fl->check_group_privilege(array("04"));
+		$this->fl->check_group_privilege(array("01"));
 		$config=array(
 				array(
 						"field"=>"aa",
@@ -1471,7 +1471,7 @@ function edit4()
 					<td>'.$dt["reserve_id"].'</td>
 					<td id="reserve'.$dt["reserve_id"].'">'.$dt["project_name"].'</td>
 					<td>'.$dt["room_name"].'</td>
-					<td>'.$dt["discount"].'</td>
+					<td>'.$dt["discount"].nbs(4).'<button class="btn btn-primary btn-xs" type="button" onclick=send_discount("'.$dt["reserve_id"].'");><i class="fa fa-edit fa-1x"></i>&nbsp;ส่วนลด</button></td>
 							<td>'.$approve_text[$dt['approve']].'</td>
 					<td class="text-center">'.$this->eml->btn('approve','onclick=approve_alert("'.$dt['reserve_id'].'","'.base_url().'");').'</td>
 					<td class="same_first_td">'.$this->eml->btn('view','onclick=window.open("'.base_url().'?d=manage&c=reserve&m=view&id='.$dt["reserve_id"].'","_blank")').'</td>
@@ -2457,30 +2457,30 @@ function edit4()
 			
 		}
 	}
+	
+	function discount_approve()
+	{
+		$this->fl->check_group_privilege(array("01"));
+		$discount = $this->input->post("discount");
+		$reserve_id = $this->input->post("rid");
+		$this->db->trans_begin();
+		//query
+		//table set where limit
+		$set = array("discount" => $discount);
+		$where = array("reserve_id" => $reserve_id);
+		$this->db->update("tb_reserve",$set,$where,1);
+		if($this->db->trans_status()===FALSE)
+		{
+			$this->db->trans_rollback();
+			echo "<p class='text-danger'>กำหนดส่วนลดไม่สำเร็จ</p>";
+		}
+		else 
+		{
+			$this->db->trans_commit();
+			echo "<p class='text-success'>กำหนดส่วนลดสำเร็จ</p>";
+		}
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

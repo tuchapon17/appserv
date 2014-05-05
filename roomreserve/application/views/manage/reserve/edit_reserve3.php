@@ -85,10 +85,15 @@ echo $js;
 		}?>
 		active_tab();
 		reserve_tab();
+
+		$(document.body).on('keydown keyup', '#discount' ,function(){
+			var name = $(this).val();
+			$(this).val(name.replace(/[^0-9\.]/gi,''));
+		});
 	});
 	function set_per_page(num)
 	{
-		set_page_num_center(num, b_url, "?d=manage&c=<?=$controller?>&m=edit");
+		set_page_num_center(num, b_url, "?d=manage&c=<?=$controller?>&m=edit3");
 	}
 	function show_del_list()
 	{
@@ -211,6 +216,50 @@ echo $js;
 					className: "btn-success",
 					callback: function() {
 						$("#form_approve").submit();
+					}
+				},
+				danger: {
+					label: "ยกเลิก",
+					className: "btn-danger",
+					callback: function() {
+					
+					}
+				}
+			}
+		});
+	}
+	function send_discount(reserve_id)
+	{
+		var rid = reserve_id;
+		var html = '';
+		html += '<div class="form-group">';
+		html += '<label>รหัสการจอง</label>';
+		html += '<p>'+rid+'</p>';
+		html += '<div>';
+		html += '<div class="form-group">';
+		html += '<label for="discount">จำนวนส่วนลด(%)</label>';
+		html += '<input type="text" name="discount" id="discount" class="form-control" maxlength="5" placeholder="0.00 - 100.00">';
+		html += '<div>';
+		bootbox.dialog({
+			message: html,
+			title: "อนุมัติส่วนลด",
+			buttons: {
+				success: {
+					label: "ตกลง",
+					className: "btn-success",
+					callback: function() {
+						$.ajax({
+							url:"?d=manage&c=reserve&m=discount_approve",
+							data:{rid:rid, discount:$("#discount").val() },
+							type:"POST",
+							dataType:"text",
+							success:function(resp){
+								bootbox.alert(resp);
+							},
+							error:function(error){
+								alert("Error : "+error);
+							}
+						});
 					}
 				},
 				danger: {
