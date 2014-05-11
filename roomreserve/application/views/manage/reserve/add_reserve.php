@@ -142,12 +142,9 @@ echo $head;
 							<textarea name="other_article" class="form-control "></textarea>
 						</span>
 						</div>
-						
-						
 					</div>
 				</div>
 				
-				 
 				 <div class="panel panel-success">
 					<div class="panel-heading">
 						<h3 class="panel-title"><strong>ข้อมูลโครงการ</strong></h3>
@@ -158,7 +155,7 @@ echo $head;
 						?>
 					</div>
 				</div>
-				<!-- 
+				<!--
 	      			<fieldset class="scheduler-border">
 						<legend class="scheduler-border"></legend>
 						<?php 
@@ -166,7 +163,7 @@ echo $head;
 						//echo "<span id='".$em_name["in_article"]."_error' class='hidden'>".form_error($em_name["in_article"])."</span>";
 						?>	
 					</fieldset>
-				 -->	
+				 -->
 				
 				<div class="panel panel-success">
 					<div class="panel-heading">
@@ -629,7 +626,7 @@ echo $js;
 		$(document.body).on('focus', 'input[name="article_num[]"]' ,function(){
 			$("input[name='article_num[]']").numeric({ decimal: false, negative: false });
 		});
-
+		$("#reserve_time1,#reserve_time2").prop("checked","false");
 		$(document.body).on('change', 'input[name="article_num[]"]' ,function(){
 			//ลบ error เดิมออก
 			if($(this).next('label.articlenum-error').length>0) $(this).next("label.articlenum-error").remove();
@@ -985,7 +982,7 @@ echo $js;
 			{
 				$("#reserve_time1").click();
 				$("#div_time2").hide();
-			} 
+			}
 			if($(this).find("option:selected").val()!=""){
 				$.ajax({
 					url:"?d=manage&c=reserve&m=select_person_list",
@@ -1271,6 +1268,7 @@ echo $js;
 			{
 				$("#span-time-radio1").show();
 				$("#span-time2,#span-time-radio2").hide();
+				$("#reserve_time1-1,#reserve_time1-2").prop("checked",false);
 			}
 			else $("#span-time-radio1,#span-time1-1,#span-time1-2").hide();
 		});
@@ -1313,6 +1311,7 @@ echo $js;
 			{
 				$("#span-time-radio2,#span-day-time2,#span-time2").show();
 				$("#span-time1,#span-time-radio1,#span-time1-1,#span-time1-2").hide();
+				$("#reserve_time2-1,#reserve_time2-2").prop("checked",false);
 			}
 			else $("#span-time-radio1,#span-time2-1,#span-time2-2").hide();
 			
@@ -1337,7 +1336,6 @@ echo $js;
 			{
 				$("#span-time2-1").show();
 				$("#span-time2-2").hide();
-				
 				//show popover for calendar button
 				$(".datetimepickerBegin-Date2-1 span.input-group-addon").popover({
 					content:"คลิกที่นี่เพื่อเลือกวันการจอง",

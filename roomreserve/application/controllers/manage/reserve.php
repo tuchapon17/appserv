@@ -1406,7 +1406,7 @@ class Reserve extends MY_Controller
 					<td>'.$dt["discount"].'</td>
 							<td>'.date('Y/m/d H:i:s',strtotime($dt["reserve_on"])).'</td>
 					<td>'.$approve_text[$dt['approve']].'</td>
-					<td>'.$dt["tb_user_username"]." (".$dt['approve_on'].')</td>
+					<td>'.$dt["approve_by"]." (".$dt['approve_on'].')</td>
 					<td class="text-center">'.$this->eml->btn('approve','onclick=approve_alert("'.$dt['reserve_id'].'","'.base_url().'");').'</td>
 					<td class="same_first_td">'.$this->eml->btn('view','onclick=window.open("'.base_url().'?d=manage&c=reserve&m=view&id='.$dt["reserve_id"].'","_blank")').'</td>
 					<td><input type="checkbox" value="'.$dt["reserve_id"].'" name="del_reserve[]" class="del_reserve"></td>

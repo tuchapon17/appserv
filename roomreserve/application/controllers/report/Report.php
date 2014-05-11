@@ -312,7 +312,10 @@ class Report extends MY_Controller {
 				$room_name[$key]["count_use"]=$count_use;
 			}//foreach room_name
 			//print_r($room_name);
-			$this->room_stat_output($room_name, $text["select_time_length"], $text["on_time_text"]);
+			$this->room_stat_graph($room_name,$text);
+			
+			//สถิติแบบตาราง
+			//$this->room_stat_output($room_name, $text["select_time_length"], $text["on_time_text"]);
 		}
 		
 		/*
@@ -979,6 +982,41 @@ EOT;
 		echo json_encode(array("room_list"=>$data));
 		else: echo "";
 		endif;
+	}
+	
+	public function room_stat_graph($report, $text)
+	{
+		$stat = array(
+			"room_name"=>array(),
+			"count_reserve"=>array()
+		);
+		foreach($report as $r)
+		{
+			array_push($stat["room_name"], $r["room_name"]);
+			array_push($stat["count_reserve"], $r["count_reserve"]);
+		}
+		
+		if(unlink("./upload/test.png"))
+		{
+			echo "unlinked";
+		}
+		else echo "can't unlink";
+		$this->load->library("jpgraph");
+		$xdata = $stat["room_name"];
+		$ydata = $stat["count_reserve"];
+		
+		//$graph = $this->jpgraph->linechart($ydata, "this is a line chart");
+		$graph = $this->jpgraph->barchart($xdata,$ydata,$text["select_time_length"],$text["on_time_text"]);
+		$graph_temp_directory = "upload";
+		$graph_file_name = "test.png";
+		
+		$graph_file_location = $graph_temp_directory."/".$graph_file_name;
+		
+		$graph->Stroke("./".$graph_file_location);
+		
+		$data["graph"] = $graph_file_location;
+		
+		$this->load->view("test_graph",$data);
 	}
 	
 }

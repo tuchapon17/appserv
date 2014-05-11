@@ -49,7 +49,7 @@ class Reserve_model extends MY_Model
 			->join("tb_reserve_has_person","tb_reserve_has_person.tb_reserve_id=tb_reserve.reserve_id")
 			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
 			->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
-			->where("approve",0)->where("approve",3)
+			->where("approve",0)->or_where("approve",3)
 			->like($searchfield,$liketext,"both")
 			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
 			->limit($perpage,$getpage)
@@ -62,7 +62,7 @@ class Reserve_model extends MY_Model
 			->join("tb_reserve_has_person","tb_reserve_has_person.tb_reserve_id=tb_reserve.reserve_id")
 			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
 			->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
-			//->where("approve",0)->where("approve",3)
+			->where("approve",0)->or_where("approve",3)
 			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
 			->limit($perpage,$getpage)
 			->get();

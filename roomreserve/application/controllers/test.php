@@ -214,6 +214,29 @@ class Test extends MY_Controller {
 		);
 		$this->load->view("viewtestmail",$data);
 	}
+	function g()
+	{
+		if(unlink("./upload/test.png"))
+		{
+			echo "unlinked";
+		}
+		else echo "can't unlink";
+		$this->load->library("jpgraph");
+		
+		$ydata = array(11,3,88,12,5,1,9,13,5,7);
+		//$graph = $this->jpgraph->linechart($ydata, "this is a line chart");
+		$graph = $this->jpgraph->barchart();
+		$graph_temp_directory = "upload";
+		$graph_file_name = "test.png";
+		
+		$graph_file_location = $graph_temp_directory."/".$graph_file_name;
+		
+		$graph->Stroke("./".$graph_file_location);
+		
+		$data["graph"] = $graph_file_location;
+		
+		$this->load->view("test_graph",$data);
+	}
 }
 
 /* End of file welcome.php */
