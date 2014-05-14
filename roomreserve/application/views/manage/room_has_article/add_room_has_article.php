@@ -28,12 +28,14 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php
 	      		 	$em_name=array(
+							"select_article_type"=>"select_article_type",
 	      		 			"select_article"=>"select_article",
 							"select_room"=>"select_room",
 							"select_fee_type"=>"select_fee_type",
 							"input_article_num"=>"input_article_num",
 							"input_lump_sum_base_unit"=>"input_lump_sum_base_unit"
 	      		 	);
+					echo form_error($em_name["select_article_type"]);
       		 		echo form_error($em_name["select_article"]);
       		 		echo form_error($em_name["select_room"]);
       		 		echo form_error($em_name["select_fee_type"]);
@@ -48,6 +50,8 @@ echo $head;
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=<?=$controller?>&m=add" method="post" autocomplete="off">
 								<?php 
+								echo $se_article_type;
+								echo "<span id='".$em_name["select_article_type"]."_error' class='hidden'>".form_error($em_name["select_article_type"])."</span>";
 								echo $se_article;
 								echo "<span id='".$em_name["select_article"]."_error' class='hidden'>".form_error($em_name["select_article"])."</span>";
 								echo $se_room;
@@ -104,9 +108,6 @@ echo $js;
 		active_tab();
 		room_has_article_tab();
 
-		/**
-		Get room list
-		*/
 		$("#select_article").on("keyup change",function(){
 			if($(this).find("option:selected").val()!=""){
 				$.ajax({
@@ -117,6 +118,28 @@ echo $js;
 					success:function(resp){
 						$("#select_room").find("option:gt(0)").remove();
 						if(resp.room_list!=null)$("#select_room").append(resp.room_list);
+					},
+					error:function(error){
+						alert("Error : "+error);
+					}
+				});
+			}
+			else
+			{
+				$("#select_room").find("option:gt(0)").remove();
+			}
+		});
+
+		$("#select_article_type").on("keyup change",function(){
+			if($(this).find("option:selected").val()!=""){
+				$.ajax({
+					url:"?d=manage&c=<?=$controller?>&m=select_article_list",
+					data:{article_type_id:$(this).find("option:selected").val()},
+					type:"POST",
+					dataType:"json",
+					success:function(resp){
+						$("#select_article").find("option:gt(0)").remove();
+						if(resp.article_list!=null)$("#select_article").append(resp.article_list);
 					},
 					error:function(error){
 						alert("Error : "+error);

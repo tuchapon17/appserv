@@ -20,91 +20,101 @@ echo $head;
     <div class="container">
       <div class="row">
       	<div class="col-lg-12">
-      		<h2>รายงาน</h2>
-      		<div class="panel panel-default">
-      			<div class="panel-heading">
-      			เลือกประเภทรายงาน
-      			</div>
-      			<div class="panel-body">
-	      			<form role="form" id="form_report_type" action="<?php echo base_url();?>?d=report&c=report&m=report_type_process" method="post" autocomplete="off">
-		      			<div class="form-group">
-		      				<label for="se_report_type" >ประเภทรายงาน</label>
-		      				<select class="form-control" name="se_report_type" id="se_report_type">
-		      					<option value="">เลือก</option>
-		      					<option value="report_reserve">รายงานการจอง</option>
-		      					<option value="report_room_use">รายงานการใช้ห้อง</option>
-		      					<option value="report_room_stat">รายงานสถิติการใช้ห้อง</option>
-		      				</select>
-		      			</div>
-		      			<?php 
-		      			echo $se_room_type;
-		      			echo $se_room;
-		      			?>
-		      			<div class="form-group">
-		      				<label for="">ระยะเวลา</label>
-	      					<select class="form-control" name="se_time_length" id="se_time_length">
-	      						<option value="">เลือก</option>
-	      						<option value="tl_month">รายเดือน</option>
-	      						<option value="tl_quarter">รายไตรมาส</option>
-	      						<option value="tl_term">รายเทอม</option>
-	      						<option value="tl_year">รายปี</option>
-	      						<option value="tl_custom">กำหนดเอง</option>
-	      					</select>
-		      			</div>
-		      			<div class="form-group" id="c_month">
-		      				<label for="">เลือกเดือน</label>
-	      					<select class="form-control" name="se_month" id="se_month">
-	      						<option value="01">01</option>
-	      						<option value="02">02</option>
-	      						<option value="03">03</option>
-	      						<option value="04">04</option>
-	      						<option value="05">05</option>
-	      					</select>
-		      			</div>
-		      			
-		      			<div class="form-group" id="c_quarter">
-		      				<label for="">เลือกไตรมาส</label>
-	      					<select class="form-control" name="se_quarter" id="se_quarter">
-	      						<option value="quarter1">ไตรมาส1 (ธ.ค.-ก.พ.)</option>
-	      						<option value="quarter2">ไตรมาส2 (มี.ค.-พ.ค.)</option>
-	      						<option value="quarter3">ไตรมาส3 (มิ.ย.-ส.ค.)</option>
-	      						<option value="quarter4">ไตรมาส4 (ก.ย.-พ.ย.)</option>
-	      					</select>
-		      			</div>
-		      			<div class="form-group" id="c_term">
-		      				<label for="">เลือกเทอม</label>
-	      					<select class="form-control" name="se_term" id="se_term">
-	      						<option value="term1">เทอม1</option>
-	      						<option value="term2">เทอม2</option>
-	      						<option value="term3">เทอม3</option>
-	      					</select>
-		      			</div>
-		      			<div class="form-group" id="c_year">
-		      				<label for="">เลือกปี</label>
-	      					<select class="form-control" name="se_year" id="se_year">
-	      						<option value="2013">2013</option>
-	      						<option value="2014">2014</option>
-	      						<option value="2014">2015</option>
-	      					</select>
-		      			</div>
-		      			<div class="form-group" id="c_custom_begin">
-		      				<label for="c_begin">เวลาเริ่มต้น</label>
-	      					<div class='input-group date c_begin'>
-			                    <input type='text' class="form-control" name="input_c_begin" id="input_c_begin" readonly />
-			                    <span class="input-group-addon"><span class=""></span>
-			                </div>
-		      			</div>
-		      			<div class="form-group" id="c_custom_end">
-		      				<label for="c_begin">เวลาสิ้นสุด</label>
-	      					<div class='input-group date c_end'>
-			                    <input type='text' id="input_c_end" class="form-control" name="input_c_end" readonly/>
-			                    <span class="input-group-addon"><span class=""></span>
-			                </div>
-		      			</div>
-		      				<div class="text-right"><?php echo $eml->btn('submit','');?></div>
-	      			</form>
+      		<div class="row">
+      			<div class="col-lg-8 col-lg-offset-2">
+      				<h2>รายงาน</h2>
+			      		<div class="panel panel-default">
+			      			<div class="panel-heading">
+			      			เลือกประเภทรายงาน
+			      			</div>
+			      			<div class="panel-body">
+				      			<form role="form" id="form_report_type" action="<?php echo base_url();?>?d=report&c=report&m=report_type_process" method="post" autocomplete="off">
+					      			<div class="form-group">
+					      				<label for="se_report_type" >ประเภทรายงาน</label>
+					      				<select class="form-control" name="se_report_type" id="se_report_type">
+					      					<option value="">เลือก</option>
+					      					<option value="report_reserve">รายงานการจอง</option>
+					      					<option value="report_room_use">รายงานการใช้ห้อง</option>
+					      					<option value="report_room_stat">รายงานสถิติการใช้ห้อง</option>
+					      				</select>
+					      			</div>
+					      			<?php 
+					      			echo $se_room_type;
+					      			echo $se_room;
+					      			?>
+					      			<div class="form-group">
+					      				<label for="">ระยะเวลา</label>
+				      					<select class="form-control" name="se_time_length" id="se_time_length">
+				      						<option value="">เลือก</option>
+				      						<option value="tl_month">รายเดือน</option>
+				      						<option value="tl_quarter">รายไตรมาส</option>
+				      						<option value="tl_term">รายเทอม</option>
+				      						<option value="tl_year">รายปี</option>
+				      						<option value="tl_custom">กำหนดเอง</option>
+				      					</select>
+					      			</div>
+					      			<div class="form-group" id="c_month">
+					      				<label for="">เลือกเดือน</label>
+				      					<select class="form-control" name="se_month" id="se_month">
+				      					<?php 
+				      					$html='';
+				      					for($i=1;$i<=12;$i++)
+				      					{
+					      					$month_th=array("ม.ค.","ก.พ.","มี.ค.","เม.ษ.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
+			      							$month_th_full=array("มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม");
+											$text=str_pad($i,2,0,STR_PAD_LEFT);
+			      							$selected=($text==str_pad($month,2,0,STR_PAD_LEFT)) ? 'selected="selected"' : '';
+	      									$html.='<option value="'.$text.'" '.$selected.'>'.$month_th_full[$i-1].'</option>';
+										}
+										echo $html;
+				      					?>
+				      					</select>
+					      			</div>
+					      			
+					      			<div class="form-group" id="c_quarter">
+					      				<label for="">เลือกไตรมาส</label>
+				      					<select class="form-control" name="se_quarter" id="se_quarter">
+				      						<option value="quarter1">ไตรมาส1 (ธ.ค.-ก.พ.)</option>
+				      						<option value="quarter2">ไตรมาส2 (มี.ค.-พ.ค.)</option>
+				      						<option value="quarter3">ไตรมาส3 (มิ.ย.-ส.ค.)</option>
+				      						<option value="quarter4">ไตรมาส4 (ก.ย.-พ.ย.)</option>
+				      					</select>
+					      			</div>
+					      			<div class="form-group" id="c_term">
+					      				<label for="">เลือกเทอม</label>
+				      					<select class="form-control" name="se_term" id="se_term">
+				      						<option value="term1">เทอม1</option>
+				      						<option value="term2">เทอม2</option>
+				      						<option value="term3">เทอม3</option>
+				      					</select>
+					      			</div>
+					      			<div class="form-group" id="c_year">
+					      				<label for="">เลือกปี</label>
+				      					<select class="form-control" name="se_year" id="se_year">
+				      						<?php echo $option_year;?>
+				      					</select>
+					      			</div>
+					      			<div class="form-group" id="c_custom_begin">
+					      				<label for="c_begin">เวลาเริ่มต้น</label>
+				      					<div class='input-group date c_begin'>
+						                    <input type='text' class="form-control" name="input_c_begin" id="input_c_begin" readonly />
+						                    <span class="input-group-addon"><span class=""></span>
+						                </div>
+					      			</div>
+					      			<div class="form-group" id="c_custom_end">
+					      				<label for="c_begin">เวลาสิ้นสุด</label>
+				      					<div class='input-group date c_end'>
+						                    <input type='text' id="input_c_end" class="form-control" name="input_c_end" readonly/>
+						                    <span class="input-group-addon"><span class=""></span>
+						                </div>
+					      			</div>
+					      				<div class="text-right"><?php echo $eml->btn('submit','');?></div>
+				      			</form>
+			      			</div>
+			      		</div><!-- panel -->
       			</div>
       		</div>
+      		
       	
       		 
       	</div>

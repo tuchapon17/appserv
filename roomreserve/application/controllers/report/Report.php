@@ -36,6 +36,26 @@ class Report extends MY_Controller {
 				"S_name_field"=>"",
 				"help_text"=>''
 		);
+		//option year
+		$option_year='';
+		$year=(date('Y')+543);
+		$query_year_reserve_on = $this->db->select("YEAR(reserve_on) AS year_reserve_on")
+		->from("tb_reserve")
+		->group_by("YEAR(reserve_on)")
+		->get();
+		$year_reserve_on = $query_year_reserve_on->result_array();
+		if($query_year_reserve_on->num_rows() > 0)
+		{
+			foreach ($year_reserve_on[0] as $y)
+			{
+				if(($y+543) == $year)
+					$option_year .= '<option value="'.$year.'" selected="selected">'.$year.'</option>';
+				else $option_year .= '<option value="'.($y+543).'">'.($y+543).'</option>';
+			}
+		}
+		else $option_year.='<option value="'.$year.'" selected="selected">'.$year.'</option>';
+		//end option year
+		
 		$data=array(
 				"htmlopen"=>$this->pel->htmlopen(),
 				"head"=>$this->pel->head("รายงาน"),
@@ -46,7 +66,8 @@ class Report extends MY_Controller {
 				"bodyclose"=>$this->pel->bodyclose(),
 				"htmlclose"=>$this->pel->htmlclose(),
 				"se_room_type"=>$this->eml->form_select($se_room_type),
-				"se_room"=>$this->eml->form_select($se_room)
+				"se_room"=>$this->eml->form_select($se_room),
+				"option_year"=>$option_year
 		);
 		$this->load->view("report/report_type",$data);
 	}
@@ -238,7 +259,9 @@ class Report extends MY_Controller {
 			$room_id=$this->input->post("select_room");
 			$room_type_id=$this->input->post("select_room_type");
 			$text='';
-			$this->db->select("room_name,room_id")->from("tb_room");
+			$this->db->select("room_name,room_id")->from("tb_room")
+			->join("tb_room_type","tb_room_type.room_type_id=tb_room.tb_room_type_id");
+			$this->where_room_type_id($room_type_id);
 			$this->where_room_id($room_id);
 			$room_name=$this->db->get()->result_array();
 			foreach ($room_name as $key=>$val)
@@ -312,10 +335,10 @@ class Report extends MY_Controller {
 				$room_name[$key]["count_use"]=$count_use;
 			}//foreach room_name
 			//print_r($room_name);
-			$this->room_stat_graph($room_name,$text);
+			$graph_file_name = $this->room_stat_graph($room_name,$text);
 			
 			//สถิติแบบตาราง
-			//$this->room_stat_output($room_name, $text["select_time_length"], $text["on_time_text"]);
+			$this->room_stat_output($room_name, $text["select_time_length"], $text["on_time_text"],$graph_file_name);
 		}
 		
 		/*
@@ -630,8 +653,10 @@ EOT;
 		//ob_clean();
 		$pdf->Output('My-File-Name.pdf', 'I');
 	}
-	function room_stat_output($report, $select_time_length, $on_time_text)
+	function room_stat_output($report, $select_time_length, $on_time_text, $graph_file_name='')
 	{
+		//redirect(base_url()."upload/".$graph_file_name);
+		ini_set('memory_limit', '96M');
 		//http://www.tcpdf.org/examples/example_048.phps
 		//http://www.tcpdf.org/examples/example_048.pdf
 		//www.php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc
@@ -639,13 +664,13 @@ EOT;
 		if (ob_get_contents()) ob_end_clean();
 		$this->load->library("pdf");
 		$pdf=$this->pdf;
-		
+		$pdf->setFontSubsetting(false);
 		/*
 		 * public function __construct($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8', $diskcache=false, $pdfa=false) {
 		*/
 		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
 		//$fontname = $pdf->addTTFfont($_SERVER['DOCUMENT_ROOT'].'/roomreserve/plugins/fonts/THSarabunNewI.ttf', 'TrueTypeUnicode', '', 32);
-		$pdf->SetTitle('My Title');
+		$pdf->SetTitle('รายงานสถิติการใช้ห้อง');
 		$pdf->SetHeaderMargin(0);
 		$pdf->SetFooterMargin(0);
 		$margin=array(
@@ -658,15 +683,34 @@ EOT;
 		//$pdf->SetAutoPageBreak(TRUE, 23.5);
 		$pdf->SetAuthor('Author');
 		$pdf->SetDisplayMode('real', 'default');
-		$pdf->setFontSubsetting(false);
-		$pdf->SetFont('thsarabunnewb', '', 18);
+		$pdf->setFontSubsetting(true);
+		$pdf->SetFont('thsarabunnewb', '', 16);
+		
+		// set image scale factor
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 		
 		$pdf->AddPage();
+		$img_src = "upload/".$graph_file_name;
+		$real_path = realpath($img_src);
+		if (file_exists($real_path))
+		{
+			// set JPEG quality
+			$pdf->setJPEGQuality(100);
+			// Image example
+			$pdf->Image($real_path , 25, 40, 160, 128, '', '', '', true, 150);
+		}
+		
+		//$pdf->Image($img_src, 30, 50, 150, 130, 'JPG', '', '', true, 150, '', false, false, 1, false, false, false);
+		
 		$pdf->Cell(0, 15, 'รายงานสถิติการใช้ห้อง'.$select_time_length, 0, false, 'C', 0, '', 0, false, 'M', 'M');
 		$pdf->Ln(7.5);
 		$pdf->Cell(0, 15, $on_time_text, 0, false, 'C', 0, '', 0, false, 'M', 'M');
 		$pdf->SetFont('thsarabunnew', '', 16);
 		$width=array(6,18.8,18.8,18.8,18.8,18.8);
+		
+		//$pdf->Image(base_url().'upload/'.$graph_file_name, '', '', 40, 40, '', '', 'T', false, 300, '', false, false, 1, false, false, false);
+		
+/*
 		//table
 		$tbl=<<<EOT
 		<style>
@@ -732,8 +776,12 @@ EOT;
 		$tbl.=<<<EOT
 			</table>
 EOT;
-		$pdf->writeHTML($tbl, false, false, false, false, '');
-		$pdf->Output('My-File-Name.pdf', 'I');
+*/
+		//$pdf->writeHTML($tbl, false, false, false, false, '');
+		//return $pdf->Output('My-File-Name.pdf', 'I');
+		$pdf->Output('upload/report_stat.pdf', 'F'); //to file
+		//redirect(base_url()."upload/report_stat.pdf");
+		echo anchor(base_url()."upload/report_stat.pdf", '', array('target' => '_blank', 'class' => 'new_window'));
 	}
 	
 	function getTime($datetime)
@@ -986,6 +1034,12 @@ EOT;
 	
 	public function room_stat_graph($report, $text)
 	{
+		$graph_temp_directory = "upload";
+		$graph_file_name = "report_stat_graph";
+		$graph_file_ext = ".jpg";
+		$graph_full_name = $graph_file_name.$graph_file_ext;
+		$graph_file_location = $graph_temp_directory."/".$graph_full_name;
+		
 		$stat = array(
 			"room_name"=>array(),
 			"count_reserve"=>array()
@@ -996,27 +1050,22 @@ EOT;
 			array_push($stat["count_reserve"], $r["count_reserve"]);
 		}
 		
-		if(unlink("./upload/test.png"))
+		if(@unlink($graph_file_location))
 		{
-			echo "unlinked";
+
 		}
-		else echo "can't unlink";
 		$this->load->library("jpgraph");
 		$xdata = $stat["room_name"];
 		$ydata = $stat["count_reserve"];
 		
 		//$graph = $this->jpgraph->linechart($ydata, "this is a line chart");
 		$graph = $this->jpgraph->barchart($xdata,$ydata,$text["select_time_length"],$text["on_time_text"]);
-		$graph_temp_directory = "upload";
-		$graph_file_name = "test.png";
-		
-		$graph_file_location = $graph_temp_directory."/".$graph_file_name;
-		
-		$graph->Stroke("./".$graph_file_location);
-		
-		$data["graph"] = $graph_file_location;
-		
-		$this->load->view("test_graph",$data);
+		$graph->Stroke($graph_file_location);
+		copy("upload/".$graph_full_name, "upload/".$graph_file_name."_1".$graph_file_ext);
+		//$data["graph"] = $graph_file_location;
+		chmod("upload/".$graph_file_name."_1".$graph_file_ext, 0777);
+		//$this->load->view("test_graph",$data);
+		return $graph_file_name."_1".$graph_file_ext;
 	}
 	
 }

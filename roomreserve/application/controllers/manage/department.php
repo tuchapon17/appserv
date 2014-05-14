@@ -15,8 +15,8 @@ class Department extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>"input_department_name",
-						"label"=>"สาขาวิชา/งาน",
+						"field"=>$this->lang->line("in_department"),
+						"label"=>$this->lang->line("t_in_department"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -24,22 +24,21 @@ class Department extends MY_Controller
 		$this->frm->set_message("rule","message");
 		if($this->frm->run() == false)
 		{
-			$in_department_name_name="input_department_name";
-			$in_department_name=array(
-					"LB_text"=>"สาขาวิชา/งาน",
+			$in_department=array(
+					"LB_text"=>$this->lang->line("t_in_department"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_department_name_name,
-					"IN_id"=>$in_department_name_name,
+					"IN_name"=>$this->lang->line("in_department"),
+					"IN_id"=>$this->lang->line("in_department"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_department_name_name),
+					"IN_value"=>set_value($this->lang->line("in_department")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("เพิ่มสาขาวิชา/งาน"),
+					"head"=>$this->pel->head($this->lang->line("ti_add_department")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -47,7 +46,7 @@ class Department extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"department_tab"=>$this->department_tab(),
-					"in_department_name"=>$this->eml->form_input($in_department_name)
+					"in_department"=>$this->eml->form_input($in_department)
 			);
 		
 			$this->load->view("manage/department/add_department",$data);
@@ -56,19 +55,27 @@ class Department extends MY_Controller
 		{
 			$data=array(
 					"department_id"=>$this->dpm_model->get_maxid(2, "department_id", "tb_department"),
-					"department_name"=>$this->input->post("input_department_name"),
+					"department_name"=>$this->input->post($this->lang->line("in_department")),
 					"checked"=>"1"
 			);
 			$redirect_link="?d=manage&c=department&m=add";
-			$this->dpm_model->manage_add($data,"tb_department",$redirect_link,$redirect_link,"department","เพิ่มสาขาวิชา/งานสำเร็จ","เพิ่มสาขาวิชา/งานไม่สำเร็จ");
+			$this->dpm_model->manage_add(
+					$data,
+					"tb_department",
+					$redirect_link,
+					$redirect_link,
+					"department",
+					"เพิ่ม".$this->lang->line("text_department")."สำเร็จ",
+					"เพิ่ม".$this->lang->line("text_department")."ไม่สำเร็จ"
+					);
 		}
 	}
 	function edit()
 	{
 		$config=array(
 				array(
-						"field"=>"input_department_name",
-						"label"=>"สาขาวิชา/งาน",
+						"field"=>$this->lang->line("in_department"),
+						"label"=>$this->lang->line("t_in_department"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -108,22 +115,21 @@ class Department extends MY_Controller
 			$this->pagination->initialize($config);
 		
 			//..pagination
-			$in_department_name_name="input_department_name";
-			$in_department_name=array(
-					"LB_text"=>"สาขาวิชา/งาน",
+			$in_department=array(
+					"LB_text"=>$this->lang->line("t_in_department"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_department_name_name,
-					"IN_id"=>$in_department_name_name,
+					"IN_name"=>$this->lang->line("in_department"),
+					"IN_id"=>$this->lang->line("in_department"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_department_name_name),
+					"IN_value"=>set_value($this->lang->line("in_department")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("แก้ไข/ลบ  สาขาวิชา/งาน"),
+					"head"=>$this->pel->head($this->lang->line("ti_edit_department")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -131,7 +137,7 @@ class Department extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"department_tab"=>$this->department_tab(),
-					"in_department_name"=>$this->eml->form_input($in_department_name),
+					"in_department"=>$this->eml->form_input($in_department),
 					"table_edit"=>$this->table_edit($get_department_list),
 					"session_search_department"=>$search_text,
 					"pagination_num_rows"=>$config["total_rows"],
@@ -144,37 +150,57 @@ class Department extends MY_Controller
 			$prev_url=$_SERVER['HTTP_REFERER'];
 			$session_edit_id="edit_department_id";
 			$set=array(
-					"department_name"=>$this->input->post("input_department_name")
+					"department_name"=>$this->input->post($this->lang->line("in_department"))
 			);
 			$where=array(
 					"department_id"=>$this->session->userdata($session_edit_id)
 			);
-			$this->dpm_model->manage_edit($set, $where, "tb_department", $session_edit_id, "edit_department", "แก้ไขสาขาวิชา/งานสำเร็จ", "แก้ไขสาขาวิชา/งานไม่สำเร็จ", "?d=manage&c=department&m=edit", $prev_url);
+			$this->dpm_model->manage_edit(
+					$set,
+					$where,
+					"tb_department",
+					$session_edit_id,
+					"edit_department",
+					"แก้ไข".$this->lang->line("text_department")."สำเร็จ",
+					"แก้ไข".$this->lang->line("text_department")."ไม่สำเร็จ",
+					"?d=manage&c=department&m=edit",
+					$prev_url
+					);
 		}
 	}
 	function delete()
 	{
-		$this->dpm_model->manage_delete($this->input->post("del_department"), "tb_department", "department_id", "department_name", "edit_department", "?d=manage&c=department&m=edit");
+		$this->dpm_model->manage_delete(
+				$this->input->post("del_department"),
+				"tb_department", "department_id",
+				"department_name", "edit_department",
+				"?d=manage&c=department&m=edit"
+				);
 	}
 	function allow()
 	{
 		//$data = array
 		$allow_list=$this->input->post("allow_list");
 		$disallow_list=$this->input->post("disallow_list");
-		$this->dpm_model->manage_allow($allow_list,$disallow_list, "tb_department", "department_id", "department_name", "edit_department", "?d=manage&c=department&m=edit");
+		$this->dpm_model->manage_allow(
+				$allow_list,
+				$disallow_list,
+				"tb_department",
+				"department_id",
+				"department_name",
+				"edit_department",
+				"?d=manage&c=department&m=edit"
+				);
 	}
-	
-	
-	
 	
 	function department_tab()
 	{
 		$html='
 		<ul class="nav nav-tabs" id="manage_tab">
 			<!-- data-toggle มี pill/tab -->
-			<li><a href="#"  id="add">เพิ่มสาขาวิชา/งาน</a></li>';
+			<li><a href="#"  id="add">เพิ่ม'.$this->lang->line("text_department").'</a></li>';
 		$html.='
-			<li><a href="#"  id="edit">แก้ไข/ลบสาขาวิชา/งาน</a></li>
+			<li><a href="#"  id="edit">แก้ไข/ลบ'.$this->lang->line("text_department").'</a></li>
 			';
 		$html.='</ul>';
 		return $html;
@@ -201,7 +227,7 @@ class Department extends MY_Controller
 				<table class="table table-striped table-bordered fixed-table" id="tabel_data_list">';
 		$html.='<thead>
 				<th>รหัส</th>
-				<th>สาขาวิชา/งาน</th>
+				<th>'.$this->lang->line("text_department").'</th>
 				<th class="same_first_td">อนุมัติ<br/><button type="button" class="cbtn cbtn-green" id="allow-all"><button type="button" class="cbtn cbtn-red" id="disallow-all"></th>
 				<th class="same_first_td">แก้ไข</th>
 				<th>ลบ<br/><input type="checkbox" id="del_all_department"></th>

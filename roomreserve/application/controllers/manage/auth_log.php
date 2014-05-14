@@ -16,7 +16,7 @@ class Auth_log extends MY_Controller
 		$config=array(
 				array(
 						"field"=>"",
-						"label"=>"บันทึกการเข้าสู่ระบบ",
+						"label"=>$this->lang->line("text_auth_log"),
 						"rules"=>""
 				)
 		);
@@ -57,7 +57,7 @@ class Auth_log extends MY_Controller
 			//..pagination
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("แก้ไข/ลบ  สาขาวิชา/งาน"),
+					"head"=>$this->pel->head($this->lang->line("ti_edit_auth_log")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -65,7 +65,6 @@ class Auth_log extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"auth_log_tab"=>$this->auth_log_tab(),
-					
 					"table_edit"=>$this->table_edit($get_auth_log_list),
 					"session_search_auth_log"=>$search_text,
 					"pagination_num_rows"=>$config["total_rows"],
@@ -96,7 +95,7 @@ class Auth_log extends MY_Controller
 			<!-- data-toggle มี pill/tab -->
 			';
 		$html.='
-			<li><a href="#"  id="edit">จัดการบันทึกการเข้าสู่ระบบ</a></li>
+			<li><a href="#"  id="edit">จัดการ'.$this->lang->line("text_auth_log").'</a></li>
 			';
 		$html.='</ul>';
 		return $html;

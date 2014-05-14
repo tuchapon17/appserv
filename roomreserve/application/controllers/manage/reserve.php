@@ -45,8 +45,8 @@ class Reserve extends MY_Controller
 		$this->fl->check_group_privilege(array("07"));
 		$config=array(
 				array(
-						"field"=>$this->lang->line("input_std_id"),
-						"label"=>$this->lang->line("label_input_std_id"),
+						"field"=>$this->lang->line("in_std_id"),
+						"label"=>$this->lang->line("t_in_std_id"),
 						"rules"=>""
 				)
 		);
@@ -54,153 +54,153 @@ class Reserve extends MY_Controller
 		if($this->frm->run() == false)
 		{
 			$in_std_id=array(
-					"LB_text"=>$this->lang->line("label_input_std_id"),
+					"LB_text"=>$this->lang->line("t_in_std_id"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_std_id"),
-					"IN_id"=>$this->lang->line("input_std_id"),
+					"IN_name"=>$this->lang->line("in_std_id"),
+					"IN_id"=>$this->lang->line("in_std_id"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_std_id")),
+					"IN_value"=>set_value($this->lang->line("in_std_id")),
 					"IN_attr"=>'maxlength="11"',
 					"help_text"=>""
 			);
 			$in_phone=array(
-					"LB_text"=>$this->lang->line("label_input_phone"),
+					"LB_text"=>$this->lang->line("t_in_phone"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_phone"),
-					"IN_id"=>$this->lang->line("input_phone"),
+					"IN_name"=>$this->lang->line("in_phone"),
+					"IN_id"=>$this->lang->line("in_phone"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_phone")),
+					"IN_value"=>set_value($this->lang->line("in_phone")),
 					"IN_attr"=>'maxlength="10" phone',
 					"help_text"=>""
 			);
 			$in_num_of_people=array(
-					"LB_text"=>$this->lang->line("label_input_num_of_people"),
+					"LB_text"=>$this->lang->line("t_in_num_of_people"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_num_of_people"),
-					"IN_id"=>$this->lang->line("input_num_of_people"),
+					"IN_name"=>$this->lang->line("in_num_of_people"),
+					"IN_id"=>$this->lang->line("in_num_of_people"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_num_of_people")),
+					"IN_value"=>set_value($this->lang->line("in_num_of_people")),
 					"IN_attr"=>'maxlength="3"',
 					"help_text"=>""
 			);
 			$in_project_name=array(
-					"LB_text"=>$this->lang->line("label_input_project_name"),
+					"LB_text"=>$this->lang->line("t_in_project_name"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_project_name"),
-					"IN_id"=>$this->lang->line("input_project_name"),
+					"IN_name"=>$this->lang->line("in_project_name"),
+					"IN_id"=>$this->lang->line("in_project_name"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_project_name")),
+					"IN_value"=>set_value($this->lang->line("in_project_name")),
 					"IN_attr"=>'maxlength="100"',
 					"help_text"=>""
 			);
 			$te_for_use=array(
-					"LB_text"=>$this->lang->line("label_textarea_for_use"),
+					"LB_text"=>$this->lang->line("t_te_for_use"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("textarea_for_use"),
-					"IN_id"=>$this->lang->line("textarea_for_use"),
+					"IN_name"=>$this->lang->line("te_for_use"),
+					"IN_id"=>$this->lang->line("te_for_use"),
 					"IN_attr"=>'',
 					"help_text"=>""
 			);
 			$se_faculty=array(
-					"LB_text"=>$this->lang->line("label_select_faculty"),
+					"LB_text"=>$this->lang->line("t_se_faculty"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_faculty"),
-					"S_id"=>$this->lang->line("select_faculty"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_faculty")),
+					"S_name"=>$this->lang->line("se_faculty"),
+					"S_id"=>$this->lang->line("se_faculty"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_faculty")),
 					"S_data"=>$this->emm->select_faculty(),
 					"S_id_field"=>"faculty_id",
 					"S_name_field"=>"faculty_name",
 					"help_text"=>''
 			);
 			$se_department=array(
-					"LB_text"=>$this->lang->line("label_select_department"),
+					"LB_text"=>$this->lang->line("t_se_department"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_department"),
-					"S_id"=>$this->lang->line("select_department"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_department")),
+					"S_name"=>$this->lang->line("se_department"),
+					"S_id"=>$this->lang->line("se_department"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_department")),
 					"S_data"=>$this->emm->get_select("tb_department","department_name",array("checked"=>1)),
 					"S_id_field"=>"department_id",
 					"S_name_field"=>"department_name",
 					"help_text"=>''
 			);
 			$se_job_position=array(
-					"LB_text"=>$this->lang->line("label_select_job_position"),
+					"LB_text"=>$this->lang->line("t_se_job_position"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_job_position"),
-					"S_id"=>$this->lang->line("select_job_position"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_job_position")),
+					"S_name"=>$this->lang->line("se_job_position"),
+					"S_id"=>$this->lang->line("se_job_position"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_job_position")),
 					"S_data"=>$this->emm->get_select("tb_job_position","job_position_name",array("checked"=>1)),
 					"S_id_field"=>"job_position_id",
 					"S_name_field"=>"job_position_name",
 					"help_text"=>''
 			);
 			$se_room_type=array(
-					"LB_text"=>$this->lang->line("label_select_room_type"),
+					"LB_text"=>$this->lang->line("t_se_room_type"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_room_type"),
-					"S_id"=>$this->lang->line("select_room_type"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_room_type")),
+					"S_name"=>$this->lang->line("se_room_type"),
+					"S_id"=>$this->lang->line("se_room_type"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_room_type")),
 					"S_data"=>$this->emm->get_select("tb_room_type","room_type_name"),
 					"S_id_field"=>"room_type_id",
 					"S_name_field"=>"room_type_name",
 					"help_text"=>''
 			);
 			$se_room=array(
-					"LB_text"=>$this->lang->line("label_select_room"),
+					"LB_text"=>$this->lang->line("t_se_room"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_room"),
-					"S_id"=>$this->lang->line("select_room"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_room")),
+					"S_name"=>$this->lang->line("se_room"),
+					"S_id"=>$this->lang->line("se_room"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_room")),
 					"S_data"=>'',
 					"S_id_field"=>"room_id",
 					"S_name_field"=>"room_name",
 					"help_text"=>''
 			);
 			$se_office=array(
-					"LB_text"=>$this->lang->line("label_select_office"),
+					"LB_text"=>$this->lang->line("t_se_office"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_office"),
-					"S_id"=>$this->lang->line("select_office"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_office")),
+					"S_name"=>$this->lang->line("se_office"),
+					"S_id"=>$this->lang->line("se_office"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_office")),
 					"S_data"=>$this->emm->get_select("tb_office","office_name",array("checked"=>1)),
 					"S_id_field"=>"office_id",
 					"S_name_field"=>"office_name",
 					"help_text"=>''
 			);
 			$se_person_type=array(
-					"LB_text"=>$this->lang->line("label_select_person_type"),
+					"LB_text"=>$this->lang->line("t_se_person_type"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_person_type"),
-					"S_id"=>$this->lang->line("select_person_type"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_person_type")),
+					"S_name"=>$this->lang->line("se_person_type"),
+					"S_id"=>$this->lang->line("se_person_type"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_person_type")),
 					"S_data"=>$this->emm->get_select("tb_person_type","person_type"),
 					"S_id_field"=>"person_type_id",
 					"S_name_field"=>"person_type",
 					"help_text"=>''
 			);
 			$se_person=array(
-					"LB_text"=>$this->lang->line("label_select_person"),
+					"LB_text"=>$this->lang->line("t_se_person"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_person"),
-					"S_id"=>$this->lang->line("select_person"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_person")),
+					"S_name"=>$this->lang->line("se_person"),
+					"S_id"=>$this->lang->line("se_person"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_person")),
 					"S_data"=>'',
 					"S_id_field"=>"person_type_id",
 					"S_name_field"=>"person_type",
@@ -208,50 +208,50 @@ class Reserve extends MY_Controller
 			);
 			//add other
 			$in_faculty=array(
-					"LB_text"=>$this->lang->line("label_input_faculty"),
+					"LB_text"=>$this->lang->line("t_in_faculty"),
 					"LB_attr"=>"",
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_faculty"),
-					"IN_id"=>$this->lang->line("input_faculty"),
+					"IN_name"=>$this->lang->line("in_faculty"),
+					"IN_id"=>$this->lang->line("in_faculty"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_faculty")),
+					"IN_value"=>set_value($this->lang->line("in_faculty")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$in_department=array(
-					"LB_text"=>$this->lang->line("label_input_department"),
+					"LB_text"=>$this->lang->line("t_in_department"),
 					"LB_attr"=>"",
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_department"),
-					"IN_id"=>$this->lang->line("input_department"),
+					"IN_name"=>$this->lang->line("in_department"),
+					"IN_id"=>$this->lang->line("in_department"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_department")),
+					"IN_value"=>set_value($this->lang->line("in_department")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$in_job_position=array(
-					"LB_text"=>$this->lang->line("label_input_job_position"),
+					"LB_text"=>$this->lang->line("t_in_job_position"),
 					"LB_attr"=>"",
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_job_position"),
-					"IN_id"=>$this->lang->line("input_job_position"),
+					"IN_name"=>$this->lang->line("in_job_position"),
+					"IN_id"=>$this->lang->line("in_job_position"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_job_position")),
+					"IN_value"=>set_value($this->lang->line("in_job_position")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$in_office=array(
-					"LB_text"=>$this->lang->line("label_input_office"),
+					"LB_text"=>$this->lang->line("t_in_office"),
 					"LB_attr"=>"",
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_office"),
-					"IN_id"=>$this->lang->line("input_office"),
+					"IN_name"=>$this->lang->line("in_office"),
+					"IN_id"=>$this->lang->line("in_office"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_office")),
+					"IN_value"=>set_value($this->lang->line("in_office")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
@@ -294,11 +294,11 @@ class Reserve extends MY_Controller
 			$data=array(
 					"reserve_id"=>$reserve_id,
 					"tb_user_username"=>$this->session->userdata("rs_username"),
-					"tb_room_id"=>$this->input->post("select_room"),
-					"for_use"=>$this->input->post("textarea_for_use"),
-					"project_name"=>$this->input->post("input_project_name"),
+					"tb_room_id"=>$this->input->post($this->lang->line("se_room")),
+					"for_use"=>$this->input->post($this->lang->line("te_for_use")),
+					"project_name"=>$this->input->post($this->lang->line("in_project_name")),
 					"other_article"=>$this->input->post("other_article"),
-					"num_of_people"=>$this->input->post("input_num_of_people"),
+					"num_of_people"=>$this->input->post($this->lang->line("in_num_of_people")),
 					"reserve_on"=>date('Y-m-d H:i:s')
 					//""=>"",
 			);
@@ -316,7 +316,10 @@ class Reserve extends MY_Controller
 							"tb_article_id"=>$val,
 							"unit_num"=>$post_article_num[$index]
 					);
-					$this->load_reserve_model->manage_add2($data2,"tb_reserve_has_article");
+					$this->load_reserve_model->manage_add2(
+							$data2,
+							"tb_reserve_has_article"
+							);
 				}
 			}
 			
@@ -519,15 +522,15 @@ class Reserve extends MY_Controller
 			}
 					
 			//insert tb_reserve_has_person
-			if($this->input->post("select_person")=="03")//บุคคลทั่วไป
+			if($this->input->post($this->lang->line("se_person"))=="03")//บุคคลทั่วไป
 			{
-				$job_position_id=$this->input->post("select_job_position");
-				$office_id=$this->input->post("select_office");
-				if($this->input->post("select_job_position")=="00")
+				$job_position_id=$this->input->post($this->lang->line("se_job_position"));
+				$office_id=$this->input->post($this->lang->line("se_office"));
+				if($this->input->post($this->lang->line("se_job_position"))=="00")
 				{
-					if($this->load_reserve_model->find_one("tb_job_position",array("job_position_name"=>$this->input->post("input_job_position"))))
+					if($this->load_reserve_model->find_one("tb_job_position",array("job_position_name"=>$this->input->post($this->lang->line("in_job_position")))))
 					{
-						$exists_data=$this->load_reserve_model->find_one("tb_job_position",array("job_position_name"=>$this->input->post("input_job_position")));
+						$exists_data=$this->load_reserve_model->find_one("tb_job_position",array("job_position_name"=>$this->input->post($this->lang->line("in_job_position"))));
 						$exists_data=$exists_data[0];
 						if($this->countdim($exists_data)==1)
 							$job_position_id=$exists_data["job_position_id"];
@@ -538,16 +541,16 @@ class Reserve extends MY_Controller
 						$this->load_reserve_model->manage_add2(
 								array(
 										"job_position_id"=>$job_position_id,
-										"job_position_name"=>$this->input->post("input_job_position")
+										"job_position_name"=>$this->input->post($this->lang->line("in_job_position"))
 								),
 								"tb_job_position");
 					}
 				}
-				if($this->input->post("select_office")=="00")
+				if($this->input->post($this->lang->line("se_office"))=="00")
 				{
-					if($this->load_reserve_model->find_one("tb_office",array("office_name"=>$this->input->post("input_office"))))
+					if($this->load_reserve_model->find_one("tb_office",array("office_name"=>$this->input->post($this->lang->line("in_office")))))
 					{
-						$exists_data=$this->load_reserve_model->find_one("tb_office",array("office_name"=>$this->input->post("input_office")));
+						$exists_data=$this->load_reserve_model->find_one("tb_office",array("office_name"=>$this->input->post($this->lang->line("in_office"))));
 						$exists_data=$exists_data[0];
 						if($this->countdim($exists_data)==1)
 							$office_id=$exists_data["office_id"];
@@ -558,30 +561,30 @@ class Reserve extends MY_Controller
 						$this->load_reserve_model->manage_add2(
 								array(
 										"office_id"=>$office_id,
-										"office_name"=>$this->input->post("input_office")
+										"office_name"=>$this->input->post($this->lang->line("in_office"))
 								),
 								"tb_office");
 					}
 				}
 				$data4=array(
 						"tb_reserve_id"=>$reserve_id,
-						"tb_person_id"=>$this->input->post("select_person"),
-						"phone"=>$this->input->post("input_phone"),
+						"tb_person_id"=>$this->input->post($this->lang->line("se_person")),
+						"phone"=>$this->input->post($this->lang->line("in_phone")),
 						"tb_job_position_id"=>$job_position_id,
 						"tb_office_id"=>$office_id
 				);
 			}
-			else if($this->input->post("select_person")=="02" || $this->input->post("select_person")=="01")//02std || 01teacher
+			else if($this->input->post($this->lang->line("se_person"))=="02" || $this->input->post($this->lang->line("se_person"))=="01")//02std || 01teacher
 			{
-				$faculty_id=$this->input->post("select_faculty");
-				$department_id=$this->input->post("select_department");
-				$job_position_id=$this->input->post("select_job_position");
-				if($this->input->post("select_faculty")=="00")
+				$faculty_id=$this->input->post($this->lang->line("se_faculty"));
+				$department_id=$this->input->post($this->lang->line("se_department"));
+				$job_position_id=$this->input->post($this->lang->line("se_job_position"));
+				if($this->input->post($this->lang->line("se_faculty"))=="00")
 				{
 					//ถ้ามี ชื่อที่ซ้ำกันอยู่แล้วให้เลือกคีย์ของชื่อนั้นมาใช้อ้างอิง เพราะ ฟิลด์ชื่อเป็น unique
-					if($this->load_reserve_model->find_one("tb_faculty",array("faculty_name"=>$this->input->post("input_faculty"))))
+					if($this->load_reserve_model->find_one("tb_faculty",array("faculty_name"=>$this->input->post($this->lang->line("in_faculty")))))
 					{
-						$exists_data=$this->load_reserve_model->find_one("tb_faculty",array("faculty_name"=>$this->input->post("input_faculty")));
+						$exists_data=$this->load_reserve_model->find_one("tb_faculty",array("faculty_name"=>$this->input->post($this->lang->line("in_faculty"))));
 						$exists_data=$exists_data[0];
 						if($this->countdim($exists_data)==1)
 							$faculty_id=$exists_data["faculty_id"];
@@ -592,17 +595,17 @@ class Reserve extends MY_Controller
 						$this->load_reserve_model->manage_add2(
 							array(
 									"faculty_id"=>$faculty_id,
-									"faculty_name"=>$this->input->post("input_faculty")
+									"faculty_name"=>$this->input->post($this->lang->line("in_faculty"))
 							),
 							"tb_faculty");
 					}
 				}
-				if($this->input->post("select_department")=="00")
+				if($this->input->post($this->lang->line("se_department"))=="00")
 				{
 					//ถ้ามี ชื่อที่ซ้ำกันอยู่แล้วให้เลือกคีย์ของชื่อนั้นมาใช้อ้างอิง เพราะ ฟิลด์ชื่อเป็น unique
-					if($this->load_reserve_model->find_one("tb_department",array("department_name"=>$this->input->post("input_department"))))
+					if($this->load_reserve_model->find_one("tb_department",array("department_name"=>$this->input->post($this->lang->line("in_department")))))
 					{
-						$exists_data=$this->load_reserve_model->find_one("tb_department",array("department_name"=>$this->input->post("input_department")));
+						$exists_data=$this->load_reserve_model->find_one("tb_department",array("department_name"=>$this->input->post($this->lang->line("in_department"))));
 						$exists_data=$exists_data[0];
 						if($this->countdim($exists_data)==1)
 							$department_id=$exists_data["department_id"];
@@ -613,18 +616,18 @@ class Reserve extends MY_Controller
 						$this->load_reserve_model->manage_add2(
 							array(
 									"department_id"=>$department_id,
-									"department_name"=>$this->input->post("input_department")
+									"department_name"=>$this->input->post($this->lang->line("in_department"))
 							),
 							"tb_department");
 					}
 				}
-				if($this->input->post("select_person")=="01")//01=อาจารย์/เจ้าหน้าที่
+				if($this->input->post($this->lang->line("se_person"))=="01")//01=อาจารย์/เจ้าหน้าที่
 				{
-					if($this->input->post("select_job_position")=="00")
+					if($this->input->post($this->lang->line("se_job_position"))=="00")
 					{
-						if($this->load_reserve_model->find_one("tb_job_position",array("job_position_name"=>$this->input->post("input_job_position"))))
+						if($this->load_reserve_model->find_one("tb_job_position",array("job_position_name"=>$this->input->post($this->lang->line("in_job_position")))))
 						{
-							$exists_data=$this->load_reserve_model->find_one("tb_job_position",array("job_position_name"=>$this->input->post("input_job_position")));
+							$exists_data=$this->load_reserve_model->find_one("tb_job_position",array("job_position_name"=>$this->input->post($this->lang->line("in_job_position"))));
 							$exists_data=$exists_data[0];
 							if($this->countdim($exists_data)==1)
 								$job_position_id=$exists_data["job_position_id"];
@@ -635,7 +638,7 @@ class Reserve extends MY_Controller
 							$this->load_reserve_model->manage_add2(
 									array(
 											"job_position_id"=>$job_position_id,
-											"job_position_name"=>$this->input->post("input_job_position")
+											"job_position_name"=>$this->input->post($this->lang->line("in_job_position"))
 									),
 									"tb_job_position");
 						}
@@ -643,8 +646,8 @@ class Reserve extends MY_Controller
 					//data 01teacher
 					$data4=array(
 							"tb_reserve_id"=>$reserve_id,
-							"tb_person_id"=>$this->input->post("select_person"),
-							"phone"=>$this->input->post("input_phone"),
+							"tb_person_id"=>$this->input->post($this->lang->line("se_person")),
+							"phone"=>$this->input->post($this->lang->line("in_phone")),
 							"tb_faculty_id"=>$faculty_id,
 							"tb_department_id"=>$department_id,
 							"tb_job_position_id"=>$job_position_id
@@ -655,20 +658,23 @@ class Reserve extends MY_Controller
 					//data 02std
 					$data4=array(
 							"tb_reserve_id"=>$reserve_id,
-							"tb_person_id"=>$this->input->post("select_person"),
-							"phone"=>$this->input->post("input_phone"),
+							"tb_person_id"=>$this->input->post($this->lang->line("se_person")),
+							"phone"=>$this->input->post($this->lang->line("in_phone")),
 							"tb_faculty_id"=>$faculty_id,
 							"tb_department_id"=>$department_id,
-							"std_id"=>$this->input->post("input_std_id")
+							"std_id"=>$this->input->post($this->lang->line("in_std_id"))
 					);
 				}
 			}
 			//data4 ใช้กับรหัส person 01 02 03
-			$this->load_reserve_model->manage_add2($data4,"tb_reserve_has_person");
+			$this->load_reserve_model->manage_add2(
+					$data4,
+					"tb_reserve_has_person"
+					);
 			
 			
 			//upload file
-			if($this->input->post("select_person_type")!=02)
+			if($this->input->post($this->lang->line("se_person_type"))!=02)
 			{
 				$this->load->library('upload'); // Load Library
 				$files = $_FILES;
@@ -709,7 +715,10 @@ class Reserve extends MY_Controller
 								"file_name"=>$file_detail["new_name"],
 								"old_file_name"=>$file_detail["old_name"]
 						);
-						$this->load_reserve_model->manage_add2($data5,"tb_reserve_has_file");
+						$this->load_reserve_model->manage_add2(
+								$data5,
+								"tb_reserve_has_file"
+								);
 					}
 					else
 					{
@@ -908,8 +917,8 @@ class Reserve extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>$this->lang->line("input_std_id"),
-						"label"=>$this->lang->line("label_input_std_id"),
+						"field"=>$this->lang->line("in_std_id"),
+						"label"=>$this->lang->line("t_in_std_id"),
 						"rules"=>""
 				)
 		);
@@ -1028,7 +1037,7 @@ class Reserve extends MY_Controller
 				array(
 						"field"=>"input_reserve_name",
 						"label"=>"ชื่อห้อง",
-						"rules"=>"required|max_length[50]"
+						"rules"=>""
 				)
 		);
 		$this->frm->set_rules($config);
@@ -1136,7 +1145,7 @@ class Reserve extends MY_Controller
 			//..pagination
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("จัดการการจอง"),
+					"head"=>$this->pel->head("จัดการการจองที่อนุมัติแล้ว"),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -1204,7 +1213,7 @@ class Reserve extends MY_Controller
 			//..pagination
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("จัดการการจอง"),
+					"head"=>$this->pel->head("จัดการการจองสำหรับผู้บริหาร"),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -1272,7 +1281,7 @@ class Reserve extends MY_Controller
 			//..pagination
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("จัดการการจอง"),
+					"head"=>$this->pel->head("การจองทั้งหมด"),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -2049,8 +2058,8 @@ class Reserve extends MY_Controller
 	}
 	function reserve_approve()
 	{
-		$set=array("approve"=>$this->input->post("select_approve"));
-		if($this->input->post("select_approve") == 1)
+		$set=array("approve"=>$this->input->post($this->lang->line("se_approve")));
+		if($this->input->post($this->lang->line("se_approve")) == 1)
 		{
 			$set['approve_on']=date('Y-m-d H:i:s');
 			$set['approve_by']=$this->session->userdata("rs_username");
@@ -2275,13 +2284,13 @@ class Reserve extends MY_Controller
 					$nr = $q->result_array();
 					$config=array(
 							array(
-									"field"=>"select_room_type",
-									"label"=>"ประเภทห้อง",
+									"field"=>$this->lang->line("se_room_type"),
+									"label"=>$this->lang->line("t_se_room_type"),
 									"rules"=>"required"
 							),
 							array(
-									"field"=>"select_room",
-									"label"=>"ห้อง",
+									"field"=>$this->lang->line("se_room"),
+									"label"=>$this->lang->line("t_se_room"),
 									"rules"=>"required"
 							)
 					);
@@ -2293,21 +2302,21 @@ class Reserve extends MY_Controller
 								"LB_text"=>"ประเภทห้อง",
 								"LB_attr"=>$this->eml->span_redstar(),
 								"S_class"=>'',
-								"S_name"=>"select_room_type",
-								"S_id"=>"select_room_type",
-								"S_old_value"=>"select_room_type",
+								"S_name"=>$this->lang->line("se_room_type"),
+								"S_id"=>$this->lang->line("se_room_type"),
+								"S_old_value"=>$this->lang->line("se_room_type"),
 								"S_data"=>$this->emm->get_select("tb_room_type","room_type_name"),
 								"S_id_field"=>"room_type_id",
 								"S_name_field"=>"room_type_name",
 								"help_text"=>""
 						);
 						$se_room=array(
-								"LB_text"=>"ห้อง",
+								"LB_text"=>$this->lang->line("t_se_room"),
 								"LB_attr"=>$this->eml->span_redstar(),
 								"S_class"=>'',
-								"S_name"=>"select_room",
-								"S_id"=>"select_room",
-								"S_old_value"=>"select_room",
+								"S_name"=>$this->lang->line("se_room"),
+								"S_id"=>$this->lang->line("se_room"),
+								"S_old_value"=>$this->lang->line("se_room"),
 								"S_data"=>"",
 								"S_id_field"=>"",
 								"S_name_field"=>"",
@@ -2315,7 +2324,7 @@ class Reserve extends MY_Controller
 						);
 						$data=array(
 								"htmlopen"=>$this->pel->htmlopen(),
-								"head"=>$this->pel->head("แก้ไขห้อง"),
+								"head"=>$this->pel->head(""),
 								"bodyopen"=>$this->pel->bodyopen(),
 								"navbar"=>$this->pel->navbar(),
 								"js"=>$this->pel->js(),
@@ -2330,7 +2339,7 @@ class Reserve extends MY_Controller
 					}
 					else 
 					{
-						$set = array("tb_room_id"=>$this->input->post("select_room"));
+						$set = array("tb_room_id"=>$this->input->post($this->lang->line("se_room")));
 						$where = array("reserve_id"=>$nr[0]["reserve_id"]);
 						$this->db->update("tb_reserve",$set,$where,1);
 						echo $this->db->last_query();break;
@@ -2352,7 +2361,7 @@ class Reserve extends MY_Controller
 					$config=array(
 							array(
 									"field"=>"input_reserve_name",
-									"label"=>"ชื่อห้อง",
+									"label"=>"-",
 									"rules"=>""
 							)
 					);

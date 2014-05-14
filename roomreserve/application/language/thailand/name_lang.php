@@ -1,0 +1,111 @@
+<?php
+//text
+$lang["text_article_type"] = "ประเภทครุภัณฑ์/อุปกรณ์";
+$lang["text_article"] = "ครุภัณฑ์/อุปกรณ์";
+$lang["text_auth_log"] = "บันทึกการเข้าสู่ระบบ";
+$lang["text_condition"] = "ระเบียบการใช้งานระบบ";
+$lang["text_department"] = "สาขา/งาน";
+$lang["text_faculty"] = "คณะ/กอง";
+$lang["text_job_position"] = "ตำแหน่งงาน";
+$lang["text_occupation"] = "อาชีพ";
+$lang["text_office"] = "หน่วยงาน";
+$lang["text_room_type"] = "ประเภทห้อง";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+
+//in
+$lang["t_in_fee_unit_hour"] = "ค่าบริการหน่วยต่อชม.";
+$lang["t_in_fee_unit_lump_sum"] = "ค่าบริการเหมาต่อหน่วย";
+$lang["t_in_fee_over_unit_lump_sum"] = "ค่าบริการเหมาส่วนเกินต่อหน่วย";
+$lang["t_in_std_id"] = "รหัสนักศึกษา";
+$lang["t_in_phone"] = "เบอร์โทรศัพท์";
+$lang["t_in_num_of_people"] = "จำนวนคนที่เข้าร่วม";
+$lang["t_in_project_name"] = "ชื่อโครงการ";
+$lang["t_in_faculty"] = "คณะ/กอง";
+$lang["t_in_department"] = "สาขา/งาน";
+$lang["t_in_job_position"] = "ตำแหน่งงาน";
+$lang["t_in_office"] = "หน่วยงาน";
+$lang["t_in_article_num"] = "จำนวนครุภัณฑ์/อุปกรณ์";
+$lang["t_in_lump_sum_base_unit"] = "จำนวนครุภัณฑ์/อุปกรณ์พื้นฐาน(เหมา)";
+$lang["t_in_article"] = "ครุภัณฑ์/อุปกรณ์";
+$lang["t_in_room"] = "ห้อง";
+$lang["t_in_username"] = "ชื่อผู้เข้าใช้";
+$lang["t_in_password0"] = "รหัสผ่านเดิม";
+$lang["t_in_password"] = "รหัสผ่านใหม่";
+$lang["t_in_password2"] = "ยืนยันรหัสผ่านใหม่";
+$lang["t_in_email"] = "อีเมล";
+$lang["t_in_firstname"] = "ชื่อ";
+$lang["t_in_lastname"] = "นามสกุล";
+$lang["t_in_in_occupation"] = "อาชีพ";
+$lang["t_in_house_no"] = "บ้านเลขที่";
+$lang["t_in_village_no"] = "หมู่ที่";
+$lang["t_in_alley"] = "ตรอก/ซอย";
+$lang["t_in_road"] = "ถนน";
+$lang["t_in_article_type"] = "ประเภทครุภัณฑ์/อุปกรณ์";
+$lang["t_in_discount_percent"] = "ส่วนลดของห้อง";
+$lang["t_in_room_fee_hour"] = "ค่าบริการห้องต่อชั่วโมง";
+$lang[""] = "";
+
+//se
+$lang["t_se_article_type"] = "ประเภทครุภัณฑ์/อุปกรณ์";
+$lang["t_se_faculty"] = "คณะ/กอง";
+$lang["t_se_department"] = "สาขา/งาน";
+$lang["t_se_job_position"] = "ตำแหน่งงาน";
+$lang["t_se_room_type"] = "ประเภทห้อง";
+$lang["t_se_room"] = "ห้อง";
+$lang["t_se_office"] = "หน่วยงาน";
+$lang["t_se_person_type"] = "ประเภทบุคคล";
+$lang["t_se_person"] = "บุคคล";
+$lang["t_se_article"] = "ครุภัณฑ์/อุปกรณ์";
+$lang["t_se_fee_type"] = "ประเภทค่าบริการ";
+$lang["t_se_se_titlename"] = "คำนำหน้าชื่อ";
+$lang["t_se_se_occupation"] = "อาชีพ";
+$lang["t_se_se_province"] = "จังหวัด";
+$lang["t_se_se_district"] = "อำเภอ/เขต";
+$lang["t_se_se_subdistrict"] = "ตำบล/แขวง";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+
+//textarea
+$lang["t_te_for_use"] = "วัตถุประสงค์การใช้ห้อง";
+$lang["t_te_condition"] = "ระเบียบการใช้งานระบบ";
+$lang["t_te_room_detail"] = "รายละเอียดห้อง";
+
+//title page
+$lang["ti_add_article_type"] = "เพิ่มประเภทครุภัณฑ์/อุปกรณ์";
+$lang["ti_edit_article_type"] = "แก้ไข/ลบประเภทครุภัณฑ์/อุปกรณ์";
+$lang["ti_add_article"] = "เพิ่มครุภัณฑ์/อุปกรณ์";
+$lang["ti_edit_article"] = "แก้ไข/ลบครุภัณฑ์/อุปกรณ์";
+$lang["ti_edit_auth_log"] = "บันทึกการเข้าสู่ระบบ";
+$lang["ti_edit_condition"] = "แก้ไขระเบียบการใช้งานระบบ";
+$lang["ti_add_department"] = "เพิ่มสาขาวิชา/งาน";
+$lang["ti_edit_department"] = "แก้ไข/ลบสาขาวิชา/งาน";
+$lang["ti_add_faculty"] = "เพิ่มคณะ/กอง";
+$lang["ti_edit_faculty"] = "แก้ไข/ลบคณะ/กอง";
+$lang["ti_add_job_position"] = "เพิ่มตำแหน่งงาน";
+$lang["ti_edit_job_position"] = "แก้ไข/ลบตำแหน่งงาน";
+$lang["ti_add_occupation"] = "เพิ่มอาชีพ";
+$lang["ti_edit_occupation"] = "แก้ไข/ลบอาชีพ";
+$lang["ti_add_office"] = "เพิ่มหน่วยงาน";
+$lang["ti_edit_office"] = "แก้ไข/ลบหน่วยงาน";
+$lang["ti_add_room_type"] = "เพิ่มประเภทห้อง";
+$lang["ti_edit_room_type"] = "แก้ไข/ลบประเภทห้อง";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";
+$lang[""] = "";

@@ -26,8 +26,10 @@ class MY_Controller extends CI_Controller
 		$this->fl=$this->function_lib;
 		$this->load->model("element_model");
 		$this->emm=$this->element_model;
-		$this->lang->load("help_text","thailand");
-		$this->lang->load("label_name","thailand");
+		//$this->lang->load("help_text","thailand");
+		//$this->lang->load("label_name","thailand");
+		$this->lang->load("form","thailand");
+		$this->lang->load("name","thailand");
 		//$this->session->unset_userdata("set_per_page");
 	}
 	function call_lib($data,$param)

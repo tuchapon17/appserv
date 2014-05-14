@@ -29,9 +29,9 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php
 	      		 	$em_name=array(
-	      		 			"in_office_name"=>"input_office_name"
+	      		 			"in_office"=>"input_office"
 	      		 	);
-      		 		echo form_error($em_name["in_office_name"]);
+      		 		echo form_error($em_name["in_office"]);
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -41,8 +41,8 @@ echo $head;
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=<?=$controller?>&m=add" method="post" autocomplete="off">
 								<?php
-								echo $in_office_name;
-								echo "<span id='".$em_name["in_office_name"]."_error' class='hidden'>".form_error($em_name["in_office_name"])."</span>";
+								echo $in_office;
+								echo "<span id='".$em_name["in_office"]."_error' class='hidden'>".form_error($em_name["in_office"])."</span>";
 								?>
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>		

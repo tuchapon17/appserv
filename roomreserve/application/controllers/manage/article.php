@@ -46,28 +46,28 @@ class Article extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>$this->lang->line("input_article"),
-						"label"=>$this->lang->line("label_input_article"),
+						"field"=>$this->lang->line("in_article"),
+						"label"=>$this->lang->line("t_in_article"),
 						"rules"=>"required|max_length[30]"
 				),
 				array(
-						"field"=>$this->lang->line("input_fee_unit_hour"),
-						"label"=>$this->lang->line("label_input_fee_unit_hour"),
+						"field"=>$this->lang->line("in_fee_unit_hour"),
+						"label"=>$this->lang->line("t_in_fee_unit_hour"),
 						"rules"=>"required|max_length[9]|callback_call_lib_with_data[regex_lib,regex_decimal,%s - รูปแบบตัวเลขไม่ถูกต้อง,6&2]"
 				),
 				array(
-						"field"=>$this->lang->line("input_fee_unit_lump_sum"),
-						"label"=>$this->lang->line("label_input_fee_unit_lump_sum"),
+						"field"=>$this->lang->line("in_fee_unit_lump_sum"),
+						"label"=>$this->lang->line("t_in_fee_unit_lump_sum"),
 						"rules"=>"required|max_length[9]|callback_regex_decimal"
 				),
 				array(
-						"field"=>$this->lang->line("input_fee_over_unit_lump_sum"),
-						"label"=>$this->lang->line("label_input_fee_over_unit_lump_sum"),
+						"field"=>$this->lang->line("in_fee_over_unit_lump_sum"),
+						"label"=>$this->lang->line("t_in_fee_over_unit_lump_sum"),
 						"rules"=>"required|max_length[9]|callback_regex_decimal"
 				),
 				array(
-						"field"=>$this->lang->line("select_article_type"),
-						"label"=>$this->lang->line("label_select_article_type"),
+						"field"=>$this->lang->line("se_article_type"),
+						"label"=>$this->lang->line("t_se_article_type"),
 						"rules"=>"required"
 				)
 		);
@@ -77,64 +77,64 @@ class Article extends MY_Controller
 		{
 			
 			$in_article=array(
-					"LB_text"=>$this->lang->line("label_input_article"),
+					"LB_text"=>$this->lang->line("t_in_article"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_article"),
-					"IN_id"=>$this->lang->line("input_article"),
+					"IN_name"=>$this->lang->line("in_article"),
+					"IN_id"=>$this->lang->line("in_article"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_article")),
+					"IN_value"=>set_value($this->lang->line("in_article")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			
 			$in_fee_unit_hour=array(
-					"LB_text"=>$this->lang->line("label_input_fee_unit_hour"),
+					"LB_text"=>$this->lang->line("t_in_fee_unit_hour"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_fee_unit_hour"),
-					"IN_id"=>$this->lang->line("input_fee_unit_hour"),
+					"IN_name"=>$this->lang->line("in_fee_unit_hour"),
+					"IN_id"=>$this->lang->line("in_fee_unit_hour"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_fee_unit_hour")),
+					"IN_value"=>set_value($this->lang->line("in_fee_unit_hour")),
 					"IN_attr"=>'maxlength="9"',
 					"help_text"=>"999999.99"
 			);
 
 			$in_fee_unit_lump_sum=array(
-					"LB_text"=>$this->lang->line("label_input_fee_unit_lump_sum"),
+					"LB_text"=>$this->lang->line("t_in_fee_unit_lump_sum"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_fee_unit_lump_sum"),
-					"IN_id"=>$this->lang->line("input_fee_unit_lump_sum"),
+					"IN_name"=>$this->lang->line("in_fee_unit_lump_sum"),
+					"IN_id"=>$this->lang->line("in_fee_unit_lump_sum"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_fee_unit_lump_sum")),
+					"IN_value"=>set_value($this->lang->line("in_fee_unit_lump_sum")),
 					"IN_attr"=>'maxlength="9"',
 					"help_text"=>"999999.99"
 			);
 			
 			$in_fee_over_unit_lump_sum=array(
-					"LB_text"=>$this->lang->line("label_input_fee_over_unit_lump_sum"),
+					"LB_text"=>$this->lang->line("t_in_fee_over_unit_lump_sum"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_fee_over_unit_lump_sum"),
-					"IN_id"=>$this->lang->line("input_fee_over_unit_lump_sum"),
+					"IN_name"=>$this->lang->line("in_fee_over_unit_lump_sum"),
+					"IN_id"=>$this->lang->line("in_fee_over_unit_lump_sum"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_fee_over_unit_lump_sum")),
+					"IN_value"=>set_value($this->lang->line("in_fee_over_unit_lump_sum")),
 					"IN_attr"=>'maxlength="9"',
 					"help_text"=>"999999.99"
 			);
 			
 			$se_article_type=array(
-					"LB_text"=>$this->lang->line("label_select_article_type"),
+					"LB_text"=>$this->lang->line("t_se_article_type"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_article_type"),
-					"S_id"=>$this->lang->line("select_article_type"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_article_type")),
+					"S_name"=>$this->lang->line("se_article_type"),
+					"S_id"=>$this->lang->line("se_article_type"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_article_type")),
 					"S_data"=>$this->emm->select_article_type(),
 					"S_id_field"=>"article_type_id",
 					"S_name_field"=>"article_type_name",
@@ -142,7 +142,7 @@ class Article extends MY_Controller
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("เพิ่มครุภัณฑ์/อุปกรณ์"),
+					"head"=>$this->pel->head($this->lang->line("ti_add_article")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -163,14 +163,22 @@ class Article extends MY_Controller
 		{
 			$data=array(
 					"article_id"=>$this->load_article_model->get_maxid(3, $this->field_name["article_id"], $this->table_name),
-					"article_name"=>$this->input->post($this->lang->line("input_article")),
-					"tb_article_type_id"=>$this->input->post("select_article_type"),
-					"fee_unit_hour"=>$this->input->post("input_fee_unit_hour"),
-					"fee_unit_lump_sum"=>$this->input->post("input_fee_unit_lump_sum"),
-					"fee_over_unit_lump_sum"=>$this->input->post("input_fee_over_unit_lump_sum")
+					"article_name"=>$this->input->post($this->lang->line("in_article")),
+					"tb_article_type_id"=>$this->input->post($this->lang->line("se_article_type")),
+					"fee_unit_hour"=>$this->input->post($this->lang->line("in_fee_unit_hour")),
+					"fee_unit_lump_sum"=>$this->input->post($this->lang->line("in_fee_unit_lump_sum")),
+					"fee_over_unit_lump_sum"=>$this->input->post($this->lang->line("in_fee_over_unit_lump_sum"))
 			);
 			$redirect_link="?d=manage&c=article&m=add";
-			$this->load_article_model->manage_add($data,$this->table_name,$redirect_link,$redirect_link,"article","เพิ่มครุภัณฑ์/อุปกรณ์สำเร็จ","เพิ่มครุภัณฑ์/อุปกรณ์ไม่สำเร็จ");
+			$this->load_article_model->manage_add(
+					$data,
+					$this->table_name,
+					$redirect_link,
+					$redirect_link,
+					"article",
+					"เพิ่ม".$this->lang->line("text_article")."สำเร็จ",
+					"เพิ่ม".$this->lang->line("text_article")."ไม่สำเร็จ"
+					);
 		}
 	}
 	
@@ -187,28 +195,28 @@ class Article extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>$this->lang->line("input_article"),
-						"label"=>$this->lang->line("label_input_article"),
+						"field"=>$this->lang->line("in_article"),
+						"label"=>$this->lang->line("t_in_article"),
 						"rules"=>"required|max_length[30]"
 				),
 				array(
-						"field"=>$this->lang->line("input_fee_unit_hour"),
-						"label"=>$this->lang->line("label_input_fee_unit_hour"),
+						"field"=>$this->lang->line("in_fee_unit_hour"),
+						"label"=>$this->lang->line("t_in_fee_unit_hour"),
 						"rules"=>"required|max_length[9]|callback_call_lib_with_data[regex_lib,regex_decimal,%s - รูปแบบตัวเลขไม่ถูกต้อง,6&2]"
 				),
 				array(
-						"field"=>$this->lang->line("input_fee_unit_lump_sum"),
-						"label"=>$this->lang->line("label_input_fee_unit_lump_sum"),
+						"field"=>$this->lang->line("in_fee_unit_lump_sum"),
+						"label"=>$this->lang->line("t_in_fee_unit_lump_sum"),
 						"rules"=>"required|max_length[9]|callback_regex_decimal"
 				),
 				array(
-						"field"=>$this->lang->line("input_fee_over_unit_lump_sum"),
-						"label"=>$this->lang->line("label_input_fee_over_unit_lump_sum"),
+						"field"=>$this->lang->line("in_fee_over_unit_lump_sum"),
+						"label"=>$this->lang->line("t_in_fee_over_unit_lump_sum"),
 						"rules"=>"required|max_length[9]|callback_regex_decimal"
 				),
 				array(
-						"field"=>$this->lang->line("select_article_type"),
-						"label"=>$this->lang->line("label_select_article_type"),
+						"field"=>$this->lang->line("se_article_type"),
+						"label"=>$this->lang->line("t_se_article_type"),
 						"rules"=>"required"
 				)
 		);
@@ -250,64 +258,64 @@ class Article extends MY_Controller
 				
 			
 			$in_article=array(
-					"LB_text"=>$this->lang->line("label_input_article"),
+					"LB_text"=>$this->lang->line("t_in_article"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_article"),
-					"IN_id"=>$this->lang->line("input_article"),
+					"IN_name"=>$this->lang->line("in_article"),
+					"IN_id"=>$this->lang->line("in_article"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_article")),
+					"IN_value"=>set_value($this->lang->line("in_article")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			
 			$in_fee_unit_hour=array(
-					"LB_text"=>$this->lang->line("label_input_fee_unit_hour"),
+					"LB_text"=>$this->lang->line("t_in_fee_unit_hour"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_fee_unit_hour"),
-					"IN_id"=>$this->lang->line("input_fee_unit_hour"),
+					"IN_name"=>$this->lang->line("in_fee_unit_hour"),
+					"IN_id"=>$this->lang->line("in_fee_unit_hour"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_fee_unit_hour")),
+					"IN_value"=>set_value($this->lang->line("in_fee_unit_hour")),
 					"IN_attr"=>'maxlength="9"',
 					"help_text"=>"999999.99"
 			);
 
 			$in_fee_unit_lump_sum=array(
-					"LB_text"=>$this->lang->line("label_input_fee_unit_lump_sum"),
+					"LB_text"=>$this->lang->line("t_in_fee_unit_lump_sum"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_fee_unit_lump_sum"),
-					"IN_id"=>$this->lang->line("input_fee_unit_lump_sum"),
+					"IN_name"=>$this->lang->line("in_fee_unit_lump_sum"),
+					"IN_id"=>$this->lang->line("in_fee_unit_lump_sum"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_fee_unit_lump_sum")),
+					"IN_value"=>set_value($this->lang->line("in_fee_unit_lump_sum")),
 					"IN_attr"=>'maxlength="9"',
 					"help_text"=>"999999.99"
 			);
 			
 			$in_fee_over_unit_lump_sum=array(
-					"LB_text"=>$this->lang->line("label_input_fee_over_unit_lump_sum"),
+					"LB_text"=>$this->lang->line("t_in_fee_over_unit_lump_sum"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_fee_over_unit_lump_sum"),
-					"IN_id"=>$this->lang->line("input_fee_over_unit_lump_sum"),
+					"IN_name"=>$this->lang->line("in_fee_over_unit_lump_sum"),
+					"IN_id"=>$this->lang->line("in_fee_over_unit_lump_sum"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_fee_over_unit_lump_sum")),
+					"IN_value"=>set_value($this->lang->line("in_fee_over_unit_lump_sum")),
 					"IN_attr"=>'maxlength="9"',
 					"help_text"=>"999999.99"
 			);
 			
 			$se_article_type=array(
-					"LB_text"=>$this->lang->line("label_select_article_type"),
+					"LB_text"=>$this->lang->line("t_se_article_type"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_article_type"),
-					"S_id"=>$this->lang->line("select_article_type"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_article_type")),
+					"S_name"=>$this->lang->line("se_article_type"),
+					"S_id"=>$this->lang->line("se_article_type"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_article_type")),
 					"S_data"=>$this->emm->select_article_type(),
 					"S_id_field"=>"article_type_id",
 					"S_name_field"=>"article_type_name",
@@ -315,7 +323,7 @@ class Article extends MY_Controller
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("แก้ไข/ลบ  ประเภทครุภัณฑ์/อุปกรณ์"),
+					"head"=>$this->pel->head($this->lang->line("ti_edit_article")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -340,16 +348,26 @@ class Article extends MY_Controller
 			$prev_url=$_SERVER['HTTP_REFERER'];
 			$session_edit_id="edit_article_id";
 			$set=array(
-					"article_name"=>$this->input->post($this->lang->line("input_article")),
-					"tb_article_type_id"=>$this->input->post("select_article_type"),
-					"fee_unit_hour"=>$this->input->post("input_fee_unit_hour"),
-					"fee_unit_lump_sum"=>$this->input->post("input_fee_unit_lump_sum"),
-					"fee_over_unit_lump_sum"=>$this->input->post("input_fee_over_unit_lump_sum")
+					"article_name"=>$this->input->post($this->lang->line("in_article")),
+					"tb_article_type_id"=>$this->input->post($this->lang->line("se_article_type")),
+					"fee_unit_hour"=>$this->input->post($this->lang->line("in_fee_unit_hour")),
+					"fee_unit_lump_sum"=>$this->input->post($this->lang->line("in_fee_unit_lump_sum")),
+					"fee_over_unit_lump_sum"=>$this->input->post($this->lang->line("in_fee_over_unit_lump_sum"))
 			);
 			$where=array(
 					"article_id"=>$this->session->userdata($session_edit_id)
 			);
-			$this->load_article_model->manage_edit($set, $where, $this->table_name, $session_edit_id, "edit_article", "แก้ไขครุภัณฑ์/อุปกรณ์สำเร็จ", "แก้ไขครุภัณฑ์/อุปกรณ์ไม่สำเร็จ", "?d=manage&c=article&m=edit", $prev_url);
+			$this->load_article_model->manage_edit(
+					$set,
+					$where,
+					$this->table_name,
+					$session_edit_id,
+					"edit_article",
+					"แก้ไข".$this->lang->line("text_article")."สำเร็จ",
+					"แก้ไข".$this->lang->line("text_article")."ไม่สำเร็จ",
+					"?d=manage&c=article&m=edit",
+					$prev_url
+					);
 		}
 	}
 	
@@ -378,9 +396,9 @@ class Article extends MY_Controller
 		$html='
 		<ul class="nav nav-tabs" id="manage_tab">
 			<!-- data-toggle มี pill/tab -->
-			<li><a href="#"  id="add">เพิ่มครุภัณฑ์/อุปกรณ์</a></li>';
+			<li><a href="#"  id="add">เพิ่ม'.$this->lang->line("text_article").'</a></li>';
 		$html.='
-			<li><a href="#"  id="edit">แก้ไข/ลบครุภัณฑ์/อุปกรณ์</a></li>
+			<li><a href="#"  id="edit">แก้ไข/ลบ'.$this->lang->line("text_article").'</a></li>
 			';
 		$html.='</ul>';
 		return $html;
@@ -423,8 +441,8 @@ class Article extends MY_Controller
 				<table class="table table-striped table-bordered fixed-table" id="tabel_data_list">';
 		$html.='<thead>
 				<th>รหัส</th>
-				<th>ชื่อครุภัณฑ์/อุปกรณ์</th>
-				<th>ประเภทครุภัณฑ์/อุปกรณ์</th>
+				<th>ชื่อ'.$this->lang->line("text_article").'</th>
+				<th>'.$this->lang->line("text_article_type").'</th>
 				<th>ค่าบริการหน่วยต่อชม.</th>
 				<th>ค่าบริการเหมาต่อหน่วย</th>
 				<th>ค่าบริการเหมาส่วนเกินต่อหน่วย</th>

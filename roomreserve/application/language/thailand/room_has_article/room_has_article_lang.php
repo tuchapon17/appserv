@@ -6,9 +6,9 @@ $lang["input_article_num"]="input_article_num";
 $lang["input_lump_sum_base_unit"]="input_lump_sum_base_unit";
 $lang["input_article"]="input_article";
 $lang["input_room"]="input_room";
+$lang["select_article_type"]="select_article_type";
 
-
-
+$lang["label_select_article_type"]="ประเภทครุภัณฑ์/อุปกรณ์";
 $lang["label_select_article"]="ครุภัณฑ์/อุปกรณ์";
 $lang["label_select_room"]="ห้อง";
 $lang["label_select_fee_type"]="ประเภทค่าบริการ";

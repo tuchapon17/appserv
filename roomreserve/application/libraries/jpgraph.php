@@ -36,21 +36,24 @@ class Jpgraph {
 		require_once 'jpgraph-3.5.0b1/src/jpgraph_bar.php';
 		
 		// Create the graph and setup the basic parameters
-		$graph = new Graph(1000 , 800,'auto');
+		$graph = new Graph(1000 , 800);
+		
 		//SetMargin L,R,U,D
-		$graph->img->SetMargin(40,30,100,200);
+		$graph->img->SetMargin(50, 50, 30, 250);
+		$graph->img->SetImgFormat("jpeg");
+		$graph->img->SetQuality(100);
 		//setscale x,y
 		$graph->SetScale("textint");
-		$graph->SetFrame(false,'white',1);
+		$graph->SetBox();
+		//$graph->SetFrame(false,'white',0);
 		//$graph->SetColor('lightblue');
-		$graph->SetMarginColor('lightblue');
-		
+		//$graph->SetMarginColor('khaki:0.6');
 		// Setup graph title ands fonts
-		$graph->title->Set("รายงานสถิติการใช้ห้อง".$title1);
+		//$graph->title->Set("รายงานสถิติการใช้ห้อง".$title1);
 		//$graph->title->SetFont(FF_FONT2,FS_BOLD);
-		$graph->title->SetFont(FF_THSARA,FS_BOLD,20);
-		$graph->subtitle->Set($title2);
-		$graph->subtitle->SetFont(FF_THSARA,FS_BOLD,20);
+		//$graph->title->SetFont(FF_THSARA,FS_BOLD,20);
+		//$graph->subtitle->Set($title2);
+		//$graph->subtitle->SetFont(FF_THSARA,FS_BOLD,20);
 		
 		//------------------  x zone  ------------------
 		//$a = $gDateLocale->GetShortMonth();
@@ -61,7 +64,7 @@ class Jpgraph {
 		$graph->xaxis->title->SetFont(FF_THSARA,FS_BOLD,16);
 		//	$datax = array("x1หนึ่งสองสามสี่ห้าหกเจ็ด","x2","x3","x4","x5");
 		$graph->xaxis->SetTickLabels($xdata);
-		$graph->xaxis->SetFont(FF_THSARA,FS_BOLD,16);
+		$graph->xaxis->SetFont(FF_THSARA,FS_BOLD,22);
 		$graph->xaxis->SetLabelAngle(90);
 		//------------------  end x zone  ---------------
 		
@@ -69,27 +72,28 @@ class Jpgraph {
 		//	$datay = array(7,19,11,4,20);
 		// Add some grace to the top so that the scale doesn't
 		// end exactly at the max value.
+		$graph->yaxis->SetTitle("จำนวนการใช้ห้อง (ครั้ง)","center");
+		$graph->yaxis->title->SetFont(FF_THSARA,FS_BOLD,18);
 		$graph->yaxis->scale->SetGrace(10);
 		// Setup "hidden" y-axis by given it the same color
 		// as the background (this could also be done by setting the weight
 		// to zero)
 		//$graph->yaxis->SetColor('lightblue','darkblue');
-		$graph->yaxis->SetFont(FF_THSARA,FS_BOLD,16);
-		$graph->ygrid->SetColor('gray');
+		$graph->yaxis->SetFont(FF_THSARA,FS_BOLD,22);
+		//$graph->ygrid->SetColor('white');
 		//------------------  end y zone  ---------------
-		
 		
 		// Create a bar pot
 		$bplot = new BarPlot($ydata);
 		$bplot->SetFillColor('darkblue');
 		//$bplot->SetColor('darkblue');
 		$bplot->SetWidth(0.5);
-		$bplot->SetShadow('darkgray');
+		$bplot->SetShadow('black');
 		
 		// Setup the values that are displayed on top of each bar
 		// Must use TTF fonts if we want text at an arbitrary angle
 		$bplot->value->Show();
-		$bplot->value->SetFont(FF_THSARA,FS_NORMAL,18);
+		$bplot->value->SetFont(FF_THSARA,FS_NORMAL,22);
 		$bplot->value->SetFormat('$%d');
 		//$bplot->value->SetColor('darkred');
 		$bplot->value->SetAngle(45);

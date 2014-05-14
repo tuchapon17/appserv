@@ -29,9 +29,9 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php
 	      		 	$em_name=array(
-	      		 			"in_job_position_name"=>"input_job_position_name"
+	      		 			"in_job_position"=>"input_job_position"
 	      		 	);
-      		 		echo form_error($em_name["in_job_position_name"]);
+      		 		echo form_error($em_name["in_job_position"]);
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -41,8 +41,8 @@ echo $head;
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=<?=$controller?>&m=add" method="post" autocomplete="off">
 								<?php
-								echo $in_job_position_name;
-								echo "<span id='".$em_name["in_job_position_name"]."_error' class='hidden'>".form_error($em_name["in_job_position_name"])."</span>";
+								echo $in_job_position;
+								echo "<span id='".$em_name["in_job_position"]."_error' class='hidden'>".form_error($em_name["in_job_position"])."</span>";
 								?>
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>		

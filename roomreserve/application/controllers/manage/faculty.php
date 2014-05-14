@@ -15,8 +15,8 @@ class Faculty extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>"input_faculty_name",
-						"label"=>"คณะ/กอง",
+						"field"=>$this->lang->line("in_faculty"),
+						"label"=>$this->lang->line("t_in_faculty"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -24,22 +24,21 @@ class Faculty extends MY_Controller
 		$this->frm->set_message("rule","message");
 		if($this->frm->run() == false)
 		{
-			$in_faculty_name_name="input_faculty_name";
-			$in_faculty_name=array(
-					"LB_text"=>"คณะ/กอง",
+			$in_faculty=array(
+					"LB_text"=>$this->lang->line("t_in_faculty"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_faculty_name_name,
-					"IN_id"=>$in_faculty_name_name,
+					"IN_name"=>$this->lang->line("in_faculty"),
+					"IN_id"=>$this->lang->line("in_faculty"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_faculty_name_name),
+					"IN_value"=>set_value($this->lang->line("in_faculty")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("เพิ่มคณะ/กอง"),
+					"head"=>$this->pel->head($this->lang->line("ti_add_faculty")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -47,7 +46,7 @@ class Faculty extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"faculty_tab"=>$this->faculty_tab(),
-					"in_faculty_name"=>$this->eml->form_input($in_faculty_name)
+					"in_faculty"=>$this->eml->form_input($in_faculty)
 			);
 		
 			$this->load->view("manage/faculty/add_faculty",$data);
@@ -56,19 +55,27 @@ class Faculty extends MY_Controller
 		{
 			$data=array(
 					"faculty_id"=>$this->fc_model->get_maxid(2, "faculty_id", "tb_faculty"),
-					"faculty_name"=>$this->input->post("input_faculty_name"),
+					"faculty_name"=>$this->input->post($this->lang->line("in_faculty")),
 					"checked"=>"1"
 			);
 			$redirect_link="?d=manage&c=faculty&m=add";
-			$this->fc_model->manage_add($data,"tb_faculty",$redirect_link,$redirect_link,"faculty","เพิ่มคณะ/กองสำเร็จ","เพิ่มคณะ/กองไม่สำเร็จ");
+			$this->fc_model->manage_add(
+					$data,
+					"tb_faculty",
+					$redirect_link,
+					$redirect_link,
+					"faculty",
+					"เพิ่ม".$this->lang->line("text_faculty")."สำเร็จ",
+					"เพิ่ม".$this->lang->line("text_faculty")."ไม่สำเร็จ"
+					);
 		}
 	}
 	function edit()
 	{
 		$config=array(
 				array(
-						"field"=>"input_faculty_name",
-						"label"=>"คณะ/กอง",
+						"field"=>$this->lang->line("in_faculty"),
+						"label"=>$this->lang->line("t_in_faculty"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -108,22 +115,21 @@ class Faculty extends MY_Controller
 			$this->pagination->initialize($config);
 		
 			//..pagination
-			$in_faculty_name_name="input_faculty_name";
-			$in_faculty_name=array(
-					"LB_text"=>"คณะ/กอง",
+			$in_faculty=array(
+					"LB_text"=>$this->lang->line("t_in_faculty"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_faculty_name_name,
-					"IN_id"=>$in_faculty_name_name,
+					"IN_name"=>$this->lang->line("in_faculty"),
+					"IN_id"=>$this->lang->line("in_faculty"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_faculty_name_name),
+					"IN_value"=>set_value($this->lang->line("in_faculty")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("แก้ไข/ลบ  คณะ/กอง"),
+					"head"=>$this->pel->head($this->lang->line("ti_edit_faculty")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -131,7 +137,7 @@ class Faculty extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"faculty_tab"=>$this->faculty_tab(),
-					"in_faculty_name"=>$this->eml->form_input($in_faculty_name),
+					"in_faculty"=>$this->eml->form_input($in_faculty),
 					"table_edit"=>$this->table_edit($get_faculty_list),
 					"session_search_faculty"=>$search_text,
 					"pagination_num_rows"=>$config["total_rows"],
@@ -144,12 +150,22 @@ class Faculty extends MY_Controller
 			$prev_url=$_SERVER['HTTP_REFERER'];
 			$session_edit_id="edit_faculty_id";
 			$set=array(
-					"faculty_name"=>$this->input->post("input_faculty_name")
+					"faculty_name"=>$this->input->post($this->lang->line("in_faculty"))
 			);
 			$where=array(
 					"faculty_id"=>$this->session->userdata($session_edit_id)
 			);
-			$this->fc_model->manage_edit($set, $where, "tb_faculty", $session_edit_id, "edit_faculty", "แก้ไขคณะ/กองสำเร็จ", "แก้ไขคณะ/กองไม่สำเร็จ", "?d=manage&c=faculty&m=edit", $prev_url);
+			$this->fc_model->manage_edit(
+					$set,
+					$where,
+					"tb_faculty",
+					$session_edit_id,
+					"edit_faculty",
+					"แก้ไข".$this->lang->line("text_faculty")."สำเร็จ",
+					"แก้ไข".$this->lang->line("text_faculty")."ไม่สำเร็จ",
+					"?d=manage&c=faculty&m=edit",
+					$prev_url
+					);
 		}
 	}
 	function delete()
@@ -172,9 +188,9 @@ class Faculty extends MY_Controller
 		$html='
 		<ul class="nav nav-tabs" id="manage_tab">
 			<!-- data-toggle มี pill/tab -->
-			<li><a href="#"  id="add">เพิ่มคณะ/กอง</a></li>';
+			<li><a href="#"  id="add">เพิ่ม'.$this->lang->line("text_faculty").'</a></li>';
 		$html.='
-			<li><a href="#"  id="edit">แก้ไข/ลบคณะ/กอง</a></li>
+			<li><a href="#"  id="edit">แก้ไข/ลบ'.$this->lang->line("text_faculty").'</a></li>
 			';
 		$html.='</ul>';
 		return $html;
@@ -201,7 +217,7 @@ class Faculty extends MY_Controller
 				<table class="table table-striped table-bordered fixed-table" id="tabel_data_list">';
 		$html.='<thead>
 				<th>รหัส</th>
-				<th>คณะ/กอง</th>
+				<th>'.$this->lang->line("text_faculty").'</th>
 				<th class="same_first_td">อนุมัติ<br/><button type="button" class="cbtn cbtn-green" id="allow-all"><button type="button" class="cbtn cbtn-red" id="disallow-all"></th>
 				<th class="same_first_td">แก้ไข</th>
 				<th>ลบ<br/><input type="checkbox" id="del_all_faculty"></th>

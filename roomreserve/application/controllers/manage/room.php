@@ -20,17 +20,17 @@ class Room extends MY_Controller
 						"rules"=>"required|max_length[50]"
 				),
 				array(
-						"field"=>"select_room_type",
+						"field"=>$this->lang->line("se_room_type"),
 						"label"=>"ประเภทห้อง",
 						"rules"=>"required"
 				),
 				array(
-						"field"=>"textarea_room_detail",
-						"label"=>"ชื่อห้อง",
+						"field"=>$this->lang->line("te_room_detail"),
+						"label"=>"รายละเอียดห้อง",
 						"rules"=>""
 				),
 				array(
-						"field"=>"input_discount_percent",
+						"field"=>$this->lang->line("in_discount_percent"),
 						"label"=>"ส่วนลดของห้อง",
 						"rules"=>"required|max_length[6]"
 				),
@@ -40,17 +40,17 @@ class Room extends MY_Controller
 						"rules"=>"required|max_length[9]"
 				),*/
 				array(
-						"field"=>"select_fee_type",
+						"field"=>$this->lang->line("se_fee_type"),
 						"label"=>"ประเภทค่าบริการ",
 						"rules"=>"required"
 				),
 				array(
-						"field"=>"input_room_fee_hour",
-						"label"=>"ค่าบริการต่อชั่วโมง",
+						"field"=>$this->lang->line("in_room_fee_hour"),
+						"label"=>"ค่าบริการห้องต่อชั่วโมง",
 						"rules"=>"required|max_length[9]"
 				),
 				array(
-						"field"=>"input_room_fee_lump_sum",
+						"field"=>$this->lang->line("in_room_fee_lump_sum"),
 						"label"=>"ค่าบริการแบบเหมา",
 						"rules"=>"required|max_length[9]"
 				)

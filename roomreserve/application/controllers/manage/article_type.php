@@ -21,8 +21,8 @@ class Article_type extends MY_Controller
 		$config=array(
 		
 				array(
-						"field"=>"input_article_type",
-						"label"=>"ประเภทครุภัณฑ์/อุปกรณ์",
+						"field"=>$this->lang->line("in_article_type"),
+						"label"=>$this->lang->line("t_in_article_type"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -30,22 +30,21 @@ class Article_type extends MY_Controller
 		$this->frm->set_message("rule","message");
 		if($this->frm->run() == false)
 		{
-			$in_article_type_name="input_article_type";
 			$in_article_type=array(
-					"LB_text"=>"ประเภทครุภัณฑ์/อุปกรณ์",
+					"LB_text"=>$this->lang->line("t_in_article_type"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_article_type_name,
-					"IN_id"=>$in_article_type_name,
+					"IN_name"=>$this->lang->line("in_article_type"),
+					"IN_id"=>$this->lang->line("in_article_type"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_article_type_name),
+					"IN_value"=>set_value($this->lang->line("in_article_type")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("เพิ่มประเภทครุภัณฑ์/อุปกรณ์"),
+					"head"=>$this->pel->head($this->lang->line("ti_edit_article_type")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -63,18 +62,26 @@ class Article_type extends MY_Controller
 			//$data[] to insert new article_type
 			$data=array(
 					"article_type_id"=>$this->actm->get_maxid(2, "article_type_id", "tb_article_type"),
-					"article_type_name"=>$this->input->post("input_article_type")
+					"article_type_name"=>$this->input->post($this->lang->line("in_article_type"))
 			);
 			$redirect_link="?d=manage&c=article_type&m=add";
-			$this->actm->manage_add($data,"tb_article_type",$redirect_link,$redirect_link,"article_type","เพิ่มข้อมูลประเภทครุภัณฑ์/อุปกรณ์สำเร็จ","เพิ่มข้อมูลประเภทครุภัณฑ์/อุปกรณ์ไม่สำเร็จ");
+			$this->actm->manage_add(
+					$data,
+					"tb_article_type",
+					$redirect_link,
+					$redirect_link,
+					"article_type",
+					"เพิ่มข้อมูล".$this->lang->line("text_article_type")."สำเร็จ",
+					"เพิ่มข้อมูล".$this->lang->line("text_article_type")."ไม่สำเร็จ"
+					);
 		}
 	}
 	function edit()
 	{
 		$config=array(
 				array(
-						"field"=>"input_article_type",
-						"label"=>"ประเภทครุภัณฑ์/อุปกรณ์",
+						"field"=>$this->lang->line("in_article_type"),
+						"label"=>$this->lang->line("t_in_article_type"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -115,22 +122,21 @@ class Article_type extends MY_Controller
 				
 			//..pagination
 				
-			$in_article_type_name="input_article_type";
 			$in_article_type=array(
-					"LB_text"=>"ประเภทครุภัณฑ์/อุปกรณ์",
+					"LB_text"=>$this->lang->line("t_in_article_type"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_article_type_name,
-					"IN_id"=>$in_article_type_name,
+					"IN_name"=>$this->lang->line("in_article_type"),
+					"IN_id"=>$this->lang->line("in_article_type"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_article_type_name),
+					"IN_value"=>set_value($this->lang->line("in_article_type")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("เพิ่มประเภทครุภัณฑ์/อุปกรณ์"),
+					"head"=>$this->pel->head($this->lang->line("ti_edit_article_type")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -151,12 +157,21 @@ class Article_type extends MY_Controller
 			$prev_url=$_SERVER['HTTP_REFERER'];
 			$session_edit_id="edit_article_type_id";
 			$set=array(
-					"article_type_name"=>$this->input->post("input_article_type")
+					"article_type_name"=>$this->input->post($this->lang->line("in_article_type"))
 			);
 			$where=array(
 					"article_type_id"=>$this->session->userdata($session_edit_id)
 			);
-			$this->actm->manage_edit($set, $where, "tb_article_type", $session_edit_id, "edit_article_type", "แก้ไขประเภทครุภัณฑ์/อุปกรณ์สำเร็จ", "แก้ไขประเภทครุภัณฑ์/อุปกรณ์ไม่สำเร็จ", "?d=manage&c=article_type&m=edit", $prev_url);
+			$this->actm->manage_edit(
+					$set,
+					$where,
+					"tb_article_type",
+					$session_edit_id,
+					"edit_article_type",
+					"แก้ไข".$this->lang->line("text_article_type")."สำเร็จ",
+					"แก้ไข".$this->lang->line("text_article_type")."ไม่สำเร็จ",
+					"?d=manage&c=article_type&m=edit",
+					$prev_url);
 		}
 	}
 	function delete()
@@ -169,9 +184,9 @@ class Article_type extends MY_Controller
 		$html='
 		<ul class="nav nav-tabs" id="manage_tab">
 			<!-- data-toggle มี pill/tab -->
-			<li><a href="#"  id="add">เพิ่มประเภทครุภัณฑ์/อุปกรณ์</a></li>';
+			<li><a href="#"  id="add">เพิ่ม'.$this->lang->line("text_article_type").'</a></li>';
 		$html.='
-			<li><a href="#"  id="edit">แก้ไข/ลบประเภทครุภัณฑ์/อุปกรณ์</a></li>
+			<li><a href="#"  id="edit">แก้ไข/ลบ'.$this->lang->line("text_article_type").'</a></li>
 			';
 		$html.='</ul>';
 		return $html;
@@ -197,7 +212,7 @@ class Article_type extends MY_Controller
 				<table class="table table-striped table-bordered fixed-table" id="tabel_data_list">';
 		$html.='<thead>
 				<th>รหัส</th>
-				<th>ประเภทครุภัณฑ์/อุปกรณ์</th>
+				<th>'.$this->lang->line("text_article_type").'</th>
 				<th class="same_first_td">แก้ไข</th>
 				<th><input type="checkbox" id="del_all_article_type"></th>
 		';

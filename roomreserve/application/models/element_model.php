@@ -52,6 +52,15 @@ class Element_model extends CI_Model
 		$query=$this->db->get();
 		return $query->result_array();
 	}
+	function select_article_by_article_type($article_type_id)
+	{
+		$this->db->select()->from("tb_article")
+		->join("tb_article_type","tb_article_type.article_type_id=tb_article.tb_article_type_id")
+		->order_by("CONVERT(article_name USING UTF8)","ASC")
+		->where("tb_article_type.article_type_id",$article_type_id);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 	function select_room_type()
 	{
 		$this->db->select()->from("tb_room_type")->order_by("CONVERT(room_type_name USING UTF8)","ASC");

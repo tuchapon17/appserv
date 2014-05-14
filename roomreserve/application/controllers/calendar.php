@@ -37,7 +37,7 @@ class Calendar extends MY_Controller {
 				"footer"=>$this->pel->footer(),
 				"bodyclose"=>$this->pel->bodyclose(),
 				"htmlclose"=>$this->pel->htmlclose(),
-				"calendar"=>$this->calendar_model->generate($year,$month,$room_id),
+				"calendar"=>$this->calendar_model->generate(($year+543),$month,$room_id),
 				"customviewbox"=>$this->customviewbox()
 		);
 		$this->load->view("calendar_main",$data);
@@ -116,11 +116,29 @@ class Calendar extends MY_Controller {
 						<select id="ct-year" name="ct-year" class="form-control">';
 			$year=date('Y');
 			$month=date('m');
-				$html.='<option value="'.($year-2).'">'.($year-2).'</option>';
+			
+				$query_year_reserve_on = $this->db->select("YEAR(reserve_on) AS year_reserve_on")
+				->from("tb_reserve")
+				->group_by("YEAR(reserve_on)")
+				->get();
+				$year_reserve_on = $query_year_reserve_on->result_array();
+				if($query_year_reserve_on->num_rows() > 0)
+				{
+					foreach ($year_reserve_on[0] as $y)
+					{
+						if(($y+543) == $year)
+							$html .= '<option value="'.$year.'" selected="selected">'.$year.'</option>';
+						else $html .= '<option value="'.($y+543).'">'.($y+543).'</option>';
+					}
+				}
+				else $html.='<option value="'.$year.'" selected="selected">'.$year.'</option>';
+			
+				/*$html.='<option value="'.($year-2).'">'.($year-2).'</option>';
 				$html.='<option value="'.($year-1).'">'.($year-1).'</option>';
 				$html.='<option value="'.$year.'" selected="selected">'.$year.'</option>';
 				$html.='<option value="'.($year+1).'">'.($year+1).'</option>';
 				$html.='<option value="'.($year+2).'">'.($year+2).'</option>';
+				*/
 				$html.='</select>
 					</div><!-- col-lg-10 -->
 				</div>
@@ -131,9 +149,10 @@ class Calendar extends MY_Controller {
 			for($i=1;$i<=12;$i++)
 			{
 				$month_th=array("ม.ค.","ก.พ.","มี.ค.","เม.ษ.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
+				$month_th_full=array("มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม");
 				$text=str_pad($i,2,0,STR_PAD_LEFT);
 				$selected=($text==str_pad($month,2,0,STR_PAD_LEFT)) ? 'selected="selected"' : '';
-				$html.='<option value="'.$text.'" '.$selected.'>'.$month_th[$i-1].'</option>';
+				$html.='<option value="'.$text.'" '.$selected.'>'.$month_th_full[$i-1].'</option>';
 			}
 				$html.='</select>
 					</div><!-- col-lg-10 -->

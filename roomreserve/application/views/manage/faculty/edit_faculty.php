@@ -35,9 +35,9 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php 
 	      		 	$em_name=array(
-	      		 			"in_faculty_name"=>"input_faculty_name"
+	      		 			"in_faculty"=>"input_faculty"
 	      		 	);
-      		 		echo form_error($em_name["in_faculty_name"]);
+      		 		echo form_error($em_name["in_faculty"]);
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -47,8 +47,8 @@ echo $head;
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=<?=$controller?>&m=edit" method="post" autocomplete="off">
 								<?php
-								echo $in_faculty_name;
-								echo "<span id='".$em_name["in_faculty_name"]."_error' class='hidden'>".form_error($em_name["in_faculty_name"])."</span>";
+								echo $in_faculty;
+								echo "<span id='".$em_name["in_faculty"]."_error' class='hidden'>".form_error($em_name["in_faculty"])."</span>";
 								?>	
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>		
@@ -131,13 +131,13 @@ echo $js;
 			type:"POST",
 			dataType:"json",
 			success:function(resp){
-				$("#input_faculty_name").val(resp.faculty_name);
+				$("#input_faculty").val(resp.faculty_name);
 			},
 			error:function(error){
 				alert("Error : "+error);
 			}
 		});
-		$("#input_faculty_name").focus();
+		$("#input_faculty").focus();
 	}
 	function set_per_page(num)
 	{

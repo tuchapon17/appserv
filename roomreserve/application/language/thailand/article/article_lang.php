@@ -8,7 +8,6 @@ $lang[""]="";
 $lang[""]="";
 $lang[""]="";
 $lang[""]="";
-
 $lang["label_input_article"]="ชื่อครุภัณฑ์/อุปกรณ์";
 $lang["label_input_fee_unit_hour"]="ค่าบริการหน่วยต่อชม.";
 $lang["label_input_fee_unit_lump_sum"]="ค่าบริการเหมาต่อหน่วย";

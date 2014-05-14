@@ -41,7 +41,7 @@ class Regex_lib extends CI_Form_validation
 		 Allow ENG & TH Charactor
 		for Firstname & Lastname
 		###################################################*/
-		$pattern="/^[a-zA-Zก-ํ]+$/u";
+		$pattern="/^[a-zA-Zก-ํ\/]+$/u";
 		//$this->form_validation->set_message('regex_charTHEN',"%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ");
 		$rs=preg_match($pattern,$data,$matchOutput);
 		if($rs == 1):

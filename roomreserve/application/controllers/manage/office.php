@@ -15,8 +15,8 @@ class Office extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>"input_office_name",
-						"label"=>"หน่วยงาน",
+						"field"=>$this->lang->line("in_office"),
+						"label"=>$this->lang->line("t_in_office"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -24,32 +24,29 @@ class Office extends MY_Controller
 		$this->frm->set_message("rule","message");
 		if($this->frm->run() == false)
 		{
-			$in_office_name_name="input_office_name";
-			$in_office_name=array(
-					"LB_text"=>"หน่วยงาน",
+			$in_office=array(
+					"LB_text"=>$this->lang->line("t_in_office"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_office_name_name,
-					"IN_id"=>$in_office_name_name,
+					"IN_name"=>$this->lang->line("in_office"),
+					"IN_id"=>$this->lang->line("in_office"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_office_name_name),
+					"IN_value"=>set_value($this->lang->line("in_office")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
-
-			$PEL=$this->page_element_lib;
 			$data=array(
-					"htmlopen"=>$PEL->htmlopen(),
-					"head"=>$PEL->head("เพิ่มหน่วยงาน"),
-					"bodyopen"=>$PEL->bodyopen(),
-					"navbar"=>$PEL->navbar(),
-					"js"=>$PEL->js(),
-					"footer"=>$PEL->footer(),
-					"bodyclose"=>$PEL->bodyclose(),
-					"htmlclose"=>$PEL->htmlclose(),
+					"htmlopen"=>$this->pel->htmlopen(),
+					"head"=>$this->pel->head($this->lang->line("ti_add_office")),
+					"bodyopen"=>$this->pel->bodyopen(),
+					"navbar"=>$this->pel->navbar(),
+					"js"=>$this->pel->js(),
+					"footer"=>$this->pel->footer(),
+					"bodyclose"=>$this->pel->bodyclose(),
+					"htmlclose"=>$this->pel->htmlclose(),
 					"office_tab"=>$this->office_tab(),
-					"in_office_name"=>$this->eml->form_input($in_office_name)
+					"in_office"=>$this->eml->form_input($in_office)
 			);
 		
 			$this->load->view("manage/office/add_office",$data);
@@ -58,19 +55,27 @@ class Office extends MY_Controller
 		{
 			$data=array(
 					"office_id"=>$this->off_model->get_maxid(2, "office_id", "tb_office"),
-					"office_name"=>$this->input->post("input_office_name"),
+					"office_name"=>$this->input->post($this->lang->line("in_office")),
 					"checked"=>"1"
 			);
 			$redirect_link="?d=manage&c=office&m=add";
-			$this->off_model->manage_add($data,"tb_office",$redirect_link,$redirect_link,"office","เพิ่มหน่วยงานสำเร็จ","เพิ่มหน่วยงานไม่สำเร็จ");
+			$this->off_model->manage_add(
+					$data,
+					"tb_office",
+					$redirect_link,
+					$redirect_link,
+					"office",
+					"เพิ่ม".$this->lang->line("text_office")."สำเร็จ",
+					"เพิ่ม".$this->lang->line("text_office")."ไม่สำเร็จ"
+					);
 		}
 	}
 	function edit()
 	{
 		$config=array(
 				array(
-						"field"=>"input_office_name",
-						"label"=>"หน่วยงาน",
+						"field"=>$this->lang->line("in_office"),
+						"label"=>$this->lang->line("t_in_office"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -110,36 +115,34 @@ class Office extends MY_Controller
 			$this->pagination->initialize($config);
 		
 			//..pagination
-			$in_office_name_name="input_office_name";
-			$in_office_name=array(
-					"LB_text"=>"หน่วยงาน",
+			$in_office=array(
+					"LB_text"=>$this->lang->line("t_in_office"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_office_name_name,
-					"IN_id"=>$in_office_name_name,
+					"IN_name"=>$this->lang->line("in_office"),
+					"IN_id"=>$this->lang->line("in_office"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_office_name_name),
+					"IN_value"=>set_value($this->lang->line("in_office")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			
-			$PEL=$this->page_element_lib;
 			$data=array(
-					"htmlopen"=>$PEL->htmlopen(),
-					"head"=>$PEL->head("แก้ไข/ลบ  หน่วยงาน"),
-					"bodyopen"=>$PEL->bodyopen(),
-					"navbar"=>$PEL->navbar(),
-					"js"=>$PEL->js(),
-					"footer"=>$PEL->footer(),
-					"bodyclose"=>$PEL->bodyclose(),
-					"htmlclose"=>$PEL->htmlclose(),
+					"htmlopen"=>$this->pel->htmlopen(),
+					"head"=>$this->pel->head($this->lang->line("ti_edit_office")),
+					"bodyopen"=>$this->pel->bodyopen(),
+					"navbar"=>$this->pel->navbar(),
+					"js"=>$this->pel->js(),
+					"footer"=>$this->pel->footer(),
+					"bodyclose"=>$this->pel->bodyclose(),
+					"htmlclose"=>$this->pel->htmlclose(),
 					"office_tab"=>$this->office_tab(),
-					"in_office_name"=>$this->eml->form_input($in_office_name),
+					"in_office"=>$this->eml->form_input($in_office),
 					"table_edit"=>$this->table_edit($get_office_list),
 					"session_search_office"=>$search_text,
 					"pagination_num_rows"=>$config["total_rows"],
-					"manage_search_box"=>$PEL->manage_search_box($search_text)
+					"manage_search_box"=>$this->pel->manage_search_box($search_text)
 			);
 			$this->load->view("manage/office/edit_office",$data);
 		}
@@ -148,12 +151,21 @@ class Office extends MY_Controller
 			$prev_url=$_SERVER['HTTP_REFERER'];
 			$session_edit_id="edit_office_id";
 			$set=array(
-					"office_name"=>$this->input->post("input_office_name")
+					"office_name"=>$this->input->post($this->lang->line("in_office"))
 			);
 			$where=array(
 					"office_id"=>$this->session->userdata($session_edit_id)
 			);
-			$this->off_model->manage_edit($set, $where, "tb_office", $session_edit_id, "edit_office", "แก้ไขหน่วยงานสำเร็จ", "แก้ไขหน่วยงานไม่สำเร็จ", "?d=manage&c=office&m=edit", $prev_url);
+			$this->off_model->manage_edit(
+					$set,
+					$where,
+					"tb_office",
+					$session_edit_id,
+					"edit_office",
+					"แก้ไข".$this->lang->line("text_office")."สำเร็จ",
+					"แก้ไข".$this->lang->line("text_office")."ไม่สำเร็จ",
+					"?d=manage&c=office&m=edit",
+					$prev_url);
 		}
 	}
 	function delete()
@@ -176,9 +188,9 @@ class Office extends MY_Controller
 		$html='
 		<ul class="nav nav-tabs" id="manage_tab">
 			<!-- data-toggle มี pill/tab -->
-			<li><a href="#"  id="add">เพิ่มหน่วยงาน</a></li>';
+			<li><a href="#"  id="add">เพิ่ม'.$this->lang->line("text_office").'</a></li>';
 		$html.='
-			<li><a href="#"  id="edit">แก้ไข/ลบหน่วยงาน</a></li>
+			<li><a href="#"  id="edit">แก้ไข/ลบ'.$this->lang->line("text_office").'</a></li>
 			';
 		$html.='</ul>';
 		return $html;
@@ -205,7 +217,7 @@ class Office extends MY_Controller
 				<table class="table table-striped table-bordered fixed-table" id="tabel_data_list">';
 		$html.='<thead>
 				<th>รหัส</th>
-				<th>หน่วยงาน</th>
+				<th>'.$this->lang->line("text_office").'</th>
 				<th class="same_first_td">อนุมัติ<br/><button type="button" class="cbtn cbtn-green" id="allow-all"><button type="button" class="cbtn cbtn-red" id="disallow-all"></th>
 				<th class="same_first_td">แก้ไข</th>
 				<th>ลบ<br/><input type="checkbox" id="del_all_office"></th>

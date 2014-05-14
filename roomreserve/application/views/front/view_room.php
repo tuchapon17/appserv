@@ -75,7 +75,7 @@ echo $head;
         foreach($get_pic_list as $g)
         {
         	$src=base_url().'upload/pic/'.$g['pic_name'];
-        	echo '<img class="img-thumbnail room-pic" style="width:33%;height:auto;" src="'.$src.'" onclick=large_pic("'.$src.'"); title="คลิกเพื่อดูรูปขนาดใหญ่">'; 
+        	echo '<img class="img-thumbnail room-pic" style="width:33%;height:auto;" src="'.$src.'" onclick=large_pic("'.$src.'","'.$g["pic_descript"].'"); title="คลิกเพื่อดูรูปขนาดใหญ่">'; 
         }
         ?>
         </div>
@@ -160,9 +160,9 @@ echo $js;
 
 		
 	});
-	function large_pic(src)
+	function large_pic(src, descript)
 	{
-		bootbox.alert('<img class="img-thumbnail" src='+src+' style="width:100%;height:auto;">');
+		bootbox.alert('<img class="img-thumbnail" src='+src+' style="width:100%;height:auto;"><p class="text-center">'+descript+'</p>');
 	}
 	</script>
 <?php 

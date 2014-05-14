@@ -15,8 +15,8 @@ class Occupation extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>"input_occupation_name",
-						"label"=>"อาชีพ",
+						"field"=>$this->lang->line("in_occupation"),
+						"label"=>$this->lang->line("t_in_occupation"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -24,22 +24,21 @@ class Occupation extends MY_Controller
 		$this->frm->set_message("rule","message");
 		if($this->frm->run() == false)
 		{
-			$in_occupation_name_name="input_occupation_name";
-			$in_occupation_name=array(
-					"LB_text"=>"อาชีพ",
+			$in_occupation=array(
+					"LB_text"=>$this->lang->line("t_in_occupation"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_occupation_name_name,
-					"IN_id"=>$in_occupation_name_name,
+					"IN_name"=>$this->lang->line("in_occupation"),
+					"IN_id"=>$this->lang->line("in_occupation"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_occupation_name_name),
+					"IN_value"=>set_value($this->lang->line("in_occupation")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("เพิ่มอาชีพ"),
+					"head"=>$this->pel->head($this->lang->line("ti_add_occupation")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -47,7 +46,7 @@ class Occupation extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"occupation_tab"=>$this->occupation_tab(),
-					"in_occupation_name"=>$this->eml->form_input($in_occupation_name)
+					"in_occupation"=>$this->eml->form_input($in_occupation)
 			);
 		
 			$this->load->view("manage/occupation/add_occupation",$data);
@@ -57,19 +56,27 @@ class Occupation extends MY_Controller
 		
 			$data=array(
 					"occupation_id"=>$this->occ_model->get_maxid(2, "occupation_id", "tb_occupation"),
-					"occupation_name"=>$this->input->post("input_occupation_name"),
+					"occupation_name"=>$this->input->post($this->lang->line("in_occupation")),
 					"checked"=>"1"
 			);
 			$redirect_link="?d=manage&c=occupation&m=add";
-			$this->occ_model->manage_add($data,"tb_occupation",$redirect_link,$redirect_link,"occupation","เพิ่มอาชีพสำเร็จ","เพิ่มอาชีพไม่สำเร็จ");
+			$this->occ_model->manage_add(
+					$data,
+					"tb_occupation",
+					$redirect_link,
+					$redirect_link,
+					"occupation",
+					"เพิ่ม".$this->lang->line("text_occupation")."สำเร็จ",
+					"เพิ่ม".$this->lang->line("text_occupation")."ไม่สำเร็จ"
+					);
 		}
 	}
 	function edit()
 	{
 		$config=array(
 				array(
-						"field"=>"input_occupation_name",
-						"label"=>"อาชีพ",
+						"field"=>$this->lang->line("in_occupation"),
+						"label"=>$this->lang->line("t_in_occupation"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -109,22 +116,21 @@ class Occupation extends MY_Controller
 			$this->pagination->initialize($config);
 		
 			//..pagination
-			$in_occupation_name_name="input_occupation_name";
-			$in_occupation_name=array(
-					"LB_text"=>"อาชีพ",
+			$in_occupation=array(
+					"LB_text"=>$this->lang->line("t_in_occupation"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_occupation_name_name,
-					"IN_id"=>$in_occupation_name_name,
+					"IN_name"=>$this->lang->line("in_occupation"),
+					"IN_id"=>$this->lang->line("in_occupation"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_occupation_name_name),
+					"IN_value"=>set_value($this->lang->line("in_occupation")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("แก้ไข/ลบ  อาชีพ"),
+					"head"=>$this->pel->head($this->lang->line("ti_edit_occupation")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -132,7 +138,7 @@ class Occupation extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"occupation_tab"=>$this->occupation_tab(),
-					"in_occupation_name"=>$this->eml->form_input($in_occupation_name),
+					"in_occupation"=>$this->eml->form_input($in_occupation),
 					"table_edit"=>$this->table_edit($get_occupation_list),
 					"session_search_occupation"=>$search_text,
 					"pagination_num_rows"=>$config["total_rows"],
@@ -145,12 +151,22 @@ class Occupation extends MY_Controller
 			$prev_url=$_SERVER['HTTP_REFERER'];
 			$session_edit_id="edit_occupation_id";
 			$set=array(
-					"occupation_name"=>$this->input->post("input_occupation_name")
+					"occupation_name"=>$this->input->post($this->lang->line("in_occupation"))
 			);
 			$where=array(
 					"occupation_id"=>$this->session->userdata($session_edit_id)
 			);
-			$this->occ_model->manage_edit($set, $where, "tb_occupation", $session_edit_id, "edit_occupation", "แก้ไขอาชีพสำเร็จ", "แก้ไขอาชีพไม่สำเร็จ", "?d=manage&c=occupation&m=edit", $prev_url);
+			$this->occ_model->manage_edit(
+					$set,
+					$where,
+					"tb_occupation",
+					$session_edit_id,
+					"edit_occupation",
+					"แก้ไข".$this->lang->line("text_occupation")."สำเร็จ",
+					"แก้ไข".$this->lang->line("text_occupation")."ไม่สำเร็จ",
+					"?d=manage&c=occupation&m=edit",
+					$prev_url
+					);
 		}
 	}
 	function delete()
@@ -173,9 +189,9 @@ class Occupation extends MY_Controller
 		$html='
 		<ul class="nav nav-tabs" id="manage_tab">
 			<!-- data-toggle มี pill/tab -->
-			<li><a href="#"  id="add">เพิ่มอาชีพ</a></li>';
+			<li><a href="#"  id="add">เพิ่ม'.$this->lang->line("text_occupation").'</a></li>';
 		$html.='
-			<li><a href="#"  id="edit">แก้ไข/ลบอาชีพ</a></li>
+			<li><a href="#"  id="edit">แก้ไข/ลบ'.$this->lang->line("text_occupation").'</a></li>
 			';
 		$html.='</ul>';
 		return $html;
@@ -202,7 +218,7 @@ class Occupation extends MY_Controller
 				<table class="table table-striped table-bordered fixed-table" id="tabel_data_list">';
 		$html.='<thead>
 				<th>รหัส</th>
-				<th>อาชีพ</th>
+				<th>'.$this->lang->line("text_occupation").'</th>
 				<th class="same_first_td">อนุมัติ<br/><button type="button" class="cbtn cbtn-green" id="allow-all"><button type="button" class="cbtn cbtn-red" id="disallow-all"></th>
 				<th class="same_first_td">แก้ไข</th>
 				<th>ลบ<br/><input type="checkbox" id="del_all_occupation"></th>

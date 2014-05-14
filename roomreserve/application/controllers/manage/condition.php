@@ -13,8 +13,8 @@ class Condition extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>"textarea_condition",
-						"label"=>"condition",
+						"field"=>$this->lang->line("te_condition"),
+						"label"=>$this->lang->line("t_te_condition"),
 						"rules"=>""
 				)
 		);
@@ -22,19 +22,18 @@ class Condition extends MY_Controller
 		$this->frm->set_message("rule","message");
 		if($this->frm->run() == false)
 		{
-			$te_condition_name="textarea_condition";
 			$te_condition=array(
-					"LB_text"=>"ระเบียบการใช้งานระบบ",
+					"LB_text"=>$this->lang->line("t_te_condition"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_class"=>'',
-					"IN_name"=>$te_condition_name,
-					"IN_id"=>$te_condition_name,
+					"IN_name"=>$this->lang->line("te_condition"),
+					"IN_id"=>$this->lang->line("te_condition"),
 					"IN_attr"=>'rows="20"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("แก้ไขระเบียบการใช้งานระบบ"),
+					"head"=>$this->pel->head($this->lang->line("ti_edit_condition")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -57,7 +56,17 @@ class Condition extends MY_Controller
 			$where=array(
 					"condition_id"=>$this->session->userdata($session_edit_id)
 			);
-			$this->cdm->manage_edit($set, $where, "tb_condition", $session_edit_id, "edit_condition", "แก้ไขconditionสำเร็จ", "แก้ไขconditionไม่สำเร็จ", "?d=manage&c=condition&m=edit", $prev_url);
+			$this->cdm->manage_edit(
+					$set,
+					$where,
+					"tb_condition",
+					$session_edit_id,
+					"edit_condition",
+					"แก้ไข".$this->lang->line("text_condition")."สำเร็จ",
+					"แก้ไข".$this->lang->line("text_condition")."ไม่สำเร็จ",
+					"?d=manage&c=condition&m=edit",
+					$prev_url
+					);
 		}
 	}
 	function condition_tab()
@@ -67,7 +76,7 @@ class Condition extends MY_Controller
 			<!-- data-toggle มี pill/tab -->
 			';
 		$html.='
-			<li><a href="#"  id="edit">แก้ไขระเบียบการใช้งานระบบ</a></li>
+			<li><a href="#"  id="edit">แก้ไข'.$this->lang->line("text_condition").'</a></li>
 			';
 		$html.='</ul>';
 		return $html;

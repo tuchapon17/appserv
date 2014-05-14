@@ -15,8 +15,8 @@ class Room_type extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>"input_room_type",
-						"label"=>"ประเภทห้อง",
+						"field"=>$this->lang->line("in_room_type"),
+						"label"=>$this->lang->line("t_in_room_type"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -24,22 +24,21 @@ class Room_type extends MY_Controller
 		$this->frm->set_message("rule","message");
 		if($this->frm->run() == false)
 		{
-			$in_room_type_name="input_room_type";
 			$in_room_type=array(
-					"LB_text"=>"ประเภทห้อง",
+					"LB_text"=>$this->lang->line("t_in_room_type"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_room_type_name,
-					"IN_id"=>$in_room_type_name,
+					"IN_name"=>$this->lang->line("in_room_type"),
+					"IN_id"=>$this->lang->line("in_room_type"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_room_type_name),
+					"IN_value"=>set_value($this->lang->line("in_room_type")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("เพิ่มประเภทห้อง"),
+					"head"=>$this->pel->head($this->lang->line("ti_add_room_type")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -57,18 +56,26 @@ class Room_type extends MY_Controller
 			//$data[] to insert new room_type
 			$data=array(
 					"room_type_id"=>$this->rt_model->get_maxid(2, "room_type_id", "tb_room_type"),
-					"room_type_name"=>$this->input->post("input_room_type")
+					"room_type_name"=>$this->input->post($this->lang->line("in_room_type"))
 			);
 			$redirect_link="?d=manage&c=room_type&m=add";
-			$this->rt_model->manage_add($data,"tb_room_type",$redirect_link,$redirect_link,"room_type","เพิ่มข้อมูลประเภทห้องสำเร็จ","เพิ่มข้อมูลประเภทห้องไม่สำเร็จ");
+			$this->rt_model->manage_add(
+					$data,
+					"tb_room_type",
+					$redirect_link,
+					$redirect_link,
+					"room_type",
+					"เพิ่มข้อมูล".$this->lang->line("text_room_type")."สำเร็จ",
+					"เพิ่มข้อมูล".$this->lang->line("text_room_type")."ไม่สำเร็จ"
+					);
 		}
 	}
 	function edit()
 	{
 		$config=array(
 				array(
-						"field"=>"input_room_type",
-						"label"=>"ประเภทห้อง",
+						"field"=>$this->lang->line("in_room_type"),
+						"label"=>$this->lang->line("t_in_room_type"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -105,23 +112,21 @@ class Room_type extends MY_Controller
 			$this->pagination->initialize($config);
 				
 			//..pagination
-				
-			$in_room_type_name="input_room_type";
 			$in_room_type=array(
-					"LB_text"=>"ประเภทห้อง",
+					"LB_text"=>$this->lang->line("t_in_room_type"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_room_type_name,
-					"IN_id"=>$in_room_type_name,
+					"IN_name"=>$this->lang->line("in_room_type"),
+					"IN_id"=>$this->lang->line("in_room_type"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_room_type_name),
+					"IN_value"=>set_value($this->lang->line("in_room_type")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);	
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("เพิ่มประเภทห้อง"),
+					"head"=>$this->pel->head($this->lang->line("ti_edit_room_type")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -142,12 +147,22 @@ class Room_type extends MY_Controller
 			$prev_url=$_SERVER['HTTP_REFERER'];
 			$session_edit_id="edit_room_type_id";
 			$set=array(
-					"room_type_name"=>$this->input->post("input_room_type")
+					"room_type_name"=>$this->input->post($this->lang->line("in_room_type"))
 			);
 			$where=array(
 					"room_type_id"=>$this->session->userdata($session_edit_id)
 			);
-			$this->rt_model->manage_edit($set, $where, "tb_room_type", $session_edit_id, "edit_room_type", "แก้ไขประเภทห้องสำเร็จ", "แก้ไขประเภทห้องไม่สำเร็จ", "?d=manage&c=room_type&m=edit", $prev_url);
+			$this->rt_model->manage_edit(
+					$set,
+					$where,
+					"tb_room_type",
+					$session_edit_id,
+					"edit_room_type",
+					"แก้ไข".$this->lang->line("text_room_type")."สำเร็จ",
+					"แก้ไข".$this->lang->line("text_room_type")."ไม่สำเร็จ",
+					"?d=manage&c=room_type&m=edit",
+					$prev_url
+					);
 		}
 	}
 	function delete()
@@ -160,9 +175,9 @@ class Room_type extends MY_Controller
 		$html='
 		<ul class="nav nav-tabs" id="manage_tab">
 			<!-- data-toggle มี pill/tab -->
-			<li><a href="#"  id="add">เพิ่มประเภทห้อง</a></li>';
+			<li><a href="#"  id="add">เพิ่ม'.$this->lang->line("text_room_type").'</a></li>';
 		$html.='
-			<li><a href="#"  id="edit">แก้ไข/ลบประเภทห้อง</a></li>
+			<li><a href="#"  id="edit">แก้ไข/ลบ'.$this->lang->line("text_room_type").'</a></li>
 			';
 		$html.='</ul>';
 		return $html;
@@ -189,7 +204,7 @@ class Room_type extends MY_Controller
 				<table class="table table-striped table-bordered fixed-table" id="tabel_data_list">';
 		$html.='<thead>
 				<th>รหัส</th>
-				<th>ประเภทห้อง</th>
+				<th>'.$this->lang->line("text_room_type").'</th>
 				<th class="same_first_td">แก้ไข</th>
 				<th><input type="checkbox" id="del_all_room_type"></th>
 		';

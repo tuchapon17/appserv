@@ -45,91 +45,103 @@ class Room_has_article extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>$this->lang->line("select_article"),
-						"label"=>$this->lang->line("label_select_article"),
+						"field"=>$this->lang->line("se_article"),
+						"label"=>$this->lang->line("t_se_article"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>$this->lang->line("select_room"),
-						"label"=>$this->lang->line("label_select_room"),
+						"field"=>$this->lang->line("se_room"),
+						"label"=>$this->lang->line("t_se_room"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>$this->lang->line("select_fee_type"),
-						"label"=>$this->lang->line("label_select_fee_type"),
+						"field"=>$this->lang->line("se_fee_type"),
+						"label"=>$this->lang->line("t_se_fee_type"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>$this->lang->line("input_article_num"),
-						"label"=>$this->lang->line("label_input_article_num"),
+						"field"=>$this->lang->line("in_article_num"),
+						"label"=>$this->lang->line("t_in_article_num"),
 						"rules"=>"required|numeric"
 				),
 				array(
-						"field"=>$this->lang->line("input_lump_sum_base_unit"),
-						"label"=>$this->lang->line("label_input_lump_sum_base_unit"),
+						"field"=>$this->lang->line("in_lump_sum_base_unit"),
+						"label"=>$this->lang->line("t_in_lump_sum_base_unit"),
 						"rules"=>"numeric"
 				)
 		);
 		$this->frm->set_rules($config);
 		if($this->frm->run() == false)
 		{
-			$se_article=array(
-					"LB_text"=>$this->lang->line("label_select_article"),
+			$se_article_type=array(
+					"LB_text"=>$this->lang->line("t_se_article_type"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_article"),
-					"S_id"=>$this->lang->line("select_article"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_article")),
-					"S_data"=>$this->emm->get_select("tb_article","article_name"),
+					"S_name"=>$this->lang->line("se_article_type"),
+					"S_id"=>$this->lang->line("se_article_type"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_article_type")),
+					"S_data"=>$this->emm->select_article_type(),
+					"S_id_field"=>"article_type_id",
+					"S_name_field"=>"article_type_name",
+					"help_text"=>''
+			);
+			$se_article=array(
+					"LB_text"=>$this->lang->line("t_se_article"),
+					"LB_attr"=>$this->eml->span_redstar(),
+					"S_class"=>'',
+					"S_name"=>$this->lang->line("se_article"),
+					"S_id"=>$this->lang->line("se_article"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_article")),
+					"S_data"=>'',
 					"S_id_field"=>"article_id",
 					"S_name_field"=>"article_name",
 					"help_text"=>''
 			);
 			$se_room=array(
-					"LB_text"=>$this->lang->line("label_select_room"),
+					"LB_text"=>$this->lang->line("t_se_room"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_room"),
-					"S_id"=>$this->lang->line("select_room"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_room")),
+					"S_name"=>$this->lang->line("se_room"),
+					"S_id"=>$this->lang->line("se_room"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_room")),
 					"S_data"=>'',
 					"S_id_field"=>"room_id",
 					"S_name_field"=>"room_name",
 					"help_text"=>''
 			);
 			$se_fee_type=array(
-					"LB_text"=>$this->lang->line("label_select_fee_type"),
+					"LB_text"=>$this->lang->line("t_se_fee_type"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_fee_type"),
-					"S_id"=>$this->lang->line("select_fee_type"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_fee_type")),
+					"S_name"=>$this->lang->line("se_fee_type"),
+					"S_id"=>$this->lang->line("se_fee_type"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_fee_type")),
 					"S_data"=>$this->emm->get_select("tb_fee_type","fee_type_name"),
 					"S_id_field"=>"fee_type_id",
 					"S_name_field"=>"fee_type_name",
 					"help_text"=>''
 			);
 			$in_article_num=array(
-					"LB_text"=>$this->lang->line("label_input_article_num"),
+					"LB_text"=>$this->lang->line("t_in_article_num"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_article_num"),
-					"IN_id"=>$this->lang->line("input_article_num"),
+					"IN_name"=>$this->lang->line("in_article_num"),
+					"IN_id"=>$this->lang->line("in_article_num"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_article_num")),
+					"IN_value"=>set_value($this->lang->line("in_article_num")),
 					"IN_attr"=>'maxlength="4"',
 					"help_text"=>""
 			);
 			$in_lump_sum_base_unit=array(
-					"LB_text"=>$this->lang->line("label_input_lump_sum_base_unit"),
+					"LB_text"=>$this->lang->line("t_in_lump_sum_base_unit"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_lump_sum_base_unit"),
-					"IN_id"=>$this->lang->line("input_lump_sum_base_unit"),
+					"IN_name"=>$this->lang->line("in_lump_sum_base_unit"),
+					"IN_id"=>$this->lang->line("in_lump_sum_base_unit"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_lump_sum_base_unit")),
+					"IN_value"=>set_value($this->lang->line("in_lump_sum_base_unit")),
 					"IN_attr"=>'maxlength="4"',
 					"help_text"=>""
 			);
@@ -148,18 +160,19 @@ class Room_has_article extends MY_Controller
 					"se_room"=>$this->eml->form_select($se_room),
 					"se_fee_type"=>$this->eml->form_select($se_fee_type),
 					"in_article_num"=>$this->eml->form_input($in_article_num),
-					"in_lump_sum_base_unit"=>$this->eml->form_input($in_lump_sum_base_unit)					
+					"in_lump_sum_base_unit"=>$this->eml->form_input($in_lump_sum_base_unit),
+					"se_article_type"=>$this->eml->form_select($se_article_type)
 			);
 			$this->load->view("manage/room_has_article/add_room_has_article",$data);
 		}
 		else
 		{
 			$data=array(
-					"tb_room_id"=>$this->input->post($this->lang->line("select_room")),
-					"tb_article_id"=>$this->input->post($this->lang->line("select_article")),
-					"article_num"=>$this->input->post($this->lang->line("input_article_num")),
-					"tb_fee_type_id"=>$this->input->post($this->lang->line("select_fee_type")),
-					"lump_sum_base_unit"=>$this->input->post($this->lang->line("input_lump_sum_base_unit"))
+					"tb_room_id"=>$this->input->post($this->lang->line("se_room")),
+					"tb_article_id"=>$this->input->post($this->lang->line("se_article")),
+					"article_num"=>$this->input->post($this->lang->line("in_article_num")),
+					"tb_fee_type_id"=>$this->input->post($this->lang->line("se_fee_type")),
+					"lump_sum_base_unit"=>$this->input->post($this->lang->line("in_lump_sum_base_unit"))
 			);
 			$redirect_link="?d=manage&c=room_has_article&m=add";
 			$this->load_rha_model->manage_add($data,$this->table_name,$redirect_link,$redirect_link,"room_has_article","เพิ่มครุภัณฑ์/อุปกรณ์สำหรับห้องสำเร็จ","เพิ่มครุภัณฑ์/อุปกรณ์สำหรับห้องไม่สำเร็จ");
@@ -179,28 +192,28 @@ class Room_has_article extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>$this->lang->line("input_article"),
-						"label"=>$this->lang->line("label_input_article"),
+						"field"=>$this->lang->line("in_article"),
+						"label"=>$this->lang->line("t_in_article"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>$this->lang->line("input_room"),
-						"label"=>$this->lang->line("label_input_room"),
+						"field"=>$this->lang->line("in_room"),
+						"label"=>$this->lang->line("t_in_room"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>$this->lang->line("select_fee_type"),
-						"label"=>$this->lang->line("label_select_fee_type"),
+						"field"=>$this->lang->line("se_fee_type"),
+						"label"=>$this->lang->line("t_se_fee_type"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>$this->lang->line("input_article_num"),
-						"label"=>$this->lang->line("label_input_article_num"),
+						"field"=>$this->lang->line("in_article_num"),
+						"label"=>$this->lang->line("t_in_article_num"),
 						"rules"=>"required|numeric"
 				),
 				array(
-						"field"=>$this->lang->line("input_lump_sum_base_unit"),
-						"label"=>$this->lang->line("label_input_lump_sum_base_unit"),
+						"field"=>$this->lang->line("in_lump_sum_base_unit"),
+						"label"=>$this->lang->line("t_in_lump_sum_base_unit"),
 						"rules"=>"numeric"
 				)
 		);
@@ -239,85 +252,85 @@ class Room_has_article extends MY_Controller
 	
 			//..pagination
 			$se_article=array(
-					"LB_text"=>$this->lang->line("label_select_article"),
+					"LB_text"=>$this->lang->line("t_se_article"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_article"),
-					"S_id"=>$this->lang->line("select_article"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_article")),
+					"S_name"=>$this->lang->line("se_article"),
+					"S_id"=>$this->lang->line("se_article"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_article")),
 					"S_data"=>$this->emm->get_select("tb_article","article_name"),
 					"S_id_field"=>"article_id",
 					"S_name_field"=>"article_name",
 					"help_text"=>''
 			);
 			$se_room=array(
-					"LB_text"=>$this->lang->line("label_select_room"),
+					"LB_text"=>$this->lang->line("t_se_room"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_room"),
-					"S_id"=>$this->lang->line("select_room"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_room")),
+					"S_name"=>$this->lang->line("se_room"),
+					"S_id"=>$this->lang->line("se_room"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_room")),
 					"S_data"=>'',
 					"S_id_field"=>"room_id",
 					"S_name_field"=>"room_name",
 					"help_text"=>''
 			);
 			$se_fee_type=array(
-					"LB_text"=>$this->lang->line("label_select_fee_type"),
+					"LB_text"=>$this->lang->line("t_se_fee_type"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("select_fee_type"),
-					"S_id"=>$this->lang->line("select_fee_type"),
-					"S_old_value"=>$this->input->post($this->lang->line("select_fee_type")),
+					"S_name"=>$this->lang->line("se_fee_type"),
+					"S_id"=>$this->lang->line("se_fee_type"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_fee_type")),
 					"S_data"=>$this->emm->get_select("tb_fee_type","fee_type_name"),
 					"S_id_field"=>"fee_type_id",
 					"S_name_field"=>"fee_type_name",
 					"help_text"=>''
 			);
 			$in_article_num=array(
-					"LB_text"=>$this->lang->line("label_input_article_num"),
+					"LB_text"=>$this->lang->line("t_in_article_num"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_article_num"),
-					"IN_id"=>$this->lang->line("input_article_num"),
+					"IN_name"=>$this->lang->line("in_article_num"),
+					"IN_id"=>$this->lang->line("in_article_num"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_article_num")),
+					"IN_value"=>set_value($this->lang->line("in_article_num")),
 					"IN_attr"=>'maxlength="4"',
 					"help_text"=>""
 			);
 			$in_lump_sum_base_unit=array(
-					"LB_text"=>$this->lang->line("label_input_lump_sum_base_unit"),
+					"LB_text"=>$this->lang->line("t_in_lump_sum_base_unit"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_lump_sum_base_unit"),
-					"IN_id"=>$this->lang->line("input_lump_sum_base_unit"),
+					"IN_name"=>$this->lang->line("in_lump_sum_base_unit"),
+					"IN_id"=>$this->lang->line("in_lump_sum_base_unit"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($this->lang->line("input_lump_sum_base_unit")),
+					"IN_value"=>set_value($this->lang->line("in_lump_sum_base_unit")),
 					"IN_attr"=>'maxlength="4"',
 					"help_text"=>""
 			);
 			
 			$in_room=array(
-					"LB_text"=>$this->lang->line("label_input_room"),
+					"LB_text"=>$this->lang->line("t_in_room"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_room"),
-					"IN_id"=>$this->lang->line("input_room"),
+					"IN_name"=>$this->lang->line("in_room"),
+					"IN_id"=>$this->lang->line("in_room"),
 					"IN_PH"=>'',
 					"IN_value"=>'',
 					"IN_attr"=>'readonly',
 					"help_text"=>""
 			);
 			$in_article=array(
-					"LB_text"=>$this->lang->line("label_input_article"),
+					"LB_text"=>$this->lang->line("t_in_article"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("input_article"),
-					"IN_id"=>$this->lang->line("input_article"),
+					"IN_name"=>$this->lang->line("in_article"),
+					"IN_id"=>$this->lang->line("in_article"),
 					"IN_PH"=>'',
 					"IN_value"=>'',
 					"IN_attr"=>'readonly',
@@ -352,11 +365,11 @@ class Room_has_article extends MY_Controller
 			$prev_url=$_SERVER['HTTP_REFERER'];
 			$session_edit_id="edit_room_has_article_id";
 			$set=array(
-					//"tb_room_id"=>$this->input->post($this->lang->line("select_room")),
-					//"tb_article_id"=>$this->input->post($this->lang->line("select_article")),
-					"article_num"=>$this->input->post($this->lang->line("input_article_num")),
-					"tb_fee_type_id"=>$this->input->post($this->lang->line("select_fee_type")),
-					"lump_sum_base_unit"=>$this->input->post($this->lang->line("input_lump_sum_base_unit"))
+					//"tb_room_id"=>$this->input->post($this->lang->line("se_room")),
+					//"tb_article_id"=>$this->input->post($this->lang->line("se_article")),
+					"article_num"=>$this->input->post($this->lang->line("in_article_num")),
+					"tb_fee_type_id"=>$this->input->post($this->lang->line("se_fee_type")),
+					"lump_sum_base_unit"=>$this->input->post($this->lang->line("in_lump_sum_base_unit"))
 			);
 			$arr_sess_edit=explode(",",$this->session->userdata($session_edit_id));
 			$where=array(
@@ -448,11 +461,11 @@ class Room_has_article extends MY_Controller
 		$html='
 				<table class="table table-striped table-bordered fixed-table" id="tabel_data_list">';
 		$html.='<thead>
-				<th>'.$this->lang->line("label_select_room").'</th>
-				<th>'.$this->lang->line("label_select_article").'</th>
-				<th>'.$this->lang->line("label_select_fee_type").'</th>
-				<th>'.$this->lang->line("label_input_article_num").'</th>
-				<th>'.$this->lang->line("label_input_lump_sum_base_unit").'</th>
+				<th>'.$this->lang->line("t_se_room").'</th>
+				<th>'.$this->lang->line("t_se_article").'</th>
+				<th>'.$this->lang->line("t_se_fee_type").'</th>
+				<th>'.$this->lang->line("t_in_article_num").'</th>
+				<th>'.$this->lang->line("t_in_lump_sum_base_unit").'</th>
 				<th class="same_first_td">แก้ไข</th>
 				<th><input type="checkbox" id="del_all_room_has_article"></th>
 		';
@@ -518,6 +531,28 @@ class Room_has_article extends MY_Controller
 		endif;
 	}
 
+	// --------------------------------------------------------------------
+	
+	/**
+	 *
+	 * @return 	void
+	 * echo Json
+	 */
+	function select_article_list()
+	{
+		if($this->input->post("article_type_id")!=''):
+		$query=$this->emm->select_article_by_article_type($this->input->post("article_type_id"));
+		$data='';
+		if($query>0):
+			foreach($query AS $ar):
+				$data.="<option value='".$ar['article_id']."'>".$ar['article_name']."</option>";
+			endforeach;
+		endif;
+		echo json_encode(array("article_list"=>$data));
+		else: echo "";
+		endif;
+	}
+	
 	// --------------------------------------------------------------------
 	
 	/**

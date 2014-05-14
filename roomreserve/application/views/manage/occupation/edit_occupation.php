@@ -35,9 +35,9 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php 
 	      		 	$em_name=array(
-	      		 			"in_occupation_name"=>"input_occupation_name"
+	      		 			"in_occupation"=>"input_occupation"
 	      		 	);
-      		 		echo form_error($em_name["in_occupation_name"]);
+      		 		echo form_error($em_name["in_occupation"]);
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -47,8 +47,8 @@ echo $head;
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=<?=$controller?>&m=edit" method="post" autocomplete="off">
 								<?php
-								echo $in_occupation_name;
-								echo "<span id='".$em_name["in_occupation_name"]."_error' class='hidden'>".form_error($em_name["in_occupation_name"])."</span>";
+								echo $in_occupation;
+								echo "<span id='".$em_name["in_occupation"]."_error' class='hidden'>".form_error($em_name["in_occupation"])."</span>";
 								?>	
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>		
@@ -131,13 +131,13 @@ echo $js;
 			type:"POST",
 			dataType:"json",
 			success:function(resp){
-				$("#input_occupation_name").val(resp.occupation_name);
+				$("#input_occupation").val(resp.occupation_name);
 			},
 			error:function(error){
 				alert("Error : "+error);
 			}
 		});
-		$("#input_occupation_name").focus();
+		$("#input_occupation").focus();
 	}
 	function set_per_page(num)
 	{

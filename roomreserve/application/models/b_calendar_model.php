@@ -20,9 +20,9 @@ class b_calendar_Model extends CI_Model
 
 	   	{heading_row_start}<tr>{/heading_row_start}
 	
-	   	{heading_previous_cell}<th ><a href="{previous_url}">&lt;&lt;</a></th>{/heading_previous_cell}
+	   	{heading_previous_cell}<th ><a href="{previous_url}"><i class="fa fa-chevron-left"></i><i class="fa fa-chevron-left"></i></a></th>{/heading_previous_cell}
 	   	{heading_title_cell}<th colspan="{colspan}">{heading}</th>{/heading_title_cell}
-	   	{heading_next_cell}<th><a href="{next_url}">&gt;&gt;</a></th>{/heading_next_cell}
+	   	{heading_next_cell}<th><a href="{next_url}"><i class="fa fa-chevron-right"></i><i class="fa fa-chevron-right"></i></a></th>{/heading_next_cell}
 
 	   	{heading_row_end}</tr>{/heading_row_end}
 

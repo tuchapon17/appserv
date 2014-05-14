@@ -15,8 +15,8 @@ class Job_position extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>"input_job_position_name",
-						"label"=>"ตำแหน่งงาน",
+						"field"=>$this->lang->line("in_job_position"),
+						"label"=>$this->lang->line("t_in_job_position"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -24,22 +24,21 @@ class Job_position extends MY_Controller
 		$this->frm->set_message("rule","message");
 		if($this->frm->run() == false)
 		{
-			$in_job_position_name_name="input_job_position_name";
-			$in_job_position_name=array(
-					"LB_text"=>"ตำแหน่งงาน",
+			$in_job_position=array(
+					"LB_text"=>$this->lang->line("t_in_job_position"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_job_position_name_name,
-					"IN_id"=>$in_job_position_name_name,
+					"IN_name"=>$this->lang->line("in_job_position"),
+					"IN_id"=>$this->lang->line("in_job_position"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_job_position_name_name),
+					"IN_value"=>set_value($this->lang->line("in_job_position")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("เพิ่มตำแหน่งงาน"),
+					"head"=>$this->pel->head($this->lang->line("ti_add_job_position")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -47,7 +46,7 @@ class Job_position extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"job_position_tab"=>$this->job_position_tab(),
-					"in_job_position_name"=>$this->eml->form_input($in_job_position_name)
+					"in_job_position"=>$this->eml->form_input($in_job_position)
 			);
 		
 			$this->load->view("manage/job_position/add_job_position",$data);
@@ -56,19 +55,27 @@ class Job_position extends MY_Controller
 		{
 			$data=array(
 					"job_position_id"=>$this->jp_model->get_maxid(2, "job_position_id", "tb_job_position"),
-					"job_position_name"=>$this->input->post("input_job_position_name"),
+					"job_position_name"=>$this->input->post("input_job_position"),
 					"checked"=>"1"
 			);
 			$redirect_link="?d=manage&c=job_position&m=add";
-			$this->jp_model->manage_add($data,"tb_job_position",$redirect_link,$redirect_link,"job_position","เพิ่มตำแหน่งงานสำเร็จ","เพิ่มตำแหน่งงานไม่สำเร็จ");
+			$this->jp_model->manage_add(
+					$data,
+					"tb_job_position",
+					$redirect_link,
+					$redirect_link,
+					"job_position",
+					"เพิ่ม".$this->lang->line("text_job_position")."สำเร็จ",
+					"เพิ่ม".$this->lang->line("text_job_position")."ไม่สำเร็จ"
+					);
 		}
 	}
 	function edit()
 	{
 		$config=array(
 				array(
-						"field"=>"input_job_position_name",
-						"label"=>"ตำแหน่งงาน",
+						"field"=>$this->lang->line("in_job_position"),
+						"label"=>$this->lang->line("t_in_job_position"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -107,22 +114,21 @@ class Job_position extends MY_Controller
 			$this->pagination->initialize($config);
 		
 			//..pagination
-			$in_job_position_name_name="input_job_position_name";
-			$in_job_position_name=array(
-					"LB_text"=>"ตำแหน่งงาน",
+			$in_job_position=array(
+					"LB_text"=>$this->lang->line("t_in_job_position"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_job_position_name_name,
-					"IN_id"=>$in_job_position_name_name,
+					"IN_name"=>$this->lang->line("in_job_position"),
+					"IN_id"=>$this->lang->line("in_job_position"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_job_position_name_name),
+					"IN_value"=>set_value($this->lang->line("in_job_position")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("แก้ไข/ลบ  ตำแหน่งงาน"),
+					"head"=>$this->pel->head($this->lang->line("ti_edit_job_position")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -130,7 +136,7 @@ class Job_position extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"job_position_tab"=>$this->job_position_tab(),
-					"in_job_position_name"=>$this->eml->form_input($in_job_position_name),
+					"in_job_position"=>$this->eml->form_input($in_job_position),
 					"table_edit"=>$this->table_edit($get_job_position_list),
 					"session_search_job_position"=>$search_text,
 					"pagination_num_rows"=>$config["total_rows"],
@@ -143,12 +149,22 @@ class Job_position extends MY_Controller
 			$prev_url=$_SERVER['HTTP_REFERER'];
 			$session_edit_id="edit_job_position_id";
 			$set=array(
-					"job_position_name"=>$this->input->post("input_job_position_name")
+					"job_position_name"=>$this->input->post("input_job_position")
 			);
 			$where=array(
 					"job_position_id"=>$this->session->userdata($session_edit_id)
 			);
-			$this->jp_model->manage_edit($set, $where, "tb_job_position", $session_edit_id, "edit_job_position", "แก้ไขตำแหน่งงานสำเร็จ", "แก้ไขตำแหน่งงานไม่สำเร็จ", "?d=manage&c=job_position&m=edit", $prev_url);
+			$this->jp_model->manage_edit(
+					$set,
+					$where,
+					"tb_job_position",
+					$session_edit_id,
+					"edit_job_position",
+					"แก้ไข".$this->lang->line("text_job_position")."สำเร็จ",
+					"แก้ไข".$this->lang->line("text_job_position")."ไม่สำเร็จ",
+					"?d=manage&c=job_position&m=edit",
+					$prev_url
+					);
 		}
 	}
 	function delete()
@@ -163,21 +179,19 @@ class Job_position extends MY_Controller
 		$this->jp_model->manage_allow($allow_list,$disallow_list, "tb_job_position", "job_position_id", "job_position_name", "edit_job_position", "?d=manage&c=job_position&m=edit");
 	}
 	
-	
-	
-	
 	function job_position_tab()
 	{
 		$html='
 		<ul class="nav nav-tabs" id="manage_tab">
 			<!-- data-toggle มี pill/tab -->
-			<li><a href="#"  id="add">เพิ่มตำแหน่งงาน</a></li>';
+			<li><a href="#"  id="add">เพิ่ม'.$this->lang->line("text_job_position").'</a></li>';
 		$html.='
-			<li><a href="#"  id="edit">แก้ไข/ลบตำแหน่งงาน</a></li>
+			<li><a href="#"  id="edit">แก้ไข/ลบ'.$this->lang->line("text_job_position").'</a></li>
 			';
 		$html.='</ul>';
 		return $html;
 	}
+	
 	function search()
 	{
 		if(count($this->input->post("input_search_box"))>0)
@@ -191,6 +205,7 @@ class Job_position extends MY_Controller
 		}
 		redirect(base_url()."?d=manage&c=job_position&m=edit");
 	}
+	
 	function table_edit($data)
 	{
 		if($this->sess_orderby_job_position["type"]=="ASC") $img='<img width="9" src="'.base_url().'images/glyphicons_free/glyphicons/png/glyphicons_212_down_arrow.png">';
@@ -200,7 +215,7 @@ class Job_position extends MY_Controller
 				<table class="table table-striped table-bordered fixed-table" id="tabel_data_list">';
 		$html.='<thead>
 				<th>รหัส</th>
-				<th>ตำแหน่งงาน</th>
+				<th>'.$this->lang->line("text_job_position").'</th>
 				<th class="same_first_td">อนุมัติ<br/><button type="button" class="cbtn cbtn-green" id="allow-all"><button type="button" class="cbtn cbtn-red" id="disallow-all"></th>
 				<th class="same_first_td">แก้ไข</th>
 				<th>ลบ<br/><input type="checkbox" id="del_all_job_position"></th>
