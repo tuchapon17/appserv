@@ -48,7 +48,7 @@ class User extends MY_Controller
 		//..pagination
 		$data=array(
 				"htmlopen"=>$this->pel->htmlopen(),
-				"head"=>$this->pel->head("แก้ไข/ลบ  สาขาวิชา/งาน"),
+				"head"=>$this->pel->head("จัดการผู้ใช้งาน"),
 				"bodyopen"=>$this->pel->bodyopen(),
 				"navbar"=>$this->pel->navbar(),
 				"js"=>$this->pel->js(),
@@ -218,13 +218,13 @@ class User extends MY_Controller
 		$config=array(
 	
 				array(
-						"field"=>"select_privilege",
-						"label"=>"สิทธิ์",
+						"field"=>$this->lang->line("se_privilege"),
+						"label"=>$this->lang->line("t_se_privilege"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>"select_user",
-						"label"=>"ผู้ใช้งาน",
+						"field"=>$this->lang->line("se_user"),
+						"label"=>$this->lang->line("t_se_user"),
 						"rules"=>"required"
 				)
 		);
@@ -233,24 +233,24 @@ class User extends MY_Controller
 		if($this->frm->run() == false)
 		{
 			$se_privilege=array(
-					"LB_text"=>"สิทธิ์",
+					"LB_text"=>$this->lang->line("t_se_privilege"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'cd',
-					"S_name"=>"select_privilege",
-					"S_id"=>"select_privilege",
-					"S_old_value"=>$this->input->post("select_privilege"),
+					"S_name"=>$this->lang->line("se_privilege"),
+					"S_id"=>$this->lang->line("se_privilege"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_privilege")),
 					"S_data"=>$this->emm->get_select("tb_privilege","privilege_name"),
 					"S_id_field"=>"privilege_id",
 					"S_name_field"=>"privilege_name",
 					"help_text"=>''
 			);
 			$se_user=array(
-					"LB_text"=>"ผู้ใช้งาน",
+					"LB_text"=>$this->lang->line("t_se_user"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'cd',
-					"S_name"=>"select_user",
-					"S_id"=>"select_user",
-					"S_old_value"=>$this->input->post("select_user"),
+					"S_name"=>$this->lang->line("se_user"),
+					"S_id"=>$this->lang->line("se_user"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_user")),
 					"S_data"=>"",
 					"S_id_field"=>"",
 					"S_name_field"=>"",
@@ -258,7 +258,7 @@ class User extends MY_Controller
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("เพิ่มประเภทครุภัณฑ์/อุปกรณ์"),
+					"head"=>$this->pel->head("เพิ่มสิทธิ์"),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -274,11 +274,11 @@ class User extends MY_Controller
 		else
 		{
 			$data=array(
-					"tb_privilege_id"=>$this->input->post("select_privilege"),
-					"tb_user_username"=>$this->input->post("select_user")
+					"tb_privilege_id"=>$this->input->post($this->lang->line("se_privilege")),
+					"tb_user_username"=>$this->input->post($this->lang->line("se_user"))
 			);
 			$redirect_link="?d=manage&c=user&m=add_privilege";
-			$this->us_model->manage_add($data,"tb_user_has_privilege",$redirect_link,$redirect_link,"privilege","เพิ่มสิทธิ์ให้ ".$this->input->post("select_user")." สำเร็จ","เพิ่มสิทธิ์ให้ ".$this->input->post("select_user")." ไม่สำเร็จ");
+			$this->us_model->manage_add($data,"tb_user_has_privilege",$redirect_link,$redirect_link,"privilege","เพิ่มสิทธิ์ให้ ".$this->input->post($this->lang->line("se_user"))." สำเร็จ","เพิ่มสิทธิ์ให้ ".$this->input->post($this->lang->line("se_user"))." ไม่สำเร็จ");
 		}
 	}
 	/**
@@ -298,13 +298,13 @@ class User extends MY_Controller
 		$config=array(
 		
 				array(
-						"field"=>"select_privilege",
-						"label"=>"สิทธิ์",
+						"field"=>$this->lang->line("se_privilege"),
+						"label"=>$this->lang->line("t_se_privilege"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>"select_user",
-						"label"=>"ผู้ใช้งาน",
+						"field"=>$this->lang->line("se_user"),
+						"label"=>$this->lang->line("t_se_user"),
 						"rules"=>"required"
 				)
 		);
@@ -313,24 +313,24 @@ class User extends MY_Controller
 		if($this->frm->run() == false)
 		{
 			$se_privilege=array(
-					"LB_text"=>"สิทธิ์",
+					"LB_text"=>$this->lang->line("t_se_privilege"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'cd',
-					"S_name"=>"select_privilege",
-					"S_id"=>"select_privilege",
-					"S_old_value"=>$this->input->post("select_privilege"),
+					"S_name"=>$this->lang->line("se_privilege"),
+					"S_id"=>$this->lang->line("se_privilege"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_privilege")),
 					"S_data"=>"",
 					"S_id_field"=>"",
 					"S_name_field"=>"",
 					"help_text"=>''
 			);
 			$se_user=array(
-					"LB_text"=>"ผู้ใช้งาน",
+					"LB_text"=>$this->lang->line("t_se_user"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'cd',
-					"S_name"=>"select_user",
-					"S_id"=>"select_user",
-					"S_old_value"=>$this->input->post("select_user"),
+					"S_name"=>$this->lang->line("se_user"),
+					"S_id"=>$this->lang->line("se_user"),
+					"S_old_value"=>$this->input->post($this->lang->line("se_user")),
 					"S_data"=>$this->us_model->delete_privilege_get_user(),
 					"S_id_field"=>"username",
 					"S_name_field"=>"username",
@@ -338,7 +338,7 @@ class User extends MY_Controller
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("เพิ่มประเภทครุภัณฑ์/อุปกรณ์"),
+					"head"=>$this->pel->head("ลบสิทธิ์"),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -354,8 +354,8 @@ class User extends MY_Controller
 		else
 		{
 			$where=array(
-				"tb_privilege_id"=>$this->input->post("select_privilege"),
-				"tb_user_username"=>$this->input->post("select_user")
+				"tb_privilege_id"=>$this->input->post($this->lang->line("se_privilege")),
+				"tb_user_username"=>$this->input->post($this->lang->line("se_user"))
 			);
 			$this->us_model->delete_privilege_process("tb_user_has_privilege",$where);
 		}
@@ -437,11 +437,15 @@ class User extends MY_Controller
 	}
 	function view_privilege_table($user_list)
 	{
+		$privilege_list = $this->db->select()->from("tb_privilege")
+		->order_by("privilege_id")
+		->get()->result_array();
+		$privilege_id_list = array();
 		/*$user=$this->db->select("username,firstname,lastname,tb_titlename.*")->from("tb_user")
 		->join("tb_titlename","tb_titlename.titlename_id=tb_user.tb_titlename_id")
 		->limit($perpage,$this->getpage)
 		->get()->result_array();*/
-		$html='<table class="table table-striped table-bordered">
+		/*$html='<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
 						<th>ชื่อผู้เข้าใช้</th>
@@ -451,6 +455,21 @@ class User extends MY_Controller
 					</tr>
 				</thead>
 				';
+		*/
+		$html='<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>ชื่อผู้ใช้งาน</th>
+				';
+				foreach ($privilege_list as $p)
+				{
+					$html.= "<th>".$p["privilege_name"]."</th>";
+					array_push($privilege_id_list, $p["privilege_id"]);
+				}
+		$html.='
+						</tr>
+					</thead>
+				';
 		if($user_list!=null)
 		{
 			foreach ($user_list as $u)
@@ -458,11 +477,11 @@ class User extends MY_Controller
 				$privilege=$this->db->select()->from("tb_user_has_privilege")
 				->join("tb_privilege","tb_privilege.privilege_id=tb_user_has_privilege.tb_privilege_id")
 				->where("tb_user_username",$u['username'])
-				->order_by("privilege_name")
+				->order_by("privilege_id")
 				->get();
 				$num_rows=$privilege->num_rows();
 				$privilege=$privilege->result_array();
-				$html.='
+				/*$html.='
 						<tbody>
 						<tr>
 							<td rowspan="'.($num_rows+1).'" class="text-center"><strong>'.$u['username'].'</strong></td>
@@ -477,10 +496,44 @@ class User extends MY_Controller
 							<td class="text-left">'.$p['privilege_name'].'</td>
 						</tr>
 						';
-				}
+				}*/
+				$html.='<tbody>
+						<tr>
+							<td>'.$u["username"].'</td>
+						';
+						$old_key = -1;
+						$count_privilege_id = count($privilege_id_list)-1;
+						$count_privilege = count($privilege)-1;
+						foreach ($privilege as $key=>$val)
+						{
+							//หาตำแหน่งของ $val["privilege_id"] ใน array $privilege_id_list
+							//order_by privilege_id อยู่แล้ว 
+							$find_key = array_search($val["privilege_id"], $privilege_id_list);
+							//loop ปริ้นสิทธิ์ที่ไม่มี ก่อนจะปริ้นสิทธิ์ที่มี
+							for ($i=1; $i<=$find_key-($old_key+1); $i++)
+							{
+								//สิทธิ์ที่ไม่มี
+								$html .= "<td><i></i></td>";
+							}
+							//สิทธิ์ที่มี
+							$html .= "<td class='text-center'><i class='fa fa-check'></i></td>";
+							//บันทึกตำแหน่งล่าสุดของคีย์ที่ใช้
+							$old_key = $find_key;
+							//ถ้าเป็นตำแหน่งสุดท้ายของสิทธิ์ที่วน
+							if($key == $count_privilege)
+							{
+								//ปริ้นช่องว่างที่เหลือ
+								for($i=1; $i<=($count_privilege_id-$old_key); $i++)
+								{
+									$html.= "<td></td>";
+								}
+								//reset old_key to default
+								$old_key = -1;
+							}
+						}
+				$html.='</tr>';
 			}
 		}
-		
 		$html.='</tbody></table>';
 		$html.=$this->pagination->create_links();
 		return $html;

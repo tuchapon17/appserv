@@ -15,8 +15,8 @@ class Titlename extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>"input_titlename",
-						"label"=>"คำนำหน้าชื่อ",
+						"field"=>$this->lang->line("in_titlename"),
+						"label"=>$this->lang->line("t_in_titlename"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);	
@@ -24,22 +24,21 @@ class Titlename extends MY_Controller
 		$this->frm->set_message("rule","message");
 		if($this->frm->run() == false)
 		{
-			$in_titlename_name="input_titlename";
 			$in_titlename=array(
-					"LB_text"=>"คำนำหน้าชื่อ",
+					"LB_text"=>$this->lang->line("t_in_titlename"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_titlename_name,
-					"IN_id"=>$in_titlename_name,
+					"IN_name"=>$this->lang->line("in_titlename"),
+					"IN_id"=>$this->lang->line("in_titlename"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_titlename_name),
+					"IN_value"=>set_value($this->lang->line("in_titlename")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("เพิ่มคำนำหน้าชื่อ"),
+					"head"=>$this->pel->head($this->lang->line("ti_add_titlename")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -55,7 +54,7 @@ class Titlename extends MY_Controller
 		{
 			$data=array(
 					"titlename_id"=>$this->tn_model->get_maxid(2, "titlename_id", "tb_titlename"),
-					"titlename"=>$this->input->post("input_titlename")
+					"titlename"=>$this->input->post($this->lang->line("in_titlename"))
 			);
 			$this->tn_model->add_titlename($data);
 		}
@@ -65,8 +64,8 @@ class Titlename extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>"input_titlename",
-						"label"=>"คำนำหน้าชื่อ",
+						"field"=>$this->lang->line("in_titlename"),
+						"label"=>$this->lang->line("t_in_titlename"),
 						"rules"=>"required|max_length[30]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				)
 		);
@@ -106,22 +105,21 @@ class Titlename extends MY_Controller
 			
 			//..pagination
 			
-			$in_titlename_name="input_titlename";
 			$in_titlename=array(
-					"LB_text"=>"คำนำหน้าชื่อ",
+					"LB_text"=>$this->lang->line("t_in_titlename"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_titlename_name,
-					"IN_id"=>$in_titlename_name,
+					"IN_name"=>$this->lang->line("in_titlename"),
+					"IN_id"=>$this->lang->line("in_titlename"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_titlename_name),
+					"IN_value"=>set_value($this->lang->line("in_titlename")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("แก้ไข/ลบคำนำหน้าชื่อ"),
+					"head"=>$this->pel->head($this->lang->line("ti_edit_titlename")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -142,7 +140,7 @@ class Titlename extends MY_Controller
 		{
 			$prev_url=$_SERVER['HTTP_REFERER'];
 			$set=array(
-					"titlename"=>$this->input->post("input_titlename")
+					"titlename"=>$this->input->post($this->lang->line("in_titlename"))
 			);			
 			$this->tn_model->edit_titlename($set,$prev_url);
 		}
@@ -157,9 +155,9 @@ class Titlename extends MY_Controller
 		$html='
 		<ul class="nav nav-tabs" id="titlename_tab">
 			<!-- data-toggle มี pill/tab -->
-			<li><a href="#"  id="add">เพิ่มคำนำหน้าชื่อ</a></li>';
+			<li><a href="#"  id="add">เพิ่ม'.$this->lang->line("text_titlename").'</a></li>';
 		$html.='
-			<li><a href="#"  id="edit">แก้ไข/ลบคำนำหน้าชื่อ</a></li>
+			<li><a href="#"  id="edit">แก้ไข/ลบ'.$this->lang->line("text_titlename").'</a></li>
 			';
 		$html.='</ul>';
 		return $html;
@@ -173,7 +171,7 @@ class Titlename extends MY_Controller
 				<table class="table table-striped table-bordered fixed-table" id="tabel_data_list">';
 		$html.='<thead>
 				<th>รหัส</th>
-				<th>คำนำหน้าชื่อ</a></th>
+				<th>'.$this->lang->line("text_titlename").'</a></th>
 				<th class="same_first_td">แก้ไข</th>
 				<th><input type="checkbox" id="del_all_titlename"></th>
 		';

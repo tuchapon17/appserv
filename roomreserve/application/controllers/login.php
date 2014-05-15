@@ -10,13 +10,13 @@ class Login extends MY_Controller
 		if($this->session->userdata("rs_username")) redirect(base_url());
 		$config=array(
 				array(
-						"field"=>"input_username",
-						"label"=>"ชื่อผู้เข้าใช้ (Username)",
+						"field"=>$this->lang->line("in_username"),
+						"label"=>$this->lang->line("t_in_username"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>"input_password",
-						"label"=>"รหัสผ่าน",
+						"field"=>$this->lang->line("in_password"),
+						"label"=>$this->lang->line("t_in_password"),
 						"rules"=>"required"
 				)
 		);
@@ -24,29 +24,27 @@ class Login extends MY_Controller
 		$this->frm->set_message("rule","message");
 		if($this->frm->run() == false)
 		{
-			$in_username_name="input_username";
 			$in_username=array(
-					"LB_text"=>"ชื่อผู้เข้าใช้ (Username)",
+					"LB_text"=>$this->lang->line("t_in_username"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_username_name,
-					"IN_id"=>$in_username_name,
+					"IN_name"=>$this->lang->line("in_username"),
+					"IN_id"=>$this->lang->line("in_username"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_username_name),
+					"IN_value"=>set_value($this->lang->line("in_username")),
 					"IN_attr"=>'maxlength="15"',
 					"help_text"=>''
 			);
-			$in_password_name="input_password";
 			$in_password=array(
-					"LB_text"=>"รหัสผ่าน",
+					"LB_text"=>$this->lang->line("t_in_password"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'password',
 					"IN_class"=>'',
-					"IN_name"=>$in_password_name,
-					"IN_id"=>$in_password_name,
+					"IN_name"=>$this->lang->line("in_password"),
+					"IN_id"=>$this->lang->line("in_password"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_password_name),
+					"IN_value"=>set_value($this->lang->line("in_password")),
 					"IN_attr"=>'maxlength="15"',
 					"help_text"=>''
 			);
@@ -60,7 +58,6 @@ class Login extends MY_Controller
 					"footer"=>$this->pel->footer(),
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
-					
 					"in_username"=>$this->eml->form_input($in_username),
 					"in_password"=>$this->eml->form_input($in_password)
 			);
@@ -197,14 +194,15 @@ class Login extends MY_Controller
 				{
 					$config=array(
 							array(
-									"field"=>"input_password",
-									"label"=>"รหัสผ่าน",
+									"field"=>$this->lang->line("in_password"),
+									"label"=>$this->lang->line("t_in_password"),
 									"rules"=>"required|max_length[15]|min_length[5]|callback_find_space"
 							),
 							array(
-									"field"=>"input_password2",
-									"label"=>"ยืนยันรหัสผ่าน",
-									"rules"=>"required|max_length[15]|min_length[5]|matches[input_password]"
+									"field"=>$this->lang->line("in_password2"),
+									"label"=>$this->lang->line("t_in_password2"),
+									//"rules"=>"required|max_length[15]|min_length[5]|matches[input_password]"
+									"rules"=>"required|max_length[15]|min_length[5]|matches[".$this->lang->line("in_password")."]"
 							)
 					);
 					$this->frm->set_rules($config);
@@ -225,7 +223,7 @@ class Login extends MY_Controller
 					}
 					else
 					{
-						$new_pass=md5($this->input->post("input_password"));
+						$new_pass=md5($this->input->post($this->lang->line("in_password")));
 						$set=array(
 								"reset_password"=>0,
 								"password"=>$new_pass

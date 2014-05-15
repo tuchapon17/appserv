@@ -30,7 +30,7 @@ class Assign extends MY_Controller
 			$privilege_list=$this->am->get_privilege_list();
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("จองห้อง"),
+					"head"=>$this->pel->head("โอนสิทธิ์"),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -93,7 +93,7 @@ class Assign extends MY_Controller
 			//..pagination
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("จองห้อง"),
+					"head"=>$this->pel->head("จัดการการโอนสิทธิ์"),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),

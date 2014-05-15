@@ -13,12 +13,12 @@ class Report extends MY_Controller {
 	function report_type()
 	{
 		$se_room_type=array(
-				"LB_text"=>"ประเภทห้อง",
+				"LB_text"=>$this->lang->line("t_se_room_type"),
 				"LB_attr"=>$this->eml->span_redstar(),
 				"S_class"=>'',
-				"S_name"=>"select_room_type",
-				"S_id"=>"select_room_type",
-				"S_old_value"=>$this->input->post($this->lang->line("select_room_type")),
+				"S_name"=>$this->lang->line("se_room_type"),
+				"S_id"=>$this->lang->line("se_room_type"),
+				"S_old_value"=>$this->input->post($this->lang->line("se_room_type")),
 				"S_data"=>$this->emm->get_select("tb_room_type","room_type_name"),
 				"S_id_field"=>"room_type_id",
 				"S_name_field"=>"room_type_name",
@@ -28,9 +28,9 @@ class Report extends MY_Controller {
 				"LB_text"=>"ห้อง",
 				"LB_attr"=>$this->eml->span_redstar(),
 				"S_class"=>'',
-				"S_name"=>"select_room",
-				"S_id"=>"select_room",
-				"S_old_value"=>$this->input->post($this->lang->line("select_room")),
+				"S_name"=>$this->lang->line("se_room"),
+				"S_id"=>$this->lang->line("se_room"),
+				"S_old_value"=>$this->input->post($this->lang->line("se_room")),
 				"S_data"=>'',
 				"S_id_field"=>"",
 				"S_name_field"=>"",
@@ -256,8 +256,8 @@ class Report extends MY_Controller {
 		}
 		else if($this->input->post("se_report_type")=="report_room_stat")
 		{
-			$room_id=$this->input->post("select_room");
-			$room_type_id=$this->input->post("select_room_type");
+			$room_id=$this->input->post($this->lang->line("se_room"));
+			$room_type_id=$this->input->post($this->lang->line("se_room_type"));
 			$text='';
 			$this->db->select("room_name,room_id")->from("tb_room")
 			->join("tb_room_type","tb_room_type.room_type_id=tb_room.tb_room_type_id");
