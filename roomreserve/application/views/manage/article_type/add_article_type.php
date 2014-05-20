@@ -28,9 +28,9 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php
 	      		 	$em_name=array(
-	      		 			"in_article_type"=>"input_article_type"
+	      		 			"in_article_type"=>$this->lang->line("in_article_type")
 	      		 	);
-      		 		echo form_error($em_name["in_article_type"]);
+      		 		//echo form_error($this->lang->line("in_article_type"));
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -38,10 +38,10 @@ echo $head;
 						<h3 class="panel-title"><strong>เพิ่มประเภทครุภัณฑ์/อุปกรณ์</strong></h3>
 					</div>
 					<div class="panel-body">
-						<form role="form" action="?d=manage&c=article_type&m=add" method="post" autocomplete="off">
-							<?php 
+						<form role="form" action="?d=manage&c=article_type&m=add" method="post" autocomplete="off" id="add_article_type">
+							<?php
 							echo $in_article_type;
-							echo "<span id='".$em_name["in_article_type"]."_error' class='hidden'>".form_error($em_name["in_article_type"])."</span>";
+							echo "<span id='".$this->lang->line("in_article_type")."_error' class='hidden'>".form_error($this->lang->line("in_article_type"))."</span>";
 							?>	
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>
@@ -51,28 +51,36 @@ echo $head;
       		</div>
         </div>
       </div>
-      
-
       <hr>
-
       <?php echo $footer; ?>
     </div>
-
-
-
 <?php 
 echo $js;
 ?>
 <!-- Custom Javascript -->
 	<script type="text/javascript" src="<?php echo base_url();?>js/user_profile_script.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>js/manage/article_type.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/localization/messages_th.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/additional-methods.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/my-additional-methods.js"></script>
 	<script type="text/javascript">
 	<!--
 	$(function(){
-		/*#################################################
-		Highlight the <input> <select> 
-		If span text length > 0 change input border color to red
-		###################################################*/
+		$("#add_article_type").validate({
+			lang:'th',
+			errorClass: "my-error-class",
+			rules: {
+				"<?php echo $this->lang->line("in_article_type");?>": {
+					required:true,
+					maxlength:30,
+					THEN:true
+				}
+			}
+		});
+		
+		//Highlight the <input> <select> 
+		//If span text length > 0 change input border color to red
 		<?php 
 		foreach ($em_name AS $key=>$value):
 		?>
@@ -82,9 +90,8 @@ echo $js;
 		<?php
 		endforeach;
 		?>
-		/*#################################################
-		Show bootbox alert after 
-		###################################################*/
+		
+		//Show bootbox alert after 
 		<?php 
 		if($this->session->flashdata($m_name."_message"))
 		{?>

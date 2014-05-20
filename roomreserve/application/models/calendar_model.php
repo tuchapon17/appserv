@@ -67,14 +67,14 @@ class Calendar_Model extends CI_Model
 		if($room_id!=null && $room_id!='all')$where['tb_reserve.tb_room_id']=$room_id;
 		$this->db->where($where);
 		$this->db->like("reserve_datetime_begin","$year-$month","after");
-		$query=$this->db->get();
+		$query=$this->db->get()->result_array();
 		$cal_data=array();
-		foreach ($query->result_array() as $row)
+		foreach ($query as $row)
 		{
+			$atext=$row["room_name"]." (".substr($row["reserve_datetime_begin"],11,5)."-".substr($row["reserve_datetime_end"],11,5);
 			//$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)]="<i class='fa fa-info-circle'></i>";
 			if(!array_key_exists((int)substr($row["reserve_datetime_begin"],8,2), $cal_data))
 			{
-				$atext=$row["room_name"]." (".substr($row["reserve_datetime_begin"],11,5)."-".substr($row["reserve_datetime_end"],11,5);
 				//$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)]="<div class='text-left' onclick='alert(\"$row[reserve_datetime_begin].$row[reserve_datetime_end]\");'>".$row["project_name"]."</div>";
 				$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)]="<div class='time-small'><small><a href='".base_url()."?d=manage&c=reserve&m=view&id=".$row['tb_reserve_id']."' title='".$atext."'>".$atext.")</a></small></div>";
 			}

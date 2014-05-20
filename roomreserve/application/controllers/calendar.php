@@ -37,7 +37,7 @@ class Calendar extends MY_Controller {
 				"footer"=>$this->pel->footer(),
 				"bodyclose"=>$this->pel->bodyclose(),
 				"htmlclose"=>$this->pel->htmlclose(),
-				"calendar"=>$this->calendar_model->generate(($year+543),$month,$room_id),
+				"calendar"=>$this->calendar_model->generate($year,$month,$room_id),
 				"customviewbox"=>$this->customviewbox()
 		);
 		$this->load->view("calendar_main",$data);
@@ -175,7 +175,7 @@ class Calendar extends MY_Controller {
 		);
 		$this->session->set_userdata($set);
 		//redirect($_SERVER['HTTP_REFERER']);
-		redirect(base_url()."?c=calendar&m=main&year=".$this->input->post("ct-year")."&month=".$this->input->post("ct-month"));
+		redirect(base_url()."?c=calendar&m=main&year=".($this->input->post("ct-year")-543)."&month=".$this->input->post("ct-month"));
 	}
 	function reset_customview()
 	{

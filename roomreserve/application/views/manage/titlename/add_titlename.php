@@ -28,9 +28,9 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php
 	      		 	$em_name=array(
-	      		 			"in_titlename"=>"input_titlename"
+	      		 			"in_titlename"=>$this->lang->line("in_titlename")
 	      		 	);
-      		 		echo form_error($em_name["in_titlename"]);
+      		 		//echo form_error($this->lang->line("in_titlename"));
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -38,10 +38,10 @@ echo $head;
 						<h3 class="panel-title"><strong>เพิ่มคำนำหน้าชื่อ</strong></h3>
 					</div>
 					<div class="panel-body">
-						<form role="form" action="?d=manage&c=<?=$controller?>&m=add" method="post" autocomplete="off">
+						<form role="form" action="?d=manage&c=<?=$controller?>&m=add" method="post" autocomplete="off" id="add_titlename">
 								<?php 
 								echo $in_titlename;
-								echo "<span id='".$em_name["in_titlename"]."_error' class='hidden'>".form_error($em_name["in_titlename"])."</span>";
+								echo "<span id='".$this->lang->line("in_titlename")."_error' class='hidden'>".form_error($this->lang->line("in_titlename"))."</span>";
 								?>	
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>		
@@ -59,9 +59,24 @@ echo $js;
 <!-- Custom Javascript -->
 	<script type="text/javascript" src="<?php echo base_url();?>js/user_profile_script.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>js/manage/titlename.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/localization/messages_th.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/additional-methods.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/my-additional-methods.js"></script>
 	<script type="text/javascript">
 	<!--
 	$(function(){
+		$("#add_titlename").validate({
+			lang:'th',
+			errorClass: "my-error-class",
+			rules: {
+				"<?php echo $this->lang->line("in_titlename");?>": {
+					required:true,
+					maxlength:30,
+					THEN:true
+				}
+			}
+		});
 		/**
 		Highlight the <input> <select> 
 		If span text length > 0 change input border color to red

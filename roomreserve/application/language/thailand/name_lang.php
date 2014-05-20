@@ -50,9 +50,9 @@ $lang["t_in_discount_percent"] = "ส่วนลด(%)";
 $lang["t_in_room_fee_hour"] = "ค่าบริการห้องต่อชั่วโมง";
 $lang["t_in_room_name"] = "ชื่อห้อง";
 $lang["t_in_room_fee_lump_sum"] = "ค่าบริการแบบเหมา";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
+$lang["t_in_occupation"] = "อาชีพอื่นๆ";
+$lang["t_in_room_type"] = "ประเภทห้อง";
+$lang["t_in_titlename"] = "คำนำหน้าชื่อ";
 $lang[""] = "";
 $lang[""] = "";
 $lang[""] = "";
@@ -77,6 +77,8 @@ $lang["t_se_district"] = "อำเภอ/เขต";
 $lang["t_se_subdistrict"] = "ตำบล/แขวง";
 $lang["t_se_privilege"] = "สิทธิ์";
 $lang["t_se_user"] = "ผู้ใช้งาน";
+$lang["t_se_privilege_list"] = "สิทธิ์";
+$lang["t_se_user_list"] = "ผู้รับสิทธิ์";
 $lang[""] = "";
 
 //textarea

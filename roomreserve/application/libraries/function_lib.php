@@ -7,6 +7,12 @@ class Function_lib
 		$this->ci =& get_instance();
 	}
 	
+	/**
+	 * @param array $privilege
+	 * @param string $is enable|disable enable for check privilege from DB
+	 * @param string $operator AND|OR
+	 * @return boolean
+	 */
 	function check_group_privilege($privilege,$is=false,$operator="AND")
 	{
 		$enable=true;

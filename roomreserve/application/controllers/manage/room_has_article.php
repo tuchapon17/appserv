@@ -148,7 +148,7 @@ class Room_has_article extends MY_Controller
 			
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("จองห้อง"),
+					"head"=>$this->pel->head("เพิ่มครุภัณฑ์/อุปกรณ์สำหรับห้อง"),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),

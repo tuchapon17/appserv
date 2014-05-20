@@ -119,7 +119,7 @@ class MY_Calendar extends CI_Calendar {
 		$colspan = ($this->show_next_prev == TRUE) ? 5 : 7;
 
 		$this->temp['heading_title_cell'] = str_replace('{colspan}', $colspan, $this->temp['heading_title_cell']);
-		$this->temp['heading_title_cell'] = str_replace('{heading}', $this->get_month_name($month)."&nbsp;".$year, $this->temp['heading_title_cell']);
+		$this->temp['heading_title_cell'] = str_replace('{heading}', $this->get_month_name($month)."&nbsp;".($year+543), $this->temp['heading_title_cell']);
 
 		$out .= $this->temp['heading_title_cell'];
 		$out .= "\n";

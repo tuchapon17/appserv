@@ -28,7 +28,6 @@ echo $head;
 	echo $navbar;
 ?>
 <!-- Custom Content -->
-
     <div class="container">
       <div class="row">
       	<div class="col-lg-12">

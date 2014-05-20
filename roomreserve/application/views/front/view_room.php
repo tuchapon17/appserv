@@ -1,4 +1,4 @@
-<?php 
+<?php
 echo $htmlopen;
 echo $head;
 ?>
@@ -48,16 +48,18 @@ echo $head;
 		-->
       	<div class="col-lg-6">
       		<dl class="dl-horizontal">			
-	      		<dt>ชื่อห้อง</dt>
+	      		<dt><?php echo $this->lang->line("t_in_room_name");?></dt>
 	      		<dd><?php echo get_rl_data($get_room_list,'room_name');?></dd>
-	      		<dt>ประเภทห้อง</dt>
+	      		
+	      		<dt><?php echo $this->lang->line("t_se_room_type");?></dt>
 	      		<dd><?php echo get_rl_data($get_room_list,'room_type_name');?></dd>
+	      		
 	      		<dt>สถานะ</dt>
 	      		<dd><?php 
 	      			if(get_rl_data($get_room_list,'room_status')==0)echo "<span class='text-danger'>ปิดให้บริการ</span>";
 	      			else echo "<span class='text-success'>เปิดให้บริการ</span>";
 	      		?></dd>
-	      		<dt>ส่วนลด (%)</dt>
+	      		<dt><?php echo $this->lang->line("t_in_discount_percent");?></dt>
 	      		<dd><?php echo get_rl_data($get_room_list,'discount_percent');?>%</dd>
 	      		<dt>ค่าบริการ</dt>
 	      		<dd><?php

@@ -210,16 +210,16 @@ echo $js;
 		/**
 		* show hide select option
 		*/
-		$("#select_room,#select_room_type").parent('div').hide();
+		$("#<?php echo $this->lang->line("se_room");?>,#<?php echo $this->lang->line("se_room_type");?>").parent('div').hide();
 		$("#se_report_type").on("change keyup",function(){
 			var val = $(this).find("option:selected").val();
 			if(val=="report_room_use" || val=="report_room_stat")
 			{
-				$("#select_room,#select_room_type").parent().show();
+				$("#<?php echo $this->lang->line("se_room");?>,#<?php echo $this->lang->line("se_room_type");?>").parent().show();
 			}
 			else 
 			{
-				$("#select_room,#select_room_type").parent().hide();
+				$("#<?php echo $this->lang->line("se_room");?>,#<?php echo $this->lang->line("se_room_type");?>").parent().hide();
 			}
 		});
 		
@@ -256,27 +256,27 @@ echo $js;
 		/*
 		*แสดงข้อมูลห้องใน dropdown (Get room list)
 		*/
-		$("#select_room_type").prepend('<option value="all">ทั้งหมด</option>');
-		$("#select_room_type").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_room_type");?>").prepend('<option value="all">ทั้งหมด</option>');
+		$("#<?php echo $this->lang->line("se_room_type");?>").on("keyup change",function(){
 			if($(this).find("option:selected").val()!=""){
 				if($(this).find("option:selected").val()=="all")
 				{
-					$("#select_room").parent().hide();
+					$("#<?php echo $this->lang->line("se_room");?>").parent().hide();
 				}
 				else
 				{
-					$("#select_room").parent().show();
+					$("#<?php echo $this->lang->line("se_room");?>").parent().show();
 					$.ajax({
 						url:"?d=report&c=report&m=select_room_list",
 						data:{room_type_id:$(this).find("option:selected").val()},
 						type:"POST",
 						dataType:"json",
 						success:function(resp){
-							$("#select_room").find("option:gt(0)").remove();
+							$("#<?php echo $this->lang->line("se_room");?>").find("option:gt(0)").remove();
 							if(resp.room_list!=null)
 							{
-								$("#select_room").append('<option value="all">ทั้งหมด</option>');
-								$("#select_room").append(resp.room_list);
+								$("#<?php echo $this->lang->line("se_room");?>").append('<option value="all">ทั้งหมด</option>');
+								$("#<?php echo $this->lang->line("se_room");?>").append(resp.room_list);
 							}
 						},
 						error:function(error){
@@ -287,7 +287,7 @@ echo $js;
 			}
 			else
 			{
-				$("#select_room").find("option:gt(0)").remove();
+				$("#<?php echo $this->lang->line("se_room");?>").find("option:gt(0)").remove();
 			}
 		});
 		

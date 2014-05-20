@@ -29,9 +29,9 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php
 	      		 	$em_name=array(
-	      		 			"in_occupation"=>"input_occupation"
+	      		 			"in_occupation"=>$this->lang->line("in_occupation")
 	      		 	);
-      		 		echo form_error($em_name["in_occupation"]);
+      		 		echo form_error($this->lang->line("in_occupation"));
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -39,10 +39,10 @@ echo $head;
 						<h3 class="panel-title"><strong>เพิ่มอาชีพ</strong></h3>
 					</div>
 					<div class="panel-body">
-						<form role="form" action="?d=manage&c=<?=$controller?>&m=add" method="post" autocomplete="off">
+						<form role="form" action="?d=manage&c=<?=$controller?>&m=add" method="post" autocomplete="off" id="add_occupation">
 								<?php
 								echo $in_occupation;
-								echo "<span id='".$em_name["in_occupation"]."_error' class='hidden'>".form_error($em_name["in_occupation"])."</span>";
+								echo "<span id='".$this->lang->line("in_occupation")."_error' class='hidden'>".form_error($this->lang->line("in_occupation"))."</span>";
 								?>
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>		
@@ -55,18 +55,30 @@ echo $head;
       <hr>
       <?php echo $footer; ?>
     </div>
-
-
-
 <?php 
 echo $js;
 ?>
 <!-- Custom Javascript -->
 	<script type="text/javascript" src="<?php echo base_url();?>js/user_profile_script.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>js/manage/occupation.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/localization/messages_th.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/additional-methods.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/my-additional-methods.js"></script>
 	<script type="text/javascript">
 	<!--
 	$(function(){
+		$("#add_occupation").validate({
+			lang:'th',
+			errorClass: "my-error-class",
+			rules: {
+				"<?php echo $this->lang->line("in_occupation");?>": {
+					required:true,
+					maxlength:30,
+					THEN:true
+				}
+			}
+		});
 		/**
 		Highlight the <input> <select> 
 		If span text length > 0 change input border color to red

@@ -54,8 +54,8 @@ class User_profile extends MY_Controller
 		$config=array(
 				
 				array(
-						"field"=>"input_email",
-						"label"=>$this->lang->line("label_email"),
+						"field"=>$this->lang->line("in_email"),
+						"label"=>$this->lang->line("t_in_email"),
 						"rules"=>"required|valid_email|max_length[128]"
 				)
 		);
@@ -64,19 +64,20 @@ class User_profile extends MY_Controller
 		{
 			$config2=array(
 					array(
-							"field"=>"input_password0",
-							"label"=>$this->lang->line("label_password0"),
+							"field"=>$this->lang->line("in_password0"),
+							"label"=>$this->lang->line("t_in_password0"),
 							"rules"=>"required|max_length[15]|min_length[5]|callback_check_current_password"
 					),
 					array(
-							"field"=>"input_password",
-							"label"=>$this->lang->line("label_password"),
+							"field"=>$this->lang->line("in_password"),
+							"label"=>$this->lang->line("t_in_password"),
 							"rules"=>"required|max_length[15]|min_length[5]|callback_find_space"
 					),
 					array(
-							"field"=>"input_password2",
-							"label"=>$this->lang->line("label_password2"),
-							"rules"=>"required|max_length[15]|min_length[5]|matches[input_password]"
+							"field"=>$this->lang->line("in_password2"),
+							"label"=>$this->lang->line("t_in_password2"),
+							//"rules"=>"required|max_length[15]|min_length[5]|matches[input_password]"
+							"rules"=>"required|max_length[15]|min_length[5]|matches[".$this->lang->line("in_password")."]"
 					)
 			);
 			$config=array_merge($config,$config2);
@@ -87,67 +88,62 @@ class User_profile extends MY_Controller
 		if($this->frm->run() == false)
 		{
 			/*initial  create element with element_lib*/
-			$in_username_name="input_username";
 			$in_username=array(
-					"LB_text"=>$this->lang->line("label_username"),
+					"LB_text"=>$this->lang->line("t_in_username"),
 					"LB_attr"=>'',
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_username_name,
-					"IN_id"=>$in_username_name,
+					"IN_name"=>$this->lang->line("in_username"),
+					"IN_id"=>$this->lang->line("in_username"),
 					"IN_PH"=>'',
 					"IN_value"=>$this->session->userdata("rs_username"),
 					"IN_attr"=>'maxlength="15" disabled',
 					"help_text"=>''
 			);
-			$in_password_name0="input_password0";
 			$in_password0=array(
-					"LB_text"=>$this->lang->line("label_password0"),
+					"LB_text"=>$this->lang->line("t_in_password0"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'password',
 					"IN_class"=>'',
-					"IN_name"=>$in_password_name0,
-					"IN_id"=>$in_password_name0,
+					"IN_name"=>$this->lang->line("in_password0"),
+					"IN_id"=>$this->lang->line("in_password0"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_password_name0),
+					"IN_value"=>set_value($this->lang->line("in_password0")),
 					"IN_attr"=>'maxlength="15"',
 					"help_text"=>$this->lang->line("5_15char")
 			);
-			$in_password_name="input_password";
 			$in_password=array(
-					"LB_text"=>$this->lang->line("label_password"),
+					"LB_text"=>$this->lang->line("t_in_password"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'password',
 					"IN_class"=>'',
-					"IN_name"=>$in_password_name,
-					"IN_id"=>$in_password_name,
+					"IN_name"=>$this->lang->line("in_password"),
+					"IN_id"=>$this->lang->line("in_password"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_password_name),
+					"IN_value"=>set_value($this->lang->line("in_password")),
 					"IN_attr"=>'maxlength="15"',
 					"help_text"=>$this->lang->line("5_15char")
 			);
-			$in_password_name2="input_password2";
 			$in_password2=array(
-					"LB_text"=>$this->lang->line("label_password2"),
+					"LB_text"=>$this->lang->line("t_in_password2"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'password',
 					"IN_class"=>'',
-					"IN_name"=>$in_password_name2,
-					"IN_id"=>$in_password_name2,
+					"IN_name"=>$this->lang->line("in_password2"),
+					"IN_id"=>$this->lang->line("in_password"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_password_name2),
+					"IN_value"=>set_value($this->lang->line("in_password")),
 					"IN_attr"=>'maxlength="15"',
 					"help_text"=>$this->lang->line("5_15char")
 			);
-			$in_email_name="input_email";
 			$get_email=$this->upm->user_email($this->session->userdata("rs_username"));
 			$in_email=array(
-					"LB_text"=>$this->lang->line("label_email"),
+					"LB_text"=>$this->lang->line("t_in_email"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_email_name,
-					"IN_id"=>$in_email_name,
+					"IN_name"=>$this->lang->line("in_email"),
+					"IN_id"=>$this->lang->line("in_email"),
 					"IN_PH"=>'',
 					//get current email from user_profile_model->user_email()
 					"IN_value"=>$get_email[0]["email"],
@@ -179,12 +175,12 @@ class User_profile extends MY_Controller
 		{	
 			//$this->upm->
 			$set=array(
-					"email"=>$this->input->post("input_email")
+					"email"=>$this->input->post($this->lang->line("in_email"))
 			);
 			if($this->input->post("change_password")=="checked_pwd")
 			{
 				$set2=array(
-						"password"=>md5($this->input->post("input_password"))
+						"password"=>md5($this->input->post($this->lang->line("in_password")))
 				);
 				$set=array_merge($set,$set2);
 			}
@@ -199,28 +195,28 @@ class User_profile extends MY_Controller
 		 * */
 		$config=array(
 				array(
-						"field"=>"select_titlename",
-						"label"=>$this->lang->line("label_se_titlename"),
+						"field"=>$this->lang->line("se_titlename"),
+						"label"=>$this->lang->line("t_se_titlename"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>"input_firstname",
-						"label"=>$this->lang->line("label_firstname"),
+						"field"=>$this->lang->line("in_firstname"),
+						"label"=>$this->lang->line("t_in_firstname"),
 						"rules"=>"required|max_length[40]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				),
 				array(
-						"field"=>"input_lastname",
-						"label"=>$this->lang->line("label_lastname"),
+						"field"=>$this->lang->line("in_lastname"),
+						"label"=>$this->lang->line("t_in_lastname"),
 						"rules"=>"required|max_length[40]|callback_call_lib[regex_lib,regex_charTHEN,%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ]"
 				),
 				array(
-						"field"=>"input_occupation",
-						"label"=>$this->lang->line("label_in_occupation"),
+						"field"=>$this->lang->line("in_occupation"),
+						"label"=>$this->lang->line("t_in_occupation"),
 						"rules"=>"max_length[30]"
 				),
 				array(
-						"field"=>"select_occupation",
-						"label"=>$this->lang->line("label_se_occupation"),
+						"field"=>$this->lang->line("se_occupation"),
+						"label"=>$this->lang->line("t_se_occupation"),
 						"rules"=>"required|callback_selected_other"
 				)
 		);
@@ -234,66 +230,61 @@ class User_profile extends MY_Controller
 			//set session for occupation_id
 			$this->session->set_userdata("update_profile2_occupation_id",$current_data["tb_occupation_id"]);
 			/*initial  create element with element_lib*/
-			$se_titlename_name="select_titlename";
 			$se_titlename=array(
-					"LB_text"=>$this->lang->line("label_se_titlename"),
+					"LB_text"=>$this->lang->line("t_se_titlename"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$se_titlename_name,
-					"S_id"=>$se_titlename_name,
+					"S_name"=>$this->lang->line("se_titlename"),
+					"S_id"=>$this->lang->line("se_titlename"),
 					"S_old_value"=>$current_data["tb_titlename_id"],
 					"S_data"=>$this->emm->select_titlename(),
 					"S_id_field"=>"titlename_id",
 					"S_name_field"=>"titlename",
 					"help_text"=>''
 			);
-			$in_firstname_name="input_firstname";
 			$in_firstname=array(
-					"LB_text"=>$this->lang->line("label_firstname"),
+					"LB_text"=>$this->lang->line("t_in_firstname"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_firstname_name,
-					"IN_id"=>$in_firstname_name,
+					"IN_name"=>$this->lang->line("in_firstname"),
+					"IN_id"=>$this->lang->line("in_firstname"),
 					"IN_PH"=>'',
 					"IN_value"=>$current_data["firstname"],
 					"IN_attr"=>'maxlength="40"',
 					"help_text"=>$this->lang->line("THENchar")
 			);
-			$in_lastname_name="input_lastname";
 			$in_lastname=array(
-					"LB_text"=>$this->lang->line("label_lastname"),
+					"LB_text"=>$this->lang->line("t_in_lastname"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_lastname_name,
-					"IN_id"=>$in_lastname_name,
+					"IN_name"=>$this->lang->line("in_lastname"),
+					"IN_id"=>$this->lang->line("in_lastname"),
 					"IN_PH"=>'',
 					"IN_value"=>$current_data["lastname"],
 					"IN_attr"=>'maxlength="40"',
 					"help_text"=>$this->lang->line("THENchar")
 			);
 			/*select occupation*/
-			$in_occupation_name="input_occupation";
 			$in_occupation=array(
-					"LB_text"=>$this->lang->line("label_in_occupation"),
+					"LB_text"=>$this->lang->line("t_in_occupation"),
 					"LB_attr"=>"",
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$in_occupation_name,
-					"IN_id"=>$in_occupation_name,
+					"IN_name"=>$this->lang->line("in_occupation"),
+					"IN_id"=>$this->lang->line("in_occupation"),
 					"IN_PH"=>'',
-					"IN_value"=>set_value($in_occupation_name),
+					"IN_value"=>set_value($this->lang->line("in_occupation")),
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>''
 			);
-			$se_occupation_name="select_occupation";
 			$se_occupation=array(
-					"LB_text"=>$this->lang->line("label_se_occupation"),
+					"LB_text"=>$this->lang->line("t_se_occupation"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$se_occupation_name,
-					"S_id"=>$se_occupation_name,
+					"S_name"=>$this->lang->line("se_occupation"),
+					"S_id"=>$this->lang->line("se_occupation"),
 					"S_old_value"=>$current_data["tb_occupation_id"],
 					"S_data"=>$this->emm->select_occupation(),
 					"S_id_field"=>"occupation_id",
@@ -329,16 +320,16 @@ class User_profile extends MY_Controller
 		else
 		{
 			$set=array(
-					"tb_titlename_id"=>$this->input->post("select_titlename"),
-					"firstname"=>$this->input->post("input_firstname"),
-					"lastname"=>$this->input->post("input_lastname"),
-					"tb_occupation_id"=>$this->input->post("select_occupation")
+					"tb_titlename_id"=>$this->input->post($this->lang->line("se_titlename")),
+					"firstname"=>$this->input->post($this->lang->line("in_firstname")),
+					"lastname"=>$this->input->post($this->lang->line("in_lastname")),
+					"tb_occupation_id"=>$this->input->post($this->lang->line("se_occupation"))
 			);
-			if($this->input->post("select_occupation")=="00")
+			if($this->input->post($this->lang->line("se_occupation"))=="00")
 			{
 				unset($set["tb_occupation_id"]);
 				$set_occupation=array(
-						"occupation_name"=>$this->input->post("input_occupation")
+						"occupation_name"=>$this->input->post($this->lang->line("in_occupation"))
 				);
 				$this->upm->update_occupation($set_occupation,$this->session->userdata("update_profile2_occupation_id"));
 			}
@@ -354,38 +345,38 @@ class User_profile extends MY_Controller
 		 * */
 		$config=array(
 				array(
-						"field"=>$this->lang->line("regis_in_house_no"),
-						"label"=>$this->lang->line("label_house_no"),
+						"field"=>$this->lang->line("in_house_no"),
+						"label"=>$this->lang->line("t_in_house_no"),
 						"rules"=>"required|max_length[10]|callback_call_lib[regex_lib,regex_house_no,%s - รูปแบบไม่ถูกต้อง]"
 				),
 				array(
-						"field"=>$this->lang->line("regis_in_village_no"),
-						"label"=>$this->lang->line("label_village_no"),
+						"field"=>$this->lang->line("in_village_no"),
+						"label"=>$this->lang->line("t_in_village_no"),
 						"rules"=>"max_length[2]|numeric"
 				),
 				array(
-						"field"=>$this->lang->line("regis_in_alley"),
-						"label"=>$this->lang->line("label_alley"),
+						"field"=>$this->lang->line("in_alley"),
+						"label"=>$this->lang->line("t_in_alley"),
 						"rules"=>"max_length[30]"
 				),
 				array(
-						"field"=>$this->lang->line("regis_in_road"),
-						"label"=>$this->lang->line("label_road"),
+						"field"=>$this->lang->line("in_road"),
+						"label"=>$this->lang->line("t_in_road"),
 						"rules"=>"max_length[25]"
 				),
 				array(
-						"field"=>$this->lang->line("regis_se_province"),
-						"label"=>$this->lang->line("label_se_province"),
+						"field"=>$this->lang->line("se_province"),
+						"label"=>$this->lang->line("t_se_province"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>$this->lang->line("regis_se_district"),
-						"label"=>$this->lang->line("label_se_district"),
+						"field"=>$this->lang->line("se_district"),
+						"label"=>$this->lang->line("t_se_district"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>$this->lang->line("regis_se_subdistrict"),
-						"label"=>$this->lang->line("label_se_subdistrict"),
+						"field"=>$this->lang->line("se_subdistrict"),
+						"label"=>$this->lang->line("t_se_subdistrict"),
 						"rules"=>"required"
 				)
 		);
@@ -400,60 +391,59 @@ class User_profile extends MY_Controller
 			//$this->session->set_userdata("update_profile2_occupation_id",$current_data["tb_occupation_id"]);
 			/*initial  create element with element_lib*/
 			$in_house_no=array(
-					"LB_text"=>$this->lang->line("label_house_no"),
+					"LB_text"=>$this->lang->line("t_in_house_no"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("regis_in_house_no"),
-					"IN_id"=>$this->lang->line("regis_in_house_no"),
+					"IN_name"=>$this->lang->line("in_house_no"),
+					"IN_id"=>$this->lang->line("in_house_no"),
 					"IN_PH"=>'',
 					"IN_value"=>$current_data["house_no"],
 					"IN_attr"=>'maxlength="10"',
 					"help_text"=>'เช่น 78, 87/3, 1234/987'
 			);
 			$in_village_no=array(
-					"LB_text"=>$this->lang->line("label_village_no"),
+					"LB_text"=>$this->lang->line("t_in_village_no"),
 					"LB_attr"=>'',
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("regis_in_village_no"),
-					"IN_id"=>$this->lang->line("regis_in_village_no"),
+					"IN_name"=>$this->lang->line("in_village_no"),
+					"IN_id"=>$this->lang->line("in_village_no"),
 					"IN_PH"=>'',
 					"IN_value"=>$current_data["village_no"],
 					"IN_attr"=>'maxlength="2"',
 					"help_text"=>'เช่น 1, 99'
 			);
 			$in_alley=array(
-					"LB_text"=>$this->lang->line("label_alley"),
+					"LB_text"=>$this->lang->line("t_in_alley"),
 					"LB_attr"=>'',
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("regis_in_alley"),
-					"IN_id"=>$this->lang->line("regis_in_alley"),
+					"IN_name"=>$this->lang->line("in_alley"),
+					"IN_id"=>$this->lang->line("in_alley"),
 					"IN_PH"=>'',
 					"IN_value"=>$current_data["alley"],
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>''
 			);
-			$in_road_name="input_road";
 			$in_road=array(
-					"LB_text"=>$this->lang->line("label_road"),
+					"LB_text"=>$this->lang->line("t_in_road"),
 					"LB_attr"=>'',
 					"IN_type"=>'text',
 					"IN_class"=>'',
-					"IN_name"=>$this->lang->line("regis_in_road"),
-					"IN_id"=>$this->lang->line("regis_in_road"),
+					"IN_name"=>$this->lang->line("in_road"),
+					"IN_id"=>$this->lang->line("in_road"),
 					"IN_PH"=>'',
 					"IN_value"=>$current_data["road"],
 					"IN_attr"=>'maxlength="25"',
 					"help_text"=>''
 			);
 			$se_province=array(
-					"LB_text"=>$this->lang->line("label_se_province"),
+					"LB_text"=>$this->lang->line("t_se_province"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("regis_se_province"),
-					"S_id"=>$this->lang->line("regis_se_province"),
+					"S_name"=>$this->lang->line("se_province"),
+					"S_id"=>$this->lang->line("se_province"),
 					"S_old_value"=>$current_data["tb_province_id"],
 					"S_data"=>$this->emm->select_province(),
 					"S_id_field"=>"province_id",
@@ -461,11 +451,11 @@ class User_profile extends MY_Controller
 					"help_text"=>''
 			);
 			$se_district=array(
-					"LB_text"=>$this->lang->line("label_se_district"),
+					"LB_text"=>$this->lang->line("t_se_district"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("regis_se_district"),
-					"S_id"=>$this->lang->line("regis_se_district"),
+					"S_name"=>$this->lang->line("se_district"),
+					"S_id"=>$this->lang->line("se_district"),
 					"S_old_value"=>"",
 					"S_data"=>"",
 					"S_id_field"=>"district_id",
@@ -473,11 +463,11 @@ class User_profile extends MY_Controller
 					"help_text"=>''
 			);
 			$se_subdistrict=array(
-					"LB_text"=>$this->lang->line("label_se_subdistrict"),
+					"LB_text"=>$this->lang->line("t_se_subdistrict"),
 					"LB_attr"=>$this->eml->span_redstar(),
 					"S_class"=>'',
-					"S_name"=>$this->lang->line("regis_se_subdistrict"),
-					"S_id"=>$this->lang->line("regis_se_subdistrict"),
+					"S_name"=>$this->lang->line("se_subdistrict"),
+					"S_id"=>$this->lang->line("se_subdistrict"),
 					"S_old_value"=>"",
 					"S_data"=>"",
 					"S_id_field"=>"subdistrict_id",
@@ -512,13 +502,13 @@ class User_profile extends MY_Controller
 		else
 		{
 			$set=array(
-					"house_no"=>$this->input->post("input_house_no"),
-					"village_no"=>$this->input->post("input_village_no"),
-					"alley"=>$this->input->post("input_alley"),
-					"road"=>$this->input->post("input_road"),
-					"tb_province_id"=>$this->input->post("select_province"),
-					"tb_district_id"=>$this->input->post("select_district"),
-					"tb_subdistrict_id"=>$this->input->post("select_subdistrict")
+					"house_no"=>$this->input->post($this->lang->line("in_house_no")),
+					"village_no"=>$this->input->post($this->lang->line("in_village_no")),
+					"alley"=>$this->input->post($this->lang->line("in_alley")),
+					"road"=>$this->input->post($this->lang->line("in_road")),
+					"tb_province_id"=>$this->input->post($this->lang->line("se_province")),
+					"tb_district_id"=>$this->input->post($this->lang->line("se_district")),
+					"tb_subdistrict_id"=>$this->input->post($this->lang->line("se_subdistrict"))
 			);
 			$this->upm->update_edit_profile3($set,$this->session->userdata("rs_username"));	
 		}
@@ -554,7 +544,7 @@ class User_profile extends MY_Controller
 		$this->form_validation->set_message("selected_other","%s - กรุณาระบุอาชีพอื่นๆ");
 		if($data=="00") 
 		{
-			if(strlen(trim($this->input->post("input_occupation")))<1)return false;
+			if(strlen(trim($this->input->post($this->lang->line("in_occupation"))))<1)return false;
 			else return true;
 		}
 		else if($data!="00")

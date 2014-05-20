@@ -14,13 +14,13 @@ class Assign extends MY_Controller
 	{
 		$config=array(
 				array(
-						"field"=>"privilege_list",
-						"label"=>"",
+						"field"=>$this->lang->line("se_privilege_list"),
+						"label"=>$this->lang->line("t_se_privilege_list"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>"user_list",
-						"label"=>"",
+						"field"=>$this->lang->line("se_user_list"),
+						"label"=>$this->lang->line("t_se_user_list"),
 						"rules"=>"required"
 				)
 		);
@@ -47,16 +47,16 @@ class Assign extends MY_Controller
 			$data=array(
 					"privilege_assign_id"=>$this->am->get_maxid(4,"privilege_assign_id","tb_privilege_assign"),
 					"assign_from"=>$this->session->userdata("rs_username"),
-					"assign_to"=>$this->input->post("user_list"),
+					"assign_to"=>$this->input->post($this->lang->line("se_user_list")),
 					"assign_date"=>date("Y-m-d H:i:s"),
-					"tb_privilege_id"=>$this->input->post("privilege_list")
+					"tb_privilege_id"=>$this->input->post($this->lang->line("se_privilege_list"))
 			);
 			$this->am->manage_add($data,"tb_privilege_assign",
 					"?d=privilege&c=assign&m=add",
 					"?d=privilege&c=assign&m=add",
 					"add_p_a",
-					"โอนสิทธิ์ให้ ".$this->input->post("user_list")." สำเร็จ",
-					"โอนสิทธิ์ให้ ".$this->input->post("user_list")." ไม่สำเร็จ"
+					"โอนสิทธิ์ให้ ".$this->input->post($this->lang->line("se_user_list"))." สำเร็จ",
+					"โอนสิทธิ์ให้ ".$this->input->post($this->lang->line("se_user_list"))." ไม่สำเร็จ"
 					);
 		}
 	}
@@ -66,13 +66,13 @@ class Assign extends MY_Controller
 		
 		$config=array(
 				array(
-						"field"=>"privilege_list",
-						"label"=>"",
+						"field"=>$this->lang->line("se_privilege_list"),
+						"label"=>$this->lang->line("t_se_privilege_list"),
 						"rules"=>"required"
 				),
 				array(
-						"field"=>"user_list",
-						"label"=>"",
+						"field"=>$this->lang->line("se_user_list"),
+						"label"=>$this->lang->line("t_se_user_list"),
 						"rules"=>"required"
 				)
 		);

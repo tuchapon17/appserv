@@ -30,17 +30,17 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php
 	      		 	$em_name=array(
-	      		 			"in_article"=>"input_article",
-							"in_fee_unit_hour"=>"input_fee_unit_hour",
-							"in_fee_unit_lump_sum"=>"input_fee_unit_lump_sum",
-							"in_fee_over_unit_lump_sum"=>"input_fee_over_unit_lump_sum",
-							"se_article_type"=>"select_article_type"
+	      		 			"in_article"=>$this->lang->line("in_article"),
+							"in_fee_unit_hour"=>$this->lang->line("in_fee_unit_hour"),
+							"in_fee_unit_lump_sum"=>$this->lang->line("in_fee_unit_lump_sum"),
+							"in_fee_over_unit_lump_sum"=>$this->lang->line("in_fee_over_unit_lump_sum"),
+							"se_article_type"=>$this->lang->line("se_article_type")
 	      		 	);
-      		 		echo form_error($em_name["in_article"]);
-      		 		echo form_error($em_name["se_article_type"]);
-      		 		echo form_error($em_name["in_fee_unit_hour"]);
-      		 		echo form_error($em_name["in_fee_unit_lump_sum"]);
-      		 		echo form_error($em_name["in_fee_over_unit_lump_sum"]);
+      		 		/*echo form_error($this->lang->line("in_article"));
+      		 		echo form_error($this->lang->line("se_article_type"));
+      		 		echo form_error($this->lang->line("in_fee_unit_hour"));
+      		 		echo form_error($this->lang->line("in_fee_unit_lump_sum"));
+      		 		echo form_error($this->lang->line("in_fee_over_unit_lump_sum"));*/
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -48,18 +48,18 @@ echo $head;
 						<h3 class="panel-title"><strong>เพิ่มครุภัณฑ์/อุปกรณ์</strong></h3>
 					</div>
 					<div class="panel-body">
-						<form role="form" action="?d=manage&c=article&m=add" method="post" autocomplete="off">
+						<form role="form" action="?d=manage&c=article&m=add" id="add_article" method="post" autocomplete="off">
 								<?php 
 								echo $in_article;
-								echo "<span id='".$em_name["in_article"]."_error' class='hidden'>".form_error($em_name["in_article"])."</span>";
+								echo "<span id='".$this->lang->line("in_article")."_error' class='hidden'>".form_error($this->lang->line("in_article"))."</span>";
 								echo $se_article_type;
-								echo "<span id='".$em_name["se_article_type"]."_error' class='hidden'>".form_error($em_name["se_article_type"])."</span>";
+								echo "<span id='".$this->lang->line("se_article_type")."_error' class='hidden'>".form_error($this->lang->line("se_article_type"))."</span>";
 								echo $in_fee_unit_hour;
-								echo "<span id='".$em_name["in_fee_unit_hour"]."_error' class='hidden'>".form_error($em_name["in_fee_unit_hour"])."</span>";
+								echo "<span id='".$this->lang->line("in_fee_unit_hour")."_error' class='hidden'>".form_error($this->lang->line("in_fee_unit_hour"))."</span>";
 								echo $in_fee_unit_lump_sum;
-								echo "<span id='".$em_name["in_fee_unit_lump_sum"]."_error' class='hidden'>".form_error($em_name["in_fee_unit_lump_sum"])."</span>";
+								echo "<span id='".$this->lang->line("in_fee_unit_lump_sum")."_error' class='hidden'>".form_error($this->lang->line("in_fee_unit_lump_sum"))."</span>";
 								echo $in_fee_over_unit_lump_sum;
-								echo "<span id='".$em_name["in_fee_over_unit_lump_sum"]."_error' class='hidden'>".form_error($em_name["in_fee_over_unit_lump_sum"])."</span>";
+								echo "<span id='".$this->lang->line("in_fee_over_unit_lump_sum")."_error' class='hidden'>".form_error($this->lang->line("in_fee_over_unit_lump_sum"))."</span>";
 								?>	
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>
@@ -84,25 +84,55 @@ echo $js;
 <!-- Custom Javascript -->
 	<script type="text/javascript" src="<?php echo base_url();?>js/user_profile_script.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>js/manage/article.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/localization/messages_th.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/additional-methods.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/my-additional-methods.js"></script>
 	<script type="text/javascript">
 	<!--
 	$(function(){
-		/*#################################################
-		Highlight the <input> <select> 
-		If span text length > 0 change input border color to red
-		###################################################*/
+		$("#add_article").validate({
+			lang:'th',
+			errorClass: "my-error-class",
+			rules: {
+				"<?php echo $this->lang->line("in_article");?>": {
+					required:true,
+					maxlength:30
+				},
+				"<?php echo $this->lang->line("in_fee_unit_hour");?>": {
+					required:true,
+					maxlength:9,
+					decimal62:true
+				},
+				"<?php echo $this->lang->line("in_fee_unit_lump_sum");?>": {
+					required:true,
+					maxlength:9,
+					decimal62:true
+				},
+				"<?php echo $this->lang->line("in_fee_over_unit_lump_sum");?>": {
+					required:true,
+					maxlength:9,
+					decimal62:true
+				},
+				"<?php echo $this->lang->line("se_article_type");?>": {
+					required:true
+				}
+			}
+		});
+		
+		//Highlight the <input> <select> 
+		//If span text length > 0 change input border color to red
 		<?php 
 		foreach ($em_name AS $key=>$value):
 		?>
-			if($("#<?php echo $em_name[$key];?>_error").text().length>0){
+			if($("#<?php echo $em_name[$key];?>_error").text().length>0) {
 				$("#<?php echo $em_name[$key];?>").css("border","1px solid #bb0000");
 			}
 		<?php
 		endforeach;
 		?>
-		/*#################################################
-		Show bootbox alert after 
-		###################################################*/
+		
+		//Show bootbox alert after 
 		<?php 
 		if($this->session->flashdata($m_name."_message"))
 		{?>

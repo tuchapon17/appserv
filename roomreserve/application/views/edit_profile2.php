@@ -44,17 +44,17 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php 
       				$em_name=array(
-      						"titlename"=>"select_titlename",
-							"firstname"=>"input_firstname",
-							"lastname"=>"input_lastname",
-							"occupation1"=>"select_occupation",
-							"occupation2"=>"input_occupation"
+      						"titlename"=>$this->lang->line("se_titlename"),
+							"firstname"=>$this->lang->line("in_firstname"),
+							"lastname"=>$this->lang->line("in_lastname"),
+							"occupation1"=>$this->lang->line("se_occupation"),
+							"occupation2"=>$this->lang->line("in_occupation")
       				);
-      				echo form_error($em_name["titlename"]);
-      				echo form_error($em_name["firstname"]);
-      				echo form_error($em_name["lastname"]);
-      				echo form_error($em_name["occupation1"]);
-      				echo form_error($em_name["occupation2"]);
+      				echo form_error($this->lang->line("se_titlename"));
+      				echo form_error($this->lang->line("in_firstname"));
+      				echo form_error($this->lang->line("in_lastname"));
+      				echo form_error($this->lang->line("se_occupation"));
+      				echo form_error($this->lang->line("in_occupation"));
       			?>
       			</div>
       			<div class="panel panel-success">
@@ -65,15 +65,15 @@ echo $head;
 						<form role="form" action="?c=user_profile&m=edit_profile2" method="post">
 								<?php 
 								echo $se_titlename; 
-								echo "<span id='".$em_name["titlename"]."_error' class='hidden'>".form_error($em_name["titlename"])."</span>";
+								echo "<span id='".$this->lang->line("se_titlename")."_error' class='hidden'>".form_error($this->lang->line("se_titlename"))."</span>";
 								echo $in_firstname;
-								echo "<span id='".$em_name["firstname"]."_error' class='hidden'>".form_error($em_name["firstname"])."</span>";
+								echo "<span id='".$this->lang->line("in_firstname")."_error' class='hidden'>".form_error($this->lang->line("in_firstname"))."</span>";
 								echo $in_lastname;
-								echo "<span id='".$em_name["lastname"]."_error' class='hidden'>".form_error($em_name["lastname"])."</span>";
+								echo "<span id='".$this->lang->line("in_lastname")."_error' class='hidden'>".form_error($this->lang->line("in_lastname"))."</span>";
 								echo $se_occupation;
-								echo "<span id='".$em_name["occupation1"]."_error' class='hidden'>".form_error($em_name["occupation1"])."</span>";
+								echo "<span id='".$this->lang->line("se_occupation")."_error' class='hidden'>".form_error($this->lang->line("se_occupation"))."</span>";
 								echo $in_occupation;
-								echo "<span id='".$em_name["occupation2"]."_error' class='hidden'>".form_error($em_name["occupation2"])."</span>";
+								echo "<span id='".$this->lang->line("in_occupation")."_error' class='hidden'>".form_error($this->lang->line("in_occupation"))."</span>";
 								?>
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>		
@@ -140,22 +140,22 @@ echo $js;
 		- find div parent of #input_occupation and add ID(otherOccupation) to this div
 		- if selected otherOccupation #input_occupation has been visible
 		###################################################*/
-		$("#input_occupation").parent().attr('id','otherOccupation');
+		$("#<?php echo $this->lang->line("in_occupation");?>").parent().attr('id','otherOccupation');
 		$("#otherOccupation").hide();
-		$("#select_occupation").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_occupation");?>").on("keyup change",function(){
 			if($(this).find('option:selected').val()=="00")
 			{
 				$("#otherOccupation").show();
 			}
 			else
 			{
-				$("#input_occupation").val('');
+				$("#<?php echo $this->lang->line("in_occupation");?>").val('');
 				$("#otherOccupation").hide();
 			}
 		});
-		if($("#select_occupation").find("option:selected").val()=="00")
+		if($("#<?php echo $this->lang->line("se_occupation");?>").find("option:selected").val()=="00")
 		{
-			$("#select_occupation").trigger("change");
+			$("#<?php echo $this->lang->line("se_occupation");?>").trigger("change");
 		}
 	});
 	//-->

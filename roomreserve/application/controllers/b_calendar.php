@@ -43,7 +43,7 @@ class B_calendar extends MY_Controller {
 				"footer"=>$this->pel->footer(),
 				"bodyclose"=>$this->pel->bodyclose(),
 				"htmlclose"=>$this->pel->htmlclose(),
-				"calendar"=>$this->cm->generate(($year+543),$month,$approve,$room_id),
+				"calendar"=>$this->cm->generate($year,$month,$approve,$room_id),
 				"customviewbox"=>$this->customviewbox()
 		);
 		$this->load->view("b_calendar_main",$data);
@@ -196,7 +196,7 @@ class B_calendar extends MY_Controller {
 				"bct-approve"=>$this->input->post("bct-approve")
 		);
 		$this->session->set_userdata($set);
-		redirect(base_url()."?c=b_calendar&m=main&year=".$this->input->post("bct-year")."&month=".$this->input->post("bct-month"));
+		redirect(base_url()."?c=b_calendar&m=main&year=".($this->input->post("bct-year")-543)."&month=".$this->input->post("bct-month"));
 	}
 	function reset_customview()
 	{

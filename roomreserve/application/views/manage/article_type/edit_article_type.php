@@ -34,9 +34,9 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php 
 	      		 	$em_name=array(
-	      		 			"in_article_type"=>"input_article_type"
+	      		 			"in_article_type"=>$this->lang->line("in_article_type")
 	      		 	);
-      		 		echo form_error($em_name["in_article_type"]);
+      		 		echo form_error($this->lang->line("in_article_type"));
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -44,34 +44,45 @@ echo $head;
 						<h3 class="panel-title"><strong>แก้ไขประเภทครุภัณฑ์/อุปกรณ์</strong></h3>
 					</div>
 					<div class="panel-body">
-						<form role="form" action="?d=manage&c=article_type&m=edit" method="post" autocomplete="off">
+						<form role="form" action="?d=manage&c=article_type&m=edit" method="post" autocomplete="off" id="edit_article_type">
 								<?php
 								echo $in_article_type;
-								echo "<span id='".$em_name["in_article_type"]."_error' class='hidden'>".form_error($em_name["in_article_type"])."</span>";
+								echo "<span id='".$this->lang->line("in_article_type")."_error' class='hidden'>".form_error($this->lang->line("in_article_type"))."</span>";
 								?>	
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>
 					</div>
 				</div>
-      			
       		</div>
         </div>
       </div>
       <hr>
       <?php echo $footer; ?>
     </div>
-
-
-
 <?php 
 echo $js;
 ?>
 <!-- Custom Javascript -->
 	<script type="text/javascript" src="<?php echo base_url();?>js/user_profile_script.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>js/manage/article_type.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/localization/messages_th.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/additional-methods.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/my-additional-methods.js"></script>
 	<script type="text/javascript">
 	<!--
 	$(function(){
+		$("#edit_article_type").validate({
+			lang:'th',
+			errorClass: "my-error-class",
+			rules: {
+				"<?php echo $this->lang->line("in_article_type");?>": {
+					required:true,
+					maxlength:30,
+					THEN:true
+				}
+			}
+		});
 		
 		/**
 		* Highlight the <input> <select> 

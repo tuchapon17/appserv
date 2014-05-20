@@ -74,10 +74,11 @@ class b_calendar_Model extends CI_Model
 		$cal_data=array();
 		foreach ($query->result_array() as $row)
 		{
+			$atext=$row["room_name"]." (".substr($row["reserve_datetime_begin"],11,5)."-".substr($row["reserve_datetime_end"],11,5);
 			//$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)]="<i class='fa fa-info-circle'></i>";
 			if(!array_key_exists((int)substr($row["reserve_datetime_begin"],8,2), $cal_data))
 			{
-				$atext=$row["room_name"]." (".substr($row["reserve_datetime_begin"],11,5)."-".substr($row["reserve_datetime_end"],11,5);
+				
 				//$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)]="<div class='text-left' onclick='alert(\"$row[reserve_datetime_begin].$row[reserve_datetime_end]\");'>".$row["project_name"]."</div>";
 				$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)]="<div class='time-small'><small><a href='".base_url()."?d=manage&c=reserve&m=view&id=".$row['tb_reserve_id']."' title='".$atext."'>".$atext.")</a></small></div>";
 			}
@@ -85,7 +86,7 @@ class b_calendar_Model extends CI_Model
 			{
 				$atext=$row["room_name"]." (".substr($row["reserve_datetime_begin"],11,5)."-".substr($row["reserve_datetime_end"],11,5);
 				//$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)].="<div class='text-left' onclick='alert(\"$row[reserve_datetime_begin].$row[reserve_datetime_end]\");'>".$row["project_name"]."</div>";
-				$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)].="<div class='time-small'><small><a href='".base_url()."?d=manage&c=reserve&m=view&id=".$row['tb_reserve_id']."' title='".$atext."'>".$atext."</a></small></div>";
+				$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)].="<div class='time-small'><small><a href='".base_url()."?d=manage&c=reserve&m=view&id=".$row['tb_reserve_id']."' title='".$atext."'>".$atext.")</a></small></div>";
 				
 			}
 		}

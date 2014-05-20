@@ -28,24 +28,24 @@ echo $head;
       	<?php echo $article_tab;?>
       		<div class="col-lg-12" id="loginform">
       		 	<br>
-      		 	<form role="form" class="form-inline" action="?d=manage&c=<?=$controller?>&m=search" method="post" autocomplete="off">
+      		 	<form role="form" class="form-inline" action="?d=manage&c=<?=$controller?>&m=search" method="post" autocomplete="off" >
       		 		<?php echo $manage_search_box;?>
       		 	</form>
       		 	<?php echo $table_edit;?>
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php 
 	      		 	$em_name=array(
-	      		 			"in_article"=>"input_article",
-							"in_fee_unit_hour"=>"input_fee_unit_hour",
-							"in_fee_unit_lump_sum"=>"input_fee_unit_lump_sum",
-							"in_fee_over_unit_lump_sum"=>"input_fee_over_unit_lump_sum",
-							"se_article_type"=>"select_article_type"
+	      		 			"in_article"=>$this->lang->line("in_article"),
+	      		 			"in_fee_unit_hour"=>$this->lang->line("in_fee_unit_hour"),
+	      		 			"in_fee_unit_lump_sum"=>$this->lang->line("in_fee_unit_lump_sum"),
+	      		 			"in_fee_over_unit_lump_sum"=>$this->lang->line("in_fee_over_unit_lump_sum"),
+	      		 			"se_article_type"=>$this->lang->line("se_article_type")
 	      		 	);
-      		 		echo form_error($em_name["in_article"]);
-      		 		echo form_error($em_name["se_article_type"]);
-      		 		echo form_error($em_name["in_fee_unit_hour"]);
-      		 		echo form_error($em_name["in_fee_unit_lump_sum"]);
-      		 		echo form_error($em_name["in_fee_over_unit_lump_sum"]);
+	      		 	/*echo form_error($this->lang->line("in_article"));
+	      		 	 echo form_error($this->lang->line("se_article_type"));
+	      		 	echo form_error($this->lang->line("in_fee_unit_hour"));
+	      		 	echo form_error($this->lang->line("in_fee_unit_lump_sum"));
+	      		 	echo form_error($this->lang->line("in_fee_over_unit_lump_sum"));*/
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -53,51 +53,73 @@ echo $head;
 						<h3 class="panel-title"><strong>แก้ไขครุภัณฑ์/อุปกรณ์</strong></h3>
 					</div>
 					<div class="panel-body">
-						<form role="form" action="?d=manage&c=<?=$controller?>&m=edit" method="post" autocomplete="off">
+						<form role="form" action="?d=manage&c=<?=$controller?>&m=edit" method="post" autocomplete="off" id="edit_article">
 								<?php
 								echo $in_article;
-								echo "<span id='".$em_name["in_article"]."_error' class='hidden'>".form_error($em_name["in_article"])."</span>";
+								echo "<span id='".$this->lang->line("in_article")."_error' class='hidden'>".form_error($this->lang->line("in_article"))."</span>";
 								echo $se_article_type;
-								echo "<span id='".$em_name["se_article_type"]."_error' class='hidden'>".form_error($em_name["se_article_type"])."</span>";
+								echo "<span id='".$this->lang->line("se_article_type")."_error' class='hidden'>".form_error($this->lang->line("se_article_type"))."</span>";
 								echo $in_fee_unit_hour;
-								echo "<span id='".$em_name["in_fee_unit_hour"]."_error' class='hidden'>".form_error($em_name["in_fee_unit_hour"])."</span>";
+								echo "<span id='".$this->lang->line("in_fee_unit_hour")."_error' class='hidden'>".form_error($this->lang->line("in_fee_unit_hour"))."</span>";
 								echo $in_fee_unit_lump_sum;
-								echo "<span id='".$em_name["in_fee_unit_lump_sum"]."_error' class='hidden'>".form_error($em_name["in_fee_unit_lump_sum"])."</span>";
+								echo "<span id='".$this->lang->line("in_fee_unit_lump_sum")."_error' class='hidden'>".form_error($this->lang->line("in_fee_unit_lump_sum"))."</span>";
 								echo $in_fee_over_unit_lump_sum;
-								echo "<span id='".$em_name["in_fee_over_unit_lump_sum"]."_error' class='hidden'>".form_error($em_name["in_fee_over_unit_lump_sum"])."</span>";
-								
+								echo "<span id='".$this->lang->line("in_fee_over_unit_lump_sum")."_error' class='hidden'>".form_error($this->lang->line("in_fee_over_unit_lump_sum"))."</span>";
 								?>	
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>
 					</div>
 				</div>
-      			
-      		</div>
+      		</div><!-- col-lg-12 -->
         </div>
       </div>
-      
-
       <hr>
-
       <?php echo $footer; ?>
     </div>
-
-
-
 <?php 
 echo $js;
 ?>
 <!-- Custom Javascript -->
 	<script type="text/javascript" src="<?php echo base_url();?>js/user_profile_script.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>js/manage/article.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/localization/messages_th.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/additional-methods.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/my-additional-methods.js"></script>
 	<script type="text/javascript">
 	<!--
 	$(function(){
+		$("#edit_article").validate({
+			lang:'th',
+			errorClass: "my-error-class",
+			rules: {
+				"<?php echo $this->lang->line("in_article");?>": {
+					required:true,
+					maxlength:30
+				},
+				"<?php echo $this->lang->line("in_fee_unit_hour");?>": {
+					required:true,
+					maxlength:9,
+					decimal62:true
+				},
+				"<?php echo $this->lang->line("in_fee_unit_lump_sum");?>": {
+					required:true,
+					maxlength:9,
+					decimal62:true
+				},
+				"<?php echo $this->lang->line("in_fee_over_unit_lump_sum");?>": {
+					required:true,
+					maxlength:9,
+					decimal62:true
+				},
+				"<?php echo $this->lang->line("se_article_type");?>": {
+					required:true
+				}
+			}
+		});
 		
-		/*#################################################
-		Highlight the <input> <select> 
-		If span text length > 0 change input border color to red
-		###################################################*/
+		//Highlight the <input> <select> 
+		//If span text length > 0 change input border color to red
 		<?php 
 		foreach ($em_name AS $key=>$value):
 		?>
@@ -109,20 +131,15 @@ echo $js;
 		?>
 		del_all_checkbox("<?=$m_name?>");
 		
-		/*#################################################
-		add num_rows to pagination 
-		###################################################*/
+		//add num_rows to pagination 
 		$("#pagination_num_rows").html("<a>ทั้งหมด <?php echo $pagination_num_rows;?> แถว</a>");
 		
-		/*#################################################
-		Reset search result
-		###################################################*/
+		//Reset search result
 		$("#clearSearch").click(function(){
 			clearSearchCenter("<?=$controller?>", b_url);
-		}); 
-		/*#################################################
-		Show bootbox alert after edited profile1
-		###################################################*/
+		});
+		 
+		//Show bootbox alert after edited profile1
 		<?php 
 		if($this->session->flashdata("edit_".$m_name."_message"))
 		{?>

@@ -6,6 +6,7 @@ class Report extends MY_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		$this->fl->check_group_privilege(array("03"));
 		$this->load->model("report/report_model");
 		$this->rpm=$this->report_model;
 	}
@@ -49,7 +50,7 @@ class Report extends MY_Controller {
 			foreach ($year_reserve_on[0] as $y)
 			{
 				if(($y+543) == $year)
-					$option_year .= '<option value="'.$year.'" selected="selected">'.$year.'</option>';
+					$option_year .= '<option value="'.($year-543).'" selected="selected">'.$year.'</option>';
 				else $option_year .= '<option value="'.($y+543).'">'.($y+543).'</option>';
 			}
 		}
@@ -393,7 +394,7 @@ class Report extends MY_Controller {
 		$pdf->Ln(7.5);
 		$pdf->Cell(0, 15, $on_time_text, 0, false, 'C', 0, '', 0, false, 'M', 'M');
 		$pdf->SetFont('thsarabunnew', '', 16);
-		$width=array(6,30,20,25,19);
+		$width=array(6,49,20,25);
 		//table
 		$tbl =<<<EOT
 		<style>
@@ -412,7 +413,7 @@ class Report extends MY_Controller {
 				<th class="text-center" width="{$width[1]}%">โครงการ</th>
 				<th class="text-center" width="{$width[2]}%">ห้อง</th>
 				<th class="text-center" width="{$width[3]}%">วันเวลาจอง</th>
-				<th class="text-center" width="{$width[4]}%"></th>
+				
 		</tr>
 		</table>
 EOT;
@@ -444,7 +445,6 @@ EOT;
 		        <td width="{$width[1]}%">{$r['project_name']}</td>
 		        <td width="{$width[2]}%">{$r['room_name']}</td>
 		        <td width="{$width[3]}%">{$this->compress_two_datetime($r['reserve_datetime_begin'],$r['reserve_datetime_end'])}</td>
-		        <td width="{$width[4]}%"></td>
 		    </tr>
 			
 EOT;
@@ -780,8 +780,8 @@ EOT;
 		//$pdf->writeHTML($tbl, false, false, false, false, '');
 		//return $pdf->Output('My-File-Name.pdf', 'I');
 		$pdf->Output('upload/report_stat.pdf', 'F'); //to file
-		//redirect(base_url()."upload/report_stat.pdf");
-		echo anchor(base_url()."upload/report_stat.pdf", '', array('target' => '_blank', 'class' => 'new_window'));
+		redirect(base_url()."upload/report_stat.pdf");
+		//echo anchor(base_url()."upload/report_stat.pdf", '', array('target' => '_blank', 'class' => 'new_window'));
 	}
 	
 	function getTime($datetime)

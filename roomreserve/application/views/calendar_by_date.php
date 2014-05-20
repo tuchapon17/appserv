@@ -63,7 +63,7 @@ echo $head;
       <div class="row">
       	<div class="col-lg-12">
       	<?php //echo $titlename_tab;?>				
-      		 	<h2>วันที่<span id="cdate"></span></h2>
+      		 	<h2><span id="cdate"></span></h2>
       			<div>
       					<div class="fleft"><strong>คาบเรียนที่</strong></div>
       					<div class="fleft pd pointer" id="pd01">1</div>
@@ -369,24 +369,6 @@ echo $js;
 			});
 			
 		}//end if test regex
-		
-		/*#################################################
-		Show bootbox alert
-		###################################################*/
-		<?php 
-		if($this->session->flashdata("titlename_message"))
-		{?>
-			bootbox.alert("<?php echo $this->session->flashdata("titlename_message");?>");
-		<?php
-		}?>
-		
-		active_tab();
-		$("#add").on("click",function(){
-			window.location="?d=manage&c=titlename&m=add";
-		});
-		$("#edit").on("click",function(){
-			window.location="?d=manage&c=titlename&m=edit";
-		});
 	});
 	function getParameterByName(name) {
 	    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
@@ -399,7 +381,7 @@ echo $js;
 		var thmonth = new Array ("","มกราคม","กุมภาพันธ์","มีนาคม",
 				"เมษายน","พฤษภาคม","มิถุนายน", "กรกฎาคม","สิงหาคม","กันยายน",
 				"ตุลาคม","พฤศจิกายน","ธันวาคม"); 
-		return parseInt(d)+" "+thmonth[parseInt(m)]+" "+y;
+		return parseInt(d)+" "+thmonth[parseInt(m)]+" "+(parseInt(y)+543);
 	}
 	</script>
 <?php 

@@ -28,19 +28,21 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php
 	      		 	$em_name=array(
-							"select_article_type"=>"select_article_type",
-	      		 			"select_article"=>"select_article",
-							"select_room"=>"select_room",
-							"select_fee_type"=>"select_fee_type",
-							"input_article_num"=>"input_article_num",
-							"input_lump_sum_base_unit"=>"input_lump_sum_base_unit"
+							"select_article_type"=>$this->lang->line("se_article_type"),
+	      		 			"select_article"=>$this->lang->line("se_article"),
+							"select_room"=>$this->lang->line("se_room"),
+							"select_fee_type"=>$this->lang->line("se_fee_type"),
+							"input_article_num"=>$this->lang->line("in_article_num"),
+							"input_lump_sum_base_unit"=>$this->lang->line("in_lump_sum_base_unit")
 	      		 	);
-					echo form_error($em_name["select_article_type"]);
-      		 		echo form_error($em_name["select_article"]);
-      		 		echo form_error($em_name["select_room"]);
-      		 		echo form_error($em_name["select_fee_type"]);
-      		 		echo form_error($em_name["input_article_num"]);
-      		 		echo form_error($em_name["input_lump_sum_base_unit"]);
+	      		 	/*
+					echo form_error($this->lang->line("se_article_type"));
+      		 		echo form_error($this->lang->line("se_article"));
+      		 		echo form_error($this->lang->line("se_room"));
+      		 		echo form_error($this->lang->line("se_fee_type"));
+      		 		echo form_error($this->lang->line("in_article_num"));
+      		 		echo form_error($this->lang->line("in_lump_sum_base_unit"));
+      		 		*/
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -48,20 +50,20 @@ echo $head;
 						<h3 class="panel-title"><strong>เพิ่มครุภัณฑ์/อุปกรณ์สำหรับห้อง</strong></h3>
 					</div>
 					<div class="panel-body">
-						<form role="form" action="?d=manage&c=<?=$controller?>&m=add" method="post" autocomplete="off">
+						<form role="form" action="?d=manage&c=<?=$controller?>&m=add" method="post" autocomplete="off" id="add_room_has_article">
 								<?php 
 								echo $se_article_type;
-								echo "<span id='".$em_name["select_article_type"]."_error' class='hidden'>".form_error($em_name["select_article_type"])."</span>";
+								echo "<span id='".$this->lang->line("se_article_type")."_error' class='hidden'>".form_error($this->lang->line("se_article_type"))."</span>";
 								echo $se_article;
-								echo "<span id='".$em_name["select_article"]."_error' class='hidden'>".form_error($em_name["select_article"])."</span>";
+								echo "<span id='".$this->lang->line("se_article")."_error' class='hidden'>".form_error($this->lang->line("se_article"))."</span>";
 								echo $se_room;
-								echo "<span id='".$em_name["select_room"]."_error' class='hidden'>".form_error($em_name["select_room"])."</span>";
+								echo "<span id='".$this->lang->line("se_room")."_error' class='hidden'>".form_error($this->lang->line("se_room"))."</span>";
 								echo $in_article_num;
-								echo "<span id='".$em_name["input_article_num"]."_error' class='hidden'>".form_error($em_name["input_article_num"])."</span>";
+								echo "<span id='".$this->lang->line("in_article_num")."_error' class='hidden'>".form_error($this->lang->line("in_article_num"))."</span>";
 								echo $se_fee_type;
-								echo "<span id='".$em_name["select_fee_type"]."_error' class='hidden'>".form_error($em_name["select_fee_type"])."</span>";
+								echo "<span id='".$this->lang->line("se_fee_type")."_error' class='hidden'>".form_error($this->lang->line("se_fee_type"))."</span>";
 								echo $in_lump_sum_base_unit;
-								echo "<span id='".$em_name["input_lump_sum_base_unit"]."_error' class='hidden'>".form_error($em_name["input_lump_sum_base_unit"])."</span>";
+								echo "<span id='".$this->lang->line("in_lump_sum_base_unit")."_error' class='hidden'>".form_error($this->lang->line("in_lump_sum_base_unit"))."</span>";
 								?>
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>
@@ -79,9 +81,35 @@ echo $js;
 <!-- Custom Javascript -->
 	<script type="text/javascript" src="<?php echo base_url();?>js/user_profile_script.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>js/manage/room_has_article.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/localization/messages_th.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/additional-methods.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/my-additional-methods.js"></script>
 	<script type="text/javascript">
 	<!--
 	$(function(){
+		$("#add_room_has_article").validate({
+			lang:'th',
+			errorClass: "my-error-class",
+			rules: {
+				"<?php echo $this->lang->line("se_article");?>": {
+					required:true
+				},
+				"<?php echo $this->lang->line("se_room");?>": {
+					required:true
+				},
+				"<?php echo $this->lang->line("se_fee_type");?>": {
+					required:true
+				},
+				"<?php echo $this->lang->line("in_article_num");?>": {
+					required:true,
+					digits:true
+				},
+				"<?php echo $this->lang->line("in_lump_sum_base_unit");?>": {
+					digits:true
+				}
+			}
+		});
 		/**
 		Highlight the <input> <select> 
 		If span text length > 0 change input border color to red

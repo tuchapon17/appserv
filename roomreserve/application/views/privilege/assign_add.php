@@ -31,10 +31,10 @@ echo $head;
 							<h3 class="panel-title">โอนสิทธิ์</h3>
 						</div>
 						<div class="panel-body">
-							<form class="" action="<?php echo base_url();?>?d=privilege&c=<?=$controller?>&m=add" method="post" autocomplete="off">
+							<form class="" action="<?php echo base_url();?>?d=privilege&c=<?=$controller?>&m=add" method="post" autocomplete="off" id="add_privilege">
 			      				<div class="form-group">
 			      					<label for="">สิทธิ์</label>
-			      					<select class="form-control" name="privilege_list" id="privilege_list">
+			      					<select class="form-control" name="<?php echo $this->lang->line("se_privilege_list");?>" id="<?php echo $this->lang->line("se_privilege_list");?>">
 			      						<option value="">เลือก</option>
 			      						<?php 
 			      							foreach($privilege_list as $p)
@@ -46,7 +46,7 @@ echo $head;
 			      				</div>
 			      				<div class="form-group">
 			      					<label for="">ผู้รับสิทธิ์</label>
-			      					<select class="form-control" name="user_list" id="user_list">
+			      					<select class="form-control" name="<?php echo $this->lang->line("se_user_list");?>" id="<?php echo $this->lang->line("se_user_list");?>">
 			      						<option value="">เลือก</option>
 			      					</select>
 			      				</div>
@@ -69,10 +69,26 @@ echo $js;
 <!-- Custom Javascript -->
 	<script type="text/javascript" src="<?php echo base_url();?>js/user_profile_script.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>js/manage/assign.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/localization/messages_th.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/additional-methods.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/my-additional-methods.js"></script>
 	<script type="text/javascript">
 	<!--
 	$(function(){
-		$("#privilege_list").on("keyup change",function(){
+		$("#add_privilege").validate({
+			lang:'th',
+			errorClass: "my-error-class",
+			rules: {
+				"<?php echo $this->lang->line("se_privilege_list");?>": {
+					required:true
+				},
+				"<?php echo $this->lang->line("se_user_list");?>": {
+					required:true
+				}
+			}
+		});
+		$("#<?php echo $this->lang->line("se_privilege_list");?>").on("keyup change",function(){
 			if($(this).find("option:selected").val()!=""){
 				$.ajax({
 					url:"?d=privilege&c=<?=$controller?>&m=get_user_list",
@@ -80,8 +96,8 @@ echo $js;
 					type:"POST",
 					dataType:"json",
 					success:function(resp){
-						$("#user_list").find("option:gt(0)").remove();
-						if(resp.username!=null)	$("#user_list").append(resp.username);
+						$("#<?php echo $this->lang->line("se_user_list");?>").find("option:gt(0)").remove();
+						if(resp.username!=null)	$("#<?php echo $this->lang->line("se_user_list");?>").append(resp.username);
 					},
 					error:function(error){
 						alert("Error : "+error);
@@ -90,7 +106,7 @@ echo $js;
 			}
 			else
 			{
-				$("#user_list").find("option:gt(0)").remove();
+				$("#<?php echo $this->lang->line("se_user_list");?>").find("option:gt(0)").remove();
 			}
 		});
 		/**

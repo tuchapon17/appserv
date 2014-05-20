@@ -53,7 +53,7 @@ echo $js;
 		/*
 		*แสดงข้อมูลห้องใน dropdown (Get room list)
 		*/
-		$("#select_room_type").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_room_type"); ?>").on("keyup change",function(){
 			if($(this).find("option:selected").val()!=""){
 				$.ajax({
 					url:"?d=manage&c=room&m=select_room_list",
@@ -61,10 +61,10 @@ echo $js;
 					type:"POST",
 					dataType:"json",
 					success:function(resp){
-						$("#select_room").find("option:gt(0)").remove();
-						if(resp.room_list!=null)$("#select_room").append(resp.room_list);
+						$("#<?php echo $this->lang->line("se_room"); ?>").find("option:gt(0)").remove();
+						if(resp.room_list!=null)$("#<?php echo $this->lang->line("se_room"); ?>").append(resp.room_list);
 						//ถ้ามี option ให้เลือก 1 ตัว
-						if($("#select_room").children().size()==1 && $("#select_room option:eq(0)").val()=='')
+						if($("#<?php echo $this->lang->line("se_room"); ?>").children().size()==1 && $("#<?php echo $this->lang->line("se_room"); ?> option:eq(0)").val()=='')
 							$("button").addClass('disabled');
 					},
 					error:function(error){
@@ -75,19 +75,19 @@ echo $js;
 			else
 			{
 				$("button").addClass('disabled');
-				$("#select_room").find("option:gt(0)").remove();
+				$("#<?php echo $this->lang->line("se_room"); ?>").find("option:gt(0)").remove();
 			}
 		});
 		
 		$("button").addClass('disabled');
-		$("#select_room").change(function(){
+		$("#<?php echo $this->lang->line("se_room"); ?>").change(function(){
 			if($(this).find("option:selected").val()!='')
 				$("button").removeClass('disabled');
 			else
 				$("button").addClass('disabled');
 		});
 		$("button").click(function(){
-			window.location="<?php echo base_url();?>?d=manage&c=<?=$controller?>&m=pic&rmid="+$("#select_room").find("option:selected").val();
+			window.location="<?php echo base_url();?>?d=manage&c=<?=$controller?>&m=pic&rmid="+$("#<?php echo $this->lang->line("se_room"); ?>").find("option:selected").val();
 		});
 	});
 	//-->

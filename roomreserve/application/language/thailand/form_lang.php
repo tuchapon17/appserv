@@ -33,8 +33,8 @@ $lang["in_discount_percent"] = "input_discount_percent";
 $lang["in_room_fee_hour"] = "input_room_fee_hour";
 $lang["in_room_fee_lump_sum"] = "input_room_fee_lump_sum";
 $lang["in_room_name"] = "input_room_name";
-$lang[""] = "";
-$lang[""] = "";
+$lang["in_room_type"] = "input_room_type";
+$lang["in_titlename"] = "input_titlename";
 
 //select
 $lang["se_occupation"] = "select_occupation";
@@ -56,8 +56,8 @@ $lang["se_person"] = "select_person";
 $lang["se_approve"] = "select_approve";
 $lang["se_privilege"] = "select_privilege";
 $lang["se_user"] = "select_user";
-$lang[""] = "";
-$lang[""] = "";
+$lang["se_privilege_list"] = "privilege_list";
+$lang["se_user_list"] = "user_list";
 $lang[""] = "";
 $lang[""] = "";
 $lang[""] = "";

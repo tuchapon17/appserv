@@ -114,6 +114,9 @@ class Page_element_lib
 		      		.wordw{
 		      			word-wrap: break-word;
 		      		}
+		      		.my-error-class {
+					    color:#BB0000;  /* red */
+					}
 		      		</style>
 		  </head>
 		';
@@ -150,7 +153,10 @@ class Page_element_lib
 		//<li class="active">
 		$html.='<li><a href="?c=calendar&m=main">ปฏิทิน</a></li>';
 		$html.='<li><a href="?d=front&c=room&m=view">ห้อง</a></li>';
-		$html.='<li><a href="?d=manage&c=reserve&m=add">จองห้อง</a></li>';
+		if($this->fl->check_group_privilege(array("07"),true))
+		{
+			$html.='<li><a href="?d=manage&c=reserve&m=add">จองห้อง</a></li>';
+		}
 		/*if($this->fl->check_group_privilege(array("07"),true))
 		{
 			$html.='<li><a href="?d=manage&c=reserve&m=reserve_list">ประวัติการจองห้อง</a></li>';

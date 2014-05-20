@@ -29,9 +29,9 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php
 	      		 	$em_name=array(
-	      		 			"in_room_type"=>"input_room_type"
+	      		 			"in_room_type"=>$this->lang->line("in_room_type")
 	      		 	);
-      		 		echo form_error($em_name["in_room_type"]);
+      		 		//echo form_error($this->lang->line("in_room_type"));
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -39,10 +39,10 @@ echo $head;
 						<h3 class="panel-title"><strong>เพิ่มประเภทห้อง</strong></h3>
 					</div>
 					<div class="panel-body">
-						<form role="form" action="?d=manage&c=room_type&m=add" method="post" autocomplete="off">
+						<form role="form" action="?d=manage&c=room_type&m=add" method="post" autocomplete="off" id="add_room_type">
 								<?php 
 								echo $in_room_type;
-								echo "<span id='".$em_name["in_room_type"]."_error' class='hidden'>".form_error($em_name["in_room_type"])."</span>";
+								echo "<span id='".$this->lang->line("in_room_type")."_error' class='hidden'>".form_error($this->lang->line("in_room_type"))."</span>";
 								?>	
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>		
@@ -61,9 +61,24 @@ echo $js;
 <!-- Custom Javascript -->
 	<script type="text/javascript" src="<?php echo base_url();?>js/user_profile_script.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>js/manage/room_type.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/localization/messages_th.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/additional-methods.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/my-additional-methods.js"></script>
 	<script type="text/javascript">
 	<!--
 	$(function(){
+		$("#add_room_type").validate({
+			lang:'th',
+			errorClass: "my-error-class",
+			rules: {
+				"<?php echo $this->lang->line("in_room_type");?>": {
+					required:true,
+					maxlength:30,
+					THEN:true
+				}
+			}
+		});
 		/**
 		Highlight the <input> <select> 
 		If span text length > 0 change input border color to red

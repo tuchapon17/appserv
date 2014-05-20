@@ -29,11 +29,13 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php
 	      		 	$em_name=array(
-	      		 			"se_privilege"=>"select_privilege",
-							"se_user"=>"select_user"
+	      		 			"se_privilege"=>$this->lang->line("se_privilege"),
+							"se_user"=>$this->lang->line("se_user")
 	      		 	);
-      		 		echo form_error($em_name["se_privilege"]);
-      		 		echo form_error($em_name["se_user"]);
+      		 		/*
+      		 		echo form_error($this->lang->line("se_privilege"));
+      		 		echo form_error($this->lang->line("se_user"));
+      		 		*/
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -41,13 +43,13 @@ echo $head;
 						<h3 class="panel-title"><strong>ลบสิทธิ์</strong></h3>
 					</div>
 					<div class="panel-body">
-						<form role="form" action="?d=manage&c=<?=$controller?>&m=delete_privilege" method="post" autocomplete="off">
+						<form role="form" action="?d=manage&c=<?=$controller?>&m=delete_privilege" method="post" autocomplete="off" id="edi_privilege">
 								<?php 
 								echo $se_user;
-								echo "<span id='".$em_name["se_user"]."_error' class='hidden'>".form_error($em_name["se_user"])."</span>";
+								echo "<span id='".$this->lang->line("se_user")."_error' class='hidden'>".form_error($this->lang->line("se_user"))."</span>";
 								
 								echo $se_privilege;
-								echo "<span id='".$em_name["se_privilege"]."_error' class='hidden'>".form_error($em_name["se_privilege"])."</span>";
+								echo "<span id='".$this->lang->line("se_privilege")."_error' class='hidden'>".form_error($this->lang->line("se_privilege"))."</span>";
 								
 								?>	
 							<div class="text-right"><?php echo $eml->btn('submit','id="btn-add_privilege"');?></div>
@@ -67,12 +69,27 @@ echo $js;
 <!-- Custom Javascript -->
 	<script type="text/javascript" src="<?php echo base_url();?>js/user_profile_script.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>js/manage/user.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/localization/messages_th.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/additional-methods.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/my-additional-methods.js"></script>
 	<script type="text/javascript">
 	<!--
 	$(function(){
-		/*#################################################
-		Show bootbox alert after 
-		###################################################*/
+		$("#edi_privilege").validate({
+			lang:'th',
+			errorClass: "my-error-class",
+			rules: {
+				"<?php echo $this->lang->line("se_privilege");?>": {
+					required:true
+				},
+				"<?php echo $this->lang->line("se_user");?>": {
+					required:true
+				}
+			}
+		});
+		
+		//Show bootbox alert after 
 		<?php 
 		if($this->session->flashdata($m_name."_message"))
 		{?>
@@ -81,7 +98,7 @@ echo $js;
 		}?>
 		
 		$(".cd").on("change",function(){
-			if($("#select_privilege").find("option:selected").val()!='' && $("#select_user").find("option:selected").val()!='')
+			if($("#<?php echo $this->lang->line("se_privilege"); ?>").find("option:selected").val()!='' && $("#select_user").find("option:selected").val()!='')
 			{
 				$("#btn-add_privilege").removeClass("disabled");
 			}
@@ -89,7 +106,7 @@ echo $js;
 		});
 		$(".cd").change();
 
-		$("#select_user").on("change",function(){
+		$("#<?php echo $this->lang->line("se_user"); ?>").on("change",function(){
 			if($(this).find("option:selected").val()!=""){
 				$.ajax({
 					url:"?d=manage&c=<?=$controller?>&m=delete_privilege_get_privilege",
@@ -97,8 +114,8 @@ echo $js;
 					type:"POST",
 					dataType:"json",
 					success:function(resp){
-						$("#select_privilege").find("option:gt(0)").remove();
-						if(resp.privilege_list!=null)$("#select_privilege").append(resp.privilege_list);
+						$("#<?php echo $this->lang->line("se_privilege"); ?>").find("option:gt(0)").remove();
+						if(resp.privilege_list!=null)$("#<?php echo $this->lang->line("se_privilege"); ?>").append(resp.privilege_list);
 						
 					},
 					error:function(error){
@@ -108,7 +125,7 @@ echo $js;
 			}
 			else
 			{
-				$("#select_privilege").find("option:gt(0)").remove();
+				$("#<?php echo $this->lang->line("se_privilege"); ?>").find("option:gt(0)").remove();
 			}
 		});
 		active_tab();

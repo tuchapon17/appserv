@@ -39,17 +39,17 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php
 	      		 	$em_name=array(
-	      		 			"input_std_id"=>"input_std_id",
-							"input_phone"=>"input_phone",
-							"input_num_of_people"=>"input_num_of_people",
-							"input_project_name"=>"input_project_name",
-							"textarea_for_use"=>"textarea_for_use",
-							"select_faculty"=>"select_faculty",
-							"select_department"=>"select_department",
-							"select_job_position"=>"select_job_position",
-							"select_room_type"=>"select_room_type",
-							"select_room"=>"select_room",
-							"select_office"=>"select_office"
+	      		 			"input_std_id"=>$this->lang->line("in_std_id"),
+							"input_phone"=>$this->lang->line("in_phone"),
+							"input_num_of_people"=>$this->lang->line("in_num_of_people"),
+							"input_project_name"=>$this->lang->line("in_project_name"),
+							"textarea_for_use"=>$this->lang->line("te_for_use"),
+							"select_faculty"=>$this->lang->line("se_faculty"),
+							"select_department"=>$this->lang->line("se_department"),
+							"select_job_position"=>$this->lang->line("se_job_position"),
+							"select_room_type"=>$this->lang->line("se_room_type"),
+							"select_room"=>$this->lang->line("se_room"),
+							"select_office"=>$this->lang->line("se_office")
 	      		 	);
       		 		/*echo form_error($em_name["in_article"]);
       		 		echo form_error($em_name["se_article_type"]);
@@ -468,14 +468,14 @@ echo $js;
 			return this.optional(element) || /^[0]{1}([0-9]{8}|[0-9]{9})+$/.test(value);
 		}, "รูปแบบไม่ถูกต้อง.");
 		$.validator.addMethod("num_of_people", function(value, element){
-			$("#input_num_of_people").val(parseInt(value));
-			var new_val=$("#input_num_of_people").val();
+			$("#<?php echo $this->lang->line("in_num_of_people");?>").val(parseInt(value));
+			var new_val=$("#<?php echo $this->lang->line("in_num_of_people");?>").val();
 			if(parseInt(new_val)>0) return true;
 		}, "โปรดระบุจำนวนคนที่เข้าร่วม.");
 		$.validator.addMethod("std_id", function(value, element){
-			if($("#select_person").val()=='02')//นักศึกษา
+			if($("#<?php echo $this->lang->line("se_person");?>").val()=='02')//นักศึกษา
 			{
-				if($("#select_person").val()=='02')//นักศึกษา
+				if($("#<?php echo $this->lang->line("se_person");?>").val()=='02')//นักศึกษา
 				{
 					if(value.length<11)return false;
 					else return true;
@@ -483,58 +483,58 @@ echo $js;
 			}
 		}, "โปรดกรอกรหัสนักศึกษาอย่างน้อย 11 หลัก");
 		$.validator.addMethod("faculty", function(value, element){
-			if($("#select_person").val()=='02' || $("#select_person").val()=='01')//02นักศึกษา || 01อาจารย์
+			if($("#<?php echo $this->lang->line("se_person");?>").val()=='02' || $("#<?php echo $this->lang->line("se_person");?>").val()=='01')//02นักศึกษา || 01อาจารย์
 			{
-				if($("#select_faculty").val()=='') return false;
+				if($("#<?php echo $this->lang->line("se_faculty");?>").val()=='') return false;
 				else return true;
 			}
 		}, "โปรดระบุ");
 		$.validator.addMethod("otherfaculty", function(value, element){
-			if($("#select_faculty").val()=='00')
+			if($("#<?php echo $this->lang->line("se_faculty");?>").val()=='00')
 			{
-				if($("#input_faculty").val().length<1) return false;
+				if($("#<?php echo $this->lang->line("in_faculty");?>").val().length<1) return false;
 				else return true;
 			}
 		}, "โปรดระบุคณะอื่นๆ");
 		$.validator.addMethod("department", function(value, element){
-			if($("#select_person").val()=='02' || $("#select_person").val()=='01')//02นักศึกษา || 01อาจารย์
+			if($("#<?php echo $this->lang->line("se_person");?>").val()=='02' || $("#<?php echo $this->lang->line("se_person");?>").val()=='01')//02นักศึกษา || 01อาจารย์
 			{
-				if($("#select_department").val()=='') return false;
+				if($("#<?php echo $this->lang->line("se_department");?>").val()=='') return false;
 				else return true;
 			}
 		}, "โปรดระบุ");
 		$.validator.addMethod("otherdepartment", function(value, element){
-			if($("#select_department").val()=='00')
+			if($("#<?php echo $this->lang->line("se_department");?>").val()=='00')
 			{
-				if($("#input_department").val().length<1) return false;
+				if($("#<?php echo $this->lang->line("in_department");?>").val().length<1) return false;
 				else return true;
 			}
 		}, "โปรดระบุสาขา/งานอื่นๆ");
 		$.validator.addMethod("job_position", function(value, element){
-			if($("#select_person").val()=='03' || $("#select_person").val()=='01')//03ทั่วไป || 01อาจารย์
+			if($("#<?php echo $this->lang->line("se_person");?>").val()=='03' || $("#<?php echo $this->lang->line("se_person");?>").val()=='01')//03ทั่วไป || 01อาจารย์
 			{
-				if($("#select_job_position").val()=='') return false;
+				if($("#<?php echo $this->lang->line("se_job_position");?>").val()=='') return false;
 				else return true;
 			}
 		}, "โปรดระบุ");
 		$.validator.addMethod("otherjob_position", function(value, element){
-			if($("#select_job_position").val()=='00')
+			if($("#<?php echo $this->lang->line("se_job_position");?>").val()=='00')
 			{
-				if($("#input_job_position").val().length<1) return false;
+				if($("#<?php echo $this->lang->line("in_job_position");?>").val().length<1) return false;
 				else return true;
 			}
 		}, "โปรดระบุตำแหน่งอื่นๆ");
 		$.validator.addMethod("office", function(value, element){
-			if($("#select_person").val()=='03')//03ทั่วไป
+			if($("#<?php echo $this->lang->line("se_person");?>").val()=='03')//03ทั่วไป
 			{
-				if($("#select_office").val()=='') return false;
+				if($("#<?php echo $this->lang->line("se_office");?>").val()=='') return false;
 				else return true;
 			}
 		}, "โปรดระบุ");
 		$.validator.addMethod("otheroffice", function(value, element){
-			if($("#select_office").val()=='00')
+			if($("#<?php echo $this->lang->line("se_office");?>").val()=='00')
 			{
-				if($("#input_office").val().length<1) return false;
+				if($("#<?php echo $this->lang->line("in_office");?>").val().length<1) return false;
 				else return true;
 			}
 		}, "โปรดระบุหน่วยงานอื่นๆ");
@@ -550,72 +550,67 @@ echo $js;
 			lang:'th',
 			errorClass: "my-error-class",
 			rules: {
-				"select_person_type": {
+				"<?php echo $this->lang->line("se_person_type");?>": {
 					required:true
 				},
-				"select_person":{
+				"<?php echo $this->lang->line("se_person");?>":{
 					required:true
 				},
-				"input_phone": {
+				"<?php echo $this->lang->line("in_phone");?>": {
 					required:true,
 					phone:true
 				},
-				"select_room_type":{
+				"<?php echo $this->lang->line("se_room_type");?>":{
 					required:true
 				},
-				"select_room":{
+				"<?php echo $this->lang->line("se_room");?>":{
 					required:true
 				},
-				"input_num_of_people":{
+				"<?php echo $this->lang->line("in_num_of_people");?>":{
 					required:true,
 					num_of_people:true,
 					digits:true
 				},
-				"textarea_for_use":{
+				"<?php echo $this->lang->line("te_for_use");?>":{
 					required:true
 				},
-				"input_project_name":{
+				"<?php echo $this->lang->line("in_project_name");?>":{
 					required:true
 				},
-				"input_std_id":{
+				"<?php echo $this->lang->line("in_std_id");?>":{
 					digits:true,
 					std_id:true
 				},
-				"select_faculty":{
+				"<?php echo $this->lang->line("se_faculty");?>":{
 					required:true,
 					faculty:true
 				},
-				"input_faculty":{
+				"<?php echo $this->lang->line("in_faculty");?>":{
 					otherfaculty:true
 				},
-				"select_department":{
+				"<?php echo $this->lang->line("se_department");?>":{
 					required:true,
 					department:true
 				},
-				"input_department":{
+				"<?php echo $this->lang->line("in_department");?>":{
 					otherdepartment:true
 				},
-				"select_job_position":{
+				"<?php echo $this->lang->line("se_job_position");?>":{
 					job_position:true
 				},
-				"input_job_position":{
+				"<?php echo $this->lang->line("in_job_position");?>":{
 					otherjob_position:true
 				},
-				"select_office":{
+				"<?php echo $this->lang->line("se_office");?>":{
 					office:true
 				},
-				"input_office":{
+				"<?php echo $this->lang->line("in_office");?>":{
 					otheroffice:true
 				},
 				"project_file[]":{
 					required:true,
 					filesize:2097152,
 					extension:"docx|doc|pdf"
-				}
-			},
-			messages:{
-				"select_person_type": {
-					//required:"กรอกๆ"
 				}
 			}
 		});
@@ -971,7 +966,7 @@ echo $js;
 		/*
 		*แสดงข้อมูลบุคคลใน dropdown (Get person list)
 		*/
-		$("#select_person_type").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_person_type");?>").on("keyup change",function(){
 			hide_in_ex();
 			//01 = บุคคลภายใน
 			if($(this).find("option:selected").val()=="01")
@@ -990,8 +985,8 @@ echo $js;
 					type:"POST",
 					dataType:"json",
 					success:function(resp){
-						$("#select_person").find("option:gt(0)").remove();
-						if(resp.person_list!=null)$("#select_person").append(resp.person_list);
+						$("#<?php echo $this->lang->line("se_person");?>").find("option:gt(0)").remove();
+						if(resp.person_list!=null)$("#<?php echo $this->lang->line("se_person");?>").append(resp.person_list);
 					},
 					error:function(error){
 						alert("Error : "+error);
@@ -1000,7 +995,7 @@ echo $js;
 			}
 			else
 			{
-				$("#select_person").find("option:gt(0)").remove();
+				$("#<?php echo $this->lang->line("se_person");?>").find("option:gt(0)").remove();
 			}
 		});
 		/*
@@ -1015,16 +1010,16 @@ echo $js;
 		*แสดง/ซ่อน คณะ (faculty)
 		*/
 		//add id to fieldset
-		$("#input_faculty").parent('div').parent('fieldset').attr('id','otherfaculty');
+		$("#<?php echo $this->lang->line("in_faculty");?>").parent('div').parent('fieldset').attr('id','otherfaculty');
 		//แสดง/ซ่อน input อื่นๆ
-		$("#select_faculty").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_faculty");?>").on("keyup change",function(){
 			if($(this).find('option:selected').val()=="00")
 			{
 				$("#otherfaculty").show();
 			}
 			else
 			{
-				$("#input_faculty").val('');
+				$("#<?php echo $this->lang->line("in_faculty");?>").val('');
 				$("#otherfaculty").hide();
 			}
 		});
@@ -1033,14 +1028,14 @@ echo $js;
 		*แสดง/ซ่อน สาขา/งาน (department)
 		*/
 		//add id to fieldset
-		$("#input_department").parent('div').parent('fieldset').attr('id','otherdepartment');
+		$("#<?php echo $this->lang->line("in_department");?>").parent('div').parent('fieldset').attr('id','otherdepartment');
 		//แสดง/ซ่อน input อื่นๆ
-		$("#select_department").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_department");?>").on("keyup change",function(){
 			if($(this).find('option:selected').val()=="00")
 			{$("#otherdepartment").show();}
 			else
 			{
-				$("#input_department").val('');
+				$("#<?php echo $this->lang->line("in_department");?>").val('');
 				$("#otherdepartment").hide();
 			}
 		});
@@ -1049,14 +1044,14 @@ echo $js;
 		*แสดง/ซ่อน ตำแหน่งงาน (job_position)
 		*/
 		//add id to fieldset
-		$("#input_job_position").parent('div').parent('fieldset').attr('id','otherjob_position');
+		$("#<?php echo $this->lang->line("in_job_position");?>").parent('div').parent('fieldset').attr('id','otherjob_position');
 		//แสดง/ซ่อน input อื่นๆ
-		$("#select_job_position").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_job_position");?>").on("keyup change",function(){
 			if($(this).find('option:selected').val()=="00")
 			{$("#otherjob_position").show();}
 			else
 			{
-				$("#input_job_position").val('');
+				$("#<?php echo $this->lang->line("in_job_position");?>").val('');
 				$("#otherjob_position").hide();
 			}
 		});
@@ -1065,31 +1060,31 @@ echo $js;
 		*แสดง/ซ่อน หน่วยงาน (office)
 		*/
 		//add id to fieldset
-		$("#input_office").parent('div').parent('fieldset').attr('id','otheroffice');
+		$("#<?php echo $this->lang->line("in_office");?>").parent('div').parent('fieldset').attr('id','otheroffice');
 		//แสดง/ซ่อน input อื่นๆ
-		$("#select_office").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_office");?>").on("keyup change",function(){
 			if($(this).find('option:selected').val()=="00")
 			{$("#otheroffice").show();}
 			else
 			{
-				$("#input_office").val('');
+				$("#<?php echo $this->lang->line("in_office");?>").val('');
 				$("#otheroffice").hide();
 			}
 		});
 
 		//reset ค่าของข้อมูลบุคคล dropdown
-		$("#select_person").on("keyup change",function(){
-			$("#select_faculty").val('');
-			$("#select_department").val('');
-			$("#select_job_position").val('');
-			$("#select_office").val('');
+		$("#<?php echo $this->lang->line("se_person");?>").on("keyup change",function(){
+			$("#<?php echo $this->lang->line("se_faculty");?>").val('');
+			$("#<?php echo $this->lang->line("se_department");?>").val('');
+			$("#<?php echo $this->lang->line("se_job_position");?>").val('');
+			$("#<?php echo $this->lang->line("se_office");?>").val('');
 		});
 
 		//ซ่อนแสดงเมื่อเลือกบุคคลภายนอก/ภายใน
 		hide_in_ex();
 		
 		//$("#select_person_type").on("keyup change",function(){ hide_in_ex(); });
-		$("#select_person").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_person");?>").on("keyup change",function(){
 			hide_in_ex();
 			//อาจารย์
 			if($(this).find("option:selected").val()=="01")person_in_staff();
@@ -1105,7 +1100,7 @@ echo $js;
 		/*
 		*แสดงข้อมูลห้องใน dropdown (Get room list)
 		*/
-		$("#select_room_type").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_room_type");?>").on("keyup change",function(){
 			if($(this).find("option:selected").val()!=""){
 				$.ajax({
 					url:"?d=manage&c=reserve&m=select_room_list",
@@ -1113,8 +1108,8 @@ echo $js;
 					type:"POST",
 					dataType:"json",
 					success:function(resp){
-						$("#select_room").find("option:gt(0)").remove();
-						if(resp.room_list!=null)$("#select_room").append(resp.room_list);
+						$("#<?php echo $this->lang->line("se_room");?>").find("option:gt(0)").remove();
+						if(resp.room_list!=null)$("#<?php echo $this->lang->line("se_room");?>").append(resp.room_list);
 						
 					},
 					error:function(error){
@@ -1124,13 +1119,13 @@ echo $js;
 			}
 			else
 			{
-				$("#select_room").find("option:gt(0)").remove();
+				$("#<?php echo $this->lang->line("se_room");?>").find("option:gt(0)").remove();
 			}
 		});
 		//ถ้ามีการเลือกอยู่แล้วตอนเปิดหน้า ให้ทำการเรียกใช้ event
-		if($("#select_room_type").find("option:selected").val()!="")
+		if($("#<?php echo $this->lang->line("se_room_type");?>").find("option:selected").val()!="")
 		{
-			$("#select_room_type").trigger('change');
+			$("#<?php echo $this->lang->line("se_room_type");?>").trigger('change');
 		}
 
 		/*----------------------------------- 
@@ -1154,7 +1149,7 @@ echo $js;
 		/*
 		*แสดงรายชื่ออุปกรณ์ของห้องที่เลือก (Get room_has_article)
 		*/
-		$("#select_room").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_room");?>").on("keyup change",function(){
 			if($(this).find("option:selected").val()!=""){
 				$.ajax({
 					url:"?d=manage&c=reserve&m=get_room_has_article",
@@ -1177,7 +1172,7 @@ echo $js;
 		/*
 		เมื่อมีการเลือกห้องอื่น ให้ลบ checkbox เดิมออก (Remove all checkbox in #used_article)
 		*/
-		$("#select_room_type , #select_room").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_room_type");?> , #<?php echo $this->lang->line("se_room");?>").on("keyup change",function(){
 			$("#used_article").children(".del-checkbox").each(function(){
 				$(this).remove();
 			});
@@ -1224,7 +1219,7 @@ echo $js;
 		* ข้อมูลเกี่ยวกับโครงการ
 		-----------------------------------*/
 		//add upload file
-		$('#select_person_type').on('change keyup',function(){
+		$('#<?php echo $this->lang->line("se_person_type");?>').on('change keyup',function(){
 			if($(this).find("option:selected").val()=="01")
 			{
 				if(!$("div").hasClass("div_project_file"))
@@ -1234,14 +1229,14 @@ echo $js;
 					html+='<input type="file" id="project_file" multiple name="project_file[]">';
 					html+='</div>';
 					//html+='<div class="div_project_file"><i class="fa fa-plus-square fa-lg" id="plusfile"></i></div>';
-					$("input#input_project_name").parent().after(html);
+					$("input#<?php echo $this->lang->line("in_project_name");?>").parent().after(html);
 				}
 			}
 			else $(".div_project_file").remove();
 		});
-		if($('#select_person_type').find("option:selected").val()=="01")
+		if($('#<?php echo $this->lang->line("se_person_type");?>').find("option:selected").val()=="01")
 		{
-			$('#select_person_type').trigger("change");
+			$('#<?php echo $this->lang->line("se_person_type");?>').trigger("change");
 		}
 		$(document.body).on('click', '#plusfile' ,function(){
 			var html='<div class="form-group div_project_file">';
@@ -1407,7 +1402,7 @@ echo $js;
 		/**
 		* Disabled spacebar
 		*/
-		$("input[type='text']:not(#input_project_name)").keydown(function(e){
+		$("input[type='text']:not(#<?php echo $this->lang->line("in_project_name");?>)").keydown(function(e){
 			if(e.keyCode==32)
 			{
 				return false;
@@ -1417,11 +1412,11 @@ echo $js;
 		/**
 		* disabled unwanted characters
 		*/
-		$("#input_phone").on("keydown keyup",function(){
+		$("#<?php echo $this->lang->line("in_phone");?>").on("keydown keyup",function(){
 			var name = $(this).val();
 			$(this).val(name.replace(/[^0-9]/gi,''));
 		});
-		$("#input_std_id,#input_num_of_people").on("keydown keyup",function(){
+		$("#<?php echo $this->lang->line("in_std_id");?>,#<?php echo $this->lang->line("in_num_of_people");?>").on("keydown keyup",function(){
 			var name = $(this).val();
 			$(this).val(name.replace(/[^0-9]/gi,''));
 		});
@@ -1433,7 +1428,7 @@ echo $js;
 		/**
 		* คำแนะนำ การกรอกข้อมูล
 		*/
-		$("#input_phone").prev().before('<span id="input_phone_hint"><i class="fa fa-question-circle pointer"></i></span> ');
+		$("#<?php echo $this->lang->line("in_phone");?>").prev().before('<span id="input_phone_hint"><i class="fa fa-question-circle pointer"></i></span> ');
 		$("#input_phone_hint").click(function(){
 			bootbox.alert("\
 					<strong>เบอร์โทรศัพท์ที่ติดต่อได้</strong><br>\
@@ -1441,7 +1436,7 @@ echo $js;
 					ตัวอย่าง 0881234567\
 					");
 		});
-		$("#input_num_of_people").prev().before('<span id="input_num_of_people_hint"><i class="fa fa-question-circle pointer"></i></span> ');
+		$("#<?php echo $this->lang->line("in_num_of_people");?>").prev().before('<span id="input_num_of_people_hint"><i class="fa fa-question-circle pointer"></i></span> ');
 		$("#input_num_of_people_hint").click(function(){
 			bootbox.alert("\
 					<strong>จำนวนคนที่เข้าร่วม</strong><br>\
@@ -1453,11 +1448,11 @@ echo $js;
 	//ซ่อนแสดงเมื่อเลือกบุคคลภายนอก/ภายใน
 	function hide_in_ex()
 	{
-		$("#select_faculty").parent().hide();
-		$("#select_department").parent().hide();
-		$("#select_job_position").parent().hide();
-		$("#input_std_id").parent().hide();
-		$("#select_office").parent().hide();
+		$("#<?php echo $this->lang->line("se_faculty");?>").parent().hide();
+		$("#<?php echo $this->lang->line("se_department");?>").parent().hide();
+		$("#<?php echo $this->lang->line("se_job_position");?>").parent().hide();
+		$("#<?php echo $this->lang->line("in_std_id");?>").parent().hide();
+		$("#<?php echo $this->lang->line("se_office");?>").parent().hide();
 		$("#otherfaculty").hide();
 		$("#otherdepartment").hide();
 		$("#otherjob_position").hide();
@@ -1466,22 +1461,22 @@ echo $js;
 	//บุคคลภายใน เจ้าหน้าที่
 	function person_in_staff()
 	{
-		$("#select_faculty").parent().show();
-		$("#select_department").parent().show();
-		$("#select_job_position").parent().show();
+		$("#<?php echo $this->lang->line("se_faculty");?>").parent().show();
+		$("#<?php echo $this->lang->line("se_department");?>").parent().show();
+		$("#<?php echo $this->lang->line("se_job_position");?>").parent().show();
 	}
 	//บุคคลภายใน นศ
 	function person_in_std()
 	{
-		$("#select_faculty").parent().show();
-		$("#select_department").parent().show();
-		$("#input_std_id").parent().show();
+		$("#<?php echo $this->lang->line("se_faculty");?>").parent().show();
+		$("#<?php echo $this->lang->line("se_department");?>").parent().show();
+		$("#<?php echo $this->lang->line("in_std_id");?>").parent().show();
 	}
 	//บุคคลภายนอก
 	function person_ex()
 	{
-		$("#select_job_position").parent().show();
-		$("#select_office").parent().show();
+		$("#<?php echo $this->lang->line("se_job_position");?>").parent().show();
+		$("#<?php echo $this->lang->line("se_office");?>").parent().show();
 	}
 
 	/*#################################################

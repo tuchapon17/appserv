@@ -34,17 +34,20 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php 
 	      		 	$em_name=array(
-	      		 			"input_article"=>"input_article",
-							"input_room"=>"input_room",
-							"select_fee_type"=>"select_fee_type",
-							"input_article_num"=>"input_article_num",
-							"input_lump_sum_base_unit"=>"input_lump_sum_base_unit"
+	      		 			"input_article"=>$this->lang->line("in_article"),
+							"input_room"=>$this->lang->line("in_room"),
+							"select_fee_type"=>$this->lang->line("se_fee_type"),
+							"input_article_num"=>$this->lang->line("in_article_num"),
+							"input_lump_sum_base_unit"=>$this->lang->line("in_lump_sum_base_unit")
 	      		 	);
-      		 		echo form_error($em_name["input_article"]);
-      		 		echo form_error($em_name["input_room"]);
-      		 		echo form_error($em_name["select_fee_type"]);
-      		 		echo form_error($em_name["input_article_num"]);
-      		 		echo form_error($em_name["input_lump_sum_base_unit"]);
+      		 		/*
+					echo form_error($this->lang->line("se_article_type"));
+					echo form_error($this->lang->line("se_article"));
+					echo form_error($this->lang->line("se_room"));
+					echo form_error($this->lang->line("se_fee_type"));
+					echo form_error($this->lang->line("in_article_num"));
+					echo form_error($this->lang->line("in_lump_sum_base_unit"));
+					*/
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -52,20 +55,18 @@ echo $head;
 						<h3 class="panel-title"><strong>แก้ไขครุภัณฑ์/อุปกรณ์สำหรับห้อง</strong></h3>
 					</div>
 					<div class="panel-body">
-						<form role="form" action="?d=manage&c=<?=$controller?>&m=edit" method="post" autocomplete="off">
+						<form role="form" action="?d=manage&c=<?=$controller?>&m=edit" method="post" autocomplete="off" id="edit_room_has_article">
 								<?php
-								//echo $se_article;
-								//echo $se_room;
 								echo $in_article;
-								echo "<span id='".$em_name["input_article"]."_error' class='hidden'>".form_error($em_name["input_article"])."</span>";
+								echo "<span id='".$this->lang->line("in_article")."_error' class='hidden'>".form_error($this->lang->line("in_article"))."</span>";
 								echo $in_room;
-								echo "<span id='".$em_name["input_room"]."_error' class='hidden'>".form_error($em_name["input_room"])."</span>";
+								echo "<span id='".$this->lang->line("in_room")."_error' class='hidden'>".form_error($this->lang->line("in_room"))."</span>";
 								echo $in_article_num;
-								echo "<span id='".$em_name["input_article_num"]."_error' class='hidden'>".form_error($em_name["input_article_num"])."</span>";
+								echo "<span id='".$this->lang->line("in_article_num")."_error' class='hidden'>".form_error($this->lang->line("in_article_num"))."</span>";
 								echo $se_fee_type;
-								echo "<span id='".$em_name["select_fee_type"]."_error' class='hidden'>".form_error($em_name["select_fee_type"])."</span>";
+								echo "<span id='".$this->lang->line("se_fee_type")."_error' class='hidden'>".form_error($this->lang->line("se_fee_type"))."</span>";
 								echo $in_lump_sum_base_unit;
-								echo "<span id='".$em_name["input_lump_sum_base_unit"]."_error' class='hidden'>".form_error($em_name["input_lump_sum_base_unit"])."</span>";
+								echo "<span id='".$this->lang->line("in_lump_sum_base_unit")."_error' class='hidden'>".form_error($this->lang->line("in_lump_sum_base_unit"))."</span>";
 								?>	
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>		
@@ -84,37 +85,33 @@ echo $js;
 <!-- Custom Javascript -->
 	<script type="text/javascript" src="<?php echo base_url();?>js/user_profile_script.js"></script>
 	<script type="text/javascript" src="<?php echo base_url();?>js/manage/room_has_article.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/localization/messages_th.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/additional-methods.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>plugins/jquery-validation-1.11.1/dist/my-additional-methods.js"></script>
 	<script type="text/javascript">
 	<!--
 	$(function(){
-		/*#################################################
-		Get room list
-		###################################################*/
-		$("#select_article").on("keyup change",function(){
-			if($(this).find("option:selected").val()!=""){
-				$.ajax({
-					url:"?d=manage&c=<?=$controller?>&m=select_room_list",
-					data:{article_id:$(this).find("option:selected").val()},
-					type:"POST",
-					dataType:"json",
-					success:function(resp){
-						$("#select_room").find("option:gt(0)").remove();
-						if(resp.room_list!=null)$("#select_room").append(resp.room_list);
-					},
-					error:function(error){
-						alert("Error : "+error);
-					}
-				});
-			}
-			else
-			{
-				$("#select_room").find("option:gt(0)").remove();
+		$("#edit_room_has_article").validate({
+			lang:'th',
+			errorClass: "my-error-class",
+			rules: {
+				"<?php echo $this->lang->line("se_fee_type");?>": {
+					required:true
+				},
+				"<?php echo $this->lang->line("in_article_num");?>": {
+					required:true,
+					digits:true
+				},
+				"<?php echo $this->lang->line("in_lump_sum_base_unit");?>": {
+					digits:true
+				}
 			}
 		});
-		/*#################################################
-		Highlight the <input> <select> 
-		If span text length > 0 change input border color to red
-		###################################################*/
+		
+		
+		//Highlight the <input> <select> 
+		//If span text length > 0 change input border color to red
 		<?php 
 		foreach ($em_name AS $key=>$value):
 		?>
@@ -124,24 +121,16 @@ echo $js;
 		<?php
 		endforeach;
 		?>
-		/*#################################################
-		Checked/Unchecked all checkbox
-		###################################################*/
+		//Checked/Unchecked all checkbox
 		del_all_checkbox("<?=$m_name?>");
-		/*#################################################
-		add num_rows to pagination 
-		###################################################*/
+		//add num_rows to pagination 
 		$("#pagination_num_rows").html("<a>ทั้งหมด <?php echo $pagination_num_rows;?> แถว</a>");
 		
-		/*#################################################
-		Reset search result
-		###################################################*/
+		//Reset search result
 		$("#clearSearch").click(function(){
 			clearSearchCenter("<?=$controller?>", b_url);
 		}); 
-		/*#################################################
-		Show bootbox alert after edited profile1
-		###################################################*/
+		//Show bootbox alert after edited profile1
 		<?php 
 		if($this->session->flashdata("edit_".$m_name."_message"))
 		{?>
@@ -164,11 +153,11 @@ echo $js;
 			success:function(resp){
 				//$("#select_room").val(resp.tb_room_id);
 				//$("#select_article").val(resp.tb_article_id);
-				$("#input_room").val($("#room"+resp.tb_room_id).text());
-				$("#input_article").val($("#article"+resp.tb_article_id).text());
-				$("#select_fee_type").val(resp.tb_fee_type_id);
-				$("#input_article_num").val(resp.article_num);
-				$("#input_lump_sum_base_unit").val(resp.lump_sum_base_unit);
+				$("#<?php echo $this->lang->line("in_room"); ?>").val($("#room"+resp.tb_room_id).text());
+				$("#<?php echo $this->lang->line("in_article"); ?>").val($("#article"+resp.tb_article_id).text());
+				$("#<?php echo $this->lang->line("se_fee_type"); ?>").val(resp.tb_fee_type_id);
+				$("#<?php echo $this->lang->line("in_article_num"); ?>").val(resp.article_num);
+				$("#<?php echo $this->lang->line("in_lump_sum_base_unit"); ?>").val(resp.lump_sum_base_unit);
 			},
 			error:function(error){
 				alert("Error : "+error);

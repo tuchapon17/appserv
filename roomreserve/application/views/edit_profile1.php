@@ -46,14 +46,16 @@ echo $head;
       		 	<?php 
       				$em_name=array(
       						"password0"=>$this->lang->line("in_password0"),
-							"password"=>$this->lang->line("regis_in_password"),
-							"password2"=>$this->lang->line("regis_in_password2"),
-							"email"=>$this->lang->line("regis_in_email")
+							"password"=>$this->lang->line("in_password"),
+							"password2"=>$this->lang->line("in_password2"),
+							"email"=>$this->lang->line("in_email")
       				);
-      				echo form_error($em_name["password0"]);
-      				echo form_error($em_name["password"]);
-      				echo form_error($em_name["password2"]);
-      				echo form_error($em_name["email"]);
+					/*      				
+					echo form_error($this->lang->line("in_password0"));
+      				echo form_error($this->lang->line("in_password"));
+      				echo form_error($this->lang->line("in_password2"));
+      				echo form_error($this->lang->line("in_email"));
+      				*/
       			?>
       			</div>
       			<div class="panel panel-success">
@@ -71,13 +73,13 @@ echo $head;
 								</div>
 								<?php 
 								echo $in_password0;
-								echo "<span id='".$em_name["password0"]."_error' class='hidden'>".form_error($em_name["password0"])."</span>";
+								echo "<span id='".$this->lang->line("in_password0")."_error' class='hidden'>".form_error($this->lang->line("in_password0"))."</span>";
 								echo $in_password;
-								echo "<span id='".$em_name["password"]."_error' class='hidden'>".form_error($em_name["password"])."</span>";
+								echo "<span id='".$this->lang->line("in_password")."_error' class='hidden'>".form_error($this->lang->line("in_password"))."</span>";
 								echo $in_password2;
-								echo "<span id='".$em_name["password2"]."_error' class='hidden'>".form_error($em_name["password2"])."</span>";
+								echo "<span id='".$this->lang->line("in_password2")."_error' class='hidden'>".form_error($this->lang->line("in_password2"))."</span>";
 								echo $in_email;
-								echo "<span id='".$em_name["email"]."_error' class='hidden'>".form_error($em_name["email"])."</span>";
+								echo "<span id='".$this->lang->line("in_email")."_error' class='hidden'>".form_error($this->lang->line("in_email"))."</span>";
 								?>
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>		
@@ -87,15 +89,9 @@ echo $head;
       		</div>
         </div>
       </div>
-      
-
       <hr>
-
       <?php echo $footer; ?>
     </div>
-
-
-
 <?php 
 echo $js;
 ?>
@@ -146,7 +142,7 @@ echo $js;
 		Show/Hide password form
 		###################################################*/
 		//add class 'pwdgroup' to #input_password0,#input_password,#input_password2
-		$("#input_password0,#input_password,#input_password2").parent().attr('class','pwdgroup');
+		$("#<?php echo $this->lang->line("in_password0");?>,#<?php echo $this->lang->line("in_password");?>,#<?php echo $this->lang->line("in_password2");?>").parent().attr('class','pwdgroup');
 		$(".pwdgroup").hide();
 		//click and checked '#change_password' to show '.pwdgroup'
 		$("#change_password").click(function(){

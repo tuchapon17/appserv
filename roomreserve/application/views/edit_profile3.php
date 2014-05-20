@@ -45,21 +45,21 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php 
       				$em_name=array(
-      						"house_no"=>$this->lang->line("regis_in_house_no"),
-							"village_no"=>$this->lang->line("regis_in_viilage_no"),
-							"alley"=>$this->lang->line("regis_in_alley"),
-							"road"=>$this->lang->line("regis_in_road"),
-							"province"=>$this->lang->line("regis_se_province"),
-							"district"=>$this->lang->line("regis_se_district"),
-							"subdistrict"=>$this->lang->line("regis_se_subdistrict")
+      						"house_no"=>$this->lang->line("in_house_no"),
+							"village_no"=>$this->lang->line("in_viilage_no"),
+							"alley"=>$this->lang->line("in_alley"),
+							"road"=>$this->lang->line("in_road"),
+							"province"=>$this->lang->line("se_province"),
+							"district"=>$this->lang->line("se_district"),
+							"subdistrict"=>$this->lang->line("se_subdistrict")
       				);
-      				echo form_error($em_name["house_no"]);
-      				echo form_error($em_name["village_no"]);
-      				echo form_error($em_name["alley"]);
-      				echo form_error($em_name["road"]);
-      				echo form_error($em_name["province"]);
-      				echo form_error($em_name["district"]);
-      				echo form_error($em_name["subdistrict"]);
+      				echo form_error($this->lang->line("in_house_no"));
+      				echo form_error($this->lang->line("in_viilage_no"));
+      				echo form_error($this->lang->line("in_alley"));
+      				echo form_error($this->lang->line("in_road"));
+      				echo form_error($this->lang->line("se_province"));
+      				echo form_error($this->lang->line("se_district"));
+      				echo form_error($this->lang->line("se_subdistrict"));
       			?>
       			</div>
       			<div class="panel panel-success">
@@ -70,19 +70,19 @@ echo $head;
 						<form role="form" action="?c=user_profile&m=edit_profile3" method="post">
 								<?php 
 								echo $in_house_no; 
-								echo "<span id='".$em_name["house_no"]."_error' class='hidden'>".form_error($em_name["house_no"])."</span>";
+								echo "<span id='".$this->lang->line("in_house_no")."_error' class='hidden'>".form_error($this->lang->line("in_house_no"))."</span>";
 								echo $in_village_no;
-								echo "<span id='".$em_name["village_no"]."_error' class='hidden'>".form_error($em_name["village_no"])."</span>";
+								echo "<span id='".$this->lang->line("in_viilage_no")."_error' class='hidden'>".form_error($this->lang->line("in_viilage_no"))."</span>";
 								echo $in_alley;
-								echo "<span id='".$em_name["alley"]."_error' class='hidden'>".form_error($em_name["alley"])."</span>";
+								echo "<span id='".$this->lang->line("in_alley")."_error' class='hidden'>".form_error($this->lang->line("in_alley"))."</span>";
 								echo $in_road;
-								echo "<span id='".$em_name["road"]."_error' class='hidden'>".form_error($em_name["road"])."</span>";
+								echo "<span id='".$this->lang->line("in_road")."_error' class='hidden'>".form_error($this->lang->line("in_road"))."</span>";
 								echo $se_province;
-								echo "<span id='".$em_name["province"]."_error' class='hidden'>".form_error($em_name["province"])."</span>";
+								echo "<span id='".$this->lang->line("se_province")."_error' class='hidden'>".form_error($this->lang->line("se_province"))."</span>";
 								echo $se_district;
-								echo "<span id='".$em_name["district"]."_error' class='hidden'>".form_error($em_name["district"])."</span>";
+								echo "<span id='".$this->lang->line("se_district")."_error' class='hidden'>".form_error($this->lang->line("se_district"))."</span>";
 								echo $se_subdistrict;
-								echo "<span id='".$em_name["subdistrict"]."_error' class='hidden'>".form_error($em_name["subdistrict"])."</span>";
+								echo "<span id='".$this->lang->line("se_subdistrict")."_error' class='hidden'>".form_error($this->lang->line("se_subdistrict"))."</span>";
 								?>
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>		
@@ -149,7 +149,7 @@ echo $js;
 	/*#################################################
 	Get district list
 	###################################################*/
-	$("#select_province").on("keyup change",function(){
+	$("#<?php echo $this->lang->line("se_province");?>").on("keyup change",function(){
 		if($(this).find("option:selected").val()!=""){
 			$.ajax({
 				url:"?c=register&m=select_district",
@@ -157,8 +157,8 @@ echo $js;
 				type:"POST",
 				dataType:"json",
 				success:function(resp){
-					$("#select_district").find("option:gt(0)").remove();
-					if(resp.district_list!=null)$("#select_district").append(resp.district_list);
+					$("#<?php echo $this->lang->line("se_district");?>").find("option:gt(0)").remove();
+					if(resp.district_list!=null)$("#<?php echo $this->lang->line("se_district");?>").append(resp.district_list);
 				},
 				error:function(error){
 					alert("Error : "+error);
@@ -167,14 +167,14 @@ echo $js;
 		}
 		else
 		{
-			$("#select_district").find("option:gt(0)").remove();
+			$("#<?php echo $this->lang->line("se_district");?>").find("option:gt(0)").remove();
 		}
 	});
 
 	/*#################################################
 	Get subdistrict list
 	###################################################*/
-	$("#select_district").on("keyup change",function(){
+	$("#<?php echo $this->lang->line("se_district");?>").on("keyup change",function(){
 		if($(this).find("option:selected").val()!=""){
 			$.ajax({
 				url:"?c=register&m=select_subdistrict",
@@ -182,8 +182,8 @@ echo $js;
 				type:"POST",
 				dataType:"json",
 				success:function(resp){
-					$("#select_subdistrict").find("option:gt(0)").remove();
-					if(resp.subdistrict_list!=null)$("#select_subdistrict").append(resp.subdistrict_list);
+					$("#<?php echo $this->lang->line("se_subdistrict");?>").find("option:gt(0)").remove();
+					if(resp.subdistrict_list!=null)$("#<?php echo $this->lang->line("se_subdistrict");?>").append(resp.subdistrict_list);
 				},
 				error:function(error){
 					alert("Error : "+error);
@@ -192,10 +192,10 @@ echo $js;
 		}
 		else
 		{
-			$("#select_district").find("option:gt(0)").remove();
+			$("#<?php echo $this->lang->line("se_subdistrict");?>").find("option:gt(0)").remove();
 		}
 	});
-	$("#select_province").trigger("change");
+	$("#<?php echo $this->lang->line("se_province");?>").trigger("change");
 	//-->
 	</script>
 <?php 

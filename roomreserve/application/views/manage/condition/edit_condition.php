@@ -28,9 +28,9 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php 
 	      		 	$em_name=array(
-	      		 			"te_condition"=>"textarea_condition"
+	      		 			"te_condition"=>$this->lang->line("te_condition")
 	      		 	);
-      		 		echo form_error($em_name["te_condition"]);
+      		 		echo form_error($this->lang->line("te_condition"));
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -41,7 +41,7 @@ echo $head;
 						<form role="form" action="?d=manage&c=<?=$controller?>&m=edit" method="post" autocomplete="off">
 								<?php
 								echo $te_condition;
-								echo "<span id='".$em_name["te_condition"]."_error' class='hidden'>".form_error($em_name["te_condition"])."</span>";
+								echo "<span id='".$this->lang->line("te_condition")."_error' class='hidden'>".form_error($this->lang->line("te_condition"))."</span>";
 								?>	
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>
@@ -80,9 +80,8 @@ echo $js;
 		<?php
 		endforeach;
 		?>
-		/**
-		Show bootbox alert after edited profile1
-		*/
+		
+		//Show bootbox alert after edited profile1
 		<?php 
 		if($this->session->flashdata("edit_".$m_name."_message"))
 		{?>
@@ -90,9 +89,9 @@ echo $js;
 		<?php
 		}?>
 		active_tab();
-		/**
-		Tab menu link
-		*/
+		
+		//Tab menu link
+		
 		$("#add").on("click",function(){
 			window.location="?d=manage&c=<?=$controller?>&m=add";
 		});
