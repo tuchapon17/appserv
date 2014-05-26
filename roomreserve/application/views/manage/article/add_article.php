@@ -25,8 +25,6 @@ echo $head;
       	<div class="col-lg-12">
       	<?php echo $article_tab;?>
       		<div class="col-lg-8 col-lg-offset-2" id="loginform">
-				
-      		 	<!-- <h2>เพิ่มครุภัณฑ์/อุปกรณ์</h2> -->
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php
 	      		 	$em_name=array(
@@ -45,7 +43,7 @@ echo $head;
       			</div>
       			<div class="panel panel-success">
 					<div class="panel-heading">
-						<h3 class="panel-title"><strong>เพิ่มครุภัณฑ์/อุปกรณ์</strong></h3>
+						<h3 class="panel-title"><strong>เพิ่ม<?php echo $this->lang->line("text_article");?></strong></h3>
 					</div>
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=article&m=add" id="add_article" method="post" autocomplete="off">
@@ -54,6 +52,16 @@ echo $head;
 								echo "<span id='".$this->lang->line("in_article")."_error' class='hidden'>".form_error($this->lang->line("in_article"))."</span>";
 								echo $se_article_type;
 								echo "<span id='".$this->lang->line("se_article_type")."_error' class='hidden'>".form_error($this->lang->line("se_article_type"))."</span>";
+								?>
+							<div class="chexkbox">
+								<label>
+									<input type="checkbox" value="is_equipment" name="is_equipment" id="is_equipment">
+									เป็นครุภัณฑ์
+								</label>
+								<span class="help-block"></span>
+							</div>								
+								<?php 
+								echo $in_equipment_number;
 								echo $in_fee_unit_hour;
 								echo "<span id='".$this->lang->line("in_fee_unit_hour")."_error' class='hidden'>".form_error($this->lang->line("in_fee_unit_hour"))."</span>";
 								echo $in_fee_unit_lump_sum;
@@ -91,6 +99,10 @@ echo $js;
 	<script type="text/javascript">
 	<!--
 	$(function(){
+		$.validator.addMethod("equipment_number", function(value, element){
+			if($("#is_equipment").is(":checked") && value.length < 1) return false;
+			else if ($("#is_equipment").is(":checked") && value.length > 0) return true;
+		}, "โปรดระบุ");
 		$("#add_article").validate({
 			lang:'th',
 			errorClass: "my-error-class",
@@ -100,26 +112,36 @@ echo $js;
 					maxlength:30
 				},
 				"<?php echo $this->lang->line("in_fee_unit_hour");?>": {
-					required:true,
 					maxlength:9,
 					decimal62:true
 				},
 				"<?php echo $this->lang->line("in_fee_unit_lump_sum");?>": {
-					required:true,
 					maxlength:9,
 					decimal62:true
 				},
 				"<?php echo $this->lang->line("in_fee_over_unit_lump_sum");?>": {
-					required:true,
 					maxlength:9,
 					decimal62:true
 				},
 				"<?php echo $this->lang->line("se_article_type");?>": {
 					required:true
+				},
+				"<?php echo $this->lang->line("in_equipment_number");?>": {
+					maxlength:11,
+					minlength:11,
+					equipment_number:true,
+					digits:true
 				}
 			}
 		});
-		
+
+		$("#<?php echo $this->lang->line("in_equipment_number");?>").parent().hide();
+		$("#is_equipment").change(function(){
+			if($(this).is(":checked"))
+				$("#<?php echo $this->lang->line("in_equipment_number");?>").parent().show();
+			else 
+				$("#<?php echo $this->lang->line("in_equipment_number");?>").parent().hide();
+		});
 		//Highlight the <input> <select> 
 		//If span text length > 0 change input border color to red
 		<?php 

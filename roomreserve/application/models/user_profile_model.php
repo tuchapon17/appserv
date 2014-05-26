@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class User_profile_model extends CI_Model
+class User_profile_model extends MY_Model
 {
 	public function __construct()
 	{
@@ -50,7 +50,7 @@ class User_profile_model extends CI_Model
 	
 	function get_edit_profile2($username)
 	{
-		return $this->db->select("firstname,lastname,tb_titlename_id,tb_occupation_id,tb_occupation.occupation_name,tb_occupation.checked")->from("tb_user")->join("tb_occupation","tb_occupation.occupation_id=tb_user.tb_occupation_id")->where("username",$username)->limit(1)->get()->result_array();
+		return $this->db->select("id_card_number,firstname,lastname,tb_titlename_id,tb_occupation_id,tb_occupation.occupation_name,tb_occupation.checked")->from("tb_user")->join("tb_occupation","tb_occupation.occupation_id=tb_user.tb_occupation_id")->where("username",$username)->limit(1)->get()->result_array();
 	}
 	function get_edit_profile3($username)
 	{
@@ -80,7 +80,7 @@ class User_profile_model extends CI_Model
 		if($this->db->trans_status()===FALSE):
 			$this->db->trans_rollback();
 			$this->session->set_flashdata("edit_profile2_status",false);
-			$this->session->set_flashdata("edit_profile2_message","แก้ไขข้อมูลส่วนตัว ไม่สำเร็จ");
+			$this->session->set_flashdata("edit_profile2_message",$this->db->last_query()."แก้ไขข้อมูลส่วนตัว ไม่สำเร็จ");
 			redirect(base_url()."?c=user_profile&m=edit_profile2");
 		else:
 			$this->db->trans_commit();
@@ -107,5 +107,33 @@ class User_profile_model extends CI_Model
 			$this->session->set_flashdata("edit_profile3_message","แก้ไขข้อมูลที่อยู่ สำเร็จ");
 			redirect(base_url()."?c=user_profile&m=edit_profile3");
 		endif;
+	}
+	function new_occupation($occ_name)
+	{
+		$this->db->select()->from("tb_occupation")->where("occupation_name",$occ_name)->limit(1);
+		$query = $this->db->get();
+		//occupation_name is exist 
+		if($query->num_rows > 0)
+		{
+			$occ = $query->result_array();
+			return $occ[0]["occupation_id"];
+		}
+		//doesn't exist insert new occupation_name
+		else 
+		{
+			$set = array(
+					"occupation_id"=>$this->get_maxid(2, "occupation_id", "tb_occupation"),
+					"occupation_name"=>$occ_name
+			);
+			$this->db->trans_begin();
+			$this->db->insert("tb_occupation",$set);
+			if($this->db->trans_status()===FALSE):
+				$this->db->trans_rollback();
+				return false;
+			else:
+				$this->db->trans_commit();
+				return $set["occupation_id"];
+			endif;
+		}
 	}
 }

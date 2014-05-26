@@ -12,14 +12,14 @@ class Register_model extends MY_Model
 	 */
 	function add_user()
 	{
-		$username=$this->input->post("input_username");
-		$password=md5($this->input->post("input_password"));
-		$email=$this->input->post("input_email");
-		$titlename=$this->input->post("select_titlename");
-		$firstname=$this->input->post("input_firstname");
-		$lastname=$this->input->post("input_lastname");
-		$occupation=$this->input->post("select_occupation");
-		$phone=$this->input->post("input_phone");
+		$username=$this->input->post($this->lang->line("in_username"));
+		$password=md5($this->input->post($this->lang->line("in_password")));
+		$email=$this->input->post($this->lang->line("in_email"));
+		$titlename=$this->input->post($this->lang->line("se_titlename"));
+		$firstname=$this->input->post($this->lang->line("in_firstname"));
+		$lastname=$this->input->post($this->lang->line("in_lastname"));
+		$occupation=$this->input->post($this->lang->line("se_occupation"));
+		$phone=$this->input->post($this->lang->line("in_phone"));
 		
 		$data=array(
 				"username"=>strtolower($username),
@@ -33,37 +33,46 @@ class Register_model extends MY_Model
 				"lastname"=>$lastname,
 				"tb_occupation_id"=>$occupation,
 				"phone"=>$phone,
-				"house_no"=>$this->input->post("input_house_no"),
-				"village_no"=>$this->input->post("input_village_no"),
-				"alley"=>$this->input->post("input_alley"),
-				"road"=>$this->input->post("input_road"),
-				"tb_province_id"=>$this->input->post("select_province"),
-				"tb_district_id"=>$this->input->post("select_district"),
-				"tb_subdistrict_id"=>$this->input->post("select_subdistrict")
+				"house_no"=>$this->input->post($this->lang->line("in_house_no")),
+				"village_no"=>$this->input->post($this->lang->line("in_village_no")),
+				"alley"=>$this->input->post($this->lang->line("in_alley")),
+				"road"=>$this->input->post($this->lang->line("in_road")),
+				"tb_province_id"=>$this->input->post($this->lang->line("se_province")),
+				"tb_district_id"=>$this->input->post($this->lang->line("se_district")),
+				"tb_subdistrict_id"=>$this->input->post($this->lang->line("se_subdistrict")),
+				"id_card_number"=>$this->input->post($this->lang->line("in_id_card_number"))
 		);
 		//if data is '' ,spaceToNull convert '' to NULL before insert to DB
 		foreach($data AS $key=>$val):
 			$data[$key]=$this->toNull($data[$key]);
 		endforeach;
 		$this->db->trans_begin();
-			/*#################################################
-			 * insert otheroccupation to tb_occupation
-			#################################################*/
+			//insert otheroccupation to tb_occupation
 			if($this->input->post("select_occupation")=="00")
 			{
-				//get current max id from MY_Model
-				$new_id=$this->get_maxid(2, "occupation_id", "tb_occupation");
-
-				$data_occupation=array(
-						"occupation_id"=>$new_id,
-						"occupation_name"=>trim($this->input->post("input_occupation")),
-						//เปิดให้แสดงอาชีพที่เพิ่มใหม่ ให้เจ้าหน้าที่ตรวจสอบ ยกเลิกออกภายหลัง
-						"checked"=>"0"
-				);
-				$this->db->set($data_occupation)->insert("tb_occupation");
-				//set new occupation id
-				$data["tb_occupation_id"]=$new_id;
-				
+				//ถ้ามีอาชีพชื่อซ้ำกัน ให้อ้างอิงอาชีพที่มีอยู่
+				$this->db->select()->from("tb_occupation")
+				->where("occupation_name",trim($this->input->post("input_occupation")));
+				$query = $this->db->get();
+				$current_occupation = $query->result_array();
+				if($query->num_rows() > 0)
+				{
+					$data["tb_occupation_id"] = $current_occupation[0]["occupation_id"];
+				}
+				else 
+				{
+					//get current max id from MY_Model
+					$new_id=$this->get_maxid(2, "occupation_id", "tb_occupation");
+					$data_occupation=array(
+							"occupation_id"=>$new_id,
+							"occupation_name"=>trim($this->input->post("input_occupation")),
+							//เปิดให้แสดงอาชีพที่เพิ่มใหม่ ให้เจ้าหน้าที่ตรวจสอบ ยกเลิกออกภายหลัง
+							"checked"=>"0"
+					);
+					$this->db->set($data_occupation)->insert("tb_occupation");
+					//set new occupation id
+					$data["tb_occupation_id"]=$new_id;
+				}
 			}
 			/*
 			 * insert new user to tb_user
@@ -118,6 +127,19 @@ class Register_model extends MY_Model
 	function username_already_exist($username)
 	{
 		$this->db->select()->from("tb_user")->where("username",$username);
+		$num_rows=$this->db->get()->num_rows();
+		if($num_rows>0)return false;
+		else if($num_rows==0)return true;
+	}
+	
+	/**
+	 * Check id_card_number in tb_user is exist or doesn't exist?
+	 * @param String $id
+	 * @return boolean
+	 */
+	function id_card_already_exist($id)
+	{
+		$this->db->select()->from("tb_user")->where("id_card_number",$id);
 		$num_rows=$this->db->get()->num_rows();
 		if($num_rows>0)return false;
 		else if($num_rows==0)return true;

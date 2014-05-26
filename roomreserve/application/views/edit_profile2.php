@@ -50,11 +50,13 @@ echo $head;
 							"occupation1"=>$this->lang->line("se_occupation"),
 							"occupation2"=>$this->lang->line("in_occupation")
       				);
+					/*
       				echo form_error($this->lang->line("se_titlename"));
       				echo form_error($this->lang->line("in_firstname"));
       				echo form_error($this->lang->line("in_lastname"));
       				echo form_error($this->lang->line("se_occupation"));
       				echo form_error($this->lang->line("in_occupation"));
+      				*/
       			?>
       			</div>
       			<div class="panel panel-success">
@@ -63,7 +65,8 @@ echo $head;
 					</div>
 					<div class="panel-body">
 						<form role="form" action="?c=user_profile&m=edit_profile2" method="post">
-								<?php 
+								<?php
+								echo $in_id_card_number;
 								echo $se_titlename; 
 								echo "<span id='".$this->lang->line("se_titlename")."_error' class='hidden'>".form_error($this->lang->line("se_titlename"))."</span>";
 								echo $in_firstname;

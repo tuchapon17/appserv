@@ -47,45 +47,48 @@ echo $navbar;
       		 	<div class="alert-danger" id="login-alert">
       			<?php 
       				$em_name=array(
-      						"username"=>$this->lang->line("regis_in_username"),
-							"password"=>$this->lang->line("regis_in_password"),
-							"password2"=>$this->lang->line("regis_in_password2"),
-							"email"=>$this->lang->line("regis_in_email"),
-							"titlename"=>$this->lang->line("regis_se_titlename"),
-							"firstname"=>$this->lang->line("regis_in_firstname"),
-							"lastname"=>$this->lang->line("regis_in_lastname"),
-							"phone"=>$this->lang->line("regis_in_phone"),
-							"occupation1"=>$this->lang->line("regis_se_occupation"),
-							"occupation2"=>$this->lang->line("regis_in_occupation"),
-							"house_no"=>$this->lang->line("regis_in_house_no"),
-							"village_no"=>$this->lang->line("regis_in_village_no"),
-							"alley"=>$this->lang->line("regis_in_alley"),
-							"road"=>$this->lang->line("regis_in_road"),
-							"province"=>$this->lang->line("regis_se_province"),
-      						"district"=>$this->lang->line("regis_se_district"),
-      						"subdistrict"=>$this->lang->line("regis_se_subdistrict")
+      						"username"=>$this->lang->line("in_username"),
+							"password"=>$this->lang->line("in_password"),
+							"password2"=>$this->lang->line("in_password2"),
+							"email"=>$this->lang->line("in_email"),
+							"titlename"=>$this->lang->line("se_titlename"),
+							"firstname"=>$this->lang->line("in_firstname"),
+							"lastname"=>$this->lang->line("in_lastname"),
+							"phone"=>$this->lang->line("in_phone"),
+							"occupation1"=>$this->lang->line("se_occupation"),
+							"occupation2"=>$this->lang->line("in_occupation"),
+							"house_no"=>$this->lang->line("in_house_no"),
+							"village_no"=>$this->lang->line("in_village_no"),
+							"alley"=>$this->lang->line("in_alley"),
+							"road"=>$this->lang->line("in_road"),
+							"province"=>$this->lang->line("se_province"),
+      						"district"=>$this->lang->line("se_district"),
+      						"subdistrict"=>$this->lang->line("se_subdistrict"),
+      						"id_card_number"=>$this->lang->line("in_id_card_number")
       				);
-      				echo form_error($em_name["username"]);
-      				echo form_error($em_name["password"]);
-      				echo form_error($em_name["password2"]);
-      				echo form_error($em_name["email"]);
-      				echo form_error($em_name["titlename"]);
-      				echo form_error($em_name["firstname"]);
-      				echo form_error($em_name["lastname"]);
-      				echo form_error($em_name["phone"]);
-      				echo form_error($em_name["occupation1"]);
-      				echo form_error($em_name["occupation2"]);
-      				echo form_error($em_name["house_no"]);
-      				echo form_error($em_name["village_no"]);
-      				echo form_error($em_name["alley"]);
-      				echo form_error($em_name["road"]);
-      				echo form_error($em_name["province"]);
-      				echo form_error($em_name["district"]);
-      				echo form_error($em_name["subdistrict"]);
+      				/*
+      				echo form_error($this->lang->line("in_username"));
+      				echo form_error($this->lang->line("in_password"));
+      				echo form_error($this->lang->line("in_password2"));
+      				echo form_error($this->lang->line("in_email"));
+      				echo form_error($this->lang->line("se_titlename"));
+      				echo form_error($this->lang->line("in_firstname"));
+      				echo form_error($this->lang->line("in_lastname"));
+      				echo form_error($this->lang->line("in_phone"));
+      				echo form_error($this->lang->line("se_occupation"));
+      				echo form_error($this->lang->line("in_occupation"));
+      				echo form_error($this->lang->line("in_house_no"));
+      				echo form_error($this->lang->line("in_village_no"));
+      				echo form_error($this->lang->line("in_alley"));
+      				echo form_error($this->lang->line("in_road"));
+      				echo form_error($this->lang->line("se_province"));
+      				echo form_error($this->lang->line("se_district"));
+      				echo form_error($this->lang->line("se_subdistrict"));
+      				*/
       			?>
       			</div>
       			
-	          	<form role="form" action="?c=<?=$controller?>&m=step1" method="post" autocomplete="off" id="register_form">
+	          	<form role="form" action="?c=<?=$controller?>&m=step1" method="post" id="register_form">
 		          	<div class="panel panel-success">
 						<div class="panel-heading">
 							<h3 class="panel-title"><strong>ข้อมูลการเข้าใช้ระบบ</strong></h3>
@@ -93,13 +96,13 @@ echo $navbar;
 						<div class="panel-body">
 							<?php 
 							echo $in_username;
-								echo "<span id='".$em_name["username"]."_error' class='hidden'>".form_error($em_name["username"])."</span>";
+								echo "<span id='".$this->lang->line("in_username")."_error' class='hidden'>".form_error($this->lang->line("in_username"))."</span>";
 							echo $in_password;
-								echo "<span id='".$em_name["password"]."_error' class='hidden'>".form_error($em_name["password"])."</span>";
+								echo "<span id='".$this->lang->line("in_password")."_error' class='hidden'>".form_error($this->lang->line("in_password"))."</span>";
 							echo $in_password2;
-								echo "<span id='".$em_name["password2"]."_error' class='hidden'>".form_error($em_name["password2"])."</span>";
+								echo "<span id='".$this->lang->line("in_password2")."_error' class='hidden'>".form_error($this->lang->line("in_password2"))."</span>";
 							echo $in_email;
-								echo "<span id='".$em_name["email"]."_error' class='hidden'>".form_error($em_name["email"])."</span>";
+								echo "<span id='".$this->lang->line("in_email")."_error' class='hidden'>".form_error($this->lang->line("in_email"))."</span>";
 							?>		
 						</div>
 					</div>
@@ -109,18 +112,20 @@ echo $navbar;
 						</div>
 						<div class="panel-body">
 							<?php
+							echo $in_id_card_number;
+								echo "<span id='".$this->lang->line("in_id_card_number")."_error' class='hidden'>".form_error($this->lang->line("in_id_card_number"))."</span>";
 							echo $se_titlename;
-								echo "<span id='".$em_name["titlename"]."_error' class='hidden'>".form_error($em_name["titlename"])."</span>";
+								echo "<span id='".$this->lang->line("se_titlename")."_error' class='hidden'>".form_error($this->lang->line("se_titlename"))."</span>";
 							echo $in_firstname;
-								echo "<span id='".$em_name["firstname"]."_error' class='hidden'>".form_error($em_name["firstname"])."</span>";
+								echo "<span id='".$this->lang->line("in_firstname")."_error' class='hidden'>".form_error($this->lang->line("in_firstname"))."</span>";
 							echo $in_lastname;
-								echo "<span id='".$em_name["lastname"]."_error' class='hidden'>".form_error($em_name["lastname"])."</span>";
+								echo "<span id='".$this->lang->line("in_lastname")."_error' class='hidden'>".form_error($this->lang->line("in_lastname"))."</span>";
 							echo $in_phone;
-								echo "<span id='".$em_name["phone"]."_error' class='hidden'>".form_error($em_name["phone"])."</span>";
+								echo "<span id='".$this->lang->line("in_phone")."_error' class='hidden'>".form_error($this->lang->line("in_phone"))."</span>";
 							echo $se_occupation;
-								echo "<span id='".$em_name["occupation1"]."_error' class='hidden'>".form_error($em_name["occupation1"])."</span>";
+								echo "<span id='".$this->lang->line("se_occupation")."_error' class='hidden'>".form_error($this->lang->line("se_occupation"))."</span>";
 							echo $in_occupation;
-								echo "<span id='".$em_name["occupation2"]."_error' class='hidden'>".form_error($em_name["occupation2"])."</span>";
+								echo "<span id='".$this->lang->line("in_occupation")."_error' class='hidden'>".form_error($this->lang->line("in_occupation"))."</span>";
 							?>		
 						</div>
 					</div>
@@ -131,19 +136,19 @@ echo $navbar;
 						<div class="panel-body">
 							<?php 
 							echo $in_house_no;
-								echo "<span id='".$em_name["house_no"]."_error' class='hidden'>".form_error($em_name["house_no"])."</span>";
+								echo "<span id='".$this->lang->line("in_house_no")."_error' class='hidden'>".form_error($this->lang->line("in_house_no"))."</span>";
 							echo $in_village_no;
-								echo "<span id='".$em_name["village_no"]."_error' class='hidden'>".form_error($em_name["village_no"])."</span>";
+								echo "<span id='".$this->lang->line("in_village_no")."_error' class='hidden'>".form_error($this->lang->line("in_village_no"))."</span>";
 							echo $in_alley;
-								echo "<span id='".$em_name["alley"]."_error' class='hidden'>".form_error($em_name["alley"])."</span>";
+								echo "<span id='".$this->lang->line("in_alley")."_error' class='hidden'>".form_error($this->lang->line("in_alley"))."</span>";
 							echo $in_road;
-								echo "<span id='".$em_name["road"]."_error' class='hidden'>".form_error($em_name["road"])."</span>";
+								echo "<span id='".$this->lang->line("in_road")."_error' class='hidden'>".form_error($this->lang->line("in_road"))."</span>";
 							echo $se_province;
-								echo "<span id='".$em_name["province"]."_error' class='hidden'>".form_error($em_name["province"])."</span>";
+								echo "<span id='".$this->lang->line("se_province")."_error' class='hidden'>".form_error($this->lang->line("se_province"))."</span>";
 							echo $se_district;
-								echo "<span id='".$em_name["district"]."_error' class='hidden'>".form_error($em_name["district"])."</span>";
+								echo "<span id='".$this->lang->line("se_district")."_error' class='hidden'>".form_error($this->lang->line("se_district"))."</span>";
 							echo $se_subdistrict;
-								echo "<span id='".$em_name["subdistrict"]."_error' class='hidden'>".form_error($em_name["subdistrict"])."</span>";
+								echo "<span id='".$this->lang->line("se_subdistrict")."_error' class='hidden'>".form_error($this->lang->line("se_subdistrict"))."</span>";
 							?>		
 						</div>
 					</div>
@@ -178,7 +183,7 @@ echo $js;
 		}, "รูปแบบไม่ถูกต้อง");
 		$.validator.addMethod("password_match", function(value, element){
 			//ตรวจสอบรหัสผ่านทั้งสองต้องเหมือนกัน
-			if($("#input_password").val()==$("#input_password2").val())
+			if($("#<?php echo $this->lang->line("in_password");?>").val()==$("#<?php echo $this->lang->line("in_password2");?>").val())
 			{
 				//remove error message
 				pwd_rm_error_msg();
@@ -215,28 +220,47 @@ echo $js;
 			//เมื่อเลือกอาชีพอื่นๆ
 			if(value=='00')
 			{
-				$("#input_occupation").focus();
+				$("#<?php echo $this->lang->line("in_occupation");?>").focus();
 				return true;
 			}
 			return true;
 		}, "กรุณาระบุอาชีพอื่นๆ");
-		$.validator.addMethod("input_occupation", function(value, element){
+		$.validator.addMethod("<?php echo $this->lang->line("in_occupation");?>", function(value, element){
 			//เมื่อมีการเลือกอาชีพอื่นๆ
-			if($("#select_occupation").val()=='00')
+			if($("#<?php echo $this->lang->line("se_occupation");?>").val()=='00')
 			{
 				//ลบช่องว่าง หน้า หลัง string
-				$("#input_occupation").val($.trim($("#input_occupation").val()));
-				if($("#input_occupation").val().length > 0)
+				$("#<?php echo $this->lang->line("in_occupation");?>").val($.trim($("#<?php echo $this->lang->line("in_occupation");?>").val()));
+				if($("#<?php echo $this->lang->line("in_occupation");?>").val().length > 0)
 					return true;
 			}
 			else return true;
 		}, "โปรดระบุข้อมูล");
-		
+		$.validator.addMethod("id_card", function(value, element){
+			var num = 13;
+			var sum=0;
+			var char13;
+			var result;
+			for(var i=0;i<=12;i++)
+			{
+				if(i!=12)
+				{
+					sum = sum+(num*value.charAt(i));
+					num--;
+				}
+				else char13 = value.charAt(i);
+			}
+			var x = sum%11;
+			if(x <= 1) result = 1-x;
+			else if(x > 1) result = 11-x;
+			if(result == char13) return true;
+			else return false;
+		}, "รหัสบัตรประชาชนไม่ถูกต้อง");
 		$("#register_form").validate({
 			lang:'th',
 			errorClass: "my-error-class",
 			rules: {
-				"input_username":{
+				"<?php echo $this->lang->line("in_username");?>":{
 					required:true,
 					username_regex:true,
 					noSpace:true,
@@ -250,82 +274,88 @@ echo $js;
 						type:"POST"
 					}
 				},
-				"input_password":{
+				"<?php echo $this->lang->line("in_password");?>":{
 					required:true,
 					minlength:5,
 					maxlength:15,
 					password_match:true,
 					noSpace:true
 				},
-				"input_password2":{
+				"<?php echo $this->lang->line("in_password2");?>":{
 					required:true,
 					minlength:5,
 					maxlength:15,
 					password_match:true,
 					noSpace:true
 				},
-				"input_email":{
+				"<?php echo $this->lang->line("in_email");?>":{
 					required:true,
 					//email:true,
 					email_regex:true,
 					noSpace:true,
 					maxlength:128
 				},
-				"select_titlename":{
+				"<?php echo $this->lang->line("se_titlename");?>":{
 					required:true
 				},
-				"input_firstname":{
+				"<?php echo $this->lang->line("in_firstname");?>":{
 					required:true,
 					firstlast_name:true,
 					maxlength:40
 				},
-				"input_lastname":{
+				"<?php echo $this->lang->line("in_lastname");?>":{
 					required:true,
 					firstlast_name:true,
 					maxlength:40
 				},
-				"input_phone":{
+				"<?php echo $this->lang->line("in_phone");?>":{
 					required:true,
 					phone:true,
 					maxlength:10,
 					minlength:9
 				},
-				"select_occupation":{
+				"<?php echo $this->lang->line("se_occupation");?>":{
 					required:true,
 					select_other_occupation:true
 				},
-				"input_occupation":{
+				"<?php echo $this->lang->line("in_occupation");?>":{
 					input_occupation:true,
 					maxlength:30
 				},
-				"input_house_no":{
+				"<?php echo $this->lang->line("in_house_no");?>":{
 					required:true,
 					house_no:true,
 					maxlength:10
 				},
-				"input_village_no":{
+				"<?php echo $this->lang->line("in_village_no");?>":{
 					required:true,
 					digits:true,
 					maxlength:2
 				},
-				"input_alley":{
+				"<?php echo $this->lang->line("in_alley");?>":{
 					maxlength:30
 				},
-				"input_road":{
+				"<?php echo $this->lang->line("in_road");?>":{
 					maxlength:25
 				},
-				"select_province":{
+				"<?php echo $this->lang->line("se_province");?>":{
 					required:true
 				},
-				"select_district":{
+				"<?php echo $this->lang->line("se_district");?>":{
 					required:true
 				},
-				"select_subdistrict":{
+				"<?php echo $this->lang->line("se_subdistrict");?>":{
 					required:true
 				},
+				"<?php echo $this->lang->line("in_id_card_number");?>":{
+					minlength:13,
+					maxlength:13,
+					digits:true,
+					id_card:true
+				}
 			},
 			messages:{
-				"input_username": {
+				"<?php echo $this->lang->line("in_username");?>": {
 					remote:"ชื่อผู้ใช้นี้ถูกใช้แล้ว"
 				}
 			}
@@ -335,10 +365,10 @@ echo $js;
 		* on form submit
 		*/
 		$("#register_form").submit(function(e){
-			$("#input_firstname").val($.trim($("#input_firstname").val()));
-			$("#input_lastname").val($.trim($("#input_lastname").val()));
-			$("#input_alley").val($.trim($("#input_alley").val()));
-			$("#input_road").val($.trim($("#input_road").val()));
+			$("#<?php echo $this->lang->line("in_firstname");?>").val($.trim($("#<?php echo $this->lang->line("in_firstname");?>").val()));
+			$("#<?php echo $this->lang->line("in_lastname");?>").val($.trim($("#<?php echo $this->lang->line("in_lastname");?>").val()));
+			$("#<?php echo $this->lang->line("in_alley");?>").val($.trim($("#<?php echo $this->lang->line("in_alley");?>").val()));
+			$("#<?php echo $this->lang->line("in_road");?>").val($.trim($("#<?php echo $this->lang->line("in_road");?>").val()));
 			//e.preventDefault();
 		});
 
@@ -346,8 +376,10 @@ echo $js;
 		* disabled spacebar
 		*/
 		$("input[type='text']\
-				#input_username,#input_password,#input_password2,#input_email,\
-				#input_phone,#input_house_no,#input_village_no"
+				#<?php echo $this->lang->line("in_username");?>,#<?php echo $this->lang->line("in_password");?>,\
+				#<?php echo $this->lang->line("in_password2");?>,#<?php echo $this->lang->line("in_email");?>,\
+				#<?php echo $this->lang->line("in_phone");?>,#<?php echo $this->lang->line("in_house_no");?>,\
+				#<?php echo $this->lang->line("in_village_no");?>"
 		).keydown(function(e){
 			if(e.keyCode==32)
 			{
@@ -358,23 +390,23 @@ echo $js;
 		/**
 		* disabled unwanted characters
 		*/
-		$("#input_firstname,#input_lastname").on("keydown keyup",function(){
+		$("#<?php echo $this->lang->line("in_firstname");?>,#<?php echo $this->lang->line("in_lastname");?>").on("keydown keyup",function(){
 			var name = $(this).val();
 			$(this).val(name.replace(/[^a-zA-Zก-ํ ]/gi,''));
 		});
-		$("#input_username").on("keydown keyup",function(){
+		$("#<?php echo $this->lang->line("in_username");?>").on("keydown keyup",function(){
 			var name = $(this).val();
 			$(this).val(name.replace(/[^a-zA-Z0-9]/gi,''));
 		});
-		$("#input_phone").on("keydown keyup",function(){
+		$("#<?php echo $this->lang->line("in_phone");?>").on("keydown keyup",function(){
 			var name = $(this).val();
 			$(this).val(name.replace(/[^0-9]/gi,''));
 		});
-		$("#input_house_no").on("keydown keyup",function(){
+		$("#<?php echo $this->lang->line("in_house_no");?>").on("keydown keyup",function(){
 			var name = $(this).val();
 			$(this).val(name.replace(/[^0-9\/]/gi,''));
 		});
-		$("#input_village_no").on("keydown keyup",function(){
+		$("#<?php echo $this->lang->line("in_village_no");?>").on("keydown keyup",function(){
 			var name = $(this).val();
 			$(this).val(name.replace(/[^0-9]/gi,''));
 		});
@@ -383,7 +415,7 @@ echo $js;
 		/**
 		* คำแนะนำ การกรอกข้อมูล
 		*/
-		$("#input_username").prev().before('<span id="input_username_hint"><i class="fa fa-question-circle pointer"></i></span> ');
+		$("#<?php echo $this->lang->line("in_username");?>").prev().before('<span id="input_username_hint"><i class="fa fa-question-circle pointer"></i></span> ');
 		$("#input_username_hint").click(function(){
 			bootbox.alert("\
 					<strong>ชื่อผู้เข้าใช้</strong><br>\
@@ -393,7 +425,7 @@ echo $js;
 					ตัวอย่าง example, example12, exampleexample9\
 					");
 		});
-		$("#input_password").prev().before('<span id="input_password_hint"><i class="fa fa-question-circle pointer"></i></span> ');
+		$("#<?php echo $this->lang->line("in_password");?>").prev().before('<span id="input_password_hint"><i class="fa fa-question-circle pointer"></i></span> ');
 		$("#input_password_hint").click(function(){
 			bootbox.alert("\
 					<strong>รหัสผ่าน</strong><br>\
@@ -402,8 +434,8 @@ echo $js;
 					ตัวอย่าง 123456789, 11example11, example@#%$\
 					");
 		});
-		$("#input_firstname").prev().before('<span class="input_firstlast_hint"><i class="fa fa-question-circle pointer"></i></span> ');
-		$("#input_lastname").prev().before('<span class="input_firstlast_hint"><i class="fa fa-question-circle pointer"></i></span> ');
+		$("#<?php echo $this->lang->line("in_firstname");?>").prev().before('<span class="input_firstlast_hint"><i class="fa fa-question-circle pointer"></i></span> ');
+		$("#<?php echo $this->lang->line("in_lastname");?>").prev().before('<span class="input_firstlast_hint"><i class="fa fa-question-circle pointer"></i></span> ');
 		$(".input_firstlast_hint").click(function(){
 			bootbox.alert("\
 					<strong>ชื่อ, นามสกุล</strong><br>\
@@ -412,7 +444,7 @@ echo $js;
 					ตัวอย่าง example, ตัวอย่างชื่อ\
 					");
 		});
-		$("#input_phone").prev().before('<span id="input_phone_hint"><i class="fa fa-question-circle pointer"></i></span> ');
+		$("#<?php echo $this->lang->line("in_phone");?>").prev().before('<span id="input_phone_hint"><i class="fa fa-question-circle pointer"></i></span> ');
 		$("#input_phone_hint").click(function(){
 			bootbox.alert("\
 					<strong>รหัสผ่าน</strong><br>\
@@ -422,7 +454,7 @@ echo $js;
 					ตัวอย่าง 055123456, 0812345678\
 					");
 		});
-		$("#input_house_no").prev().before('<span id="input_house_no_hint"><i class="fa fa-question-circle pointer"></i></span> ');
+		$("#<?php echo $this->lang->line("in_house_no");?>").prev().before('<span id="input_house_no_hint"><i class="fa fa-question-circle pointer"></i></span> ');
 		$("#input_house_no_hint").click(function(){
 			bootbox.alert("\
 					<strong>รหัสผ่าน</strong><br>\
@@ -432,7 +464,7 @@ echo $js;
 					ตัวอย่าง 1, 1/123\
 					");
 		});
-		$("#input_village_no").prev().before('<span id="input_village_no_hint"><i class="fa fa-question-circle pointer"></i></span> ');
+		$("#<?php echo $this->lang->line("in_village_no");?>").prev().before('<span id="input_village_no_hint"><i class="fa fa-question-circle pointer"></i></span> ');
 		$("#input_village_no_hint").click(function(){
 			bootbox.alert("\
 					<strong>รหัสผ่าน</strong><br>\
@@ -497,7 +529,7 @@ echo $js;
 		/**
 		Get district list
 		*/
-		$("#select_province").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_province");?>").on("keyup change",function(){
 			if($(this).find("option:selected").val()!=""){
 				$.ajax({
 					url:"?c=register&m=select_district",
@@ -505,8 +537,8 @@ echo $js;
 					type:"POST",
 					dataType:"json",
 					success:function(resp){
-						$("#select_district").find("option:gt(0)").remove();
-						if(resp.district_list!=null)$("#select_district").append(resp.district_list);
+						$("#<?php echo $this->lang->line("se_district");?>").find("option:gt(0)").remove();
+						if(resp.district_list!=null)$("#<?php echo $this->lang->line("se_district");?>").append(resp.district_list);
 						
 					},
 					error:function(error){
@@ -516,14 +548,14 @@ echo $js;
 			}
 			else
 			{
-				$("#select_district").find("option:gt(0)").remove();
+				$("#<?php echo $this->lang->line("se_district");?>").find("option:gt(0)").remove();
 			}
 		});
 
 		/**
 		Get subdistrict list
 		*/
-		$("#select_district").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_district");?>").on("keyup change",function(){
 			if($(this).find("option:selected").val()!=""){
 				$.ajax({
 					url:"?c=register&m=select_subdistrict",
@@ -531,8 +563,8 @@ echo $js;
 					type:"POST",
 					dataType:"json",
 					success:function(resp){
-						$("#select_subdistrict").find("option:gt(0)").remove();
-						if(resp.subdistrict_list!=null)$("#select_subdistrict").append(resp.subdistrict_list);
+						$("#<?php echo $this->lang->line("se_subdistrict");?>").find("option:gt(0)").remove();
+						if(resp.subdistrict_list!=null)$("#<?php echo $this->lang->line("se_subdistrict");?>").append(resp.subdistrict_list);
 						
 					},
 					error:function(error){
@@ -542,16 +574,16 @@ echo $js;
 			}
 			else
 			{
-				$("#select_district").find("option:gt(0)").remove();
+				$("#<?php echo $this->lang->line("se_subdistrict");?>").find("option:gt(0)").remove();
 			}
 		});
 		
 		/**
 		Get district list on startup if province is selected
 		*/
-		if($("#select_province").find("option:selected").val()!=""){
+		if($("#<?php echo $this->lang->line("se_province");?>").find("option:selected").val()!=""){
 			setTimeout(function(){
-				$("#select_province").trigger("change");
+				$("#<?php echo $this->lang->line("se_province");?>").trigger("change");
 			});
 		}
 
@@ -559,33 +591,33 @@ echo $js;
 		- find div parent of #input_occupation and add ID(otherOccupation) to this div
 		- if selected otherOccupation #input_occupation has been visible
 		*/
-		$("#input_occupation").parent().attr('id','otherOccupation');
+		$("#<?php echo $this->lang->line("in_occupation");?>").parent().attr('id','otherOccupation');
 		$("#otherOccupation").hide();
-		$("#select_occupation").on("keyup change",function(){
+		$("#<?php echo $this->lang->line("se_occupation");?>").on("keyup change",function(){
 			if($(this).find('option:selected').val()=="00")
 			{
 				$("#otherOccupation").show();
 			}
 			else
 			{
-				$("#input_occupation").val('');
+				$("#<?php echo $this->lang->line("in_occupation");?>").val('');
 				$("#otherOccupation").hide();
 			}
 		});
-		if($("#select_occupation").find("option:selected").val()=="00")
+		if($("#<?php echo $this->lang->line("se_occupation");?>").find("option:selected").val()=="00")
 		{
-			$("#select_occupation").trigger("change");
+			$("#<?php echo $this->lang->line("se_occupation");?>").trigger("change");
 		}
 	});
 	//remove erorr message for password & password2
 	function pwd_rm_error_msg()
 	{
-		if($("#input_password").val()==$("#input_password2").val())
+		if($("#<?php echo $this->lang->line("in_password");?>").val()==$("#<?php echo $this->lang->line("in_password2");?>").val())
 		{
-			$("#input_password").next('label.my-error-class').remove();
-			$("#input_password").removeClass('my-error-class');
-			$("#input_password2").next('label.my-error-class').remove();
-			$("#input_password2").removeClass('my-error-class');
+			$("#<?php echo $this->lang->line("in_password");?>").next('label.my-error-class').remove();
+			$("#<?php echo $this->lang->line("in_password");?>").removeClass('my-error-class');
+			$("#<?php echo $this->lang->line("in_password2");?>").next('label.my-error-class').remove();
+			$("#<?php echo $this->lang->line("in_password2");?>").removeClass('my-error-class');
 		}
 	}
 	

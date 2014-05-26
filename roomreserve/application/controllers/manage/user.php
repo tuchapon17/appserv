@@ -76,10 +76,10 @@ class User extends MY_Controller
 			';
 		$html.='
 			<li><a href="#"  id="edit">จัดการผู้ใช้</a></li>
-			<li><a href="#"  id="add_privilege">เพิ่มสิทธิ์</a></li>
-			<li><a href="#"  id="delete_privilege">ลบสิทธิ์</a></li>
-			<li><a href="#"  id="view_privilege">รายการสิทธิ์ของผู้ใช้</a></li>
+			<li><a href="#"  id="view_privilege">'.$this->lang->line("ti_view_privilege").'</a></li>
 			';
+		//<li><a href="#"  id="add_privilege">เพิ่มสิทธิ์</a></li>
+		//<li><a href="#"  id="delete_privilege">ลบสิทธิ์</a></li>
 		$html.='</ul>';
 		return $html;
 	}
@@ -422,7 +422,7 @@ class User extends MY_Controller
 		
 		$data=array(
 				"htmlopen"=>$this->pel->htmlopen(),
-				"head"=>$this->pel->head("รายการสิทธิ์ผู้ใช้"),
+				"head"=>$this->pel->head($this->lang->line("ti_view_privilege")),
 				"bodyopen"=>$this->pel->bodyopen(),
 				"navbar"=>$this->pel->navbar(),
 				"js"=>$this->pel->js(),
@@ -481,6 +481,12 @@ class User extends MY_Controller
 				->get();
 				$num_rows=$privilege->num_rows();
 				$privilege=$privilege->result_array();
+				//เก็บค่า privilege_id ลงใน $my_privilege_id_list
+				$my_privilege_id_list = array();
+				foreach ($privilege as $p)
+				{
+					array_push($my_privilege_id_list, $p["privilege_id"]);
+				}
 				/*$html.='
 						<tbody>
 						<tr>
@@ -501,6 +507,7 @@ class User extends MY_Controller
 						<tr>
 							<td>'.$u["username"].'</td>
 						';
+						$first_ban_sign = true;
 						$old_key = -1;
 						$count_privilege_id = count($privilege_id_list)-1;
 						$count_privilege = count($privilege)-1;
@@ -513,10 +520,10 @@ class User extends MY_Controller
 							for ($i=1; $i<=$find_key-($old_key+1); $i++)
 							{
 								//สิทธิ์ที่ไม่มี
-								$html .= "<td><i></i></td>";
+								$html .= "<td class='text-center'><i class='no_privilege fa fa-ban fa-danger' id='".$u["username"].$privilege_id_list[$old_key+$i]."' onclick=add_privilege('".$privilege_id_list[$old_key+$i]."','".$u["username"]."')></i></td>";
 							}
 							//สิทธิ์ที่มี
-							$html .= "<td class='text-center'><i class='fa fa-check'></i></td>";
+							$html .= "<td class='text-center'><i class='had_privilege fa fa-check fa-success' id='".$u["username"].$privilege_id_list[$find_key]."' onclick=remove_privilege('".$privilege_id_list[$find_key]."','".$u["username"]."')></i></td>";
 							//บันทึกตำแหน่งล่าสุดของคีย์ที่ใช้
 							$old_key = $find_key;
 							//ถ้าเป็นตำแหน่งสุดท้ายของสิทธิ์ที่วน
@@ -525,7 +532,7 @@ class User extends MY_Controller
 								//ปริ้นช่องว่างที่เหลือ
 								for($i=1; $i<=($count_privilege_id-$old_key); $i++)
 								{
-									$html.= "<td></td>";
+									$html.= "<td  class='text-center'><i class='no_privilege fa fa-ban fa-danger' id='".$u["username"].$privilege_id_list[$i+$old_key]."' onclick=add_privilege('".$privilege_id_list[$i+$old_key]."','".$u["username"]."')></i></td>";
 								}
 								//reset old_key to default
 								$old_key = -1;
@@ -537,6 +544,89 @@ class User extends MY_Controller
 		$html.='</tbody></table>';
 		$html.=$this->pagination->create_links();
 		return $html;
+	}
+	
+	/**
+	 * add privilege from table
+	 */
+	function add_privilege2()
+	{
+		$pid = $this->input->post("p");
+		$username = $this->security->xss_clean(strtolower($this->input->post("u")));
+		if($this->validate_p_u($pid, $username, "add_privilege"))
+		{
+			$this->db->trans_begin();
+			//query here
+			$set = array(
+					"tb_privilege_id" => $pid,
+					"tb_user_username" => $username
+			);
+			$this->db->insert("tb_user_has_privilege", $set);
+			if($this->db->trans_status()===FALSE)
+			{
+				$this->db->trans_rollback();
+				echo "0";
+			}
+			else
+			{
+				$this->db->trans_commit();
+				echo "1";
+			}
+		}
+	}
+	
+	/**
+	 * remove privilege from table
+	 */
+	function remove_privilege2()
+	{
+		$pid = $this->input->post("p");
+		$username = $this->security->xss_clean(strtolower($this->input->post("u")));
+		if($this->validate_p_u($pid, $username))
+		{
+			$this->db->trans_begin();
+			//query here
+			$where = array(
+					"tb_privilege_id" => $pid,
+					"tb_user_username" => $username
+			);
+			$this->db->delete("tb_user_has_privilege", $where, 1);
+			if($this->db->trans_status()===FALSE)
+			{
+				$this->db->trans_rollback();
+				echo "0";
+			}
+			else
+			{
+				$this->db->trans_commit();
+				echo "1";
+			}
+		}
+	}
+	
+	/**
+	 * validate privilege and username
+	 */
+	function validate_p_u($pid, $username, $param="remove_privilege")
+	{
+		//validate privilege_id and username
+		if(preg_match('/^\d{2,2}/', $pid))
+		{
+			if($this->us_model->username_exist($username))
+			{
+				if($param == "add_privilege")
+				{
+					//ถ้าเพิ่มสิทธิ์ต้องตรวจสอบสิทธิ์ใน tb_user_has_privilege ก่อน
+					if($this->us_model->user_has_privilege_exist($pid, $username))
+						return true;
+					else
+						return false;
+				}
+				else return true;
+			}
+			else return false;
+		}
+		else return false;
 	}
 }
 

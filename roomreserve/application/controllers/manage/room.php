@@ -183,7 +183,7 @@ class Room extends MY_Controller
 					"tb_room_type_id"=>$this->input->post($this->lang->line("se_room_type")),
 					"room_detail"=>$this->input->post($this->lang->line("te_room_detail")),
 					"room_status"=>"1",
-					"discount_percent"=>$this->input->post($this->lang->line("in_discount_percent")),
+					//"discount_percent"=>$this->input->post($this->lang->line("in_discount_percent")),
 					"tb_fee_type_id"=>$this->input->post($this->lang->line("se_fee_type")),
 					"room_fee_hour"=>$this->input->post($this->lang->line("in_room_fee_hour")),
 					"room_fee_lump_sum"=>$this->input->post($this->lang->line("in_room_fee_lump_sum"))
@@ -388,7 +388,7 @@ class Room extends MY_Controller
 					"room_name"			=> $this->input->post($this->lang->line("in_room_name")),
 					"tb_room_type_id"	=> $this->input->post($this->lang->line("se_room_type")),
 					"room_detail"		=> $this->input->post($this->lang->line("te_room_detail")),
-					"discount_percent"	=> $this->input->post($this->lang->line("in_discount_percent")),
+					//"discount_percent"	=> $this->input->post($this->lang->line("in_discount_percent")),
 					"tb_fee_type_id"	=> $this->input->post($this->lang->line("se_fee_type")),
 					"room_fee_hour"		=> $this->input->post($this->lang->line("in_room_fee_hour")),
 					"room_fee_lump_sum"	=> $this->input->post($this->lang->line("in_room_fee_lump_sum"))

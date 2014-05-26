@@ -41,16 +41,18 @@ echo $head;
 	      		 			"in_fee_over_unit_lump_sum"=>$this->lang->line("in_fee_over_unit_lump_sum"),
 	      		 			"se_article_type"=>$this->lang->line("se_article_type")
 	      		 	);
-	      		 	/*echo form_error($this->lang->line("in_article"));
-	      		 	 echo form_error($this->lang->line("se_article_type"));
+	      		 	/*
+	      		 	echo form_error($this->lang->line("in_article"));
+	      		 	echo form_error($this->lang->line("se_article_type"));
 	      		 	echo form_error($this->lang->line("in_fee_unit_hour"));
 	      		 	echo form_error($this->lang->line("in_fee_unit_lump_sum"));
-	      		 	echo form_error($this->lang->line("in_fee_over_unit_lump_sum"));*/
+	      		 	echo form_error($this->lang->line("in_fee_over_unit_lump_sum"));
+	      		 	*/
       		 	?>
       			</div>
       			<div class="panel panel-success">
 					<div class="panel-heading">
-						<h3 class="panel-title"><strong>แก้ไขครุภัณฑ์/อุปกรณ์</strong></h3>
+						<h3 class="panel-title"><strong>แก้ไข<?php echo $this->lang->line("text_article");?></strong></h3>
 					</div>
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=<?=$controller?>&m=edit" method="post" autocomplete="off" id="edit_article">
@@ -59,6 +61,16 @@ echo $head;
 								echo "<span id='".$this->lang->line("in_article")."_error' class='hidden'>".form_error($this->lang->line("in_article"))."</span>";
 								echo $se_article_type;
 								echo "<span id='".$this->lang->line("se_article_type")."_error' class='hidden'>".form_error($this->lang->line("se_article_type"))."</span>";
+								?>
+							<div class="chexkbox">
+								<label>
+									<input type="checkbox" value="is_equipment" name="is_equipment" id="is_equipment">
+									เป็นครุภัณฑ์
+								</label>
+								<span class="help-block"></span>
+							</div>								
+								<?php 
+								echo $in_equipment_number;
 								echo $in_fee_unit_hour;
 								echo "<span id='".$this->lang->line("in_fee_unit_hour")."_error' class='hidden'>".form_error($this->lang->line("in_fee_unit_hour"))."</span>";
 								echo $in_fee_unit_lump_sum;
@@ -89,6 +101,10 @@ echo $js;
 	<script type="text/javascript">
 	<!--
 	$(function(){
+		$.validator.addMethod("equipment_number", function(value, element){
+			if($("#is_equipment").is(":checked") && value.length < 1) return false;
+			else if ($("#is_equipment").is(":checked") && value.length > 0) return true;
+		}, "โปรดระบุ");
 		$("#edit_article").validate({
 			lang:'th',
 			errorClass: "my-error-class",
@@ -98,24 +114,35 @@ echo $js;
 					maxlength:30
 				},
 				"<?php echo $this->lang->line("in_fee_unit_hour");?>": {
-					required:true,
 					maxlength:9,
 					decimal62:true
 				},
 				"<?php echo $this->lang->line("in_fee_unit_lump_sum");?>": {
-					required:true,
 					maxlength:9,
 					decimal62:true
 				},
 				"<?php echo $this->lang->line("in_fee_over_unit_lump_sum");?>": {
-					required:true,
 					maxlength:9,
 					decimal62:true
 				},
 				"<?php echo $this->lang->line("se_article_type");?>": {
 					required:true
+				},
+				"<?php echo $this->lang->line("in_equipment_number");?>": {
+					maxlength:11,
+					minlength:11,
+					equipment_number:true,
+					digits:true
 				}
 			}
+		});
+		
+		$("#<?php echo $this->lang->line("in_equipment_number");?>").parent().hide();
+		$("#is_equipment").change(function(){
+			if($(this).is(":checked"))
+				$("#<?php echo $this->lang->line("in_equipment_number");?>").parent().show();
+			else 
+				$("#<?php echo $this->lang->line("in_equipment_number");?>").parent().hide();
 		});
 		
 		//Highlight the <input> <select> 
@@ -159,17 +186,32 @@ echo $js;
 			type:"POST",
 			dataType:"json",
 			success:function(resp){
-				$("#input_article").val(resp.article_name);
-				$("#input_fee_unit_hour").val(resp.fee_unit_hour);
-				$("#input_fee_unit_lump_sum").val(resp.fee_unit_lump_sum);
-				$("#input_fee_over_unit_lump_sum").val(resp.fee_over_unit_lump_sum);
-				$("#select_article_type").val(resp.tb_article_type_id);
+				$("#<?php echo $this->lang->line("in_article");?>").val(resp.article_name);
+				$("#<?php echo $this->lang->line("in_fee_unit_hour");?>").val(resp.fee_unit_hour);
+				$("#<?php echo $this->lang->line("in_fee_unit_lump_sum");?>").val(resp.fee_unit_lump_sum);
+				$("#<?php echo $this->lang->line("in_fee_over_unit_lump_sum");?>").val(resp.fee_over_unit_lump_sum);
+				$("#<?php echo $this->lang->line("se_article_type");?>").val(resp.tb_article_type_id);
+				if(resp.is_equipment == '1')
+				{
+					$("#is_equipment").prop("checked",true);
+					$("#is_equipment").change();
+					$("#<?php echo $this->lang->line("in_equipment_number");?>").val(resp.equipment_number);
+				}
+				else
+				{
+					if($("#is_equipment").is(":checked"))
+					{
+						$("#is_equipment").prop("checked",false);
+						$("#is_equipment").change();
+						$("#<?php echo $this->lang->line("in_equipment_number");?>").val("");
+					}
+				}
 			},
 			error:function(error){
 				alert("Error : "+error);
 			}
 		});
-		$("#input_article").focus();
+		$("#<?php echo $this->lang->line("in_article");?>").focus();
 	}
 	
 	function set_per_page(num)
@@ -184,9 +226,9 @@ echo $js;
 	
 	function select_orderby()
 	{
-		var select_field='<option value="article_id">รหัสครุภัณฑ์/อุปกรณ์</option>';
-		select_field+='<option value="article_name">ชื่อครุภัณฑ์/อุปกรณ์</option>';
-		select_field+='<option value="tb_article_type_id">ประเภทครุภัณฑ์/อุปกรณ์</option>';
+		var select_field='<option value="article_id">รหัส<?php echo $this->lang->line("text_article");?></option>';
+		select_field+='<option value="article_name">ชื่อ<?php echo $this->lang->line("text_article");?></option>';
+		select_field+='<option value="tb_article_type_id">ประเภท<?php echo $this->lang->line("text_article");?></option>';
 		var b_url="<?php echo base_url();?>";
 		var set_order_link="?d=manage&c=<?=$controller?>&m=set_orderby";
 		var c_main_link="?d=manage&c=<?=$controller?>&m=edit";
@@ -196,8 +238,8 @@ echo $js;
 	}
 	function select_searchfield()
 	{
-		var select_field='<option value="article_id">รหัสครุภัณฑ์/อุปกรณ์</option>';
-		select_field+='<option value="article_name">ชื่อครุภัณฑ์/อุปกรณ์</option>';
+		var select_field='<option value="article_id">รหัส<?php echo $this->lang->line("text_article");?></option>';
+		select_field+='<option value="article_name">ชื่อ<?php echo $this->lang->line("text_article");?></option>';
 		var b_url="<?php echo base_url();?>";
 		var s_link="?d=manage&c=<?=$controller?>&m=set_searchfield";
 		var c_main_link="?d=manage&c=<?=$controller?>&m=edit";

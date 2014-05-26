@@ -59,8 +59,10 @@ echo $head;
 	      			if(get_rl_data($get_room_list,'room_status')==0)echo "<span class='text-danger'>ปิดให้บริการ</span>";
 	      			else echo "<span class='text-success'>เปิดให้บริการ</span>";
 	      		?></dd>
+	      		<!--
 	      		<dt><?php echo $this->lang->line("t_in_discount_percent");?></dt>
 	      		<dd><?php echo get_rl_data($get_room_list,'discount_percent');?>%</dd>
+	      		-->
 	      		<dt>ค่าบริการ</dt>
 	      		<dd><?php
 	      			if(get_rl_data($get_room_list,'fee_type_id')=="01") echo get_rl_data($get_room_list,'room_fee_lump_sum')." บาท/วัน";
@@ -87,6 +89,17 @@ echo $head;
 					<strong>รายละเอียดห้อง</strong>
 				</div>
 				<div id="room_detail" class="panel-body"><?php echo get_rl_data($get_room_list,'room_detail');?></div>
+			</div>
+        </div>
+        
+        <div class="col-lg-12">
+	      	<div class="panel panel-default">
+				<div class="panel-heading">
+					<strong>รายละเอียดค่าบริการ</strong>
+				</div>
+				<div class="panel-body">
+					กดก
+				</div>
 			</div>
         </div>
         <!--

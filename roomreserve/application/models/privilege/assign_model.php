@@ -23,7 +23,9 @@ class Assign_Model extends MY_Model
 				WHERE tb_privilege_id NOT IN 
 					(SELECT tb_privilege_id FROM tb_privilege_assign WHERE canceled = 0 
 					AND assign_to = '".$this->session->userdata("rs_username")."') 
-				AND tb_user_username ='".$this->session->userdata("rs_username")."'",FALSE);
+				AND tb_user_username ='".$this->session->userdata("rs_username")."'
+				AND tb_privilege.privilege_id='04'
+				",FALSE);
 		return $query->result_array();
 	}
 	

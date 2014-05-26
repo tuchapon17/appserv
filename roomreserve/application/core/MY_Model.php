@@ -249,5 +249,17 @@ class MY_Model extends CI_Model
 		return $this->db->list_fields($table_name);
 	}
 	
+	function exist_occupation($name)
+	{
+		$this->db->select()->from("tb_occupation")
+		->where("occupation_name",trim($name));
+		$query = $this->db->get();
+		$current_occupation = $query->result_array();
+		if($query->num_rows() > 0)
+		{
+			return $current_occupation[0]["occupation_id"];
+		}
+		else return false;
+	}
 	
 }

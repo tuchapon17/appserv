@@ -64,7 +64,8 @@ echo $js;
 	tinymce.init({
 		selector:'#textarea_condition',
 		encoding:'xml',
-		entity_encoding: "raw"
+		entity_encoding: "raw",
+		language:'th_TH'
 	});
 	$(function(){
 		/**

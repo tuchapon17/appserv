@@ -53,23 +53,28 @@ class Article extends MY_Controller
 				array(
 						"field"=>$this->lang->line("in_fee_unit_hour"),
 						"label"=>$this->lang->line("t_in_fee_unit_hour"),
-						"rules"=>"required|max_length[9]|callback_call_lib_with_data[regex_lib,regex_decimal,%s - รูปแบบตัวเลขไม่ถูกต้อง,6&2]"
+						"rules"=>"max_length[9]|callback_regex_decimal"
 				),
 				array(
 						"field"=>$this->lang->line("in_fee_unit_lump_sum"),
 						"label"=>$this->lang->line("t_in_fee_unit_lump_sum"),
-						"rules"=>"required|max_length[9]|callback_regex_decimal"
+						"rules"=>"max_length[9]|callback_regex_decimal"
 				),
 				array(
 						"field"=>$this->lang->line("in_fee_over_unit_lump_sum"),
 						"label"=>$this->lang->line("t_in_fee_over_unit_lump_sum"),
-						"rules"=>"required|max_length[9]|callback_regex_decimal"
+						"rules"=>"max_length[9]|callback_regex_decimal"
 				),
 				array(
 						"field"=>$this->lang->line("se_article_type"),
 						"label"=>$this->lang->line("t_se_article_type"),
 						"rules"=>"required"
-				)
+				),
+				array(
+						"field"=>$this->lang->line("in_equipment_number"),
+						"label"=>$this->lang->line("t_in_equipment_number"),
+						"rules"=>"min_length[11]|max_length[11]"
+				),
 		);
 		$this->frm->set_rules($config);
 		//$this->frm->set_message("rule","message");
@@ -88,7 +93,6 @@ class Article extends MY_Controller
 					"IN_attr"=>'maxlength="30"',
 					"help_text"=>""
 			);
-			
 			$in_fee_unit_hour=array(
 					"LB_text"=>$this->lang->line("t_in_fee_unit_hour"),
 					"LB_attr"=>$this->eml->span_redstar(),
@@ -101,7 +105,6 @@ class Article extends MY_Controller
 					"IN_attr"=>'maxlength="9"',
 					"help_text"=>"999999.99"
 			);
-
 			$in_fee_unit_lump_sum=array(
 					"LB_text"=>$this->lang->line("t_in_fee_unit_lump_sum"),
 					"LB_attr"=>$this->eml->span_redstar(),
@@ -114,7 +117,6 @@ class Article extends MY_Controller
 					"IN_attr"=>'maxlength="9"',
 					"help_text"=>"999999.99"
 			);
-			
 			$in_fee_over_unit_lump_sum=array(
 					"LB_text"=>$this->lang->line("t_in_fee_over_unit_lump_sum"),
 					"LB_attr"=>$this->eml->span_redstar(),
@@ -127,7 +129,6 @@ class Article extends MY_Controller
 					"IN_attr"=>'maxlength="9"',
 					"help_text"=>"999999.99"
 			);
-			
 			$se_article_type=array(
 					"LB_text"=>$this->lang->line("t_se_article_type"),
 					"LB_attr"=>$this->eml->span_redstar(),
@@ -139,6 +140,18 @@ class Article extends MY_Controller
 					"S_id_field"=>"article_type_id",
 					"S_name_field"=>"article_type_name",
 					"help_text"=>''
+			);
+			$in_equipment_number=array(
+					"LB_text"=>$this->lang->line("t_in_equipment_number"),
+					"LB_attr"=>$this->eml->span_redstar(),
+					"IN_type"=>'text',
+					"IN_class"=>'',
+					"IN_name"=>$this->lang->line("in_equipment_number"),
+					"IN_id"=>$this->lang->line("in_equipment_number"),
+					"IN_PH"=>'',
+					"IN_value"=>set_value($this->lang->line("in_equipment_number")),
+					"IN_attr"=>'maxlength="11"',
+					"help_text"=>"ตัวเลข 11 หลัก"
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
@@ -154,7 +167,8 @@ class Article extends MY_Controller
 					"in_fee_unit_hour"=>$this->eml->form_input($in_fee_unit_hour),
 					"in_fee_unit_lump_sum"=>$this->eml->form_input($in_fee_unit_lump_sum),
 					"in_fee_over_unit_lump_sum"=>$this->eml->form_input($in_fee_over_unit_lump_sum),
-					"se_article_type"=>$this->eml->form_select($se_article_type)
+					"se_article_type"=>$this->eml->form_select($se_article_type),
+					"in_equipment_number"=>$this->eml->form_input($in_equipment_number)
 			);
 				
 			$this->load->view("manage/article/add_article",$data);
@@ -169,6 +183,9 @@ class Article extends MY_Controller
 					"fee_unit_lump_sum"=>$this->input->post($this->lang->line("in_fee_unit_lump_sum")),
 					"fee_over_unit_lump_sum"=>$this->input->post($this->lang->line("in_fee_over_unit_lump_sum"))
 			);
+			if($this->input->post("is_equipment") == "is_equipment")
+				$data["equipment_number"]=$this->input->post($this->lang->line("in_equipment_number"));
+							
 			$redirect_link="?d=manage&c=article&m=add";
 			$this->load_article_model->manage_add(
 					$data,
@@ -321,6 +338,18 @@ class Article extends MY_Controller
 					"S_name_field"=>"article_type_name",
 					"help_text"=>''
 			);
+			$in_equipment_number=array(
+					"LB_text"=>$this->lang->line("t_in_equipment_number"),
+					"LB_attr"=>$this->eml->span_redstar(),
+					"IN_type"=>'text',
+					"IN_class"=>'',
+					"IN_name"=>$this->lang->line("in_equipment_number"),
+					"IN_id"=>$this->lang->line("in_equipment_number"),
+					"IN_PH"=>'',
+					"IN_value"=>set_value($this->lang->line("in_equipment_number")),
+					"IN_attr"=>'maxlength="11"',
+					"help_text"=>"ตัวเลข 11 หลัก"
+			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
 					"head"=>$this->pel->head($this->lang->line("ti_edit_article")),
@@ -336,6 +365,7 @@ class Article extends MY_Controller
 					"in_fee_unit_lump_sum"=>$this->eml->form_input($in_fee_unit_lump_sum),
 					"in_fee_over_unit_lump_sum"=>$this->eml->form_input($in_fee_over_unit_lump_sum),
 					"se_article_type"=>$this->eml->form_select($se_article_type),
+					"in_equipment_number"=>$this->eml->form_input($in_equipment_number),
 					"table_edit"=>$this->table_edit($get_article_list),
 					"session_search_article"=>$search_text,
 					"pagination_num_rows"=>$config["total_rows"],
@@ -354,6 +384,8 @@ class Article extends MY_Controller
 					"fee_unit_lump_sum"=>$this->input->post($this->lang->line("in_fee_unit_lump_sum")),
 					"fee_over_unit_lump_sum"=>$this->input->post($this->lang->line("in_fee_over_unit_lump_sum"))
 			);
+			if($this->input->post("is_equipment") == "is_equipment")
+				$set["equipment_number"]=$this->input->post($this->lang->line("in_equipment_number"));
 			$where=array(
 					"article_id"=>$this->session->userdata($session_edit_id)
 			);

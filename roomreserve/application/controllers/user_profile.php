@@ -291,6 +291,18 @@ class User_profile extends MY_Controller
 					"S_name_field"=>"occupation_name",
 					"help_text"=>''
 			);
+			$in_id_card_number=array(
+					"LB_text"=>$this->lang->line("t_in_id_card_number"),
+					"LB_attr"=>$this->eml->span_redstar(),
+					"IN_type"=>'text',
+					"IN_class"=>'',
+					"IN_name"=>$this->lang->line("in_id_card_number"),
+					"IN_id"=>$this->lang->line("in_id_card_number"),
+					"IN_PH"=>'',
+					"IN_value"=>$current_data["id_card_number"],
+					"IN_attr"=>'maxlength="13" readonly',
+					"help_text"=>'ตัวเลข 13 หลัก'
+			);
 			if($current_data["checked"]==0)
 			{
 				$in_occupation["IN_value"]=$current_data["occupation_name"];
@@ -313,7 +325,8 @@ class User_profile extends MY_Controller
 					"in_firstname"=>$this->eml->form_input($in_firstname),
 					"in_lastname"=>$this->eml->form_input($in_lastname),
 					"in_occupation"=>$this->eml->form_input($in_occupation),
-					"se_occupation"=>$this->eml->form_select($se_occupation)
+					"se_occupation"=>$this->eml->form_select($se_occupation),
+					"in_id_card_number"=>$this->eml->form_input($in_id_card_number)
 			);
 			$this->load->view("edit_profile2",$data);
 		}
@@ -327,13 +340,24 @@ class User_profile extends MY_Controller
 			);
 			if($this->input->post($this->lang->line("se_occupation"))=="00")
 			{
-				unset($set["tb_occupation_id"]);
-				$set_occupation=array(
-						"occupation_name"=>$this->input->post($this->lang->line("in_occupation"))
-				);
-				$this->upm->update_occupation($set_occupation,$this->session->userdata("update_profile2_occupation_id"));
+				$occ_name = trim($this->input->post($this->lang->line("in_occupation")));
+				//ถ้ามีอาชีพซ้ำ ให้ใช้ไอดีอาชีพที่มีอยู่
+				if($this->upm->new_occupation($occ_name))
+					$set["tb_occupation_id"] = $this->upm->new_occupation($occ_name);
+				else 
+				{
+					//เพิ่มอาชีพใหม่ return occupation_id 
+					if($this->upm->new_occupation($occ_name))
+						$set["tb_occupation_id"] = $this->upm->new_occupation($occ_name);
+					/*
+					unset($set["tb_occupation_id"]);
+					$set_occupation=array(
+							"occupation_name"=>$this->input->post($this->lang->line("in_occupation"))
+					);
+					$this->upm->update_occupation($set_occupation,$this->session->userdata("update_profile2_occupation_id"));
+					*/
+				}
 			}
-			
 			$this->upm->update_edit_profile2($set,$this->session->userdata("rs_username"));	
 		}
 	}

@@ -1311,9 +1311,9 @@ class Reserve extends MY_Controller
 				<th>ชื่อโครงการ</th>
 				<th>ห้อง</th>
 				<th>ประเภทบุคคล</th>
-				<th>ส่วนลด(%)</th>
-				<th>วันที่จอง</th>
-				<th>สถานะการอนุมัติ</th>
+				<th class="same_first_td">ส่วนลด(%)</th>
+				<th class="same_first_td">วันที่จอง</th>
+				<th class="same_first_td">สถานะการอนุมัติ</th>
 				<th class="same_first_td">อนุมัติ</th>
 				<th class="same_first_td">รายละเอียด</th>
 				<th>ลบ<br/><input type="checkbox" id="del_all_reserve"></th>
@@ -1342,7 +1342,7 @@ class Reserve extends MY_Controller
 					<td id="reserve'.$dt["reserve_id"].'">'.$dt["project_name"].'</td>
 					<td>'.$dt["room_name"].'</td>
 					<td>'.$dt["person_type"].'</td>
-					<td>'.$dt["discount"].'</td>
+					<td class="text-center">'.$dt["discount"].'</td>
 					<td>'.date('Y/m/d H:i:s',strtotime($dt["reserve_on"])).'</td>
 					<td>'.$approve_text[$dt['approve']].'</td>
 							
@@ -1381,11 +1381,11 @@ class Reserve extends MY_Controller
 				<th>รหัส</th>
 				<th>ชื่อโครงการ</th>
 				<th>ห้อง</th>
-				<th>ส่วนลด(%)</th>
-				<th>วันที่จอง</th>
-				<th>สถานะการอนุมัติ</th>
+				<th class="same_first_td">ส่วนลด(%)</th>
+				<th class="same_first_td">วันที่จอง</th>
+				<th class="same_first_td">สถานะการอนุมัติ</th>
 				<th>อนุมัติโดย</th>
-				<th class="same_first_td">อนุมัติ</th>
+				<th class="same_first_td">เปลี่ยนผลอนุมัติ</th>
 				<th class="same_first_td">รายละเอียด</th>
 				<th>ลบ<br/><input type="checkbox" id="del_all_reserve"></th>
 		';
@@ -1412,7 +1412,7 @@ class Reserve extends MY_Controller
 					<td>'.$dt["reserve_id"].'</td>
 					<td id="reserve'.$dt["reserve_id"].'">'.$dt["project_name"].'</td>
 					<td>'.$dt["room_name"].'</td>
-					<td>'.$dt["discount"].'</td>
+					<td class="text-center">'.$dt["discount"].'</td>
 							<td>'.date('Y/m/d H:i:s',strtotime($dt["reserve_on"])).'</td>
 					<td>'.$approve_text[$dt['approve']].'</td>
 					<td>'.$dt["approve_by"]." (".$dt['approve_on'].')</td>
@@ -1516,8 +1516,9 @@ class Reserve extends MY_Controller
 				<th>ชื่อโครงการ</th>
 				<th>ห้อง</th>
 				<th>ประเภทบุคคล</th>
-				<th>ส่วนลด(%)</th>
-				<th>สถานะการอนุมัติ</th>
+				<th class="same_first_td">ส่วนลด(%)</th>
+				<th class="same_first_td">สถานะการอนุมัติ</th>
+				<th class="same_first_td">การยกเลิก</th>
 				<th class="same_first_td">รายละเอียด</th>
 		';
 		$html.='</thead>
@@ -1525,6 +1526,16 @@ class Reserve extends MY_Controller
 		if(!empty($data))
 		{
 			foreach ($data AS $dt):
+			//list($short_person_type) = explode(" ", $dt["person_type"]);
+			$cancel_status='';
+			if($dt['canceled']==0)
+			{
+				$cancel_status='<span class="text-success"></span>';
+			}
+			else
+			{
+				$cancel_status='<span class="text-danger">ยกเลิกแล้ว</span>';
+			}
 			$approve_text=array(
 					"<span class='text-warning'>รออนุมัติ</span>",
 					"<span class='text-success'>อนุมัติแล้ว</span>",
@@ -1543,10 +1554,10 @@ class Reserve extends MY_Controller
 					<td>'.$dt["reserve_id"].'</td>
 					<td id="reserve'.$dt["reserve_id"].'">'.$dt["project_name"].'</td>
 					<td>'.$dt["room_name"].'</td>
-					<td>'.$dt["person_type"].'</td>
-					<td>'.$dt["discount"].'</td>
-							<td>'.$approve_text[$dt['approve']].'</td>
-					
+					<td>'.$dt["person_type"].'ฯ</td>
+					<td class="text-center">'.$dt["discount"].'</td>
+					<td>'.$approve_text[$dt['approve']].'</td>
+					<td>'.$cancel_status.'</td>
 					<td class="same_first_td">'.$this->eml->btn('view','onclick=window.open("'.base_url().'?d=manage&c=reserve&m=view&id='.$dt["reserve_id"].'","_blank")').'</td>
 			';
 			//<td class="same_first_td">'.$this->eml->btn('view','onclick=show_all_data("'.$dt["reserve_id"].'")').'</td>
@@ -2112,7 +2123,7 @@ class Reserve extends MY_Controller
 			//..pagination
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("จัดการการจอง"),
+					"head"=>$this->pel->head("ประวัติการจอง"),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),

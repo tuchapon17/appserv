@@ -164,4 +164,23 @@ class User_model extends MY_Model
 				(select tb_user_username from tb_user_has_privilege)",FALSE);
 		return $query->result_array();
 	}
+	
+	function username_exist($username)
+	{
+		$this->db->select()->from("tb_user")->where("username",$username)->limit(1);
+		$q = $this->db->get();
+		if($q->num_rows() > 0) return true;
+		else return false;
+	}
+	
+	function user_has_privilege_exist($pid, $username)
+	{
+		$this->db->select()->from("tb_user_has_privilege")
+		->where("tb_privilege_id",$pid)
+		->where("tb_user_username",$username)
+		->limit(1);
+		$q = $this->db->get();
+		if($q->num_rows() > 0) return false;
+		else return true;
+	}
 }

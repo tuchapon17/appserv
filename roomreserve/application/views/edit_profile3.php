@@ -53,6 +53,7 @@ echo $head;
 							"district"=>$this->lang->line("se_district"),
 							"subdistrict"=>$this->lang->line("se_subdistrict")
       				);
+					/*
       				echo form_error($this->lang->line("in_house_no"));
       				echo form_error($this->lang->line("in_viilage_no"));
       				echo form_error($this->lang->line("in_alley"));
@@ -60,6 +61,7 @@ echo $head;
       				echo form_error($this->lang->line("se_province"));
       				echo form_error($this->lang->line("se_district"));
       				echo form_error($this->lang->line("se_subdistrict"));
+      				*/
       			?>
       			</div>
       			<div class="panel panel-success">

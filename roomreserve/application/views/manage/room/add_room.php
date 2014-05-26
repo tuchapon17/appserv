@@ -32,12 +32,14 @@ echo $head;
 	      		 			"in_room_name"=>$this->lang->line("in_room_name"),
 							"se_room_type"=>$this->lang->line("se_room_type"),
 							"te_room_detail"=>$this->lang->line("te_room_detail"),
-							"in_discount_percent"=>$this->lang->line("in_discount_percent"),
+							//"in_discount_percent"=>$this->lang->line("in_discount_percent"),
 							//"in_room_fee"=>"input_room_fee",
 							"se_fee_type"=>$this->lang->line("se_fee_type"),
 							"in_room_fee_hour"=>$this->lang->line("in_room_fee_hour"),
 							"in_room_fee_lump_sum"=>$this->lang->line("in_room_fee_lump_sum")
 	      		 	);
+      		 		/*
+      		 		 
       		 		echo form_error($this->lang->line("in_room_name"));
       		 		echo form_error($this->lang->line("se_room_type"));
       		 		echo form_error($this->lang->line("te_room_detail"));
@@ -46,6 +48,7 @@ echo $head;
       		 		echo form_error($this->lang->line("se_fee_type"));
       		 		echo form_error($this->lang->line("in_room_fee_hour"));
       		 		echo form_error($this->lang->line("in_room_fee_lump_sum"));
+      		 		*/
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -60,8 +63,8 @@ echo $head;
 								echo $se_room_type;
 								echo "<span id='".$this->lang->line("se_room_type")."_error' class='hidden'>".form_error($this->lang->line("se_room_type"))."</span>";
 								echo $te_room_detail;
-								echo $in_discount_percent;
-								echo "<span id='".$this->lang->line("in_discount_percent")."_error' class='hidden'>".form_error($this->lang->line("in_discount_percent"))."</span>";
+								//echo $in_discount_percent;
+								//echo "<span id='".$this->lang->line("in_discount_percent")."_error' class='hidden'>".form_error($this->lang->line("in_discount_percent"))."</span>";
 								//echo $in_room_fee;
 								//echo "<span id='".$em_name["in_room_fee"]."_error' class='hidden'>".form_error($em_name["in_room_fee"])."</span>";
 								echo $se_fee_type;
@@ -97,7 +100,9 @@ echo $js;
 	//tinymce initialize 
 	tinymce.init({
 		selector:'#<?php echo $this->lang->line("te_room_detail"); ?>',
-		encoding:'xml'
+		encoding:'xml',
+		entity_encoding: "raw",
+		language:'th_TH'
 	});
 	$(function(){
 		$("#add_room").validate({
@@ -111,11 +116,12 @@ echo $js;
 				"<?php echo $this->lang->line("se_room_type");?>": {
 					required:true
 				},
+				/*
 				"<?php echo $this->lang->line("in_discount_percent");?>": {
 					required:true,
 					maxlength:6,
 					percentage:true
-				},
+				},*/
 				"<?php echo $this->lang->line("se_fee_type");?>": {
 					required:true
 				},

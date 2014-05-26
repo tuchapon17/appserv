@@ -22,6 +22,9 @@ echo $head;
 			width:auto;
 			text-align:auto;
 		}
+		.no_privilege,.had_privilege{
+			cursor:pointer;
+		}
     </style>
 <?php
 	echo $bodyopen;
@@ -84,6 +87,45 @@ echo $js;
 		var c_main_link="?d=manage&c=<?=$controller?>&m=view_privilege";
 		var sess_s="<?php echo $this->session->userdata("searchfield_".$m_name);?>";
 		select_search_center(select_field, b_url, s_link, c_main_link, sess_s);
+	}
+	function add_privilege(p,u)
+	{
+		$.ajax({
+			url:"?d=manage&c=user&m=add_privilege2",
+			data:{"p":p,"u":u},
+			type:"POST",
+			dataType:"json",
+			success:function(resp){
+				if(resp=="1")
+				{
+					$("#"+u+p).toggleClass("fa-ban fa-check");
+					$("#"+u+p).toggleClass("fa-danger fa-success");
+				}
+			},
+			error:function(error){
+				alert("Error : "+error);
+			}
+		});
+	}
+
+	function remove_privilege(p,u)
+	{
+		$.ajax({
+			url:"?d=manage&c=user&m=remove_privilege2",
+			data:{"p":p,"u":u},
+			type:"POST",
+			dataType:"json",
+			success:function(resp){
+				if(resp=="1")
+				{
+					$("#"+u+p).toggleClass("fa-check fa-ban");
+					$("#"+u+p).toggleClass("fa-success fa-danger");
+				}
+			},
+			error:function(error){
+				alert("Error : "+error);
+			}
+		});
 	}
 	//-->
 	</script>

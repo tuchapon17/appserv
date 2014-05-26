@@ -35,6 +35,10 @@ $lang["in_room_fee_lump_sum"] = "input_room_fee_lump_sum";
 $lang["in_room_name"] = "input_room_name";
 $lang["in_room_type"] = "input_room_type";
 $lang["in_titlename"] = "input_titlename";
+$lang["in_id_card_number"] = "input_id_card_number";
+$lang["in_equipment_number"] = "input_equipment_number";
+$lang[""] = "";
+$lang[""] = "";
 
 //select
 $lang["se_occupation"] = "select_occupation";

@@ -148,7 +148,7 @@ class Room_has_article extends MY_Controller
 			
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("เพิ่มครุภัณฑ์/อุปกรณ์สำหรับห้อง"),
+					"head"=>$this->pel->head($this->lang->line("ti_add_room_has_article")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -175,7 +175,14 @@ class Room_has_article extends MY_Controller
 					"lump_sum_base_unit"=>$this->input->post($this->lang->line("in_lump_sum_base_unit"))
 			);
 			$redirect_link="?d=manage&c=room_has_article&m=add";
-			$this->load_rha_model->manage_add($data,$this->table_name,$redirect_link,$redirect_link,"room_has_article","เพิ่มครุภัณฑ์/อุปกรณ์สำหรับห้องสำเร็จ","เพิ่มครุภัณฑ์/อุปกรณ์สำหรับห้องไม่สำเร็จ");
+			$this->load_rha_model->manage_add($data,
+					$this->table_name,
+					$redirect_link,
+					$redirect_link,
+					"room_has_article",
+					"เพิ่ม".$this->lang->line("text_article")."สำหรับห้องสำเร็จ",
+					"เพิ่ม".$this->lang->line("text_article")."สำหรับห้องไม่สำเร็จ"
+					);
 		}
 	}
 
@@ -338,7 +345,7 @@ class Room_has_article extends MY_Controller
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("แก้ไข/ลบ  ครุภัณฑ์/อุปกรณ์สำหรับห้อง"),
+					"head"=>$this->pel->head($this->lang->line("ti_edit_room_has_article")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -376,7 +383,17 @@ class Room_has_article extends MY_Controller
 					"tb_room_id"=>$arr_sess_edit["0"],
 					"tb_article_id"=>$arr_sess_edit["1"]
 			);
-			$this->load_rha_model->manage_edit($set, $where, $this->table_name, $session_edit_id, "edit_room_has_article", "แก้ไขครุครุภัณฑ์/อุปกรณ์สำหรับห้องสำเร็จ", "แก้ไขครุภัณฑ์/อุปกรณ์สำหรับห้องไม่สำเร็จ", "?d=manage&c=room_has_article&m=edit", $prev_url);
+			$this->load_rha_model->manage_edit(
+					$set,
+					$where,
+					$this->table_name,
+					$session_edit_id,
+					"edit_room_has_article",
+					"แก้ไข".$this->lang->line("text_article")."สำหรับห้องสำเร็จ",
+					"แก้ไข".$this->lang->line("text_article")."สำหรับห้องไม่สำเร็จ",
+					"?d=manage&c=room_has_article&m=edit",
+					$prev_url
+					);
 		}
 	}
 
@@ -405,9 +422,9 @@ class Room_has_article extends MY_Controller
 		$html='
 		<ul class="nav nav-tabs" id="manage_tab">
 			<!-- data-toggle มี pill/tab -->
-			<li><a href="#"  id="add">เพิ่มครุภัณฑ์/อุปกรณ์สำหรับห้อง</a></li>';
+			<li><a href="#"  id="add">เพิ่ม'.$this->lang->line("text_article").'สำหรับห้อง</a></li>';
 		$html.='
-			<li><a href="#"  id="edit">แก้ไข/ลบ ครุภัณฑ์/อุปกรณ์สำหรับห้อง</a></li>
+			<li><a href="#"  id="edit">แก้ไข/ลบ'.$this->lang->line("text_article").'สำหรับห้อง</a></li>
 			';
 		$html.='</ul>';
 		return $html;

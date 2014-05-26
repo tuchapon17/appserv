@@ -95,6 +95,11 @@ class Register extends MY_Controller
 						"field"=>$this->lang->line("se_subdistrict"),
 						"label"=>$this->lang->line("t_se_subdistrict"),
 						"rules"=>"required"
+				),
+				array(
+						"field"=>$this->lang->line("in_id_card_number"),
+						"label"=>$this->lang->line("t_in_id_card_number"),
+						"rules"=>"required|max_length[13]|min_length[13]|numeric|callback_id_card_already_exist"
 				)
 				
 		);
@@ -308,6 +313,19 @@ class Register extends MY_Controller
 					"S_name_field"=>"subdistrict_name",
 					"help_text"=>''
 			);
+			$in_id_card_number=array(
+					"LB_text"=>$this->lang->line("t_in_id_card_number"),
+					"LB_attr"=>$this->eml->span_redstar(),
+					"IN_type"=>'text',
+					"IN_class"=>'',
+					"IN_name"=>$this->lang->line("in_id_card_number"),
+					"IN_id"=>$this->lang->line("in_id_card_number"),
+					"IN_PH"=>'',
+					"IN_value"=>set_value($this->lang->line("in_id_card_number")),
+					"IN_attr"=>'maxlength="13"',
+					"help_text"=>'ตัวเลข 13 หลัก'
+			);
+			
 			/*-*initial attr for create element with element_lib*/
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
@@ -335,7 +353,8 @@ class Register extends MY_Controller
 					"se_occupation"=>$this->eml->form_select($se_occupation),
 					"se_province"=>$this->eml->form_select($se_province),
 					"se_district"=>$this->eml->form_select($se_district),
-					"se_subdistrict"=>$this->eml->form_select($se_subdistrict)
+					"se_subdistrict"=>$this->eml->form_select($se_subdistrict),
+					"in_id_card_number"=>$this->eml->form_input($in_id_card_number)
 			);
 			$this->load->view("register1",$data);
 		}
@@ -458,13 +477,19 @@ class Register extends MY_Controller
 	}
 	function already_exist($data)
 	{
-		/*#################################################
-		Check Username already exist
-		###################################################*/
-		$this->form_validation->set_message("already_exist","%s - มีอยู่แล้ว ไม่สามารถใช้ได้");
+		//Check Username already exist
+		$this->form_validation->set_message("already_exist","%s - ข้อมูลถูกใช้แล้วไม่สามารถใช้ได้");
 		$this->load->model("register_model");
 		$rgm=$this->register_model;
 		return $rgm->username_already_exist($data);
+	}
+	function id_card_already_exist($data)
+	{
+		//Check Username already exist
+		$this->form_validation->set_message("already_exist","%s - ข้อมูลถูกใช้แล้วไม่สามารถใช้ได้");
+		$this->load->model("register_model");
+		$rgm=$this->register_model;
+		return $rgm->id_card_already_exist($data);
 	}
 	function already_exist_ajax()
 	{

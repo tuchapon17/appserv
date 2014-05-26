@@ -41,7 +41,7 @@ echo $head;
       			</div>
       			<div class="panel panel-success">
 					<div class="panel-heading">
-						<h3 class="panel-title"><strong>แก้ไขประเภทครุภัณฑ์/อุปกรณ์</strong></h3>
+						<h3 class="panel-title"><strong>แก้ไข<?php echo $this->lang->line("text_article_type");?></strong></h3>
 					</div>
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=article_type&m=edit" method="post" autocomplete="off" id="edit_article_type">
@@ -154,8 +154,8 @@ echo $js;
 	}
 	function select_orderby()
 	{
-		var select_field='<option value="article_type_id">รหัสประเภทครุภัณฑ์/อุปกรณ์</option>';
-		select_field+='<option value="article_type_name">ประเภทครุภัณฑ์/อุปกรณ์</option>';
+		var select_field='<option value="article_type_id">รหัส<?php echo $this->lang->line("text_article_type");?></option>';
+		select_field+='<option value="article_type_name"><?php echo $this->lang->line("text_article_type");?></option>';
 		var set_order_link="?d=manage&c=<?=$controller?>&m=set_orderby";
 		var c_main_link="?d=manage&c=<?=$controller?>&m=edit";
 		var sess_f="<?php echo $sess_orderby_article_type["field"];?>";
@@ -164,8 +164,8 @@ echo $js;
 	}
 	function select_searchfield()
 	{
-		var select_field='<option value="article_type_id">รหัสประเภทครุภัณฑ์/อุปกรณ์</option>';
-		select_field+='<option value="article_type_name">ชื่อประเภทครุภัณฑ์/อุปกรณ์</option>';
+		var select_field='<option value="article_type_id">รหัส<?php echo $this->lang->line("text_article_type");?></option>';
+		select_field+='<option value="article_type_name">ชื่อ<?php echo $this->lang->line("text_article_type");?></option>';
 		var s_link="?d=manage&c=<?=$controller?>&m=set_searchfield";
 		var c_main_link="?d=manage&c=<?=$controller?>&m=edit";
 		var sess_s="<?php echo $this->session->userdata("searchfield_".$m_name);?>";

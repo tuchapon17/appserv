@@ -11,6 +11,7 @@ class Page_element_lib
 			$this->eml=$this->ci->element_lib;
 		$this->ci->load->library('function_lib');
 			$this->fl=$this->ci->function_lib;
+		//$this->ci->lang->load("name","thailand");
 	}
 	function htmlopen()
 	{
@@ -111,12 +112,25 @@ class Page_element_lib
 		      		i.fa-white{
 		      			color:white;
 		      		}
+		      		i.fa-success{
+		      			color:#73A839;
+		      		}
+		      		i.fa-warning{
+		      			color:#C09853;
+		      		}
+		      		i.fa-danger{
+		      			color:#B94A48;
+		      		}
 		      		.wordw{
 		      			word-wrap: break-word;
 		      		}
 		      		.my-error-class {
 					    color:#BB0000;  /* red */
 					}
+		      		.btn-border0{
+		      			border:none;
+		      		}
+		      		
 		      		</style>
 		  </head>
 		';
@@ -168,9 +182,9 @@ class Page_element_lib
 					<ul class="dropdown-menu">';
 			if($this->fl->check_group_privilege(array("02"),true))
 			{
-				$html.='<li><a href="?d=manage&c=article_type&m=add">ประเภทครุภัณฑ์/อุปกรณ์</a></li>';
-				$html.='<li><a href="?d=manage&c=article&m=add">ครุภัณฑ์/อุปกรณ์</a></li>';
-				$html.='<li><a href="?d=manage&c=room_has_article&m=add">ครุภัณฑ์/อุปกรณ์สำหรับห้อง</a></li>';
+				$html.='<li><a href="?d=manage&c=article_type&m=add">ประเภท'.$this->ci->lang->line("text_article").'</a></li>';
+				$html.='<li><a href="?d=manage&c=article&m=add">'.$this->ci->lang->line("text_article").'</a></li>';
+				$html.='<li><a href="?d=manage&c=room_has_article&m=add">'.$this->ci->lang->line("text_article").'สำหรับห้อง</a></li>';
 				$html.='<li class="divider"></li>';
 				$html.='<li><a href="?d=manage&c=room_type&m=add">ประเภทห้อง</a></li>';
 				$html.='<li><a href="?d=manage&c=room&m=add">ห้อง</a></li>';
@@ -187,24 +201,25 @@ class Page_element_lib
 				$html.='<li><a href="?d=manage&c=occupation&m=add">อาชีพ</a></li>';
 				$html.='<li class="divider"></li>';
 			}
-			if($this->fl->check_group_privilege(array("01", "04"),true,"OR"))
-			{
-				//02 คือ จัดการข้อมูลทั่วไป = เจ้าหน้าที่
-				if($this->fl->check_group_privilege(array("02"),true))
-				{
-					$html.='<li><a href="?d=manage&c=reserve&m=edit">จัดการการจอง</a></li>';
-				}
-				else 
-				{
-					$html.='<li><a href="?d=manage&c=reserve&m=edit2">จัดการการจอง</a></li>';
-				}
-			}
+			
 			if($this->fl->check_group_privilege(array("06"),true))
 				$html.='<li><a href="?d=manage&c=user&m=edit">ผู้ใช้งาน</a></li>';
 			$html.='<li class="divider"></li>';
 			$html.='</ul>
 				</li>
 			';
+		}
+		if($this->fl->check_group_privilege(array("01", "04"),true,"OR"))
+		{
+			//02 คือ จัดการข้อมูลทั่วไป = เจ้าหน้าที่
+			if($this->fl->check_group_privilege(array("02"),true))
+			{
+				$html.='<li><a href="?d=manage&c=reserve&m=edit">จัดการการจอง</a></li>';
+			}
+			else
+			{
+				$html.='<li><a href="?d=manage&c=reserve&m=edit2">จัดการการจอง</a></li>';
+			}
 		}
 		if($this->fl->check_group_privilege(array("05"),true))
 			$html.='<li><a href="?d=manage&c=auth_log&m=edit">บันทึกการเข้าสู่ระบบ</a></li>';
@@ -224,6 +239,7 @@ class Page_element_lib
 		{
 			$html.='<li><a href="?c=b_calendar&m=main">ปฏิทินเจ้าหน้าที่</a></li>';
 		}
+		$html.='<li><a href="?d=front&c=condition&m=view">ระเบียบการใช้งาน</a></li>';
 		$html.='</ul>';
 				
 		// user
@@ -248,7 +264,8 @@ class Page_element_lib
 			{
 				$html.='<li><a href="?d=manage&c=reserve&m=reserve_list"><i class="fa fa-book"></i> ประวัติการจอง</a></li>';
 			}
-			if($this->fl->check_group_privilege(array("01","02","03","04","05","06"),true,"OR"))
+			//if($this->fl->check_group_privilege(array("01","02","03","04","05","06"),true,"OR"))
+			if($this->fl->check_group_privilege(array("04"),true))
 			{
 				$html.='<li><a href="?d=privilege&c=assign&m=add"><i class="fa fa-exchange"></i> โอนสิทธิ์</a></li>';
 			}

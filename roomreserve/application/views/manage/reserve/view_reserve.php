@@ -98,7 +98,7 @@ echo $head;
 	      		 			</dl>
       		 			</div>
       		 			<div class="col-lg-4 wordw">
-      		 			<h3 class="text-center">ครุภัณฑ์/อุปกรณ์ที่ใช้</h3>
+      		 			<h3 class="text-center"><?php echo $this->lang->line("text_article");?>ที่ใช้</h3>
 	      		 			<dl class="dl-horizontal">
 		      		 			<?php 
 		      		 			foreach($article_data as $index=>$val)
@@ -107,7 +107,7 @@ echo $head;
 		      		 				echo "<dd>จำนวน ".$val['unit_num']."</dd>";
 		      		 			}
 		      		 			?>
-		      		 			<dt>ครุภัณฑ์/อุปกรณ์อื่นๆ</dt>
+		      		 			<dt><?php echo $this->lang->line("text_article");?>อื่นๆ</dt>
 		      		 			<dd><?php echo $rd['other_article'];?></dd>
 	      		 			</dl>
       		 			</div>
@@ -148,6 +148,11 @@ echo $head;
       		 			</div>
       		 		</div>
       		 	</div>
+      		 	<?php 
+      		 	//แสดงสำหรับบุคคลภายนอก
+      		 	if($rd["person_type_id"] == "02")
+      		 	{
+      		 	?>
       		 	<div class="panel panel-default">
 					<div class="panel-heading" >
 						<h3 class="panel-title">ค่าบริการ</h3>
@@ -164,7 +169,7 @@ echo $head;
 						<h3 class="panel-title">รายละเอียดค่าบริการ<div id="toggle-arrow"><i class="fa fa-caret-square-o-down"></i></div></h3>
 					</div>
 					<div class="panel-body" id="detail-body">
-						<div class="text-center"><h4>ค่าบริการครุภัณฑ์/อุปกรณ์</h4></div>
+						<div class="text-center"><h4>ค่าบริการ<?php echo $this->lang->line("text_article");?></h4></div>
 						<div class="row">
 							<?php 
 							foreach($reserve_fee as $r)
@@ -187,7 +192,10 @@ echo $head;
 							?>
 						</div>
 					</div>
-				</div>
+				</div><!-- panel price detail -->
+				<?php 
+      		 	}//if person_type_id
+				?>
       		</div>
         </div>
       </div>

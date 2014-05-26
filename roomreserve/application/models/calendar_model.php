@@ -62,7 +62,10 @@ class Calendar_Model extends CI_Model
 		$this->db->select()->from("tb_reserve_has_datetime")
 		->join("tb_reserve","tb_reserve_has_datetime.tb_reserve_id=tb_reserve.reserve_id")
 		->join("tb_room","tb_room.room_id=tb_reserve.tb_room_id");
-		$where=array("tb_reserve.approve"=>1);
+		$where=array(
+				"tb_reserve.approve"=>1,
+				"tb_reserve.canceled"=>0
+		);
 		//if($reserve_id!=null)$where["tb_reserve.reserve_id"]=$reserve_id;
 		if($room_id!=null && $room_id!='all')$where['tb_reserve.tb_room_id']=$room_id;
 		$this->db->where($where);

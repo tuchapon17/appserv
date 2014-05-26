@@ -75,11 +75,11 @@ class Element_lib
 	{
 		if($btntype=="delete")//
 		{
-			$html='<button type="submit" title="ลบ" class="btn btn-danger" '.$other_attr.'><i class="fa fa-trash-o fa-lg"></i></button>';
+			$html='<button type="submit" title="ลบ" class="btn btn-danger btn-sm" '.$other_attr.'><i class="fa fa-trash-o fa-lg"></i></button>';
 		}
 		else if($btntype=="edit")//
 		{
-			$html='<button type="button" class="btn btn-default" '.$other_attr.'><i class="fa fa-pencil fa-lg"></i></button>';
+			$html='<button type="button" class="btn btn-default btn-xs btn-border0" '.$other_attr.'><i class="fa fa-pencil fa-lg"></i></button>';
 		}
 		else if($btntype=="submitcheck")//
 		{
@@ -138,7 +138,7 @@ class Element_lib
 		}
 		else if($btntype=="cancel")//
 		{
-			$html='<button type="submit" class="btn btn-warning" '.$other_attr.' title="ยกเลิก"><i class="fa fa-times"></i></button>';
+			$html='<button type="submit" class="btn btn-warning" '.$other_attr.' title="ยกเลิก"><i class="fa fa-check"></i></button>';
 		}
 		return $html;
 	}

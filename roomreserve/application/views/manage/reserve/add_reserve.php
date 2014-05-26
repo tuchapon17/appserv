@@ -129,13 +129,13 @@ echo $head;
 				 -->
 				 <div class="panel panel-success" >
 					<div class="panel-heading">
-						<h3 class="panel-title"><strong>ครุภัณฑ์/อุปกรณ์ที่ใช้</strong></h3>
+						<h3 class="panel-title"><strong><?php echo $this->lang->line("text_article");?>ที่ใช้</strong></h3>
 					</div>
 					<div class="panel-body" id="used_article">
 						<br>
 						<div class="checkbox">
 						<label>
-							<input type="checkbox" name="other_article_checkbox" value="">ครุภัณฑ์/อุปกรณ์เพิ่มเติม
+							<input type="checkbox" name="other_article_checkbox" value=""><?php echo $this->lang->line("text_article");?>เพิ่มเติม
 						</label>
 						<span>
 							<br/>
@@ -1129,7 +1129,7 @@ echo $js;
 		}
 
 		/*----------------------------------- 
-		* ครุภัณฑ์/อุปกรณ์ที่ใช้
+		* วัสดุครุภัณฑ์ที่ใช้
 		-----------------------------------*/
 
 		//ถ้ามีการกรอกเลข 0 ขึ้นต้นจำนวนอุปกรณ์ ให้ลบเลข 0 ตัวหน้าสุดออก
@@ -1140,7 +1140,7 @@ echo $js;
 		});
 		
 		
-		//show/hide ครุภัณฑ์/อุปกรณ์ เพิ่มเติม 
+		//show/hide วัสดุครุภัณฑ์ เพิ่มเติม 
 		$("textarea[name='other_article']").hide();
 		$("input[name='other_article_checkbox']").click(function(){
 			if($(this).is(":checked")) $("textarea[name='other_article']").show();
