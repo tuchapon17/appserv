@@ -41,7 +41,7 @@ echo $head;
       			</div>
       			<div class="panel panel-success">
 					<div class="panel-heading">
-						<h3 class="panel-title"><strong>แก้ไขคำนำหน้าชื่อ</strong></h3>
+						<h3 class="panel-title"><strong>แก้ไข<?php echo $this->lang->line("text_titlename");?></strong></h3>
 					</div>
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=titlename&m=edit" method="post" autocomplete="off" id="edit_titlename">
@@ -96,6 +96,8 @@ echo $js;
 		<?php
 		endforeach;
 		?>
+		allow_red_to_green("<?=$m_name?>");
+		disallow_green_to_red("<?=$m_name?>");
 		/**
 		Checked/Unchecked all checkbox
 		*/
@@ -149,8 +151,8 @@ echo $js;
 	}
 	function select_orderby()
 	{
-		var select_field='<option value="titlename_id">รหัสคำนำหน้าชื่อ</option>';
-		select_field+='<option value="titlename">คำนำหน้าชื่อ</option>';
+		var select_field='<option value="titlename_id">รหัส<?php echo $this->lang->line("text_titlename");?></option>';
+		select_field+='<option value="titlename"><?php echo $this->lang->line("text_titlename");?></option>';
 		//var b_url="<?php echo base_url();?>";
 		var set_order_link="?d=manage&c=<?=$controller?>&m=set_orderby";
 		var c_main_link="?d=manage&c=<?=$controller?>&m=edit";
@@ -160,13 +162,20 @@ echo $js;
 	}
 	function select_searchfield()
 	{
-		var select_field='<option value="titlename_id">รหัสคำนำหน้าชื่อ</option>';
-		select_field+='<option value="titlename">คำนำหน้าชื่อ</option>';
+		var select_field='<option value="titlename_id">รหัส<?php echo $this->lang->line("text_titlename");?></option>';
+		select_field+='<option value="titlename"><?php echo $this->lang->line("text_titlename");?></option>';
 		//var b_url="<?php echo base_url();?>";
 		var s_link="?d=manage&c=<?=$controller?>&m=set_searchfield";
 		var c_main_link="?d=manage&c=<?=$controller?>&m=edit";
 		var sess_s="<?php echo $this->session->userdata("searchfield_".$m_name);?>";
 		select_search_center(select_field, b_url, s_link, c_main_link, sess_s);
+	}
+	function show_allow_list()
+	{
+		this.b_url="<?php echo base_url();?>";
+		this.p_url="?d=manage&c=<?=$controller?>&m=allow";
+		this.m_link="?d=manage&c=<?=$controller?>&m=edit";
+		show_allow_list_center("<?=$m_name?>", b_url, p_url, m_link);
 	}
 	//-->
 	</script>

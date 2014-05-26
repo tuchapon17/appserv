@@ -3,6 +3,7 @@ class Titlename extends MY_Controller
 {
 	private $tn_model;
 	private $sess_orderby_titlename;
+	var $getpage;
 	function __construct()
 	{
 		parent::__construct();
@@ -11,6 +12,10 @@ class Titlename extends MY_Controller
 		$this->tn_model=$this->titlename_model;
 		$this->sess_orderby_titlename=$this->session->userdata("orderby_titlename");
 	}
+	
+	/**
+	 * Add new titlename by staff
+	 */
 	function add()
 	{
 		$config=array(
@@ -54,12 +59,16 @@ class Titlename extends MY_Controller
 		{
 			$data=array(
 					"titlename_id"=>$this->tn_model->get_maxid(2, "titlename_id", "tb_titlename"),
-					"titlename"=>$this->input->post($this->lang->line("in_titlename"))
+					"titlename"=>$this->input->post($this->lang->line("in_titlename")),
+					"checked"=>1
 			);
 			$this->tn_model->add_titlename($data);
 		}
 	}
-	var $getpage;
+	
+	/**
+	 * 
+	 */
 	function edit()
 	{
 		$config=array(
@@ -172,6 +181,7 @@ class Titlename extends MY_Controller
 		$html.='<thead>
 				<th>รหัส</th>
 				<th>'.$this->lang->line("text_titlename").'</a></th>
+				<th class="same_first_td">อนุมัติ<br/><button type="button" class="cbtn cbtn-green" id="allow-all"><button type="button" class="cbtn cbtn-red" id="disallow-all"></th>
 				<th class="same_first_td">แก้ไข</th>
 				<th><input type="checkbox" id="del_all_titlename"></th>
 		';
@@ -180,9 +190,19 @@ class Titlename extends MY_Controller
 		if(!empty($data))
 		{
 			foreach ($data AS $dt):
+			if($dt['checked']==0)
+				$checkbox='<span class="checkboxFour">
+		  		<input type="checkbox" value="'.$dt["titlename_id"].'" id="checkboxFourInput'.$dt["titlename_id"].'" name="allow_titlename0[]" class="allow_titlename0"/>
+			  	<label for="checkboxFourInput'.$dt["titlename_id"].'"></label>
+		  		</span>';
+			else $checkbox='<span class="checkboxFour">
+		  		<input type="checkbox" value="'.$dt["titlename_id"].'" id="checkboxFourInput'.$dt["titlename_id"].'" name="allow_titlename1[]" class="allow_titlename1" checked/>
+			  	<label for="checkboxFourInput'.$dt["titlename_id"].'"></label>
+		  		</span>';
 			$html.='<tr>
 					<td>'.$dt["titlename_id"].'</td>
 					<td id="titlename'.$dt["titlename_id"].'">'.$dt["titlename"].'</td>
+					<td class="same_first_td">'.$checkbox.'</td>
 					<td class="same_first_td">'.$this->eml->btn('edit','onclick=load_titlename("'.$dt["titlename_id"].'")').'</td>
 					<td><input type="checkbox" value="'.$dt["titlename_id"].'" name="del_titlename[]" class="del_titlename"></td>
 			';
@@ -193,6 +213,9 @@ class Titlename extends MY_Controller
 		$html.='<tr>
 				<td></td>
 				<td></td>
+				<td align="center">'.$this->eml->btn('submitcheck','onclick="show_allow_list();return false;"')." ".
+									$this->eml->btn('refreshcheck','onclick="location.reload(true);"').'
+						</td>
 				<td></td>
 				<td>'.$this->eml->btn('delete','onclick="show_del_list();return false;"').'</td>
 				</tr>
@@ -227,6 +250,7 @@ class Titlename extends MY_Controller
 			$this->session->set_userdata("orderby_titlename",array("field"=>$this->input->post("field"),"type"=>$this->input->post("type")));
 		}
 	}
+	
 	function search_box()
 	{
 		$html='
@@ -244,6 +268,14 @@ class Titlename extends MY_Controller
 		{
 			$this->session->set_userdata("searchfield_article_type",$this->input->post("searchfield"));
 		}
+	}
+	
+	function allow()
+	{
+		//$data = array
+		$allow_list=$this->input->post("allow_list");
+		$disallow_list=$this->input->post("disallow_list");
+		$this->tn_model->manage_allow($allow_list,$disallow_list, "tb_titlename", "titlename_id", "titlename", "edit_titlename", "?d=manage&c=titlename&m=edit");
 	}
 }
 //preg_match('/^[1-9]|[1-9][\d]+/',$_GET['per_page']) ตัวเลขแต่ไม่ให้ 0 นำหน้า

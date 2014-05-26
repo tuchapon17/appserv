@@ -20,11 +20,11 @@ class Job_position_model extends MY_Model
 		$searchfield=$this->check_searchfield("searchfield_job_position", "job_position_name");
 		if($liketext!='')
 		{
-			$query=$this->db->select()->from("tb_job_position")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select()->from("tb_job_position")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		else
 		{
-			$query=$this->db->select()->from("tb_job_position")->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select()->from("tb_job_position")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		//echo $query->num_rows();
 		//echo $this->db->count_all_results($this->db->last_query());

@@ -23,13 +23,13 @@ class Article_type_model extends MY_Model
 		{
 			$query=$this->db->select()->from("tb_article_type")
 			->like($searchfield,$liketext,"both")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)->get();
 		}
 		else
 		{
 			$query=$this->db->select()->from("tb_article_type")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)->get();
 		}
 		if($query->num_rows()>0)

@@ -20,11 +20,11 @@ class Office_model extends MY_Model
 		$searchfield=$this->check_searchfield("searchfield_office", "office_name");
 		if($liketext!='')
 		{
-			$query=$this->db->select()->from("tb_office")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING TIS620)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select()->from("tb_office")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		else
 		{
-			$query=$this->db->select()->from("tb_office")->order_by("CONVERT(".$orderby_filed." USING TIS620)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select()->from("tb_office")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		if($query->num_rows()>0)
 		{

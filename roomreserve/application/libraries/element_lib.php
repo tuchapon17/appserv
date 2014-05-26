@@ -5,6 +5,12 @@ class Element_lib
 	{
 	
 	}
+	
+	/**
+	 * Generate input form
+	 * @param array $ar
+	 * @return string
+	 */
 	function form_input($ar)
 	{
 		$html='
@@ -16,6 +22,12 @@ class Element_lib
 		';
 		return $html;
 	}
+	
+	/**
+	 * Generate textarea form
+	 * @param array $ar
+	 * @return string
+	 */
 	function form_textarea($ar)
 	{
 		$html='
@@ -27,6 +39,12 @@ class Element_lib
 		';
 		return $html;
 	}
+	
+	/**
+	 * Generate select form
+	 * @param array $ar
+	 * @return string
+	 */
 	function form_select($ar)
 	{
 		$html='
@@ -47,6 +65,12 @@ class Element_lib
 		</div>';
 		return $html;
 	}
+	
+	/**
+	 * Generate select form
+	 * @param array $ar
+	 * @return string
+	 */
 	function form_select2($ar)
 	{
 		$html='
@@ -67,10 +91,23 @@ class Element_lib
 		</div>';
 		return $html;
 	}
+	
+	/**
+	 * Generate red *
+	 * @return string
+	 */
 	function span_redstar()
 	{
 		return '<span class="red-text"> *</span>';
 	}
+	
+	/**
+	 * Generate button
+	 * @param string $btntype
+	 * @param string $other_attr
+	 * @param string $btntext
+	 * @return string
+	 */
 	function btn($btntype,$other_attr,$btntext='')
 	{
 		if($btntype=="delete")//
@@ -140,6 +177,21 @@ class Element_lib
 		{
 			$html='<button type="submit" class="btn btn-warning" '.$other_attr.' title="ยกเลิก"><i class="fa fa-check"></i></button>';
 		}
+		return $html;
+	}
+	
+	/**
+	 * Generate multiple select
+	 * @param array $ar
+	 */
+	function multiple_select($ar,$field)
+	{
+		$html='<select multiple class="form-control" size="10">';
+		foreach ($ar as $a)
+		{
+			$html.='<option>'.$a[$field].'</option>';
+		}	
+		$html.='</select>';
 		return $html;
 	}
 }

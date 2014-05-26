@@ -36,7 +36,7 @@ echo $head;
       			</div>
       			<div class="panel panel-success">
 					<div class="panel-heading">
-						<h3 class="panel-title"><strong>เพิ่มตำแหน่งงาน</strong></h3>
+						<h3 class="panel-title"><strong>เพิ่ม<?php echo $this->lang->line("text_job_position");?></strong></h3>
 					</div>
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=<?=$controller?>&m=add" method="post" autocomplete="off" id="add_job_position">
@@ -49,6 +49,14 @@ echo $head;
 					</div>
 				</div>
       			
+      			<div class="panel panel-success">
+					<div class="panel-heading">
+						<h3 class="panel-title"><strong><?php echo $this->lang->line("text_job_position");?>ที่มี</strong></h3>
+					</div>
+					<div class="panel-body">
+						<?php echo $current_job_position;?>
+					</div>
+				</div>
       		</div>
         </div>
       </div>
@@ -75,7 +83,17 @@ echo $js;
 				"<?php echo $this->lang->line("in_job_position");?>": {
 					required:true,
 					maxlength:30,
-					THEN:true
+					THEN:true,
+					remote:{
+						// จะ return true / false
+						url:b_url+"?d=manage&c=job_position&m=already_exist_ajax",
+						type:"POST"
+					}
+				}
+			},
+			messages:{
+				"<?php echo $this->lang->line("in_job_position");?>":{
+					remote:"<?php echo $this->lang->line("t_in_job_position");?>นี้ถูกใช้แล้ว"
 				}
 			}
 		});

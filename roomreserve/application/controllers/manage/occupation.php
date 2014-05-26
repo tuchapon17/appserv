@@ -22,6 +22,10 @@ class Occupation extends MY_Controller
 		);
 		$this->frm->set_rules($config);
 		$this->frm->set_message("rule","message");
+		
+		$this->db->select()->from("tb_occupation")
+		->order_by("CONVERT(occupation_name USING ".$this->mysql_charset.")","ASC");
+		$current_occupation = $this->db->get()->result_array();
 		if($this->frm->run() == false)
 		{
 			$in_occupation=array(
@@ -46,7 +50,8 @@ class Occupation extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"occupation_tab"=>$this->occupation_tab(),
-					"in_occupation"=>$this->eml->form_input($in_occupation)
+					"in_occupation"=>$this->eml->form_input($in_occupation),
+					"current_occupation"=>$this->eml->multiple_select($current_occupation,"occupation_name")
 			);
 		
 			$this->load->view("manage/occupation/add_occupation",$data);
@@ -276,6 +281,7 @@ class Occupation extends MY_Controller
 		$load=$this->occ_model->load_occupation($this->input->post("tid"));
 		echo json_encode($load[0]);
 	}
+	
 	/**
 	 * Set search_field session
 	 *
@@ -287,5 +293,18 @@ class Occupation extends MY_Controller
 		{
 			$this->session->set_userdata("searchfield_occupation",$this->input->post("searchfield"));
 		}
+	}
+	
+	/**
+	 * Check occupation already exist with ajax
+	 */
+	function already_exist_ajax()
+	{
+		$this->db->select()->from("tb_occupation")
+		->where("occupation_name",trim( $this->input->post( $this->lang->line("in_occupation") ) ));
+		$q = $this->db->get();
+		if($q->num_rows() > 0 )
+			echo json_encode(false);
+		else echo json_encode(true);
 	}
 }

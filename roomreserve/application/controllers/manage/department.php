@@ -22,6 +22,11 @@ class Department extends MY_Controller
 		);
 		$this->frm->set_rules($config);
 		$this->frm->set_message("rule","message");
+		
+		$this->db->select()->from("tb_department")
+		->order_by("CONVERT(department_name USING ".$this->mysql_charset.")","ASC");
+		$current_department = $this->db->get()->result_array();
+		
 		if($this->frm->run() == false)
 		{
 			$in_department=array(
@@ -46,7 +51,8 @@ class Department extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"department_tab"=>$this->department_tab(),
-					"in_department"=>$this->eml->form_input($in_department)
+					"in_department"=>$this->eml->form_input($in_department),
+					"current_department"=>$this->eml->multiple_select($current_department,"department_name")
 			);
 		
 			$this->load->view("manage/department/add_department",$data);
@@ -285,6 +291,7 @@ class Department extends MY_Controller
 		$load=$this->dpm_model->load_department($this->input->post("tid"));
 		echo json_encode($load[0]);
 	}
+	
 	/**
 	 * Set search_field session
 	 *
@@ -296,5 +303,18 @@ class Department extends MY_Controller
 		{
 			$this->session->set_userdata("searchfield_department",$this->input->post("searchfield"));
 		}
+	}
+	
+	/**
+	 * Check department already exist with ajax
+	 */
+	function already_exist_ajax()
+	{
+		$this->db->select()->from("tb_department")
+		->where("department_name",trim( $this->input->post( $this->lang->line("in_department") ) ));
+		$q = $this->db->get();
+		if($q->num_rows() > 0 )
+			echo json_encode(false);
+		else echo json_encode(true);
 	}
 }

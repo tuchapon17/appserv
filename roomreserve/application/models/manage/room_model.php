@@ -25,7 +25,7 @@ class Room_model extends MY_Model
 			->join("tb_room_type","tb_room_type.room_type_id=tb_room.tb_room_type_id")
 			->join("tb_fee_type","tb_fee_type.fee_type_id=tb_room.tb_fee_type_id")
 			->like($searchfield,$liketext,"both")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)
 			->get();
 		}
@@ -34,7 +34,7 @@ class Room_model extends MY_Model
 			$query=$this->db->select()->from("tb_room")
 			->join("tb_room_type","tb_room_type.room_type_id=tb_room.tb_room_type_id")
 			->join("tb_fee_type","tb_fee_type.fee_type_id=tb_room.tb_fee_type_id")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)
 			->get();
 		}
@@ -84,7 +84,7 @@ class Room_model extends MY_Model
 	{
 		$this->db->select()->from("tb_room");
 		$this->db->where('tb_room_type_id',$room_type_id)
-		->order_by("CONVERT(room_name USING UTF8)","ASC");
+		->order_by("CONVERT(room_name USING ".$this->mysql_charset.")","ASC");
 		$query=$this->db->get();
 		return $query->result_array();
 	}

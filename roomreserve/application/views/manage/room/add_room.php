@@ -111,7 +111,12 @@ echo $js;
 			rules: {
 				"<?php echo $this->lang->line("in_room_name");?>": {
 					required:true,
-					maxlength:50
+					maxlength:50,
+					remote:{
+						// จะ return true / false
+						url:b_url+"?d=manage&c=room&m=already_exist_ajax",
+						type:"POST"
+					}
 				},
 				"<?php echo $this->lang->line("se_room_type");?>": {
 					required:true
@@ -134,6 +139,11 @@ echo $js;
 					required:true,
 					maxlength:9,
 					decimal62:true
+				}
+			},
+			messages:{
+				"<?php echo $this->lang->line("in_room_name");?>":{
+					remote:"<?php echo $this->lang->line("t_in_room_name");?>นี้ถูกใช้แล้ว"
 				}
 			}
 		});

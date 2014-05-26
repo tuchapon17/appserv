@@ -51,7 +51,7 @@ class Reserve_model extends MY_Model
 			->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
 			->where("approve",0)->or_where("approve",3)
 			->like($searchfield,$liketext,"both")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)
 			->get();
 		}
@@ -63,7 +63,7 @@ class Reserve_model extends MY_Model
 			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
 			->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
 			->where("approve",0)->or_where("approve",3)
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)
 			->get();
 		}
@@ -90,7 +90,7 @@ class Reserve_model extends MY_Model
 			->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
 			->where("approve",1)
 			->like($searchfield,$liketext,"both")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)
 			->get();
 		}
@@ -101,7 +101,7 @@ class Reserve_model extends MY_Model
 			->join("tb_reserve_has_person","tb_reserve_has_person.tb_reserve_id=tb_reserve.reserve_id")
 			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
 			->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
-			->where("approve",1)->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->where("approve",1)->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)
 			->get();
 		}
@@ -127,7 +127,7 @@ class Reserve_model extends MY_Model
 			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
 			->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
 			->where("approve",2)->like($searchfield,$liketext,"both")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)
 			->get();
 		}
@@ -138,7 +138,7 @@ class Reserve_model extends MY_Model
 			->join("tb_reserve_has_person","tb_reserve_has_person.tb_reserve_id=tb_reserve.reserve_id")
 			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
 			->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
-			->where("approve",2)->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->where("approve",2)->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)
 			->get();
 		}
@@ -164,7 +164,7 @@ class Reserve_model extends MY_Model
 			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
 			->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
 			->like($searchfield,$liketext,"both")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)
 			->get();
 		}
@@ -175,7 +175,7 @@ class Reserve_model extends MY_Model
 			->join("tb_reserve_has_person","tb_reserve_has_person.tb_reserve_id=tb_reserve.reserve_id")
 			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
 			->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)
 			->get();
 		}
@@ -308,7 +308,7 @@ class Reserve_model extends MY_Model
 			->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
 			->where("tb_user_username",$this->session->userdata("rs_username"))
 			->like($searchfield,$liketext,"both")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)
 			->get();
 		}
@@ -320,7 +320,7 @@ class Reserve_model extends MY_Model
 			->join("tb_person","tb_person.person_id=tb_reserve_has_person.tb_person_id")
 			->join("tb_person_type","tb_person_type.person_type_id=tb_person.tb_person_type_id")
 			->where("tb_user_username",$this->session->userdata("rs_username"))
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)
 			->get();
 		}

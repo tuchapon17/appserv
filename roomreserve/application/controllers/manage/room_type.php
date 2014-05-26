@@ -11,6 +11,10 @@ class Room_type extends MY_Controller
 		$this->rt_model=$this->room_type_model;
 		$this->sess_orderby_room_type=$this->session->userdata("orderby_room_type");
 	}
+	
+	/**
+	 * Add new room_type
+	 */
 	function add()
 	{
 		$config=array(
@@ -22,6 +26,10 @@ class Room_type extends MY_Controller
 		);
 		$this->frm->set_rules($config);
 		$this->frm->set_message("rule","message");
+		
+		$this->db->select()->from("tb_room_type")
+		->order_by("CONVERT(room_type_name USING ".$this->mysql_charset.")","ASC");
+		$current_room_type = $this->db->get()->result_array();
 		if($this->frm->run() == false)
 		{
 			$in_room_type=array(
@@ -46,7 +54,8 @@ class Room_type extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"room_type_tab"=>$this->room_type_tab(),
-					"in_room_type"=>$this->eml->form_input($in_room_type)
+					"in_room_type"=>$this->eml->form_input($in_room_type),
+					"current_room_type"=>$this->eml->multiple_select($current_room_type,"room_type_name")
 			);
 				
 			$this->load->view("manage/room_type/add_room_type",$data);
@@ -70,6 +79,10 @@ class Room_type extends MY_Controller
 					);
 		}
 	}
+	
+	/**
+	 * Manage room_type 
+	 */
 	function edit()
 	{
 		$config=array(
@@ -165,11 +178,19 @@ class Room_type extends MY_Controller
 					);
 		}
 	}
+	
+	/**
+	 * Delete room_type
+	 */
 	function delete()
 	{
 		$this->rt_model->manage_delete($this->input->post("del_room_type"), "tb_room_type", "room_type_id", "room_type_name", "edit_room_type", "?d=manage&c=room_type&m=edit");
 	}
 	
+	/**
+	 * Generate room_type tab
+	 * @return string
+	 */
 	function room_type_tab()
 	{
 		$html='
@@ -182,6 +203,10 @@ class Room_type extends MY_Controller
 		$html.='</ul>';
 		return $html;
 	}
+	
+	/**
+	 * Set/Unset session for search room_type
+	 */
 	function search()
 	{
 		if(count($this->input->post("input_search_box"))>0)
@@ -195,6 +220,12 @@ class Room_type extends MY_Controller
 		}
 		redirect(base_url()."?d=manage&c=room_type&m=edit");
 	}
+	
+	/**
+	 * Generate table manage room_type
+	 * @param array $data
+	 * @return string
+	 */
 	function table_edit($data)
 	{
 		if($this->sess_orderby_room_type["type"]=="ASC") $img='<img width="9" src="'.base_url().'images/glyphicons_free/glyphicons/png/glyphicons_212_down_arrow.png"';
@@ -246,10 +277,9 @@ class Room_type extends MY_Controller
 		$load=$this->rt_model->load_room_type($this->input->post("tid"));
 		echo json_encode($load[0]);
 	}
+	
 	/**
-	 * Set search_field session
-	 *
-	 * @return 	void
+	 * Set session search_field 
 	 */
 	function set_searchfield()
 	{
@@ -257,5 +287,18 @@ class Room_type extends MY_Controller
 		{
 			$this->session->set_userdata("searchfield_room_type",$this->input->post("searchfield"));
 		}
+	}
+	
+	/**
+	 * Check room_type already exist with ajax
+	 */
+	function already_exist_ajax()
+	{
+		$this->db->select()->from("tb_room_type")
+		->where("room_type_name",trim( $this->input->post( $this->lang->line("in_room_type") ) ));
+		$q = $this->db->get();
+		if($q->num_rows() > 0 )
+			echo json_encode(false);
+		else echo json_encode(true);
 	}
 }

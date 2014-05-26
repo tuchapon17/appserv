@@ -109,7 +109,12 @@ echo $js;
 			rules: {
 				"<?php echo $this->lang->line("in_article");?>": {
 					required:true,
-					maxlength:30
+					maxlength:30,
+					remote:{
+						// จะ return true / false
+						url:b_url+"?d=manage&c=article&m=already_exist_ajax",
+						type:"POST"
+					}
 				},
 				"<?php echo $this->lang->line("in_fee_unit_hour");?>": {
 					maxlength:9,
@@ -131,6 +136,11 @@ echo $js;
 					minlength:11,
 					equipment_number:true,
 					digits:true
+				}
+			},
+			messages:{
+				"<?php echo $this->lang->line("in_article");?>":{
+					remote:"<?php echo $this->lang->line("t_in_article");?>นี้ถูกใช้แล้ว"
 				}
 			}
 		});

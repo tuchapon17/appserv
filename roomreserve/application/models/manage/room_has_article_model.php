@@ -24,12 +24,12 @@ class Room_has_article_model extends MY_Model
 		$table_name="tb_room_has_article";
 		if($liketext!='')
 		{
-			$query=$this->db->select($sql_select)->from($table_name)->join("tb_room","tb_room_has_article.tb_room_id=tb_room.room_id")->join("tb_article","tb_room_has_article.tb_article_id=tb_article.article_id")->join("tb_fee_type","tb_room_has_article.tb_fee_type_id=tb_fee_type.fee_type_id")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select($sql_select)->from($table_name)->join("tb_room","tb_room_has_article.tb_room_id=tb_room.room_id")->join("tb_article","tb_room_has_article.tb_article_id=tb_article.article_id")->join("tb_fee_type","tb_room_has_article.tb_fee_type_id=tb_fee_type.fee_type_id")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 			
 		}
 		else
 		{
-			$query=$this->db->select($sql_select)->from($table_name)->join("tb_room","tb_room_has_article.tb_room_id=tb_room.room_id")->join("tb_article","tb_room_has_article.tb_article_id=tb_article.article_id")->join("tb_fee_type","tb_room_has_article.tb_fee_type_id=tb_fee_type.fee_type_id")->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select($sql_select)->from($table_name)->join("tb_room","tb_room_has_article.tb_room_id=tb_room.room_id")->join("tb_article","tb_room_has_article.tb_article_id=tb_article.article_id")->join("tb_fee_type","tb_room_has_article.tb_fee_type_id=tb_fee_type.fee_type_id")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 			
 		}
 		if($query->num_rows()>0)

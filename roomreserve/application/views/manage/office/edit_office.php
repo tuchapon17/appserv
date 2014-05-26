@@ -82,7 +82,17 @@ echo $js;
 				"<?php echo $this->lang->line("in_office");?>": {
 					required:true,
 					maxlength:30,
-					THEN:true
+					THEN:true,
+					remote:{
+						// จะ return true / false
+						url:b_url+"?d=manage&c=office&m=already_exist_ajax",
+						type:"POST"
+					}
+				}
+			},
+			messages:{
+				"<?php echo $this->lang->line("in_office");?>":{
+					remote:"<?php echo $this->lang->line("t_in_office");?>นี้ถูกใช้แล้ว"
 				}
 			}
 		});

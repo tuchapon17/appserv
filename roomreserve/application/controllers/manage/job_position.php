@@ -22,6 +22,10 @@ class Job_position extends MY_Controller
 		);
 		$this->frm->set_rules($config);
 		$this->frm->set_message("rule","message");
+		
+		$this->db->select()->from("tb_job_position")
+		->order_by("convert(job_position_name using ".$this->mysql_charset.")","asc");
+		$current_job_position = $this->db->get()->result_array();
 		if($this->frm->run() == false)
 		{
 			$in_job_position=array(
@@ -46,7 +50,8 @@ class Job_position extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"job_position_tab"=>$this->job_position_tab(),
-					"in_job_position"=>$this->eml->form_input($in_job_position)
+					"in_job_position"=>$this->eml->form_input($in_job_position),
+					"current_job_position"=>$this->eml->multiple_select($current_job_position,"job_position_name")
 			);
 		
 			$this->load->view("manage/job_position/add_job_position",$data);
@@ -273,6 +278,7 @@ class Job_position extends MY_Controller
 		$load=$this->jp_model->load_job_position($this->input->post("tid"));
 		echo json_encode($load[0]);
 	}
+	
 	/**
 	 * Set search_field session
 	 *
@@ -284,5 +290,18 @@ class Job_position extends MY_Controller
 		{
 			$this->session->set_userdata("searchfield_job_position",$this->input->post("searchfield"));
 		}
+	}
+	
+	/**
+	 * Check job_position already exist with ajax
+	 */
+	function already_exist_ajax()
+	{
+		$this->db->select()->from("tb_job_position")
+		->where("job_position_name",trim( $this->input->post( $this->lang->line("in_job_position") ) ));
+		$q = $this->db->get();
+		if($q->num_rows() > 0 )
+			echo json_encode(false);
+		else echo json_encode(true);
 	}
 }

@@ -20,11 +20,11 @@ class Department_model extends MY_Model
 		$searchfield=$this->check_searchfield("searchfield_department", "department_name");
 		if($liketext!='')
 		{
-			$query=$this->db->select()->from("tb_department")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select()->from("tb_department")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		else
 		{
-			$query=$this->db->select()->from("tb_department")->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select()->from("tb_department")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		if($query->num_rows()>0)
 		{

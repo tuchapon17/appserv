@@ -7,6 +7,8 @@ class Register_model extends MY_Model
 		date_default_timezone_set('Asia/Bangkok');
 	}
 	
+	// --------------------------------------------------------------------
+	
 	/**
 	 * Insert register information to tb_user , Insert user privilege to tb_user_has_privilege
 	 */
@@ -65,7 +67,7 @@ class Register_model extends MY_Model
 					$new_id=$this->get_maxid(2, "occupation_id", "tb_occupation");
 					$data_occupation=array(
 							"occupation_id"=>$new_id,
-							"occupation_name"=>trim($this->input->post("input_occupation")),
+							"occupation_name"=>trim($this->input->post( $this->lang->line("in_occupation") )),
 							//เปิดให้แสดงอาชีพที่เพิ่มใหม่ ให้เจ้าหน้าที่ตรวจสอบ ยกเลิกออกภายหลัง
 							"checked"=>"0"
 					);
@@ -74,14 +76,39 @@ class Register_model extends MY_Model
 					$data["tb_occupation_id"]=$new_id;
 				}
 			}
-			/*
-			 * insert new user to tb_user
-			*/
+			
+			//insert othertitlename to tb_titlename
+			if($this->input->post("select_titlename")=="00")
+			{
+				//ถ้ามีคำนำหน้าชื่อชื่อซ้ำกัน ให้อ้างอิงคำนำหน้าชื่อที่มีอยู่
+				$this->db->select()->from("tb_titlename")
+				->where("titlename",trim($this->input->post( $this->lang->line("in_titlename")) ));
+				$query = $this->db->get();
+				$current_titlename = $query->result_array();
+				if($query->num_rows() > 0)
+				{
+					$data["tb_titlename_id"] = $current_titlename[0]["titlename_id"];
+				}
+				else
+				{
+					//get current max id from MY_Model
+					$new_id=$this->get_maxid(2, "titlename_id", "tb_titlename");
+					$data_titlename=array(
+							"titlename_id"=>$new_id,
+							"titlename"=>trim($this->input->post( $this->lang->line("in_titlename")) ),
+							//เปิดให้แสดงคำนำหน้าชื่อที่เพิ่มใหม่ ให้เจ้าหน้าที่ตรวจสอบ ยกเลิกออกภายหลัง
+							"checked"=>"0"
+					);
+					$this->db->set($data_titlename)->insert("tb_titlename");
+					//set new titlename id
+					$data["tb_titlename_id"]=$new_id;
+				}
+			}
+			//insert new user to tb_user
 			$this->db->set($data)->insert('tb_user');
 			
 			/*
-			* select privilege from usergroup and insert to tb_user_has_privilege
-			*/
+			//select privilege from usergroup and insert to tb_user_has_privilege
 			/* ไม่ได้ใช้ มี trigger แล้ว = "add_user_has_privilege"
 			$this->db->select()->from("tb_usergroup_has_privilege");
 			$group_privilege = $this->db->where("tb_usergroup_id","04")->get()->result_array();
@@ -97,9 +124,8 @@ class Register_model extends MY_Model
 		if($this->db->trans_status()===FALSE):
 			$this->db->trans_rollback();
 			$this->session->set_flashdata("register_status",false);
-			$this->session->set_flashdata("register_message","ลงทะเบียนไม่สำเร็จ");
+			$this->session->set_flashdata("register_message",$this->db->last_query()."ลงทะเบียนไม่สำเร็จ");
 			redirect(base_url()."?c=register&m=step1");
-			//echo "Register Error.";
 		else:
 			$this->db->trans_commit();
 			$this->session->set_flashdata("register_status",true);
@@ -107,6 +133,8 @@ class Register_model extends MY_Model
 			redirect(base_url()."?c=register&m=step1");
 		endif;
 	}
+	
+	// --------------------------------------------------------------------
 	
 	/**
 	 * convert '' to NULL before insert to DB
@@ -118,6 +146,8 @@ class Register_model extends MY_Model
 		if($data=='')return null;
 		else return $data;
 	}
+	
+	// --------------------------------------------------------------------
 	
 	/**
 	 * Check Username in tb_user, Return true if username not exists
@@ -131,6 +161,8 @@ class Register_model extends MY_Model
 		if($num_rows>0)return false;
 		else if($num_rows==0)return true;
 	}
+	
+	// --------------------------------------------------------------------
 	
 	/**
 	 * Check id_card_number in tb_user is exist or doesn't exist?

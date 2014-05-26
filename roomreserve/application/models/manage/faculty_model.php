@@ -20,11 +20,11 @@ class Faculty_model extends MY_Model
 		$searchfield=$this->check_searchfield("searchfield_faculty", "faculty_name");
 		if($liketext!='')
 		{
-			$query=$this->db->select()->from("tb_faculty")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select()->from("tb_faculty")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		else
 		{
-			$query=$this->db->select()->from("tb_faculty")->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select()->from("tb_faculty")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		if($query->num_rows()>0)
 		{

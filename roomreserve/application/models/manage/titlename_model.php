@@ -95,11 +95,11 @@ class Titlename_model extends MY_Model
 		
 		if($liketext!='')
 		{
-			$query=$this->db->select()->from("tb_titlename")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select()->from("tb_titlename")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		else 
 		{
-			$query=$this->db->select()->from("tb_titlename")->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select()->from("tb_titlename")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		if($query->num_rows()>0)
 		{

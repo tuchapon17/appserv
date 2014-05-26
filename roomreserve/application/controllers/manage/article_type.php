@@ -28,6 +28,10 @@ class Article_type extends MY_Controller
 		);
 		$this->frm->set_rules($config);
 		$this->frm->set_message("rule","message");
+		
+		$this->db->select()->from("tb_article_type")
+		->order_by("CONVERT(article_type_name USING ".$this->mysql_charset.")","ASC");
+		$current_article_type = $this->db->get()->result_array();
 		if($this->frm->run() == false)
 		{
 			$in_article_type=array(
@@ -52,7 +56,8 @@ class Article_type extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"article_type_tab"=>$this->article_type_tab(),
-					"in_article_type"=>$this->eml->form_input($in_article_type)
+					"in_article_type"=>$this->eml->form_input($in_article_type),
+					"current_article_type"=>$this->eml->multiple_select($current_article_type,"article_type_name")
 			);
 				
 			$this->load->view("manage/article_type/add_article_type",$data);
@@ -265,5 +270,18 @@ class Article_type extends MY_Controller
 		{
 			$this->session->set_userdata("searchfield_article_type",$this->input->post("searchfield"));
 		}
+	}
+	
+	/**
+	 * Check article_type already exist with ajax
+	 */
+	function already_exist_ajax()
+	{
+		$this->db->select()->from("tb_article_type")
+		->where("article_type_name",trim( $this->input->post( $this->lang->line("in_article_type") ) ));
+		$q = $this->db->get();
+		if($q->num_rows() > 0 )
+			echo json_encode(false);
+		else echo json_encode(true);
 	}
 }

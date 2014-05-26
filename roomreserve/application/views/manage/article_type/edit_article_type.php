@@ -79,7 +79,17 @@ echo $js;
 				"<?php echo $this->lang->line("in_article_type");?>": {
 					required:true,
 					maxlength:30,
-					THEN:true
+					THEN:true,
+					remote:{
+						// จะ return true / false
+						url:b_url+"?d=manage&c=article_type&m=already_exist_ajax",
+						type:"POST"
+					}
+				}
+			},
+			messages:{
+				"<?php echo $this->lang->line("in_article_type");?>":{
+					remote:"<?php echo $this->lang->line("t_in_article_type");?>นี้ถูกใช้แล้ว"
 				}
 			}
 		});

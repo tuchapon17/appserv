@@ -42,7 +42,7 @@ echo $head;
       			</div>
       			<div class="panel panel-success">
 					<div class="panel-heading">
-						<h3 class="panel-title"><strong>แก้ไขสาขาวิชา/งาน</strong></h3>
+						<h3 class="panel-title"><strong>แก้ไข<?php echo $this->lang->line("text_department");?></strong></h3>
 					</div>
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=<?=$controller?>&m=edit" method="post" autocomplete="off" id="edit_department">
@@ -81,7 +81,17 @@ echo $js;
 				"<?php echo $this->lang->line("in_department");?>": {
 					required:true,
 					maxlength:30,
-					THEN:true
+					THEN:true,
+					remote:{
+						// จะ return true / false
+						url:b_url+"?d=manage&c=department&m=already_exist_ajax",
+						type:"POST"
+					}
+				}
+			},
+			messages:{
+				"<?php echo $this->lang->line("in_department");?>":{
+					remote:"<?php echo $this->lang->line("t_in_department");?>นี้ถูกใช้แล้ว"
 				}
 			}
 		});
@@ -153,8 +163,8 @@ echo $js;
 	}
 	function select_orderby()
 	{
-		var select_field='<option value="department_id">รหัส สาขาวิชา/งาน</option>';
-		select_field+='<option value="department_name">สาขาวิชา/งาน</option>';
+		var select_field='<option value="department_id">รหัส<?php echo $this->lang->line("text_department");?></option>';
+		select_field+='<option value="department_name"><?php echo $this->lang->line("text_department");?></option>';
 		//var b_url="<?php echo base_url();?>";
 		var set_order_link="?d=manage&c=<?=$controller?>&m=set_orderby";
 		var c_main_link="?d=manage&c=<?=$controller?>&m=edit";
@@ -171,8 +181,8 @@ echo $js;
 	}
 	function select_searchfield()
 	{
-		var select_field='<option value="department_id">รหัส สาขาวิชา/งาน</option>';
-		select_field+='<option value="department_name">สาขาวิชา/งาน</option>';
+		var select_field='<option value="department_id">รหัส<?php echo $this->lang->line("text_department");?></option>';
+		select_field+='<option value="department_name"><?php echo $this->lang->line("text_department");?></option>';
 		var s_link="?d=manage&c=<?=$controller?>&m=set_searchfield";
 		var c_main_link="?d=manage&c=<?=$controller?>&m=edit";
 		var sess_s="<?php echo $this->session->userdata("searchfield_".$m_name);?>";

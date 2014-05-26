@@ -180,7 +180,7 @@ class Report extends MY_Controller {
 			}
 			*/
 			$text=$this->check_time_length($this->input->post());
-			$this->db->order_by("CONVERT(tb_room.room_name USING TIS620)","ASC");
+			$this->db->order_by("CONVERT(tb_room.room_name USING ".$this->mysql_charset.")","ASC");
 			$report_type_query=$this->db->get()->result_array();
 			//print_r($report_type_query);
 			
@@ -198,7 +198,7 @@ class Report extends MY_Controller {
 			$this->where_room_id($room_id);
 			$text=$this->check_time_length($this->input->post());
 			$this->db->group_by("tb_reserve.reserve_id");
-			$this->db->order_by("CONVERT(tb_room.room_name USING TIS620)","ASC");
+			$this->db->order_by("CONVERT(tb_room.room_name USING ".$this->mysql_charset.")","ASC");
 			/*
 			if($post_time_length=="tl_month")
 			{

@@ -22,6 +22,11 @@ class Faculty extends MY_Controller
 		);
 		$this->frm->set_rules($config);
 		$this->frm->set_message("rule","message");
+		
+		$this->db->select()->from("tb_faculty")
+		->order_by("convert(faculty_name using ".$this->mysql_charset.")");
+		$current_faculty = $this->db->get()->result_array();
+		
 		if($this->frm->run() == false)
 		{
 			$in_faculty=array(
@@ -46,7 +51,8 @@ class Faculty extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"faculty_tab"=>$this->faculty_tab(),
-					"in_faculty"=>$this->eml->form_input($in_faculty)
+					"in_faculty"=>$this->eml->form_input($in_faculty),
+					"current_faculty"=>$this->eml->multiple_select($current_faculty,"faculty_name")
 			);
 		
 			$this->load->view("manage/faculty/add_faculty",$data);
@@ -179,10 +185,6 @@ class Faculty extends MY_Controller
 		$disallow_list=$this->input->post("disallow_list");
 		$this->fc_model->manage_allow($allow_list,$disallow_list, "tb_faculty", "faculty_id", "faculty_name", "edit_faculty", "?d=manage&c=faculty&m=edit");
 	}
-	
-	
-	
-	
 	function faculty_tab()
 	{
 		$html='
@@ -230,14 +232,15 @@ class Faculty extends MY_Controller
 			//<td>'.$num_row.'</td>
 			//if     $checkbox='<input type="checkbox" value="'.$dt["faculty_id"].'" name="allow_faculty0[]" class="allow_faculty0">';
 			//else   $checkbox='<input type="checkbox" value="'.$dt["faculty_id"].'" name="allow_faculty1[]" class="allow_faculty1" checked>';
-			if($dt['checked']==0)$checkbox='<span class="checkboxFour">
-									  		<input type="checkbox" value="'.$dt["faculty_id"].'" id="checkboxFourInput'.$dt["faculty_id"].'" name="allow_faculty0[]" class="allow_faculty0"/>
-										  	<label for="checkboxFourInput'.$dt["faculty_id"].'"></label>
-									  		</span>';
+			if($dt['checked']==0)
+				$checkbox='<span class="checkboxFour">
+			  		<input type="checkbox" value="'.$dt["faculty_id"].'" id="checkboxFourInput'.$dt["faculty_id"].'" name="allow_faculty0[]" class="allow_faculty0"/>
+				  	<label for="checkboxFourInput'.$dt["faculty_id"].'"></label>
+			  		</span>';
 			else $checkbox='<span class="checkboxFour">
-					  		<input type="checkbox" value="'.$dt["faculty_id"].'" id="checkboxFourInput'.$dt["faculty_id"].'" name="allow_faculty1[]" class="allow_faculty1" checked/>
-						  	<label for="checkboxFourInput'.$dt["faculty_id"].'"></label>
-					  		</span>';
+			  		<input type="checkbox" value="'.$dt["faculty_id"].'" id="checkboxFourInput'.$dt["faculty_id"].'" name="allow_faculty1[]" class="allow_faculty1" checked/>
+				  	<label for="checkboxFourInput'.$dt["faculty_id"].'"></label>
+			  		</span>';
 			$html.='<tr>
 					<td>'.$dt["faculty_id"].'</td>
 					<td id="faculty'.$dt["faculty_id"].'">'.$dt["faculty_name"].'</td>
@@ -275,9 +278,9 @@ class Faculty extends MY_Controller
 		$load=$this->fc_model->load_faculty($this->input->post("tid"));
 		echo json_encode($load[0]);
 	}
+	
 	/**
 	 * Set search_field session
-	 *
 	 * @return 	void
 	 */
 	function set_searchfield()
@@ -286,5 +289,18 @@ class Faculty extends MY_Controller
 		{
 			$this->session->set_userdata("searchfield_faculty",$this->input->post("searchfield"));
 		}
+	}
+	
+	/**
+	 * Check faculty already exist with ajax
+	 */
+	function already_exist_ajax()
+	{
+		$this->db->select()->from("tb_faculty")
+		->where("faculty_name",trim( $this->input->post( $this->lang->line("in_faculty") ) ));
+		$q = $this->db->get();
+		if($q->num_rows() > 0 )
+			echo json_encode(false);
+		else echo json_encode(true);
 	}
 }

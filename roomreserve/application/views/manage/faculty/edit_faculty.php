@@ -42,7 +42,7 @@ echo $head;
       			</div>
       			<div class="panel panel-success">
 					<div class="panel-heading">
-						<h3 class="panel-title"><strong>แก้ไข คณะ/กอง</strong></h3>
+						<h3 class="panel-title"><strong>แก้ไข<?php echo $this->lang->line("text_faculty");?></strong></h3>
 					</div>
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=<?=$controller?>&m=edit" method="post" autocomplete="off" id="edit_faculty">
@@ -81,7 +81,17 @@ echo $js;
 				"<?php echo $this->lang->line("in_faculty");?>": {
 					required:true,
 					maxlength:30,
-					THEN:true
+					THEN:true,
+					remote:{
+						// จะ return true / false
+						url:b_url+"?d=manage&c=faculty&m=already_exist_ajax",
+						type:"POST"
+					}
+				}
+			},
+			messages:{
+				"<?php echo $this->lang->line("in_faculty");?>":{
+					remote:"<?php echo $this->lang->line("t_in_faculty");?>นี้ถูกใช้แล้ว"
 				}
 			}
 		});
@@ -159,8 +169,8 @@ echo $js;
 	}
 	function select_orderby()
 	{
-		var select_field='<option value="faculty_id">รหัส คณะ/กอง</option>';
-		select_field+='<option value="faculty_name">คณะ/กอง</option>';
+		var select_field='<option value="faculty_id">รหัส<?php echo $this->lang->line("text_faculty");?></option>';
+		select_field+='<option value="faculty_name"><?php echo $this->lang->line("text_faculty");?></option>';
 		//var b_url="<?php echo base_url();?>";
 		var set_order_link="?d=manage&c=<?=$controller?>&m=set_orderby";
 		var c_main_link="?d=manage&c=<?=$controller?>&m=edit";
@@ -177,8 +187,8 @@ echo $js;
 	}
 	function select_searchfield()
 	{
-		var select_field='<option value="faculty_id">รหัส คณะ/กอง</option>';
-		select_field+='<option value="faculty_name">คณะ/กอง</option>';
+		var select_field='<option value="faculty_id">รหัส<?php echo $this->lang->line("text_faculty");?></option>';
+		select_field+='<option value="faculty_name"><?php echo $this->lang->line("text_faculty");?></option>';
 		//var b_url="<?php echo base_url();?>";
 		var s_link="?d=manage&c=<?=$controller?>&m=set_searchfield";
 		var c_main_link="?d=manage&c=<?=$controller?>&m=edit";

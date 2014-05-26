@@ -35,7 +35,7 @@ echo $head;
       			</div>
       			<div class="panel panel-success">
 					<div class="panel-heading">
-						<h3 class="panel-title"><strong>เพิ่มคำนำหน้าชื่อ</strong></h3>
+						<h3 class="panel-title"><strong>เพิ่ม<?php echo $this->lang->line("text_titlename");?></strong></h3>
 					</div>
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=<?=$controller?>&m=add" method="post" autocomplete="off" id="add_titlename">

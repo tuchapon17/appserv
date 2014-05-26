@@ -36,7 +36,7 @@ echo $head;
       			</div>
       			<div class="panel panel-success">
 					<div class="panel-heading">
-						<h3 class="panel-title"><strong>เพิ่มสาขาวิชา/งาน</strong></h3>
+						<h3 class="panel-title"><strong>เพิ่ม<?php echo $this->lang->line("text_department");?></strong></h3>
 					</div>
 					<div class="panel-body">
 						<form role="form" action="?d=manage&c=<?=$controller?>&m=add" method="post" autocomplete="off" id="add_department">
@@ -46,6 +46,15 @@ echo $head;
 								?>
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>		
+					</div>
+				</div>
+				
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h3 class="panel-title"><strong><?php echo $this->lang->line("text_department");?>ที่มี</strong></h3>
+					</div>
+					<div class="panel-body">
+						<?php echo $current_department;?>
 					</div>
 				</div>
       		</div>
@@ -74,7 +83,17 @@ echo $js;
 				"<?php echo $this->lang->line("in_department");?>": {
 					required:true,
 					maxlength:30,
-					THEN:true
+					THEN:true,
+					remote:{
+						// จะ return true / false
+						url:b_url+"?d=manage&c=department&m=already_exist_ajax",
+						type:"POST"
+					}
+				}
+			},
+			messages:{
+				"<?php echo $this->lang->line("in_department");?>":{
+					remote:"<?php echo $this->lang->line("t_in_department");?>นี้ถูกใช้แล้ว"
 				}
 			}
 		});

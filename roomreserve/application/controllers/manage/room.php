@@ -750,4 +750,17 @@ class Room extends MY_Controller
 		else: echo "";
 		endif;
 	}
+	
+	/**
+	 * Check room already exist with ajax
+	 */
+	function already_exist_ajax()
+	{
+		$this->db->select()->from("tb_room")
+		->where("room_name",trim( $this->input->post( $this->lang->line("in_room_name") ) ));
+		$q = $this->db->get();
+		if($q->num_rows() > 0 )
+			echo json_encode(false);
+		else echo json_encode(true);
+	}
 }

@@ -1,12 +1,20 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Register extends MY_Controller
 {
+	public $rgm;
 	function __construct()
 	{
 		parent::__construct();
-
+		$this->load->model("register_model");
+		$this->rgm=$this->register_model;
 		$this->load->library("page_element_lib");
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Add new user
+	 */
 	function step1()
 	{
 		$config=array(
@@ -69,6 +77,11 @@ class Register extends MY_Controller
 				array(
 						"field"=>$this->lang->line("in_occupation"),
 						"label"=>$this->lang->line("t_in_occupation"),
+						"rules"=>"max_length[30]"
+				),
+				array(
+						"field"=>$this->lang->line("in_titlename"),
+						"label"=>$this->lang->line("t_in_othertitlename"),
 						"rules"=>"max_length[30]"
 				),
 				array(
@@ -182,7 +195,7 @@ class Register extends MY_Controller
 					"help_text"=>$this->lang->line("THENchar")
 			);
 			$in_occupation=array(
-					"LB_text"=>$this->lang->line("t_in_in_occupation"),
+					"LB_text"=>$this->lang->line("t_in_otheroccupation"),
 					"LB_attr"=>"",
 					"IN_type"=>'text',
 					"IN_class"=>'',
@@ -251,6 +264,18 @@ class Register extends MY_Controller
 					"IN_PH"=>'',
 					"IN_value"=>set_value($this->lang->line("in_road")),
 					"IN_attr"=>'maxlength="25"',
+					"help_text"=>''
+			);
+			$in_titlename=array(
+					"LB_text"=>$this->lang->line("t_in_othertitlename"),
+					"LB_attr"=>"",
+					"IN_type"=>'text',
+					"IN_class"=>'',
+					"IN_name"=>$this->lang->line("in_titlename"),
+					"IN_id"=>$this->lang->line("in_titlename"),
+					"IN_PH"=>'',
+					"IN_value"=>set_value($this->lang->line("in_titlename")),
+					"IN_attr"=>'maxlength="30"',
 					"help_text"=>''
 			);
 			$se_titlename=array(
@@ -349,6 +374,7 @@ class Register extends MY_Controller
 					"in_village_no"=>$this->eml->form_input($in_village_no),
 					"in_alley"=>$this->eml->form_input($in_alley),
 					"in_road"=>$this->eml->form_input($in_road),
+					"in_titlename"=>$this->eml->form_input($in_titlename),
 					"se_titlename"=>$this->eml->form_select($se_titlename),
 					"se_occupation"=>$this->eml->form_select($se_occupation),
 					"se_province"=>$this->eml->form_select($se_province),
@@ -360,21 +386,18 @@ class Register extends MY_Controller
 		}
 		else 
 		{	
-			$this->load->model("register_model");
-			$rgm=$this->register_model;
-			$rgm->add_user();
+			$this->rgm->add_user();
 		}
 	}
-		
-	/******************************/
+
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Return district list as JSON 
+	 * SELECT * FROM tb_district WHERE district_id LIKE 'province_id%' ORDER BY ....
+	 */
 	function select_district()
 	{
-		/*#################################################
-		 Return district list as JSON 
-		 SELECT * FROM tb_district WHERE district_id LIKE 'province_id%' ORDER BY ....
-		###################################################*/
-		//$this->load->model("element_model");
-		//$emm=$this->element_model;
 		if($this->input->post("province_id")!=''):
 			$query=$this->emm->select_district($this->input->post("province_id"));
 			$data='';
@@ -387,14 +410,15 @@ class Register extends MY_Controller
 		else: echo "";
 		endif;
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Return subdistrict list as JSON
+	 * SELECT * FROM tb_subdistrict WHERE subdistrict_id LIKE 'district_id%' ORDER BY ....
+	 */
 	function select_subdistrict()
 	{
-		/*#################################################
-		Return subdistrict list as JSON
-		SELECT * FROM tb_subdistrict WHERE subdistrict_id LIKE 'district_id%' ORDER BY ....
-		###################################################*/
-		//$this->load->model("element_model");
-		//$emm=$this->element_model;
 		if($this->input->post("district_id")!=''):
 			$query=$this->emm->select_subdistrict($this->input->post("district_id"));
 			$data='';
@@ -407,12 +431,16 @@ class Register extends MY_Controller
 			else: echo "";
 		endif;
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Begin with EN charactor for Username
+	 * @param String $data
+	 * @return boolean
+	 */
 	function regex_charfirst($data)
 	{
-		/*#################################################
-		Begin with EN charactor
-		for Username
-		###################################################*/
 		$pattern="/^[a-zA-Z][a-zA-Z0-9]+$/";
 		$this->form_validation->set_message('regex_charfirst',"%s - ต้องขึ้นต้นด้วยอักษรภาษาอังกฤษ");
 		$rs=preg_match($pattern,$data,$matchOutput);
@@ -422,12 +450,16 @@ class Register extends MY_Controller
 			return false;
 		endif;
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Allow ENG & TH Charactor for Firstname & Lastname
+	 * @param String $data
+	 * @return boolean
+	 */
 	function regex_charTHEN($data)
 	{
-		/*#################################################
-		 Allow ENG & TH Charactor
-		 for Firstname & Lastname
-		###################################################*/
 		$pattern="/^[a-zA-Zก-ํ]+$/u";
 		$this->form_validation->set_message('regex_charTHEN',"%s - กรอกได้เฉพาะอักษรไทย/อังกฤษ");
 		$rs=preg_match($pattern,$data,$matchOutput);
@@ -437,23 +469,33 @@ class Register extends MY_Controller
 			return false;
 		endif;
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * $param = library_name , method_in_library , error_message
+	 * $param_value = array(library_name , method_in_library , error_message);
+	 * Example use like this >> callback_call_lib[regex_lib,regex_house_no,%s - รูปแบบไม่ถูกต้อง]
+	 * @see MY_Controller::call_lib()
+	 */
 	function call_lib($data,$param)
 	{
-		/*#################################################
-		 * $param = library_name , method_in_library , error_message
-		 * $param_value=array(library_name , method_in_library , error_message);
-		###################################################*/
 		$param_value=explode(',',$param);
 		$this->form_validation->set_message("call_lib",$param_value[2]);
 		$this->load->library($param_value[0]);
 		//send $data to method in library
 		return $this->$param_value[0]->$param_value[1]($data);
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * If seleced otherOccupation from <select>
+	 * @param String $data
+	 * @return boolean
+	 */
 	function selected_other($data)
 	{
-		/*#################################################
-		If seleced otherOccupation from <select>
-		###################################################*/
 		$this->form_validation->set_message("selected_other","%s - กรุณาระบุอาชีพอื่นๆ");
 		if($data=="00") 
 		{
@@ -466,36 +508,63 @@ class Register extends MY_Controller
 		}
 		else return false;
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Find space in string
+	 * @param String $data
+	 * @return boolean
+	 */
 	function find_space($data)
 	{
-		/*#################################################
-		Find space in string
-		###################################################*/
 		$this->form_validation->set_message("find_space","%s - มีช่องว่าง");
 		if(strpos($data," ")==true) return false;
 		else return true;
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Check Username already exist
+	 * @param String $data
+	 */
 	function already_exist($data)
 	{
-		//Check Username already exist
 		$this->form_validation->set_message("already_exist","%s - ข้อมูลถูกใช้แล้วไม่สามารถใช้ได้");
-		$this->load->model("register_model");
-		$rgm=$this->register_model;
-		return $rgm->username_already_exist($data);
+		return $this->rgm->username_already_exist($data);
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Check id_card_number already exist
+	 * @param String $data
+	 */
 	function id_card_already_exist($data)
 	{
-		//Check Username already exist
 		$this->form_validation->set_message("already_exist","%s - ข้อมูลถูกใช้แล้วไม่สามารถใช้ได้");
-		$this->load->model("register_model");
-		$rgm=$this->register_model;
-		return $rgm->id_card_already_exist($data);
+		return $this->rgm->id_card_already_exist($data);
 	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Check Username already exist with ajax
+	 */
 	function already_exist_ajax()
 	{
-		$this->load->model("register_model");
-		$rgm=$this->register_model;
 		//return $rgm->username_already_exist($this->input->post("input_username"));
-		echo json_encode($rgm->username_already_exist($this->input->post($this->lang->line("in_username"))));
+		echo json_encode($this->rgm->username_already_exist($this->input->post($this->lang->line("in_username"))));
+	}
+	
+	// --------------------------------------------------------------------
+	
+	/**
+	 * Check id_card_number already exist with ajax
+	 */
+	function id_card_already_exist_ajax()
+	{
+		echo json_encode($this->rgm->id_card_already_exist($this->input->post($this->lang->line("in_id_card_number"))));
 	}
 }

@@ -559,4 +559,17 @@ class Article extends MY_Controller
 			$this->session->set_userdata("searchfield_article",$this->input->post("searchfield"));
 		}
 	}
+	
+	/**
+	 * Check article already exist with ajax
+	 */
+	function already_exist_ajax()
+	{
+		$this->db->select()->from("tb_article")
+		->where("article_name",trim( $this->input->post( $this->lang->line("in_article") ) ));
+		$q = $this->db->get();
+		if($q->num_rows() > 0 )
+			echo json_encode(false);
+		else echo json_encode(true);
+	}
 }

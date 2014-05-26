@@ -47,7 +47,15 @@ echo $head;
 						</form>
 					</div>
 				</div>
-      			
+				
+      			<div class="panel panel-success">
+					<div class="panel-heading">
+						<h3 class="panel-title"><strong><?php echo $this->lang->line("text_article_type");?>ที่มี</strong></h3>
+					</div>
+					<div class="panel-body">
+						<?php echo $current_article_type;?>
+					</div>
+				</div>
       		</div>
         </div>
       </div>
@@ -74,7 +82,17 @@ echo $js;
 				"<?php echo $this->lang->line("in_article_type");?>": {
 					required:true,
 					maxlength:30,
-					THEN:true
+					THEN:true,
+					remote:{
+						// จะ return true / false
+						url:b_url+"?d=manage&c=article_type&m=already_exist_ajax",
+						type:"POST"
+					}
+				}
+			},
+			messages:{
+				"<?php echo $this->lang->line("in_article_type");?>":{
+					remote:"<?php echo $this->lang->line("t_in_article_type");?>นี้ถูกใช้แล้ว"
 				}
 			}
 		});

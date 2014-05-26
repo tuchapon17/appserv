@@ -22,11 +22,11 @@ class Auth_log_model extends MY_Model
 		$table_name="tb_auth_log";
 		if($liketext!='')
 		{
-			$query=$this->db->select($sql_select,FALSE)->from($table_name)->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select($sql_select,FALSE)->from($table_name)->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		else
 		{
-			$query=$this->db->select($sql_select,FALSE)->from($table_name)->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select($sql_select,FALSE)->from($table_name)->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		$num_rows=$query->num_rows();
 		if($num_rows>0)

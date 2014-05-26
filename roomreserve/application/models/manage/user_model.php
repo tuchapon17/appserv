@@ -28,7 +28,7 @@ class User_model extends MY_Model
 			->join("tb_usergroup","tb_usergroup.usergroup_id=tb_user.tb_usergroup_id")
 			->join("tb_titlename","tb_titlename.titlename_id=tb_user.tb_titlename_id")
 			->like($searchfield,$liketext,"both")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)->get();
 		}
 		else
@@ -36,7 +36,7 @@ class User_model extends MY_Model
 			$query=$this->db->select("tb_user.*,tb_usergroup.group_name,tb_titlename.*")->from("tb_user")
 			->join("tb_usergroup","tb_usergroup.usergroup_id=tb_user.tb_usergroup_id")
 			->join("tb_titlename","tb_titlename.titlename_id=tb_user.tb_titlename_id")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)->get();
 		}
 		if($query->num_rows()>0)
@@ -58,7 +58,7 @@ class User_model extends MY_Model
 			->join("tb_usergroup","tb_usergroup.usergroup_id=tb_user.tb_usergroup_id")
 			->join("tb_titlename","tb_titlename.titlename_id=tb_user.tb_titlename_id")
 			->like($searchfield,$liketext,"both")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)->get();
 		}
 		else
@@ -66,7 +66,7 @@ class User_model extends MY_Model
 			$query=$this->db->select("tb_user.*,tb_usergroup.group_name,tb_titlename.*")->from("tb_user")
 			->join("tb_usergroup","tb_usergroup.usergroup_id=tb_user.tb_usergroup_id")
 			->join("tb_titlename","tb_titlename.titlename_id=tb_user.tb_titlename_id")
-			->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)
+			->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)
 			->limit($perpage,$getpage)->get();
 		}
 		if($query->num_rows()>0)

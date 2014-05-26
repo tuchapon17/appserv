@@ -116,6 +116,7 @@ echo $navbar;
 								echo "<span id='".$this->lang->line("in_id_card_number")."_error' class='hidden'>".form_error($this->lang->line("in_id_card_number"))."</span>";
 							echo $se_titlename;
 								echo "<span id='".$this->lang->line("se_titlename")."_error' class='hidden'>".form_error($this->lang->line("se_titlename"))."</span>";
+							echo $in_titlename;
 							echo $in_firstname;
 								echo "<span id='".$this->lang->line("in_firstname")."_error' class='hidden'>".form_error($this->lang->line("in_firstname"))."</span>";
 							echo $in_lastname;
@@ -225,13 +226,32 @@ echo $js;
 			}
 			return true;
 		}, "กรุณาระบุอาชีพอื่นๆ");
-		$.validator.addMethod("<?php echo $this->lang->line("in_occupation");?>", function(value, element){
+		$.validator.addMethod("select_other_titlename", function(value, element){
+			if(value=='00')
+			{
+				$("#<?php echo $this->lang->line("in_titlename");?>").focus();
+				return true;
+			}
+			return true;
+		}, "กรุณาระบุคำนำหน้าชื่ออื่นๆ");
+		$.validator.addMethod("input_occupation", function(value, element){
 			//เมื่อมีการเลือกอาชีพอื่นๆ
 			if($("#<?php echo $this->lang->line("se_occupation");?>").val()=='00')
 			{
 				//ลบช่องว่าง หน้า หลัง string
 				$("#<?php echo $this->lang->line("in_occupation");?>").val($.trim($("#<?php echo $this->lang->line("in_occupation");?>").val()));
 				if($("#<?php echo $this->lang->line("in_occupation");?>").val().length > 0)
+					return true;
+			}
+			else return true;
+		}, "โปรดระบุข้อมูล");
+		$.validator.addMethod("input_titlename", function(value, element){
+			//เมื่อมีการเลือกอาชีพอื่นๆ
+			if($("#<?php echo $this->lang->line("se_titlename");?>").val()=='00')
+			{
+				//ลบช่องว่าง หน้า หลัง string
+				$("#<?php echo $this->lang->line("in_titlename");?>").val($.trim($("#<?php echo $this->lang->line("in_titlename");?>").val()));
+				if($("#<?php echo $this->lang->line("in_titlename");?>").val().length > 0)
 					return true;
 			}
 			else return true;
@@ -278,7 +298,7 @@ echo $js;
 					required:true,
 					minlength:5,
 					maxlength:15,
-					password_match:true,
+					//password_match:true,
 					noSpace:true
 				},
 				"<?php echo $this->lang->line("in_password2");?>":{
@@ -296,7 +316,8 @@ echo $js;
 					maxlength:128
 				},
 				"<?php echo $this->lang->line("se_titlename");?>":{
-					required:true
+					required:true,
+					select_other_titlename:true
 				},
 				"<?php echo $this->lang->line("in_firstname");?>":{
 					required:true,
@@ -320,6 +341,10 @@ echo $js;
 				},
 				"<?php echo $this->lang->line("in_occupation");?>":{
 					input_occupation:true,
+					maxlength:30
+				},
+				"<?php echo $this->lang->line("in_titlename");?>":{
+					input_titlename:true,
 					maxlength:30
 				},
 				"<?php echo $this->lang->line("in_house_no");?>":{
@@ -351,12 +376,20 @@ echo $js;
 					minlength:13,
 					maxlength:13,
 					digits:true,
-					id_card:true
+					id_card:true,
+					remote:{
+						// จะ return true / false
+						url:b_url+"?c=register&m=id_card_already_exist_ajax",
+						type:"POST"
+					}
 				}
 			},
 			messages:{
 				"<?php echo $this->lang->line("in_username");?>": {
-					remote:"ชื่อผู้ใช้นี้ถูกใช้แล้ว"
+					remote:"<?php echo $this->lang->line("t_in_username");?>นี้ถูกใช้แล้ว"
+				},
+				"<?php echo $this->lang->line("in_id_card_number");?>": {
+					remote:"<?php echo $this->lang->line("t_in_id_card_number");?>นี้ถูกใช้แล้ว"
 				}
 			}
 		});
@@ -499,11 +532,21 @@ echo $js;
 		if($this->session->flashdata("register_message"))
 		{
 			if($this->session->flashdata("register_status")==true)
-			{?>
-				bootbox.confirm("<?php echo $this->session->flashdata("register_message");?><br/>คุณต้องการไปยังหน้าเข้าสู่ระบบหรือไม่? ", function(result) {
-					if(result == true)window.location="?c=login&m=auth";
-				}); 
+			{
+				if(!$this->session->userdata("rs_username"))
+				{
+			?>
+					bootbox.confirm("<?php echo $this->session->flashdata("register_message");?><br/>คุณต้องการไปยังหน้าเข้าสู่ระบบหรือไม่? ", function(result) {
+						if(result == true)window.location="?c=login&m=auth";
+					}); 
 			<?php
+				}
+				else 
+				{
+			?>
+					bootbox.alert("<?php echo $this->session->flashdata("register_message");?>");
+			<?php		
+				}
 			}
 			else if ($this->session->flashdata("register_status")==false) {
 			?>
@@ -587,6 +630,19 @@ echo $js;
 			});
 		}
 
+		var _in_titlename = $("#<?php echo $this->lang->line("in_titlename");?>");
+		$("#<?php echo $this->lang->line("in_titlename");?>").parent().hide();
+		$("#<?php echo $this->lang->line("se_titlename");?>").on("keyup change",function(){
+			if($(this).find('option:selected').val()=="00")
+			{
+				_in_titlename.parent().show();
+			}
+			else
+			{
+				_in_titlename.val('');
+				_in_titlename.parent().hide();
+			}
+		});
 		/**
 		- find div parent of #input_occupation and add ID(otherOccupation) to this div
 		- if selected otherOccupation #input_occupation has been visible
@@ -608,6 +664,13 @@ echo $js;
 		{
 			$("#<?php echo $this->lang->line("se_occupation");?>").trigger("change");
 		}
+
+		//เมื่อ refresh หน้าให้เลือก option แรก
+		$("#<?php echo $this->lang->line("se_titlename");?>").find("option:eq(0)").prop("selected",true);
+		$("#<?php echo $this->lang->line("se_occupation");?>").find("option:eq(0)").prop("selected",true);
+		$("#<?php echo $this->lang->line("se_province");?>").find("option:eq(0)").prop("selected",true);
+		$("#<?php echo $this->lang->line("se_district");?>").find("option:eq(0)").prop("selected",true);
+		$("#<?php echo $this->lang->line("se_subdistrict");?>").find("option:eq(0)").prop("selected",true);
 	});
 	//remove erorr message for password & password2
 	function pwd_rm_error_msg()

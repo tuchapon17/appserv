@@ -23,11 +23,11 @@ class Article_model extends MY_Model
 		$table_name="tb_article as at";
 		if($liketext!='')
 		{
-			$query=$this->db->select($sql_select,false)->from($table_name)->join("tb_article_type as att","att.article_type_id=at.tb_article_type_id")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select($sql_select,false)->from($table_name)->join("tb_article_type as att","att.article_type_id=at.tb_article_type_id")->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		else
 		{
-			$query=$this->db->select($sql_select,false)->from($table_name)->join("tb_article_type as att","att.article_type_id=at.tb_article_type_id")->order_by("CONVERT(".$orderby_filed." USING UTF8)",$orderby_type)->limit($perpage,$getpage)->get();
+			$query=$this->db->select($sql_select,false)->from($table_name)->join("tb_article_type as att","att.article_type_id=at.tb_article_type_id")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
 		}
 		$num_rows=$query->num_rows();
 		if($num_rows>0)

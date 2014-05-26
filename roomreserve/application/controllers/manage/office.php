@@ -11,6 +11,10 @@ class Office extends MY_Controller
 		$this->off_model=$this->office_model;
 		$this->sess_orderby_office=$this->session->userdata("orderby_office");
 	}
+	
+	/**
+	 * Add office
+	 */
 	function add()
 	{
 		$config=array(
@@ -22,6 +26,10 @@ class Office extends MY_Controller
 		);
 		$this->frm->set_rules($config);
 		$this->frm->set_message("rule","message");
+		
+		$this->db->select()->from("tb_office")
+		->order_by("CONVERT(office_name USING ".$this->mysql_charset.")","ASC");
+		$current_office = $this->db->get()->result_array();
 		if($this->frm->run() == false)
 		{
 			$in_office=array(
@@ -46,7 +54,8 @@ class Office extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"office_tab"=>$this->office_tab(),
-					"in_office"=>$this->eml->form_input($in_office)
+					"in_office"=>$this->eml->form_input($in_office),
+					"current_office"=>$this->eml->multiple_select($current_office,"office_name")
 			);
 		
 			$this->load->view("manage/office/add_office",$data);
@@ -275,6 +284,7 @@ class Office extends MY_Controller
 		$load=$this->off_model->load_office($this->input->post("tid"));
 		echo json_encode($load[0]);
 	}
+	
 	/**
 	 * Set search_field session
 	 *
@@ -286,5 +296,18 @@ class Office extends MY_Controller
 		{
 			$this->session->set_userdata("searchfield_office",$this->input->post("searchfield"));
 		}
+	}
+	
+	/**
+	 * Check office already exist with ajax
+	 */
+	function already_exist_ajax()
+	{
+		$this->db->select()->from("tb_office")
+		->where("office_name",trim( $this->input->post( $this->lang->line("in_office") ) ));
+		$q = $this->db->get();
+		if($q->num_rows() > 0 )
+			echo json_encode(false);
+		else echo json_encode(true);
 	}
 }
