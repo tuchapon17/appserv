@@ -12,6 +12,9 @@ echo $head;
 			margin-bottom: 20px;
     		padding:0px 15px 0px 15px;
 		}
+		.status0,.status1{
+			cursor:pointer;
+		}
     </style>
 <?php
 	echo $bodyopen;
@@ -51,12 +54,12 @@ echo $js;
 	<script type="text/javascript">
 	<!--
 	$(function(){
-		allow_red_to_green("<?=$m_name?>");
-		disallow_green_to_red("<?=$m_name?>");
+		//allow_red_to_green("<?=$m_name?>");
+		//disallow_green_to_red("<?=$m_name?>");
 		/**
 		Checked/Unchecked all checkbox
 		*/
-		del_all_checkbox("<?=$m_name?>");
+		//del_all_checkbox("<?=$m_name?>");
 		
 		/**
 		add num_rows to pagination 
@@ -170,6 +173,50 @@ echo $js;
 		var c_main_link="?d=manage&c=<?=$controller?>&m=edit";
 		var sess_s="<?php echo $this->session->userdata("searchfield_".$m_name);?>";
 		select_search_center(select_field, b_url, s_link, c_main_link, sess_s);
+	}
+
+	function toggle_user_status(u)
+	{
+		//enable
+		if($("#u_"+u+".status0").length > 0)
+		{
+			$.ajax({
+				url:"?d=manage&c=user&m=toggle_user_status",
+				data:{"u":u,"s":"enable"},
+				type:"POST",
+				dataType:"json",
+				success:function(resp){
+					if(resp=="1")
+					{
+						$("#u_"+u).toggleClass("fa-danger fa-success");
+						$("#u_"+u).toggleClass("status0 status1");
+					}
+				},
+				error:function(error){
+					alert("Error : "+error);
+				}
+			});
+		}
+		//disable
+		else if($("#u_"+u+".status1").length > 0)
+		{
+			$.ajax({
+				url:"?d=manage&c=user&m=toggle_user_status",
+				data:{"u":u,"s":"disable"},
+				type:"POST",
+				dataType:"json",
+				success:function(resp){
+					if(resp=="1")
+					{
+						$("#u_"+u).toggleClass("fa-success fa-danger");
+						$("#u_"+u).toggleClass("status1 status0");
+					}
+				},
+				error:function(error){
+					alert("Error : "+error);
+				}
+			});
+		}
 	}
 	//-->
 	</script>

@@ -79,7 +79,7 @@ class User_model extends MY_Model
 	{
 		$this->db->select("	tb_user.username,
 							tb_user.email,
-							DATE_FORMAT(tb_user.regis_on,'%d/%m/%Y %H:%i:%s') AS regis_on,
+							regis_on,
 							tb_user.regis_ip,
 							tb_user.tb_usergroup_id,
 							tb_user.tb_titlename_id,

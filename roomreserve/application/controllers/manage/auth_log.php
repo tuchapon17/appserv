@@ -24,7 +24,7 @@ class Auth_log extends MY_Controller
 		$this->frm->set_message("rule","message");
 		if($this->frm->run() == false)
 		{
-			$this->set_default_sess_orderby("auth_log", array("field"=>"auth_log_id","type"=>"ASC"));
+			$this->set_default_sess_orderby("auth_log", array("field"=>"event_log_id","type"=>"ASC"));
 			//pagination
 			$this->load->library("pagination");
 			$config['use_page_numbers'] = TRUE;
@@ -42,13 +42,13 @@ class Auth_log extends MY_Controller
 			if($search_text!=null)
 			{
 				$liketext=$search_text;
-				$config['total_rows']=$this->al_model->get_all_numrows("tb_auth_log",$liketext,$searchfield);
+				$config['total_rows']=$this->al_model->get_all_numrows("tb_event_log",$liketext,$searchfield);
 	
 				$get_auth_log_list=$this->al_model->get_auth_log_list($config['per_page'],$this->getpage,$liketext);
 			}
 			else
 			{
-				$config['total_rows']=$this->al_model->get_all_numrows("tb_auth_log",'',$searchfield);
+				$config['total_rows']=$this->al_model->get_all_numrows("tb_event_log",'',$searchfield);
 	
 				$get_auth_log_list=$this->al_model->get_auth_log_list($config['per_page'],$this->getpage);
 			}
@@ -74,15 +74,7 @@ class Auth_log extends MY_Controller
 		}
 		else
 		{
-			$prev_url=$_SERVER['HTTP_REFERER'];
-			$session_edit_id="edit_auth_log_id";
-			$set=array(
-					"auth_log_name"=>$this->input->post("input_auth_log_name")
-			);
-			$where=array(
-					"auth_log_id"=>$this->session->userdata($session_edit_id)
-			);
-			$this->al_model->manage_edit($set, $where, "tb_auth_log", $session_edit_id, "edit_auth_log", "แก้ไขสาขาวิชา/งานสำเร็จ", "แก้ไขสาขาวิชา/งานไม่สำเร็จ", "?d=manage&c=auth_log&m=edit", $prev_url);
+			
 		}
 	}
 	
@@ -114,27 +106,29 @@ class Auth_log extends MY_Controller
 	}
 	function table_edit($data)
 	{
-		if($this->sess_orderby_auth_log["type"]=="ASC") $img='<img width="9" src="'.base_url().'images/glyphicons_free/glyphicons/png/glyphicons_212_down_arrow.png">';
-		else if($this->sess_orderby_auth_log["type"]=="DESC") $img='<img width="9" src="'.base_url().'images/glyphicons_free/glyphicons/png/glyphicons_213_up_arrow.png">';
 		$num_row=$this->getpage+1;
 		$html='
 				<table class="table table-striped table-bordered fixed-table" id="tabel_data_list">';
 		$html.='<thead>
-				<th>รหัส</th>
+				<th class="same_first_td">รหัส</th>
 				<th>ชื่อผู้ใช้</th>
-				<th>IPที่เข้าสู่ระบบ</th>
-				<th>วัน/เวลาที่เข้าสู่ระบบ</th>
+				<th>IP</th>
+				<th>วัน/เวลา</th>
+				<th>การกระทำ</th>
 		';
 		$html.='</thead>
 		<form method="post" action="'.base_url().'?d=manage&c=auth_log&m=delete" id="form_del_auth_log">';
 		if(!empty($data))
 		{
 			foreach ($data AS $dt):
+			//convert datetime
+			$th_dt = $this->th_date($dt["event_on"],"");
 			$html.='<tr>
-					<td>'.$dt["auth_log_id"].'</td>
-					<td id="auth_log'.$dt["auth_log_id"].'">'.$dt["tb_user_username"].'</td>
+					<td>'.$dt["event_log_id"].'</td>
+					<td id="auth_log'.$dt["event_log_id"].'">'.$dt["tb_user_username"].'</td>
 					<td>'.$dt["ip_address"].'</td>
-					<td>'.$dt["login_on"].'</td>
+					<td>'.$th_dt["date"]." ".$th_dt["time"].'</td>
+					<td>'.$dt["event_text"].'</td>
 			';
 			$html.='</tr>';
 			$num_row++;

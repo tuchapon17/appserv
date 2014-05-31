@@ -287,6 +287,8 @@ class Reserve extends MY_Controller
 		}
 		else
 		{
+			//add event
+			$this->add_event("จองห้อง");
 			$this->db->trans_begin();
 			
 			//insert tb_reserve
@@ -1323,6 +1325,7 @@ class Reserve extends MY_Controller
 		if(!empty($data))
 		{
 			foreach ($data AS $dt):
+			$th_dt = $this->fl->th_date($dt["reserve_on"],"");
 			$approve_text=array(
 					"<span class='text-warning'>รออนุมัติ</span>",
 					"<span class='text-success'>อนุมัติแล้ว</span>",
@@ -1343,7 +1346,7 @@ class Reserve extends MY_Controller
 					<td>'.$dt["room_name"].'</td>
 					<td>'.$dt["person_type"].'</td>
 					<td class="text-center">'.$dt["discount"].'</td>
-					<td>'.date('Y/m/d H:i:s',strtotime($dt["reserve_on"])).'</td>
+					<td>'.$th_dt["date"]." ".$th_dt["time"].'</td>
 					<td>'.$approve_text[$dt['approve']].'</td>
 							
 					<td class="text-center">'.$this->eml->btn('approve','onclick=approve_alert("'.$dt['reserve_id'].'","'.base_url().'");').'</td>
@@ -1394,6 +1397,8 @@ class Reserve extends MY_Controller
 		if(!empty($data))
 		{
 			foreach ($data AS $dt):
+			$r_on = $this->fl->th_date($dt["reserve_on"],"");
+			$app_on = $this->fl->th_date($dt["approve_on"],"");
 			$approve_text=array(
 					"<span class='text-warning'>รออนุมัติ</span>",
 					"<span class='text-success'>อนุมัติแล้ว</span>",
@@ -1413,9 +1418,9 @@ class Reserve extends MY_Controller
 					<td id="reserve'.$dt["reserve_id"].'">'.$dt["project_name"].'</td>
 					<td>'.$dt["room_name"].'</td>
 					<td class="text-center">'.$dt["discount"].'</td>
-							<td>'.date('Y/m/d H:i:s',strtotime($dt["reserve_on"])).'</td>
+							<td>'.$r_on["date"]." ".$r_on["time"].'</td>
 					<td>'.$approve_text[$dt['approve']].'</td>
-					<td>'.$dt["approve_by"]." (".$dt['approve_on'].')</td>
+					<td>'.$dt["approve_by"]." (".$app_on["date"]." ".$app_on["time"].')</td>
 					<td class="text-center">'.$this->eml->btn('approve','onclick=approve_alert("'.$dt['reserve_id'].'","'.base_url().'");').'</td>
 					<td class="same_first_td">'.$this->eml->btn('view','onclick=window.open("'.base_url().'?d=manage&c=reserve&m=view&id='.$dt["reserve_id"].'","_blank")').'</td>
 					<td><input type="checkbox" value="'.$dt["reserve_id"].'" name="del_reserve[]" class="del_reserve"></td>
@@ -1704,10 +1709,12 @@ class Reserve extends MY_Controller
 					} 
 					$total_price+=$price01;
 					$article_price_sum+=$price01;
+					//begin end datetime
+					$be_dt = $this->fl->date1_time2($u['reserve_datetime_begin'],$u['reserve_datetime_end']);
 					$html='';
 					$html.='<dl class="dl-horizontal">';
 					$html.='<dt>วันเวลาที่คิดค่าบริการ</dt>';
-					$html.='<dd>'.$u['reserve_datetime_begin']."-".$u['reserve_datetime_end'].'</dd>';
+					$html.='<dd>'.$be_dt.'</dd>';
 					$html.='<dt>อุปกรณ์</dt>';
 					$html.='<dd>'.$u['article_name'].'</dd>';
 					$html.='<dt>ประเภทค่าบริการ</dt>';
@@ -1743,10 +1750,12 @@ class Reserve extends MY_Controller
 					$price02 = ($u['fee_unit_hour']*$datetime_diff['hour'])*$u['unit_num'];
 					$total_price+=$price02;
 					$article_price_sum+=$price02;
+					//begin end datetime
+					$be_dt = $this->fl->date1_time2($u['reserve_datetime_begin'],$u['reserve_datetime_end']);
 					$html='';
 					$html.='<dl class="dl-horizontal">';
 					$html.='<dt>วันเวลาที่คิดค่าบริการ</dt>';
-					$html.='<dd>'.$u['reserve_datetime_begin']."-".$u['reserve_datetime_end'].'</dd>';
+					$html.='<dd>'.$be_dt.'</dd>';
 					$html.='<dt>อุปกรณ์</dt>';
 					$html.='<dd>'.$u['article_name'].'</dd>';
 					$html.='<dt>ประเภทค่าบริการ</dt>';
@@ -1812,10 +1821,12 @@ class Reserve extends MY_Controller
 					$room_price=($datetime_diff_room['hour']*$r['room_fee_hour']);
 					$total_price+=$room_price;
 					$room_price_sum+=$room_price;
+					//begin end datetime
+					$be_dt = $this->fl->date1_time2($u['reserve_datetime_begin'],$u['reserve_datetime_end']);
 					$html='';
 					$html.='<dl class="dl-horizontal">';
 					$html.='<dt>วันเวลาที่คิดค่าบริการ</dt>';
-					$html.='<dd>'.$r['reserve_datetime_begin']."-".$r['reserve_datetime_end'].'</dd>';
+					$html.='<dd>'.$be_dt.'</dd>';
 					$html.='<dt>ห้อง</dt>';
 					$html.='<dd>'.$r['room_name'].'</dd>';
 					$html.='<dt>ค่าบริการ</dt>';
@@ -2076,6 +2087,8 @@ class Reserve extends MY_Controller
 			$set['approve_by']=$this->session->userdata("rs_username");
 		}
 		$where=array("reserve_id"=>@$_GET['id']);
+		//add event
+		$this->add_event("ปรับผลการอนุมัติเป็น".$this->input->post($this->lang->line("se_approve")));
 		$this->load_reserve_model->manage_edit2($set,$where,"tb_reserve","reserve_approve","สำเร็จ","ไม่สำเร็จ",$_SERVER['HTTP_REFERER']);
 	}
 	function reserve_list()
@@ -2260,6 +2273,8 @@ class Reserve extends MY_Controller
 	}
 	function cancel_reserve()
 	{
+		//add event
+		$this->add_event("ยกเลิกการจอง");
 		$this->load_reserve_model->cancel_reserve($this->input->post("cancel_reserve"), "tb_reserve", "article_type_name", "edit_reserve", "?d=manage&c=reserve&m=reserve_list");
 	}
 	
@@ -2272,6 +2287,8 @@ class Reserve extends MY_Controller
 	function delete()
 	{
 		$referer_query_string = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY);
+		//add event
+		$this->add_event("ลบการจอง");
 		$this->load_reserve_model->del_reserve($this->input->post("del_reserve"),$referer_query_string);
 	}
 	
@@ -2497,6 +2514,8 @@ class Reserve extends MY_Controller
 		else 
 		{
 			$this->db->trans_commit();
+			//add event
+			$this->add_event("อนุมัติส่วนลด");
 			echo "<p class='text-success'>กำหนดส่วนลดสำเร็จ</p>";
 		}
 	}

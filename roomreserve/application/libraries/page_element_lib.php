@@ -44,7 +44,7 @@ class Page_element_lib
 		    <link rel="shortcut icon" href="'.base_url().'plugins/bootstrap3.0/assets/ico/favicon.png">
 		    <!-- Bootstrap core CSS -->
 		    <link href="'.base_url().'plugins/bootstrap3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-		    <link href="'.base_url().'plugins/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet">
+		    <link href="'.base_url().'plugins/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet">
 		    <link href="'.base_url().'css/public_css.css" rel="stylesheet">
 		    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		    <!--[if lt IE 9]>
@@ -120,6 +120,9 @@ class Page_element_lib
 		      		}
 		      		i.fa-danger{
 		      			color:#B94A48;
+		      		}
+		      		i.fa-primary{
+		      			color:#317EAC;
 		      		}
 		      		.wordw{
 		      			word-wrap: break-word;

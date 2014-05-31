@@ -68,6 +68,8 @@ class Room_type extends MY_Controller
 					"room_type_name"=>$this->input->post($this->lang->line("in_room_type"))
 			);
 			$redirect_link="?d=manage&c=room_type&m=add";
+			//add event
+			$this->add_event($this->lang->line("ti_add_room_type"));
 			$this->rt_model->manage_add(
 					$data,
 					"tb_room_type",
@@ -165,6 +167,8 @@ class Room_type extends MY_Controller
 			$where=array(
 					"room_type_id"=>$this->session->userdata($session_edit_id)
 			);
+			//add event
+			$this->add_event("แก้ไข".$this->lang->line("text_room_type"));
 			$this->rt_model->manage_edit(
 					$set,
 					$where,
@@ -184,6 +188,8 @@ class Room_type extends MY_Controller
 	 */
 	function delete()
 	{
+		//add event
+		$this->add_event("ลบ".$this->lang->line("text_room_type"));
 		$this->rt_model->manage_delete($this->input->post("del_room_type"), "tb_room_type", "room_type_id", "room_type_name", "edit_room_type", "?d=manage&c=room_type&m=edit");
 	}
 	

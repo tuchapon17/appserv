@@ -89,6 +89,10 @@ class Calendar extends MY_Controller {
 		//echo $this->db->last_query();
 		if($query->num_rows()>0)
 			$json=$query->result_array();
+			$begin = $this->fl->th_date($json[0]["reserve_datetime_begin"]);
+			$end = $this->fl->th_date($json[0]["reserve_datetime_end"]);
+			$json[0]["reserve_datetime_begin"] = $begin["date"]." ".$begin["time"];
+			$json[0]["reserve_datetime_end"] = $end["date"]." ".$end["time"];
 			echo json_encode($json[0]);
 		//else echo json_encode("");
 	}

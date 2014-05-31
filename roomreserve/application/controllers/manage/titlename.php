@@ -62,6 +62,8 @@ class Titlename extends MY_Controller
 					"titlename"=>$this->input->post($this->lang->line("in_titlename")),
 					"checked"=>1
 			);
+			//add event
+			$this->add_event($this->lang->line("ti_add_titlename"));
 			$this->tn_model->add_titlename($data);
 		}
 	}
@@ -151,11 +153,15 @@ class Titlename extends MY_Controller
 			$set=array(
 					"titlename"=>$this->input->post($this->lang->line("in_titlename"))
 			);			
+			//add event
+			$this->add_event("แก้ไข".$this->lang->line("text_titlename"));
 			$this->tn_model->edit_titlename($set,$prev_url);
 		}
 	}
 	function delete()
 	{
+		//add event
+		$this->add_event("ลบ".$this->lang->line("text_titlename"));
 		$this->tn_model->delete_titlename($this->input->post("del_titlename"));
 	}
 	
@@ -181,7 +187,7 @@ class Titlename extends MY_Controller
 		$html.='<thead>
 				<th>รหัส</th>
 				<th>'.$this->lang->line("text_titlename").'</a></th>
-				<th class="same_first_td">อนุมัติ<br/><button type="button" class="cbtn cbtn-green" id="allow-all"><button type="button" class="cbtn cbtn-red" id="disallow-all"></th>
+				<th class="same_first_td">แสดงในตัวเลือก</th>
 				<th class="same_first_td">แก้ไข</th>
 				<th><input type="checkbox" id="del_all_titlename"></th>
 		';
@@ -190,6 +196,7 @@ class Titlename extends MY_Controller
 		if(!empty($data))
 		{
 			foreach ($data AS $dt):
+			/*
 			if($dt['checked']==0)
 				$checkbox='<span class="checkboxFour">
 		  		<input type="checkbox" value="'.$dt["titlename_id"].'" id="checkboxFourInput'.$dt["titlename_id"].'" name="allow_titlename0[]" class="allow_titlename0"/>
@@ -199,10 +206,13 @@ class Titlename extends MY_Controller
 		  		<input type="checkbox" value="'.$dt["titlename_id"].'" id="checkboxFourInput'.$dt["titlename_id"].'" name="allow_titlename1[]" class="allow_titlename1" checked/>
 			  	<label for="checkboxFourInput'.$dt["titlename_id"].'"></label>
 		  		</span>';
+			*/
+			if($dt["checked"] == 0 ) $checked='<i id="checked'.$dt["titlename_id"].'" class="fa fa-circle fa-danger fa-lg status0" onclick=toggle_checked("'.$dt["titlename_id"].'")></i>';
+			else $checked='<i id="checked'.$dt["titlename_id"].'" class="fa fa-circle fa-success fa-lg status1" onclick=toggle_checked("'.$dt["titlename_id"].'")></i>';
 			$html.='<tr>
 					<td>'.$dt["titlename_id"].'</td>
 					<td id="titlename'.$dt["titlename_id"].'">'.$dt["titlename"].'</td>
-					<td class="same_first_td">'.$checkbox.'</td>
+					<td class="same_first_td">'.$checked.'</td>
 					<td class="same_first_td">'.$this->eml->btn('edit','onclick=load_titlename("'.$dt["titlename_id"].'")').'</td>
 					<td><input type="checkbox" value="'.$dt["titlename_id"].'" name="del_titlename[]" class="del_titlename"></td>
 			';
@@ -213,9 +223,7 @@ class Titlename extends MY_Controller
 		$html.='<tr>
 				<td></td>
 				<td></td>
-				<td align="center">'.$this->eml->btn('submitcheck','onclick="show_allow_list();return false;"')." ".
-									$this->eml->btn('refreshcheck','onclick="location.reload(true);"').'
-						</td>
+				<td></td>
 				<td></td>
 				<td>'.$this->eml->btn('delete','onclick="show_del_list();return false;"').'</td>
 				</tr>
@@ -276,6 +284,44 @@ class Titlename extends MY_Controller
 		$allow_list=$this->input->post("allow_list");
 		$disallow_list=$this->input->post("disallow_list");
 		$this->tn_model->manage_allow($allow_list,$disallow_list, "tb_titlename", "titlename_id", "titlename", "edit_titlename", "?d=manage&c=titlename&m=edit");
+	}
+	
+	function toggle_checked()
+	{
+		$id = trim($this->input->post("id"));
+		$do = $this->input->post("s");
+		if($do == "enable")
+		{
+			$this->db->trans_begin();
+			$set = array(
+					"checked"=>1
+			);
+			$where = array("titlename_id"=>$id);
+			$this->db->update("tb_titlename",$set,$where,1);
+			if($this->db->trans_status()===FALSE):
+			$this->db->trans_rollback();
+			echo "0";
+			else:
+			$this->db->trans_commit();
+			echo "1";
+			endif;
+		}
+		else if($do == "disable")
+		{
+			$this->db->trans_begin();
+			$set = array(
+					"checked"=>0
+			);
+			$where = array("titlename_id"=>$id);
+			$this->db->update("tb_titlename",$set,$where,1);
+			if($this->db->trans_status()===FALSE):
+			$this->db->trans_rollback();
+			echo "0";
+			else:
+			$this->db->trans_commit();
+			echo "1";
+			endif;
+		}
 	}
 }
 //preg_match('/^[1-9]|[1-9][\d]+/',$_GET['per_page']) ตัวเลขแต่ไม่ให้ 0 นำหน้า

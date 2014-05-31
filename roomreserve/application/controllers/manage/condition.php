@@ -56,6 +56,8 @@ class Condition extends MY_Controller
 			$where=array(
 					"condition_id"=>$this->session->userdata($session_edit_id)
 			);
+			//add event
+			$this->add_event("แก้ไข".$this->lang->line("text_condition"));
 			$this->cdm->manage_edit(
 					$set,
 					$where,

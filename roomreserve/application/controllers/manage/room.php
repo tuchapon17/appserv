@@ -189,6 +189,8 @@ class Room extends MY_Controller
 					"room_fee_lump_sum"=>$this->input->post($this->lang->line("in_room_fee_lump_sum"))
 			);
 			$redirect_link="?d=manage&c=room&m=add";
+			//add event
+			$this->add_event($this->lang->line("ti_add_room"));
 			$this->rom->manage_add(
 					$data,
 					"tb_room",
@@ -396,6 +398,8 @@ class Room extends MY_Controller
 			$where=array(
 					"room_id"=>$this->session->userdata($session_edit_id)
 			);
+			//add event
+			$this->add_event("แก้ไข".$this->lang->line("text_room"));
 			$this->rom->manage_edit(
 					$set,
 					$where,
@@ -411,6 +415,8 @@ class Room extends MY_Controller
 	}
 	function delete()
 	{
+		//add event
+		$this->add_event("ลบ".$this->lang->line("text_room"));
 		$this->rom->manage_delete($this->input->post("del_room"), "tb_room", "room_id", "room_name", "edit_room", "?d=manage&c=room&m=edit");
 	}
 	function allow()
@@ -459,7 +465,7 @@ class Room extends MY_Controller
 				<th class="text-center">ค่าบริการต่อชั่วโมง</th>
 				<th class="text-center">ค่าบริการแบบเหมา</th>
 				<th class="text-center">ส่วนลด(%)</th>
-				<th class="same_first_td">สถานะ<br/><button type="button" class="cbtn cbtn-green" id="allow-all"><button type="button" class="cbtn cbtn-red" id="disallow-all"></th>
+				<th class="same_first_td">สถานะห้อง</th>
 				<th class="same_first_td">จัดการรูป</th>
 				<th class="same_first_td">แก้ไข</th>
 				<th>ลบ<br/><input type="checkbox" id="del_all_room"></th>
@@ -473,10 +479,12 @@ class Room extends MY_Controller
 									  		<input type="checkbox" value="'.$dt["room_id"].'" id="checkboxFourInput'.$dt["room_id"].'" name="allow_room0[]" class="allow_room0"/>
 										  	<label for="checkboxFourInput'.$dt["room_id"].'"></label>
 									  		</span>';
-			else $checkbox='<span class="checkboxFour">
+			else $checkbox='<span class="checkboxFour"><i class=""></i>
 					  		<input type="checkbox" value="'.$dt["room_id"].'" id="checkboxFourInput'.$dt["room_id"].'" name="allow_room1[]" class="allow_room1" checked/>
 						  	<label for="checkboxFourInput'.$dt["room_id"].'"></label>
 					  		</span>';
+			if($dt["room_status"] == 0 ) $btn_status='<i id="rs'.$dt["room_id"].'" class="fa fa-circle fa-danger fa-lg status0" onclick=toggle_status("'.$dt["room_id"].'")></i>';
+			else $btn_status='<i id="rs'.$dt["room_id"].'" class="fa fa-circle fa-success fa-lg status1" onclick=toggle_status("'.$dt["room_id"].'")></i>';
 			$html.='<tr>
 					<td>'.$dt["room_id"].'</td>
 					<td id="room'.$dt["room_id"].'">'.$dt["room_name"].'</td>
@@ -485,7 +493,7 @@ class Room extends MY_Controller
 							<td>'.$dt['room_fee_hour'].'</td>
 							<td>'.$dt['room_fee_lump_sum'].'</td>
 					<td>'.$dt["discount_percent"].'</td>
-					<td class="text-center">'.$checkbox.'</td>
+					<td class="text-center">'.$btn_status.'</td>
 					<td class="text-center">'.$this->eml->btn('picture','onclick=window.open("'.base_url().'?d=manage&c=room&m=pic&rmid='.$dt['room_id'].'","_blank")').'</td>
 					<td class="text-center">'.$this->eml->btn('edit','onclick=load_room("'.$dt["room_id"].'")').'</td>
 					<td><input type="checkbox" value="'.$dt["room_id"].'" name="del_room[]" class="del_room"></td>
@@ -502,9 +510,7 @@ class Room extends MY_Controller
 				<td></td>
 				<td></td>
 				<td></td>
-				<td align="center">'.$this->eml->btn('submitcheck','onclick="show_allow_list();return false;"')." ".
-									$this->eml->btn('refreshcheck','onclick="location.reload(true);"').'
-				</td>
+				<td></td>
 				<td></td>											
 				<td></td>
 				<td>'.$this->eml->btn('delete','onclick="show_del_list();return false;"').'</td>
@@ -660,7 +666,8 @@ class Room extends MY_Controller
 						"pic_name"=>$file_detail["new_name"],
 						"tb_room_id"=>$this->session->userdata("room_has_pic_id")
 					);
-					
+					//add event
+					$this->add_event("อัพโหลดรูป");
 					$this->rom->manage_add2($data5,"tb_room_has_pic");
 				}
 				else
@@ -702,6 +709,8 @@ class Room extends MY_Controller
 			$this->db->trans_rollback();
 		else:
 			$this->db->trans_commit();
+			//add event
+			$this->add_event("แก้ไขคำบรรยายรูป");
 			echo json_encode(array("commit"));
 		endif;
 	}
@@ -762,5 +771,47 @@ class Room extends MY_Controller
 		if($q->num_rows() > 0 )
 			echo json_encode(false);
 		else echo json_encode(true);
+	}
+	
+	function enable_status()
+	{
+		$room_id = $this->input->post("rid");
+		$this->db->trans_begin();
+		$set = array(
+				"room_status"=>1,
+				"room_status_msg"=>""
+		);
+		$where = array("room_id"=>$room_id);
+		$this->db->update("tb_room",$set,$where,1);
+		if($this->db->trans_status()===FALSE):
+			$this->db->trans_rollback();
+			echo "0";
+		else:
+			$this->db->trans_commit();
+			echo "1";
+		endif;
+	}
+	
+	function disable_status()
+	{
+		$room_id = $this->input->post("rid");
+		$msg = trim($this->input->post("msg"));
+		//maxlength of msg = 50 string
+		$msg = substr($msg,0,50);
+		
+		$this->db->trans_begin();
+		$set = array(
+				"room_status"=>0,
+				"room_status_msg"=>$msg
+		);
+		$where = array("room_id"=>$room_id);
+		$this->db->update("tb_room",$set,$where,1);
+		if($this->db->trans_status()===FALSE):
+			$this->db->trans_rollback();
+			echo "0";
+		else:
+			$this->db->trans_commit();
+			echo "1";
+		endif;
 	}
 }

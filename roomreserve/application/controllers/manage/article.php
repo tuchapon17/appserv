@@ -187,6 +187,8 @@ class Article extends MY_Controller
 				$data["equipment_number"]=$this->input->post($this->lang->line("in_equipment_number"));
 							
 			$redirect_link="?d=manage&c=article&m=add";
+			//add event
+			$this->add_event($this->lang->line("ti_add_article"));
 			$this->load_article_model->manage_add(
 					$data,
 					$this->table_name,
@@ -389,6 +391,8 @@ class Article extends MY_Controller
 			$where=array(
 					"article_id"=>$this->session->userdata($session_edit_id)
 			);
+			//add event
+			$this->add_event("แก้ไข".$this->lang->line("text_article"));
 			$this->load_article_model->manage_edit(
 					$set,
 					$where,
@@ -413,6 +417,8 @@ class Article extends MY_Controller
 	 */
 	function delete()
 	{
+		//add event
+		$this->add_event("ลบ".$this->lang->line("text_article"));
 		$this->load_article_model->manage_delete($this->input->post("del_article"), $this->table_name, "article_id", "article_name", "edit_article", "?d=manage&c=article&m=edit");
 	}
 	

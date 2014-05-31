@@ -363,7 +363,7 @@ class Report extends MY_Controller {
 		//http://www.tcpdf.org/examples/example_048.phps
 		//http://www.tcpdf.org/examples/example_048.pdf
 		//www.php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc
-
+		$this->add_event("ออกรายงาน");
 		if (ob_get_contents()) ob_end_clean();
 		$this->load->library("pdf");
 		$pdf=$this->pdf;
@@ -473,6 +473,7 @@ EOT;
 		//http://www.tcpdf.org/examples/example_048.phps
 		//http://www.tcpdf.org/examples/example_048.pdf
 		//www.php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc
+		$this->add_event("ออกรายงาน");
 		$report = $report;
 		if (ob_get_contents()) ob_end_clean();
 		$this->load->library("pdf");
@@ -655,6 +656,7 @@ EOT;
 	}
 	function room_stat_output($report, $select_time_length, $on_time_text, $graph_file_name='')
 	{
+		$this->add_event("ออกรายงาน");
 		//redirect(base_url()."upload/".$graph_file_name);
 		ini_set('memory_limit', '96M');
 		//http://www.tcpdf.org/examples/example_048.phps

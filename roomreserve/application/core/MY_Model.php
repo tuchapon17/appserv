@@ -264,4 +264,46 @@ class MY_Model extends CI_Model
 		else return false;
 	}
 	
+	function add_event_model($text)
+	{
+		$event_maxid = $this->get_maxid(9, "event_log_id", "tb_event_log");
+		$event_log = array(
+				"event_log_id" => $event_maxid,
+				"tb_user_username" => $this->session->userdata("rs_username"),
+				"ip_address" => $this->input->ip_address(),
+				"event_on" => date("Y-m-d H:i:s"),
+				"event_text" => $text
+		);
+		$this->db->trans_begin();
+		$this->db->insert("tb_event_log",$event_log);
+		if($this->db->trans_status()===FALSE)
+		{
+			$this->db->trans_rollback();
+		}
+		else
+		{
+			$this->db->trans_commit();
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

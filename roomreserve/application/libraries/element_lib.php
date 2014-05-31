@@ -120,11 +120,11 @@ class Element_lib
 		}
 		else if($btntype=="submitcheck")//
 		{
-			$html='<button type="button" class="btn btn-success" '.$other_attr.'><i class="fa fa-check"></i></button>';
+			$html='<button type="button" class="btn btn-success btn-sm" '.$other_attr.'><i class="fa fa-check"></i></button>';
 		}
 		else if($btntype=="refreshcheck")//
 		{
-			$html='<button type="button" class="btn btn-warning" '.$other_attr.'><i class="fa fa-refresh "></i></button>';
+			$html='<button type="button" class="btn btn-warning btn-sm" '.$other_attr.'><i class="fa fa-refresh "></i></button>';
 		}
 		else if($btntype=="perpage")//
 		{
@@ -155,7 +155,7 @@ class Element_lib
 		}
 		else if($btntype=="view")//
 		{
-			$html='<button type="button" class="btn btn-default" '.$other_attr.'><i class="fa fa-eye"></i></button>';
+			$html='<button type="button" class="btn btn-default btn-sm" '.$other_attr.'><i class="fa fa-eye"></i></button>';
 		}
 		else if($btntype=="upload-submit")//
 		{
@@ -171,7 +171,7 @@ class Element_lib
 		}
 		else if($btntype=="approve")//
 		{
-			$html='<button type="button" class="btn btn-default" '.$other_attr.' title=""><i class="fa fa-legal fa-lg"></i></button>';
+			$html='<button type="button" class="btn btn-default btn-sm" '.$other_attr.' title=""><i class="fa fa-legal fa-lg"></i></button>';
 		}
 		else if($btntype=="cancel")//
 		{

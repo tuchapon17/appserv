@@ -65,6 +65,8 @@ class Department extends MY_Controller
 					"checked"=>"1"
 			);
 			$redirect_link="?d=manage&c=department&m=add";
+			//add event
+			$this->add_event($this->lang->line("ti_add_department"));
 			$this->dpm_model->manage_add(
 					$data,
 					"tb_department",
@@ -161,6 +163,8 @@ class Department extends MY_Controller
 			$where=array(
 					"department_id"=>$this->session->userdata($session_edit_id)
 			);
+			//add event
+			$this->add_event("แก้ไข".$this->lang->line("text_department"));
 			$this->dpm_model->manage_edit(
 					$set,
 					$where,
@@ -176,6 +180,8 @@ class Department extends MY_Controller
 	}
 	function delete()
 	{
+		//add event
+		$this->add_event("ลบ".$this->lang->line("text_department"));
 		$this->dpm_model->manage_delete(
 				$this->input->post("del_department"),
 				"tb_department", "department_id",
@@ -234,7 +240,7 @@ class Department extends MY_Controller
 		$html.='<thead>
 				<th>รหัส</th>
 				<th>'.$this->lang->line("text_department").'</th>
-				<th class="same_first_td">อนุมัติ<br/><button type="button" class="cbtn cbtn-green" id="allow-all"><button type="button" class="cbtn cbtn-red" id="disallow-all"></th>
+				<th class="same_first_td">แสดงในตัวเลือก</th>
 				<th class="same_first_td">แก้ไข</th>
 				<th>ลบ<br/><input type="checkbox" id="del_all_department"></th>
 		';
@@ -243,9 +249,7 @@ class Department extends MY_Controller
 		if(!empty($data))
 		{
 			foreach ($data AS $dt):
-			//<td>'.$num_row.'</td>
-			//if     $checkbox='<input type="checkbox" value="'.$dt["department_id"].'" name="allow_department0[]" class="allow_department0">';
-			//else   $checkbox='<input type="checkbox" value="'.$dt["department_id"].'" name="allow_department1[]" class="allow_department1" checked>';
+			/*
 			if($dt['checked']==0)$checkbox='<span class="checkboxFour">
 									  		<input type="checkbox" value="'.$dt["department_id"].'" id="checkboxFourInput'.$dt["department_id"].'" name="allow_department0[]" class="allow_department0"/>
 										  	<label for="checkboxFourInput'.$dt["department_id"].'"></label>
@@ -254,10 +258,13 @@ class Department extends MY_Controller
 					  		<input type="checkbox" value="'.$dt["department_id"].'" id="checkboxFourInput'.$dt["department_id"].'" name="allow_department1[]" class="allow_department1" checked/>
 						  	<label for="checkboxFourInput'.$dt["department_id"].'"></label>
 					  		</span>';
+			*/
+			if($dt["checked"] == 0 ) $checked='<i id="checked'.$dt["department_id"].'" class="fa fa-circle fa-danger fa-lg status0" onclick=toggle_checked("'.$dt["department_id"].'")></i>';
+			else $checked='<i id="checked'.$dt["department_id"].'" class="fa fa-circle fa-success fa-lg status1" onclick=toggle_checked("'.$dt["department_id"].'")></i>';
 			$html.='<tr>
 					<td>'.$dt["department_id"].'</td>
 					<td id="department'.$dt["department_id"].'">'.$dt["department_name"].'</td>
-					<td class="same_first_td">'.$checkbox.'</td>
+					<td class="same_first_td">'.$checked.'</td>
 					<td class="same_first_td">'.$this->eml->btn('edit','onclick=load_department("'.$dt["department_id"].'")').'</td>
 					<td><input type="checkbox" value="'.$dt["department_id"].'" name="del_department[]" class="del_department"></td>
 			';
@@ -268,9 +275,7 @@ class Department extends MY_Controller
 		$html.='<tr>
 				<td></td>
 				<td></td>
-				<td align="center">'.$this->eml->btn('submitcheck','onclick="show_allow_list();return false;"')." ".
-									$this->eml->btn('refreshcheck','onclick="location.reload(true);"').'
-						</td>
+				<td></td>
 				<td></td>
 				<td>'.$this->eml->btn('delete','onclick="show_del_list();return false;"').'</td>
 				</tr>
@@ -316,5 +321,43 @@ class Department extends MY_Controller
 		if($q->num_rows() > 0 )
 			echo json_encode(false);
 		else echo json_encode(true);
+	}
+	
+	function toggle_checked()
+	{
+		$id = trim($this->input->post("id"));
+		$do = $this->input->post("s");
+		if($do == "enable")
+		{
+			$this->db->trans_begin();
+			$set = array(
+					"checked"=>1
+			);
+			$where = array("department_id"=>$id);
+			$this->db->update("tb_department",$set,$where,1);
+			if($this->db->trans_status()===FALSE):
+			$this->db->trans_rollback();
+			echo "0";
+			else:
+			$this->db->trans_commit();
+			echo "1";
+			endif;
+		}
+		else if($do == "disable")
+		{
+			$this->db->trans_begin();
+			$set = array(
+					"checked"=>0
+			);
+			$where = array("department_id"=>$id);
+			$this->db->update("tb_department",$set,$where,1);
+			if($this->db->trans_status()===FALSE):
+			$this->db->trans_rollback();
+			echo "0";
+			else:
+			$this->db->trans_commit();
+			echo "1";
+			endif;
+		}
 	}
 }

@@ -48,7 +48,7 @@ class Article_type extends MY_Controller
 			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head($this->lang->line("ti_edit_article_type")),
+					"head"=>$this->pel->head($this->lang->line("ti_add_article_type")),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -70,6 +70,8 @@ class Article_type extends MY_Controller
 					"article_type_name"=>$this->input->post($this->lang->line("in_article_type"))
 			);
 			$redirect_link="?d=manage&c=article_type&m=add";
+			//add event
+			$this->add_event($this->lang->line("ti_add_article_type"));
 			$this->actm->manage_add(
 					$data,
 					"tb_article_type",
@@ -167,6 +169,8 @@ class Article_type extends MY_Controller
 			$where=array(
 					"article_type_id"=>$this->session->userdata($session_edit_id)
 			);
+			//add event
+			$this->add_event("แก้ไข".$this->lang->line("text_article_type"));
 			$this->actm->manage_edit(
 					$set,
 					$where,
@@ -181,6 +185,8 @@ class Article_type extends MY_Controller
 	}
 	function delete()
 	{
+		//add event
+		$this->add_event("ลบ".$this->lang->line("text_article_type"));
 		$this->actm->manage_delete($this->input->post("del_article_type"), "tb_article_type", "article_type_id", "article_type_name", "edit_article_type", "?d=manage&c=article_type&m=edit");
 	}
 	

@@ -51,6 +51,8 @@ class Assign extends MY_Controller
 					"assign_date"=>date("Y-m-d H:i:s"),
 					"tb_privilege_id"=>$this->input->post($this->lang->line("se_privilege_list"))
 			);
+			//add event
+			$this->add_event("โอนสิทธิ์ให้".$this->input->post($this->lang->line("se_user_list")));
 			$this->am->manage_add($data,"tb_privilege_assign",
 					"?d=privilege&c=assign&m=add",
 					"?d=privilege&c=assign&m=add",
@@ -149,6 +151,7 @@ class Assign extends MY_Controller
 		if(!empty($data))
 		{
 			foreach ($data AS $dt):
+			$th_dt = $this->th_date($dt["assign_date"],"");
 			if($dt['canceled']==1)$checkbox='<span class="checkboxFour">
 									  		<input type="checkbox" value="'.$dt["privilege_assign_id"].'" id="checkboxFourInput'.$dt["privilege_assign_id"].'" name="allow_assign" class="allow_assign1"/>
 										  	<label class="label-assign" for="checkboxFourInput'.$dt["privilege_assign_id"].'"></label>
@@ -159,7 +162,7 @@ class Assign extends MY_Controller
 					  		</span>';
 			$html.='<tr>
 					<td>'.$dt["assign_to"].'</td>
-					<td>'.$dt["assign_date"].'</td>
+					<td>'.$th_dt["date"]." ".$th_dt["time"].'</td>
 					<td>'.$dt["privilege_name"].'</td>
 					<td>'.$checkbox.'</td>
 			';
@@ -179,6 +182,9 @@ class Assign extends MY_Controller
 
 		$set=array("canceled"=>$c);
 		$where=array("privilege_assign_id"=>$this->input->post("assign_id"));
+		//add event
+		$this->add_event("ยกเลิกการโอนสิทธิ์");
+		
 		$status = $this->am->allow_assign($set,$where);
 		if($status==true && $c==1)			$m="ยกเลิกการโอนสิทธิ์ สำเร็จ";
 		else if($status==false && $c==1)	$m="ยกเลิกการโอนสิทธิ์ ไม่สำเร็จ";

@@ -15,6 +15,9 @@ echo $head;
 			margin-bottom: 20px;
     		padding:0px 15px 0px 15px;
 		}
+		.status0,.status1{
+			cursor:pointer;
+		}
     </style>
 <?php
 	echo $bodyopen;
@@ -194,6 +197,49 @@ echo $js;
 		var c_main_link="?d=manage&c=<?=$controller?>&m=edit";
 		var sess_s="<?php echo $this->session->userdata("searchfield_".$m_name);?>";
 		select_search_center(select_field, b_url, s_link, c_main_link, sess_s);
+	}
+	function toggle_checked(id)
+	{
+		//enable
+		if($("#checked"+id+".status0").length > 0)
+		{
+			$.ajax({
+				url:"?d=manage&c=occupation&m=toggle_checked",
+				data:{"id":id,"s":"enable"},
+				type:"POST",
+				dataType:"text",
+				success:function(resp){
+					if(resp=="1")
+					{
+						$("#checked"+id).toggleClass("fa-danger fa-success");
+						$("#checked"+id).toggleClass("status0 status1");
+					}
+				},
+				error:function(error){
+					alert("Error : "+error);
+				}
+			});
+		}
+		//disable
+		else if($("#checked"+id+".status1").length > 0)
+		{
+			$.ajax({
+				url:"?d=manage&c=occupation&m=toggle_checked",
+				data:{"id":id,"s":"disable"},
+				type:"POST",
+				dataType:"text",
+				success:function(resp){
+					if(resp=="1")
+					{
+						$("#checked"+id).toggleClass("fa-success fa-danger");
+						$("#checked"+id).toggleClass("status1 status0");
+					}
+				},
+				error:function(error){
+					alert("Error : "+error);
+				}
+			});
+		}
 	}
 	//-->
 	

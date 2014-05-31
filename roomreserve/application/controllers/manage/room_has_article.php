@@ -175,6 +175,8 @@ class Room_has_article extends MY_Controller
 					"lump_sum_base_unit"=>$this->input->post($this->lang->line("in_lump_sum_base_unit"))
 			);
 			$redirect_link="?d=manage&c=room_has_article&m=add";
+			//add event
+			$this->add_event($this->lang->line("ti_add_room_has_article"));
 			$this->load_rha_model->manage_add($data,
 					$this->table_name,
 					$redirect_link,
@@ -383,6 +385,8 @@ class Room_has_article extends MY_Controller
 					"tb_room_id"=>$arr_sess_edit["0"],
 					"tb_article_id"=>$arr_sess_edit["1"]
 			);
+			//add event
+			$this->add_event("แก้ไข".$this->lang->line("text_room_has_article"));
 			$this->load_rha_model->manage_edit(
 					$set,
 					$where,
@@ -407,6 +411,8 @@ class Room_has_article extends MY_Controller
 	 */
 	function delete()
 	{
+		//add event
+		$this->add_event("ลบ".$this->lang->line("text_room_has_article"));
 		$this->load_rha_model->delete_rha($this->input->post("del_room_has_article"), $this->table_name, "tb_room_id,tb_article_id", "room_name,article_name", "edit_room_has_article", "?d=manage&c=room_has_article&m=edit");
 	}
 	

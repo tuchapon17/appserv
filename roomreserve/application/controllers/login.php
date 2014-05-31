@@ -1,9 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Login extends MY_Controller
 {
+	public $lm;
+	
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model("login_model");
+		$this->lm = $this->login_model;
 	}
 	function auth()
 	{
@@ -65,9 +69,8 @@ class Login extends MY_Controller
 		}
 		else 
 		{
-			$this->load->model("login_model");
-			$lm=$this->login_model;
-			$login_result=$lm->check_auth();
+			
+			$login_result = $this->lm->check_auth();
 			if($login_result==false)
 			{
 				$this->session->set_flashdata("login_message","ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
@@ -75,12 +78,14 @@ class Login extends MY_Controller
 			}
 			else if($login_result==true)
 			{
+				$this->add_event("เข้าสู่ระบบ");
 				redirect(base_url());
 			}
 		}
 	}
 	function logout()
 	{
+		$this->add_event("ออกจากระบบ");
 		$this->session->sess_destroy();
 		redirect(base_url()."?c=login&m=auth");
 	}

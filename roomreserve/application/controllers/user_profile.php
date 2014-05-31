@@ -184,6 +184,7 @@ class User_profile extends MY_Controller
 				);
 				$set=array_merge($set,$set2);
 			}
+			$this->add_event("แก้ไขข้อมูลการเข้าใช้ระบบ");
 			$this->upm->update_edit_profile1($set,$this->session->userdata("rs_username"));
 		}
 	}
@@ -358,6 +359,7 @@ class User_profile extends MY_Controller
 					*/
 				}
 			}
+			$this->add_event("แก้ไขข้อมูลส่วนตัว");
 			$this->upm->update_edit_profile2($set,$this->session->userdata("rs_username"));	
 		}
 	}
@@ -501,7 +503,7 @@ class User_profile extends MY_Controller
 			/*-*initial attr for create element with element_lib*/
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
-					"head"=>$this->pel->head("แก้ไขข้อมูลส่วนตัว"),
+					"head"=>$this->pel->head("แก้ไขข้อมูลที่อยู่"),
 					"bodyopen"=>$this->pel->bodyopen(),
 					"navbar"=>$this->pel->navbar(),
 					"js"=>$this->pel->js(),
@@ -534,6 +536,7 @@ class User_profile extends MY_Controller
 					"tb_district_id"=>$this->input->post($this->lang->line("se_district")),
 					"tb_subdistrict_id"=>$this->input->post($this->lang->line("se_subdistrict"))
 			);
+			$this->add_event("แก้ไขข้อมูลที่อยู่");
 			$this->upm->update_edit_profile3($set,$this->session->userdata("rs_username"));	
 		}
 	}

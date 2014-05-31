@@ -15,6 +15,9 @@ echo $head;
 			margin-bottom: 20px;
     		padding:0px 15px 0px 15px;
 		}
+		.status0,.status1{
+			cursor:pointer;
+		}
     </style>
 <?php
 	echo $bodyopen;
@@ -146,8 +149,8 @@ echo $js;
 				}
 			}
 		});
-		allow_red_to_green("<?=$m_name?>");
-		disallow_green_to_red("<?=$m_name?>");
+		//allow_red_to_green("<?=$m_name?>");
+		//disallow_green_to_red("<?=$m_name?>");
 		
 		/**
 		* Highlight the <input> <select> 
@@ -165,7 +168,7 @@ echo $js;
 		/**
 		* Checked/Unchecked all checkbox
 		*/
-		del_all_checkbox("<?=$m_name?>");
+		//del_all_checkbox("<?=$m_name?>");
 		
 		/**
 		* add num_rows to pagination 
@@ -276,6 +279,56 @@ echo $js;
 		var c_main_link="?d=manage&c=<?=$controller?>&m=edit";
 		var sess_s="<?php echo $this->session->userdata("searchfield_".$m_name);?>";
 		select_search_center(select_field, b_url, s_link, c_main_link, sess_s);
+	}
+
+	function toggle_status(id)
+	{
+		//เปิดสถานะห้อง (0 > 1)
+		if($("#rs"+id+".status0").length >0)
+		{
+			$.ajax({
+				url:"?d=manage&c=room&m=enable_status",
+				data:{"rid":id},
+				type:"POST",
+				dataType:"json",
+				success:function(resp){
+					if(resp=="1")
+					{
+						$("#rs"+id).toggleClass("fa-success fa-danger");
+						$("#rs"+id).toggleClass("status0 status1");
+					}
+				},
+				error:function(error){
+					alert("Error : "+error);
+				}
+			});
+		}
+		//ปิดสถานะห้อง (1 > 0)
+		else if($("#rs"+id+".status1").length >0)
+		{
+			bootbox.prompt("โปรดระบุสาเหตุที่ต้องการปิดห้อง", function(msg) {                
+				if (msg === null) {    
+					//alert("Prompt dismissed");                              
+				} else {
+					$.ajax({
+						url:"?d=manage&c=room&m=disable_status",
+						data:{"rid":id,"msg":msg},
+						type:"POST",
+						dataType:"text",
+						success:function(resp){
+							if(resp == "1")
+							{
+								$("#rs"+id).toggleClass("fa-danger fa-success");
+								$("#rs"+id).toggleClass("status1 status0");
+							}
+						},
+						error:function(error){
+							alert("Error : "+error);
+						}
+					});                        
+				}//else
+			});
+		}
 	}
 	//-->
 	

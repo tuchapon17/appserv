@@ -69,7 +69,7 @@ echo $js;
 	}
 	function select_orderby()
 	{
-		var select_field='<option value="auth_log_id">รหัสบันทึกการเข้าสู่ระบบ</option>';
+		var select_field='<option value="event_log_id">รหัสบันทึกเหตุการณ์</option>';
 		select_field+='<option value="tb_user_username">ชื่อผู้ใช้</option>';
 		//var b_url="<?php echo base_url();?>";
 		var set_order_link="?d=manage&c=<?=$controller?>&m=set_orderby";
@@ -80,7 +80,7 @@ echo $js;
 	}
 	function select_searchfield()
 	{
-		var select_field='<option value="auth_log_id">รหัสบันทึกการเข้าสู่ระบบ</option>';
+		var select_field='<option value="event_log_id">รหัสบันทึกเหตุการณ์</option>';
 		select_field+='<option value="tb_user_username">ชื่อผู้ใช้</option>';
 		select_field+='<option value="ip_address">IPที่เข้าสู่ระบบ</option>';
 		//var b_url="<?php echo base_url();?>";

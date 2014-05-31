@@ -174,7 +174,7 @@ var set_page_num_center = function(num, b_url, r_url)
 	this.base_url = b_url;
 	this.redirect_url = r_url;
 	$.post(base_url+"?c=center&m=set_per_page",{num:num},function(data,status){
-		window.location=base_url+redirect_url;
+		//window.location=base_url+redirect_url;
 	});
 };
 

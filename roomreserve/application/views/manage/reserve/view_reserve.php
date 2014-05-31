@@ -2,6 +2,8 @@
 $ci=&get_instance();
 $ci->load->library("element_lib");
 $eml=$ci->element_lib;
+$ci->load->library("function_lib");
+$fl = $ci->function_lib;
 $controller="reserve";
 $m_name="reserve";
 echo $htmlopen;
@@ -59,7 +61,10 @@ echo $head;
 	      		 				<dt>จำนวนคนที่เข้าใช้</dt>
 	      		 				<dd><?php echo $rd['num_of_people'];?></dd>
 	      		 				<dt>วันที่จอง</dt>
-	      		 				<dd><?php echo $rd['reserve_on'];?></dd>
+	      		 				<?php 
+	      		 				$reserve_on = $fl->th_date($rd['reserve_on']);
+	      		 				?>
+	      		 				<dd><?php echo $reserve_on["date"]." ".$reserve_on["time"];?></dd>
 	      		 				<dt>วัตถุประสงค์การใช้</dt>
 	      		 				<dd ><?php echo $rd['for_use'];?></dd>
 	      		 				<dt>ผู้จอง</dt>
@@ -69,7 +74,10 @@ echo $head;
 	      		 				<dt>การอนุมัติ</dt>
 	      		 				<dd><?php echo $approve;?></dd>
 	      		 				<dt>วันที่อนุมัติ</dt>
-	      		 				<dd><?php echo $rd['approve_on'];?></dd>
+	      		 				<?php 
+	      		 				$app_dt = $fl->th_date($rd['approve_on']);
+	      		 				?>
+	      		 				<dd><?php echo $app_dt["date"]." ".$app_dt["time"];?></dd>
 	      		 				<dt>ผู้อนุมัติ</dt>
 	      		 				<dd><a href="<?php echo base_url();?>?c=user_profile&m=view_profile&vuser=<?php echo $rd['approve_by'];?>" target="_blank"><?php echo $rd['approve_by'];?></a></dd>
 	      		 			</dl>
@@ -84,11 +92,10 @@ echo $head;
 	      		 					//echo "<dd>".$val['reserve_datetime_begin']."</dd>";
 	      		 					//echo "<dt>".$val['reserve_datetime_begin']."</dt>";
 	      		 					//echo "<dd>- ".$val['reserve_datetime_end']."</dd>";
+	      		 					$r_date = $fl->date1_time2($val['reserve_datetime_begin'],$val['reserve_datetime_end']);
 	      		 					echo "<dd>".($index+1).".
 									<a href='".base_url()."?c=calendar&m=bydate&cdate=".
-									substr($val['reserve_datetime_begin'],0,10)."' target='_blank'>".
-	      		 					compress_two_datetime($val['reserve_datetime_begin'], $val['reserve_datetime_end']).
-	      		 					"</a>&nbsp;
+									substr($val['reserve_datetime_begin'],0,10)."' target='_blank'>".$r_date."</a>&nbsp;
       								<a href='".base_url()."?d=manage&c=reserve&m=edit_detail&id="
 									.$rd["reserve_id"]."&t=datetime&did=".$val["datetime_id"]."'>
 									<i class='fa fa-edit'></i></a>

@@ -11,9 +11,9 @@ $lang["text_occupation"] = "อาชีพ";
 $lang["text_office"] = "หน่วยงาน";
 $lang["text_room_type"] = "ประเภทห้อง";
 $lang["text_titlename"] = "คำนำหน้าชื่อ";
-$lang[""] = "";
-$lang[""] = "";
-$lang[""] = "";
+$lang["text_room_has_article"] = "วัสดุครุภัณฑ์สำหรับห้อง";
+$lang["text_room"] = "ห้อง";
+$lang["text_user"] = "ผู้ใช้งาน";
 $lang[""] = "";
 $lang[""] = "";
 

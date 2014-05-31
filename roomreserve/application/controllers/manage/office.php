@@ -68,6 +68,8 @@ class Office extends MY_Controller
 					"checked"=>"1"
 			);
 			$redirect_link="?d=manage&c=office&m=add";
+			//add event
+			$this->add_event($this->lang->line("ti_add_office"));
 			$this->off_model->manage_add(
 					$data,
 					"tb_office",
@@ -165,6 +167,8 @@ class Office extends MY_Controller
 			$where=array(
 					"office_id"=>$this->session->userdata($session_edit_id)
 			);
+			//add event
+			$this->add_event("แก้ไข".$this->lang->line("text_office"));
 			$this->off_model->manage_edit(
 					$set,
 					$where,
@@ -179,6 +183,8 @@ class Office extends MY_Controller
 	}
 	function delete()
 	{
+		//add event
+		$this->add_event("ลบ".$this->lang->line("text_office"));
 		$this->off_model->manage_delete($this->input->post("del_office"), "tb_office", "office_id", "office_name", "edit_office", "?d=manage&c=office&m=edit");
 	}
 	function allow()
@@ -188,8 +194,6 @@ class Office extends MY_Controller
 		$disallow_list=$this->input->post("disallow_list");
 		$this->off_model->manage_allow($allow_list,$disallow_list, "tb_office", "office_id", "office_name", "edit_office", "?d=manage&c=office&m=edit");
 	}
-	
-	
 	
 	
 	function office_tab()
@@ -227,7 +231,7 @@ class Office extends MY_Controller
 		$html.='<thead>
 				<th>รหัส</th>
 				<th>'.$this->lang->line("text_office").'</th>
-				<th class="same_first_td">อนุมัติ<br/><button type="button" class="cbtn cbtn-green" id="allow-all"><button type="button" class="cbtn cbtn-red" id="disallow-all"></th>
+				<th class="same_first_td">แสดงในตัวเลือก</th>
 				<th class="same_first_td">แก้ไข</th>
 				<th>ลบ<br/><input type="checkbox" id="del_all_office"></th>
 		';
@@ -236,9 +240,7 @@ class Office extends MY_Controller
 		if(!empty($data))
 		{
 			foreach ($data AS $dt):
-			//<td>'.$num_row.'</td>
-			//if     $checkbox='<input type="checkbox" value="'.$dt["office_id"].'" name="allow_office0[]" class="allow_office0">';
-			//else   $checkbox='<input type="checkbox" value="'.$dt["office_id"].'" name="allow_office1[]" class="allow_office1" checked>';
+			/*
 			if($dt['checked']==0)$checkbox='<span class="checkboxFour">
 									  		<input type="checkbox" value="'.$dt["office_id"].'" id="checkboxFourInput'.$dt["office_id"].'" name="allow_office0[]" class="allow_office0"/>
 										  	<label for="checkboxFourInput'.$dt["office_id"].'"></label>
@@ -247,10 +249,13 @@ class Office extends MY_Controller
 					  		<input type="checkbox" value="'.$dt["office_id"].'" id="checkboxFourInput'.$dt["office_id"].'" name="allow_office1[]" class="allow_office1" checked/>
 						  	<label for="checkboxFourInput'.$dt["office_id"].'"></label>
 					  		</span>';
+			*/
+			if($dt["checked"] == 0 ) $checked='<i id="checked'.$dt["office_id"].'" class="fa fa-circle fa-danger fa-lg status0" onclick=toggle_checked("'.$dt["office_id"].'")></i>';
+			else $checked='<i id="checked'.$dt["office_id"].'" class="fa fa-circle fa-success fa-lg status1" onclick=toggle_checked("'.$dt["office_id"].'")></i>';
 			$html.='<tr>
 					<td>'.$dt["office_id"].'</td>
 					<td id="office'.$dt["office_id"].'">'.$dt["office_name"].'</td>
-					<td class="same_first_td">'.$checkbox.'</td>
+					<td class="same_first_td">'.$checked.'</td>
 					<td class="same_first_td">'.$this->eml->btn('edit','onclick=load_office("'.$dt["office_id"].'")').'</td>
 					<td><input type="checkbox" value="'.$dt["office_id"].'" name="del_office[]" class="del_office"></td>
 			';
@@ -261,9 +266,7 @@ class Office extends MY_Controller
 		$html.='<tr>
 				<td></td>
 				<td></td>
-				<td align="center">'.$this->eml->btn('submitcheck','onclick="show_allow_list();return false;"')." ".
-									$this->eml->btn('refreshcheck','onclick="location.reload(true);"').'
-				</td>
+				<td></td>
 				<td></td>
 				<td>'.$this->eml->btn('delete','onclick="show_del_list();return false;"').'</td>
 				</tr>
@@ -309,5 +312,43 @@ class Office extends MY_Controller
 		if($q->num_rows() > 0 )
 			echo json_encode(false);
 		else echo json_encode(true);
+	}
+	
+	function toggle_checked()
+	{
+		$id = trim($this->input->post("id"));
+		$do = $this->input->post("s");
+		if($do == "enable")
+		{
+			$this->db->trans_begin();
+			$set = array(
+					"checked"=>1
+			);
+			$where = array("office_id"=>$id);
+			$this->db->update("tb_office",$set,$where,1);
+			if($this->db->trans_status()===FALSE):
+			$this->db->trans_rollback();
+			echo "0";
+			else:
+			$this->db->trans_commit();
+			echo "1";
+			endif;
+		}
+		else if($do == "disable")
+		{
+			$this->db->trans_begin();
+			$set = array(
+					"checked"=>0
+			);
+			$where = array("office_id"=>$id);
+			$this->db->update("tb_office",$set,$where,1);
+			if($this->db->trans_status()===FALSE):
+			$this->db->trans_rollback();
+			echo "0";
+			else:
+			$this->db->trans_commit();
+			echo "1";
+			endif;
+		}
 	}
 }

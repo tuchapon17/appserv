@@ -65,6 +65,8 @@ class Faculty extends MY_Controller
 					"checked"=>"1"
 			);
 			$redirect_link="?d=manage&c=faculty&m=add";
+			//add event
+			$this->add_event($this->lang->line("ti_add_faculty"));
 			$this->fc_model->manage_add(
 					$data,
 					"tb_faculty",
@@ -161,6 +163,8 @@ class Faculty extends MY_Controller
 			$where=array(
 					"faculty_id"=>$this->session->userdata($session_edit_id)
 			);
+			//add event
+			$this->add_event("แก้ไข".$this->lang->line("text_faculty"));
 			$this->fc_model->manage_edit(
 					$set,
 					$where,
@@ -176,6 +180,8 @@ class Faculty extends MY_Controller
 	}
 	function delete()
 	{
+		//add event
+		$this->add_event("ลบ".$this->lang->line("text_faculty"));
 		$this->fc_model->manage_delete($this->input->post("del_faculty"), "tb_faculty", "faculty_id", "faculty_name", "edit_faculty", "?d=manage&c=faculty&m=edit");
 	}
 	function allow()
@@ -220,7 +226,7 @@ class Faculty extends MY_Controller
 		$html.='<thead>
 				<th>รหัส</th>
 				<th>'.$this->lang->line("text_faculty").'</th>
-				<th class="same_first_td">อนุมัติ<br/><button type="button" class="cbtn cbtn-green" id="allow-all"><button type="button" class="cbtn cbtn-red" id="disallow-all"></th>
+				<th class="same_first_td">แสดงในตัวเลือก</th>
 				<th class="same_first_td">แก้ไข</th>
 				<th>ลบ<br/><input type="checkbox" id="del_all_faculty"></th>
 		';
@@ -232,6 +238,7 @@ class Faculty extends MY_Controller
 			//<td>'.$num_row.'</td>
 			//if     $checkbox='<input type="checkbox" value="'.$dt["faculty_id"].'" name="allow_faculty0[]" class="allow_faculty0">';
 			//else   $checkbox='<input type="checkbox" value="'.$dt["faculty_id"].'" name="allow_faculty1[]" class="allow_faculty1" checked>';
+			/*
 			if($dt['checked']==0)
 				$checkbox='<span class="checkboxFour">
 			  		<input type="checkbox" value="'.$dt["faculty_id"].'" id="checkboxFourInput'.$dt["faculty_id"].'" name="allow_faculty0[]" class="allow_faculty0"/>
@@ -241,10 +248,13 @@ class Faculty extends MY_Controller
 			  		<input type="checkbox" value="'.$dt["faculty_id"].'" id="checkboxFourInput'.$dt["faculty_id"].'" name="allow_faculty1[]" class="allow_faculty1" checked/>
 				  	<label for="checkboxFourInput'.$dt["faculty_id"].'"></label>
 			  		</span>';
+			*/
+			if($dt["checked"] == 0 ) $checked='<i id="checked'.$dt["faculty_id"].'" class="fa fa-circle fa-danger fa-lg status0" onclick=toggle_checked("'.$dt["faculty_id"].'")></i>';
+			else $checked='<i id="checked'.$dt["faculty_id"].'" class="fa fa-circle fa-success fa-lg status1" onclick=toggle_checked("'.$dt["faculty_id"].'")></i>';
 			$html.='<tr>
 					<td>'.$dt["faculty_id"].'</td>
 					<td id="faculty'.$dt["faculty_id"].'">'.$dt["faculty_name"].'</td>
-					<td class="same_first_td">'.$checkbox.'</td>
+					<td class="same_first_td">'.$checked.'</td>
 					<td class="same_first_td">'.$this->eml->btn('edit','onclick=load_faculty("'.$dt["faculty_id"].'")').'</td>
 					<td><input type="checkbox" value="'.$dt["faculty_id"].'" name="del_faculty[]" class="del_faculty"></td>
 			';
@@ -255,9 +265,7 @@ class Faculty extends MY_Controller
 		$html.='<tr>
 				<td></td>
 				<td></td>
-				<td align="center">'.$this->eml->btn('submitcheck','onclick="show_allow_list();return false;"')." ".
-									$this->eml->btn('refreshcheck','onclick="location.reload(true);"').'
-						</td>
+				<td></td>
 				<td></td>
 				<td>'.$this->eml->btn('delete','onclick="show_del_list();return false;"').'</td>
 				</tr>
@@ -302,5 +310,43 @@ class Faculty extends MY_Controller
 		if($q->num_rows() > 0 )
 			echo json_encode(false);
 		else echo json_encode(true);
+	}
+	
+	function toggle_checked()
+	{
+		$id = trim($this->input->post("id"));
+		$do = $this->input->post("s");
+		if($do == "enable")
+		{
+			$this->db->trans_begin();
+			$set = array(
+					"checked"=>1
+			);
+			$where = array("faculty_id"=>$id);
+			$this->db->update("tb_faculty",$set,$where,1);
+			if($this->db->trans_status()===FALSE):
+			$this->db->trans_rollback();
+			echo "0";
+			else:
+			$this->db->trans_commit();
+			echo "1";
+			endif;
+		}
+		else if($do == "disable")
+		{
+			$this->db->trans_begin();
+			$set = array(
+					"checked"=>0
+			);
+			$where = array("faculty_id"=>$id);
+			$this->db->update("tb_faculty",$set,$where,1);
+			if($this->db->trans_status()===FALSE):
+			$this->db->trans_rollback();
+			echo "0";
+			else:
+			$this->db->trans_commit();
+			echo "1";
+			endif;
+		}
 	}
 }

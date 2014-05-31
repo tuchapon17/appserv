@@ -65,6 +65,8 @@ class User extends MY_Controller
 	}
 	function delete()
 	{
+		//add event
+		$this->add_event("ลบ".$this->lang->line("text_user"));
 		$this->us_model->manage_delete($this->input->post("del_user"), "tb_user", "username", "username", "edit_user", "?d=manage&c=user&m=edit");
 	}
 	
@@ -129,14 +131,14 @@ class User extends MY_Controller
 				<th>ชื่อ-นามสกุล</th>
 				<th>กลุ่มผู้ใช้</th>
 				<th>อีเมล</th>
-				<th class="same_first_td">สถานะผู้ใช้<br/><button type="button" class="cbtn cbtn-green" id="allow-all"><button type="button" class="cbtn cbtn-red" id="disallow-all"></th>
+				<th class="same_first_td">สถานะผู้ใช้</th>
 				<th class="same_first_td">รายละเอียด</th>
 		';
 		$html.='</thead>';
 		if(!empty($data))
 		{
 			foreach ($data AS $dt):
-			//<td>'.$num_row.'</td>
+			/*
 			if($dt['user_status']==0)$checkbox='<span class="checkboxFour">
 									  		<input type="checkbox" value="'.$dt["username"].'" id="checkboxFourInput'.$dt["username"].'" name="allow_user0[]" class="allow_user0"/>
 										  	<label for="checkboxFourInput'.$dt["username"].'"></label>
@@ -145,13 +147,17 @@ class User extends MY_Controller
 					  		<input type="checkbox" value="'.$dt["username"].'" id="checkboxFourInput'.$dt["username"].'" name="allow_user1[]" class="allow_user1" checked/>
 						  	<label for="checkboxFourInput'.$dt["username"].'"></label>
 					  		</span>';
+			*/
+			if($dt["user_status"] == 0 ) $u_status='<i id="u_'.$dt["username"].'" class="fa fa-circle fa-danger fa-lg status0" onclick=toggle_user_status("'.$dt["username"].'")></i>';
+			else $u_status='<i id="u_'.$dt["username"].'" class="fa fa-circle fa-success fa-lg status1" onclick=toggle_user_status("'.$dt["username"].'")></i>';
+			
 			$html.='<tr>
 					<td>'.$num_row.'</td>
 					<td id="user'.$dt["username"].'">'.$dt["username"].'</td>
 					<td>'.$dt['titlename'].' '.$dt['firstname'].' '.$dt['lastname'].'</td>		
 					<td>'.$dt["group_name"].'</td>
 					<td>'.$dt["email"].'</td>
-					<td class="same_first_td">'.$checkbox.'</td>
+					<td class="same_first_td">'.$u_status.'</td>
 					<td class="same_first_td">'.$this->eml->btn('view','onclick=show_all_data("'.$dt["username"].'")').'</td>
 					
 			';
@@ -159,19 +165,17 @@ class User extends MY_Controller
 			$num_row++;
 			endforeach;
 		}
-		$html.='<tr>
+		/*$html.='<tr>
 				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
 				<td></td>
-				<td align="center">'.$this->eml->btn('submitcheck','onclick="show_allow_list();return false;"')." ".
-									$this->eml->btn('refreshcheck','onclick="location.reload(true);"').'
-				</td>
 				<td></td>
-				
-				</tr>
-				</table>';
+				<td></td>
+				</tr>';
+				*/
+		$html.='</table>';
 		$html.=$this->pagination->create_links();
 		return $html;
 	}
@@ -192,6 +196,8 @@ class User extends MY_Controller
 	function show_all_data()
 	{
 		$load=$this->us_model->get_all_data($this->input->post("username"));
+		$regis_date = $this->fl->th_date($load[0]["regis_on"]);
+		$load[0]["regis_on"] = $regis_date["date"]." ".$regis_date["time"]; 
 		echo json_encode($load[0]);
 	}
 	/**
@@ -431,7 +437,8 @@ class User extends MY_Controller
 				"htmlclose"=>$this->pel->htmlclose(),
 				"user_tab"=>$this->user_tab(),
 				"user_table"=>$this->view_privilege_table($get_user_list),
-				"manage_search_box"=>$this->pel->manage_search_box($search_text)
+				"manage_search_box"=>$this->pel->manage_search_box($search_text),
+				"usergroup_table"=>$this->view_usergroup_privilege()
 		);
 		$this->load->view("manage/user/view_privilege",$data);
 	}
@@ -466,7 +473,7 @@ class User extends MY_Controller
 					$html.= "<th>".$p["privilege_name"]."</th>";
 					array_push($privilege_id_list, $p["privilege_id"]);
 				}
-		$html.='
+		$html.='			<th>กำหนดสิทธิ์ตามกลุ่มผู้ใช้</th>
 						</tr>
 					</thead>
 				';
@@ -520,10 +527,10 @@ class User extends MY_Controller
 							for ($i=1; $i<=$find_key-($old_key+1); $i++)
 							{
 								//สิทธิ์ที่ไม่มี
-								$html .= "<td class='text-center'><i class='no_privilege fa fa-ban fa-danger' id='".$u["username"].$privilege_id_list[$old_key+$i]."' onclick=add_privilege('".$privilege_id_list[$old_key+$i]."','".$u["username"]."')></i></td>";
+								$html .= "<td class='text-center'><i class='no_privilege fa fa-circle fa-danger' id='".$u["username"].$privilege_id_list[$old_key+$i]."' onclick=add_privilege('".$privilege_id_list[$old_key+$i]."','".$u["username"]."')></i></td>";
 							}
 							//สิทธิ์ที่มี
-							$html .= "<td class='text-center'><i class='had_privilege fa fa-check fa-success' id='".$u["username"].$privilege_id_list[$find_key]."' onclick=remove_privilege('".$privilege_id_list[$find_key]."','".$u["username"]."')></i></td>";
+							$html .= "<td class='text-center'><i class='had_privilege fa fa-circle fa-success' id='".$u["username"].$privilege_id_list[$find_key]."' onclick=remove_privilege('".$privilege_id_list[$find_key]."','".$u["username"]."')></i></td>";
 							//บันทึกตำแหน่งล่าสุดของคีย์ที่ใช้
 							$old_key = $find_key;
 							//ถ้าเป็นตำแหน่งสุดท้ายของสิทธิ์ที่วน
@@ -532,12 +539,13 @@ class User extends MY_Controller
 								//ปริ้นช่องว่างที่เหลือ
 								for($i=1; $i<=($count_privilege_id-$old_key); $i++)
 								{
-									$html.= "<td  class='text-center'><i class='no_privilege fa fa-ban fa-danger' id='".$u["username"].$privilege_id_list[$i+$old_key]."' onclick=add_privilege('".$privilege_id_list[$i+$old_key]."','".$u["username"]."')></i></td>";
+									$html.= "<td  class='text-center'><i class='no_privilege fa fa-circle fa-danger' id='".$u["username"].$privilege_id_list[$i+$old_key]."' onclick=add_privilege('".$privilege_id_list[$i+$old_key]."','".$u["username"]."')></i></td>";
 								}
 								//reset old_key to default
 								$old_key = -1;
 							}
 						}
+				$html.='<td><i class="fa fa-cog pointer" onclick=add_privilege_by_usergroup("'.$u["username"].'")></i></td>';
 				$html.='</tr>';
 			}
 		}
@@ -570,6 +578,8 @@ class User extends MY_Controller
 			else
 			{
 				$this->db->trans_commit();
+				//add event
+				$this->add_event("เพิ่มสิทธิ์ผู้ใช้งาน");
 				echo "1";
 			}
 		}
@@ -599,6 +609,8 @@ class User extends MY_Controller
 			else
 			{
 				$this->db->trans_commit();
+				//add event
+				$this->add_event("ลบสิทธิ์ผู้ใช้งาน");
 				echo "1";
 			}
 		}
@@ -628,30 +640,169 @@ class User extends MY_Controller
 		}
 		else return false;
 	}
+	
+	function toggle_user_status()
+	{
+		$username = trim($this->input->post("u"));
+		$do = $this->input->post("s");
+		if($do == "enable")
+		{
+			$this->db->trans_begin();
+			$set = array(
+					"user_status"=>1
+			);
+			$where = array("username"=>$username);
+			$this->db->update("tb_user",$set,$where,1);
+			if($this->db->trans_status()===FALSE):
+				$this->db->trans_rollback();
+				echo "0";
+			else:
+				$this->db->trans_commit();
+				echo "1";
+			endif;
+		}
+		else if($do == "disable")
+		{
+			$this->db->trans_begin();
+			$set = array(
+					"user_status"=>0
+			);
+			$where = array("username"=>$username);
+			$this->db->update("tb_user",$set,$where,1);
+			if($this->db->trans_status()===FALSE):
+				$this->db->trans_rollback();
+				echo "0";
+			else:
+				$this->db->trans_commit();
+				echo "1";
+			endif;
+		}
+	}
+	
+	function add_privilege_by_usergroup()
+	{
+		$username = trim($this->input->post("u"));
+		$usergroup_id = trim($this->input->post("ug"));
+		//get privilege of usergroup
+		$this->db->select()->from("tb_usergroup_has_privilege")->where("tb_usergroup_id",$usergroup_id);
+		$q = $this->db->get();
+		$ug = $q->result_array();
+		$this->db->trans_begin();
+		if($q->num_rows() > 0)
+		{
+			$this->db->delete("tb_user_has_privilege", array("tb_user_username"=>$username));
+			$set = array();
+			foreach ($ug as $ug2)
+			{
+				$data = array(
+						"tb_user_username" => $username,
+						"tb_privilege_id" => $ug2["tb_privilege_id"]
+				);
+				array_push($set, $data);
+			}
+			$this->db->insert_batch("tb_user_has_privilege", $set);
+		}
+		
+		if($this->db->trans_status()===FALSE):
+			$this->db->trans_rollback();
+			echo "0";
+		else:
+			$this->db->trans_commit();
+			echo "1";
+		endif;
+	}
+	
+	function json_get_usergroup()
+	{
+		$this->db->select()->from("tb_usergroup");
+		$q = $this->db->get()->result_array();
+		echo json_encode($q);
+	}
+	
+	function view_usergroup_privilege()
+	{
+		$this->db->select()->from("tb_usergroup");
+		$usergroup_list = $this->db->get()->result_array();
+		
+		$privilege_list = $this->db->select()->from("tb_privilege")
+		->order_by("privilege_id")
+		->get()->result_array();
+		$privilege_id_list = array();
+		
+		$html='<table class="table table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>กลุ่มผู้ใช้งาน</th>
+				';
+		foreach ($privilege_list as $p)
+		{
+			$html.= "<th>".$p["privilege_name"]."</th>";
+			array_push($privilege_id_list, $p["privilege_id"]);
+		}
+		$html.='
+						</tr>
+					</thead>
+				';
+		if($usergroup_list!=null)
+		{
+			foreach ($usergroup_list as $u)
+			{
+				$usergroup_privilege=$this->db->select()->from("tb_usergroup_has_privilege")
+				->join("tb_privilege","tb_privilege.privilege_id=tb_usergroup_has_privilege.tb_privilege_id")
+				->where("tb_usergroup_id",$u["usergroup_id"])
+				->order_by("privilege_id")
+				->get();
+				$num_rows=$usergroup_privilege->num_rows();
+				$usergroup_privilege=$usergroup_privilege->result_array();
+				//เก็บค่า privilege_id ลงใน $my_privilege_id_list
+				$my_privilege_id_list = array();
+				foreach ($usergroup_privilege as $p)
+				{
+					array_push($my_privilege_id_list, $p["privilege_id"]);
+				}
+				
+				$html.='<tbody>
+						<tr>
+							<td>'.$u["group_name"].'</td>
+						';
+				$first_ban_sign = true;
+				$old_key = -1;
+				$count_privilege_id = count($privilege_id_list)-1;
+				$count_privilege = count($usergroup_privilege)-1;
+				foreach ($usergroup_privilege as $key=>$val)
+				{
+					//หาตำแหน่งของ $val["privilege_id"] ใน array $privilege_id_list
+					//order_by privilege_id อยู่แล้ว
+					$find_key = array_search($val["privilege_id"], $privilege_id_list);
+					//loop ปริ้นสิทธิ์ที่ไม่มี ก่อนจะปริ้นสิทธิ์ที่มี
+					for ($i=1; $i<=$find_key-($old_key+1); $i++)
+					{
+					//สิทธิ์ที่ไม่มี
+						$html .= "<td class='text-center'><i class='fa fa-circle fa-danger' ></i></td>";
+					}
+					//สิทธิ์ที่มี
+					$html .= "<td class='text-center'><i class='fa fa-circle fa-success' ></i></td>";
+					//บันทึกตำแหน่งล่าสุดของคีย์ที่ใช้
+					$old_key = $find_key;
+					//ถ้าเป็นตำแหน่งสุดท้ายของสิทธิ์ที่วน
+					if($key == $count_privilege)
+					{
+						//ปริ้นช่องว่างที่เหลือ
+						for($i=1; $i<=($count_privilege_id-$old_key); $i++)
+						{
+						$html.= "<td  class='text-center'><i class='fa fa-circle fa-danger'></i></td>";
+						}
+						//reset old_key to default
+								$old_key = -1;
+					}
+				}
+				$html.='</tr>';
+			}
+		}
+				$html.='</tbody></table>';
+				$html.=$this->pagination->create_links();
+		return $html;
+	}
+	
+		
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

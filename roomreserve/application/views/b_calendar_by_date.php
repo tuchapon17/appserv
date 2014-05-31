@@ -301,8 +301,8 @@ echo $js;
 								type:"POST",
 								dataType:"json",
 								success:function(rs){
-									var begin = convert_datetimeEN2TH(rs.reserve_datetime_begin);
-									var end = convert_datetimeEN2TH(rs.reserve_datetime_end);
+									//var begin = convert_datetimeEN2TH(rs.reserve_datetime_begin);
+									//var end = convert_datetimeEN2TH(rs.reserve_datetime_end);
 									var text='\
 										<dl class="dl-horizontal">\
 											<dt>รหัส</dt>\
@@ -310,9 +310,9 @@ echo $js;
 											<dt>ชื่อห้อง</dt>\
 											<dd>'+rs.room_name+'</dd>\
 											<dt>เริ่ม</dt>\
-											<dd>'+begin["date"]+" "+begin["time"]+'</dd>\
+											<dd>'+rs.reserve_datetime_begin+'</dd>\
 											<dt>สิ้นสุด</dt>\
-											<dd>'+end["date"]+" "+end["time"]+'</dd>\
+											<dd>'+rs.reserve_datetime_end+'</dd>\
 											<dt>ชื่อโครงการ</dt>\
 											<dd>'+rs.project_name+'</dd>\
 											<dt>จำนวนคน</dt>\
@@ -388,7 +388,7 @@ echo $js;
 	{
 		var date1 = date_time.match(/\d\d\d\d\-\d\d\-\d\d/).toString();
 		date1 = date1.split('-');
-		date1 = date1[2]+"-"+date1[1]+"-"+(parseInt(date1[0])+543)
+		date1 = date1[2]+"/"+date1[1]+"/"+(parseInt(date1[0])+543)
 		var time1 = date_time.match(/\d\d\:\d\d\:\d\d/);
 		var dt = new Array();
 		dt["date"] = date1;

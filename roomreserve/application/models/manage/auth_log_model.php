@@ -18,8 +18,8 @@ class Auth_log_model extends MY_Model
 		$orderby_type=$this->sess_orderby_auth_log["type"];
 		//field ที่ค้นหา
 		$searchfield=$this->check_searchfield("searchfield_auth_log", "tb_user_username");
-		$sql_select="*,DATE_FORMAT(login_on,'%d/%m/%Y %H:%i:%s') AS login_on";
-		$table_name="tb_auth_log";
+		$sql_select="*";
+		$table_name="tb_event_log";
 		if($liketext!='')
 		{
 			$query=$this->db->select($sql_select,FALSE)->from($table_name)->like($searchfield,$liketext,"both")->order_by("CONVERT(".$orderby_filed." USING ".$this->mysql_charset.")",$orderby_type)->limit($perpage,$getpage)->get();
