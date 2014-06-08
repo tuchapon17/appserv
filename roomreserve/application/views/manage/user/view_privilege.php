@@ -132,16 +132,17 @@ echo $js;
 	{
 		myApp.showPleaseWait();
 		$.ajax({
-			url:"?d=manage&c=user&m=add_privilege2",
+			url:"<?php echo base_url();?>?d=manage&c=user&m=add_privilege2",
 			data:{"p":p,"u":u},
 			type:"POST",
-			dataType:"json",
+			dataType:"text",
 			success:function(resp){
 				if(resp=="1")
 				{
 					$("#"+u+p).toggleClass("fa-ban fa-check");
 					$("#"+u+p).toggleClass("fa-danger fa-success");
 					$("#"+u+p).addClass("fa-lg");
+					$("#"+u+p).attr("onclick","remove_privilege('"+p+"','"+u+"')");
 					myApp.hidePleaseWait();
 				}
 			},
@@ -155,16 +156,17 @@ echo $js;
 	{
 		myApp.showPleaseWait();
 		$.ajax({
-			url:"?d=manage&c=user&m=remove_privilege2",
+			url:"<?php echo base_url();?>?d=manage&c=user&m=remove_privilege2",
 			data:{"p":p,"u":u},
 			type:"POST",
-			dataType:"json",
+			dataType:"text",
 			success:function(resp){
 				if(resp=="1")
 				{
 					$("#"+u+p).toggleClass("fa-check fa-ban");
 					$("#"+u+p).toggleClass("fa-success fa-danger");
 					$("#"+u+p).removeClass("fa-lg");
+					$("#"+u+p).attr("onclick","add_privilege('"+p+"','"+u+"')");
 					myApp.hidePleaseWait();
 				}
 			},
@@ -191,7 +193,7 @@ echo $js;
 	function add_privilege_by_usergroup(u)
 	{
 		$.ajax({
-			url:"?d=manage&c=user&m=json_get_usergroup",
+			url:"<?php echo base_url();?>?d=manage&c=user&m=json_get_usergroup",
 			data:"",
 			type:"POST",
 			dataType:"json",
@@ -212,7 +214,7 @@ echo $js;
 							className: "btn-success",
 							callback: function() {
 								$.ajax({
-									url:"?d=manage&c=user&m=add_privilege_by_usergroup",
+									url:"<?php echo base_url();?>?d=manage&c=user&m=add_privilege_by_usergroup",
 									data:{"u":u,"ug":$("#se_usergroup").val()},
 									type:"POST",
 									dataType:"text",

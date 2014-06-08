@@ -46,28 +46,40 @@ echo $head;
 			<div style="float:right;"><button id="room-next" class="btn btn-default" type="button"><i class="fa fa-angle-double-right"></i></button></div>
 		</div>
 		-->
+		<div class="col-lg-6">
+			<a id="prevroom" class="btn btn-primary btn-sm"><i class="fa fa-angle-double-left fa-white"></i> ห้องก่อนหน้า</a>
+		</div>
+		<div class="col-lg-6 text-right">
+			<a id="nextroom" class="btn btn-primary btn-sm">ห้องถัดไป <i class="fa fa-angle-double-right fa-white"></i></a>
+		</div>
       	<div class="col-lg-6">
+      		
       		<dl class="dl-horizontal">			
 	      		<dt><?php echo $this->lang->line("t_in_room_name");?></dt>
 	      		<dd><?php echo get_rl_data($get_room_list,'room_name');?></dd>
 	      		
 	      		<dt><?php echo $this->lang->line("t_se_room_type");?></dt>
-	      		<dd><?php echo get_rl_data($get_room_list,'room_type_name');?></dd>
+	      		<dd><?php echo get_rl_data($get_room_list, "room_type_name");?></dd>
+	      		
+	      		<dt>ความจุห้อง</dt>
+	      		<dd><?php
+	      		if(get_rl_data($get_room_list, "max_people") == 0)
+	      			echo "ไม่ระบุ";
+	      		else echo get_rl_data($get_room_list, "max_people")." คน";
+	      		
+	      		?></dd>
 	      		
 	      		<dt>สถานะ</dt>
 	      		<dd><?php 
-	      			if(get_rl_data($get_room_list,'room_status')==0)echo "<span class='text-danger'>ปิดให้บริการ</span>";
+	      			if(get_rl_data($get_room_list,'room_status')==0)echo "<span class='text-danger'>ปิดให้บริการ (".get_rl_data($get_room_list, "room_status_msg").")</span>";
 	      			else echo "<span class='text-success'>เปิดให้บริการ</span>";
 	      		?></dd>
+	      		
 	      		<!--
 	      		<dt><?php echo $this->lang->line("t_in_discount_percent");?></dt>
 	      		<dd><?php echo get_rl_data($get_room_list,'discount_percent');?>%</dd>
 	      		-->
-	      		<dt>ค่าบริการ</dt>
-	      		<dd><?php
-	      			if(get_rl_data($get_room_list,'fee_type_id')=="01") echo get_rl_data($get_room_list,'room_fee_lump_sum')." บาท/วัน";
-	      			else if(get_rl_data($get_room_list,'fee_type_id')=="02") echo get_rl_data($get_room_list,'room_fee_hour')." บาท/ชั่วโมง";
-	      		?></dd>
+	      		</dd>
 	      		<dt></dt>
 	      		<dd><?php ?></dd>
 	      	</dl>
@@ -98,7 +110,58 @@ echo $head;
 					<strong>รายละเอียดค่าบริการ</strong>
 				</div>
 				<div class="panel-body">
-					กดก
+					<div class="row">
+						<div class="col-lg-12">
+								<div><h4>ค่าบริการ<?php echo $this->lang->line("text_room");?></h4></div>
+									<dl class="dl-horizontal">
+										<?php 
+										if(get_rl_data($get_room_list,'fee_type_id')=="00")//ไม่คิดค่าบริการ
+										{
+											echo '<dt>ค่าบริการห้อง</dt>';
+											echo '<dd>ไม่คิดค่าบริการ</dd>';
+										}
+										else if(get_rl_data($get_room_list,'fee_type_id')=="01")//เหมา
+										{
+											echo '<dt>ค่าบริการห้อง</dt>';
+											echo '<dd>'.get_rl_data($get_room_list, "room_fee_lump_sum").' บาท / วัน</dd>';
+										}
+										else if(get_rl_data($get_room_list,'fee_type_id')=="02")//ชม.
+										{
+											echo '<dt>ค่าบริการห้อง</dt>';
+											echo '<dd>'.get_rl_data($get_room_list, "room_fee_hour").' บาท / ชั่วโมง</dd>';
+										}
+										?>
+									</dl>
+								<div><h4>ค่าบริการ<?php echo $this->lang->line("text_article");?></h4></div>
+								<?php 
+								foreach ($article_data as $a)
+								{
+									echo '<dl class="dl-horizontal">';
+									echo '<dt>ชื่อวัสดุครุภัณฑ์</dt>';
+									echo '<dd>'.$a["article_name"].'</dd>';
+									echo '<dt>จำนวน</dt>';
+									echo '<dd>'.$a["article_num"].' หน่วย</dd>';
+									echo '<dt>ประเภทค่าบริการ</dt>';
+									echo '<dd>'.$a["fee_type_name"].'</dd>';
+									
+									echo '<dt>ค่าบริการ</dt>';
+									if($a["tb_fee_type_id"] == "00")
+										echo '<dd>ฟรี</dd>';
+									else if($a["tb_fee_type_id"] == "01")//เหมา
+									{
+										echo '<dd>'.$a["fee_unit_lump_sum"].' บาท / วัน / วัสดุครุภัณฑ์จำนวน '.$a["lump_sum_base_unit"].' หน่วย</dd>';
+										echo '<dt>ค่าบริการส่วนเกิน</dt>';
+										echo '<dd>'.$a["fee_over_unit_lump_sum"].' บาท / หน่วย (กรณีใช้งานมากกว่า '.$a["lump_sum_base_unit"].' หน่วย)</dd>';
+									}
+									else if($a["tb_fee_type_id"] == "02")//ชม
+										echo '<dd>'.$a["fee_unit_hour"].' บาท / หน่วย / ชั่วโมง</dd>';
+									
+									echo '</dl>';
+								}
+								?>
+						</div>
+					</div>
+					
 				</div>
 			</div>
         </div>
@@ -120,7 +183,31 @@ echo $js;
 	<script type="text/javascript">
 	
 	$(function(){
-
+		$("#nextroom").click(function(){
+			if($("#select_room option").size() > 1)
+			{
+				var currentIndex = $("#select_room")[0].selectedIndex;
+				if($("#select_room option").eq(currentIndex+1).val() != null && $("#select_room option").eq(currentIndex+1).val() != "")
+				{
+					$("#select_room option").eq(currentIndex+1).prop("selected",true);
+					//$("#select_room").change();
+					$("#searchroom").submit();
+				}
+			}
+		});
+		$("#prevroom").click(function(){
+			if($("#select_room option").size() > 1)
+			{
+				var currentIndex = $("#select_room")[0].selectedIndex;
+				if($("#select_room option").eq(currentIndex-1).val() != null && $("#select_room option").eq(currentIndex-1).val() != "")
+				{
+					$("#select_room option").eq(currentIndex-1).prop("selected",true);
+					//$("#select_room").change();
+					$("#searchroom").submit();
+				}
+			}
+		});
+		
 		//search room btn disable
 		if($("#select_room").find("option:selected").val()=="")
 			$("#view-btn").addClass("disabled");
@@ -160,6 +247,15 @@ echo $js;
 					success:function(resp){
 						$("#select_room").find("option:gt(0)").remove();
 						if(resp.room_list!=null)$("#select_room").append(resp.room_list);
+						<?php 
+						//set select room
+						if($this->session->userdata("view-room"))
+						{
+						?>
+							$("#select_room").val("<?php echo $this->session->userdata("view-room");?>");
+						<?php 	
+						}
+						?>
 					},
 					error:function(error){
 						alert("Error : "+error);

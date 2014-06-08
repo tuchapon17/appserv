@@ -145,14 +145,14 @@ class Assign extends MY_Controller
 				<th>ผู้รับสิทธิ์</th>
 				<th>วันที่มอบสิทธิ์</th>
 				<th>สิทธิ์</th>
-				<th class="same_first_td">สถานะ</th>
+				<th class="text-center">สถานะ</th>
 		';
 		$html.='</thead>';
 		if(!empty($data))
 		{
 			foreach ($data AS $dt):
 			$th_dt = $this->th_date($dt["assign_date"],"");
-			if($dt['canceled']==1)$checkbox='<span class="checkboxFour">
+			/*if($dt['canceled']==1)$checkbox='<span class="checkboxFour">
 									  		<input type="checkbox" value="'.$dt["privilege_assign_id"].'" id="checkboxFourInput'.$dt["privilege_assign_id"].'" name="allow_assign" class="allow_assign1"/>
 										  	<label class="label-assign" for="checkboxFourInput'.$dt["privilege_assign_id"].'"></label>
 									  		</span>';
@@ -160,6 +160,12 @@ class Assign extends MY_Controller
 					  		<input type="checkbox" value="'.$dt["privilege_assign_id"].'" id="checkboxFourInput'.$dt["privilege_assign_id"].'" name="allow_assign" class="allow_assign0" checked/>
 						  	<label class="label-assign" for="checkboxFourInput'.$dt["privilege_assign_id"].'"></label>
 					  		</span>';
+			*/
+			if($dt['canceled']==1)
+				$checkbox = '<i class="fa fa-circle fa-danger" id="s1-'.$dt["privilege_assign_id"].'"></i>';
+			else 
+				$checkbox = '<i class="fa fa-circle fa-success pointer" id="s0-'.$dt["privilege_assign_id"].'"></i>';
+			
 			$html.='<tr>
 					<td>'.$dt["assign_to"].'</td>
 					<td>'.$th_dt["date"]." ".$th_dt["time"].'</td>
@@ -178,7 +184,8 @@ class Assign extends MY_Controller
 	
 	function allow_assign()
 	{
-		if($this->input->post("c") == "allow_assign0") $c=1;
+		if($this->input->post("c") == "s0") //s0 =(canceled = 0) ยังไม่ได้ยกเลิก
+			$c=1; //c=1 ตั้งสถานะเป็นยกเลิก
 
 		$set=array("canceled"=>$c);
 		$where=array("privilege_assign_id"=>$this->input->post("assign_id"));

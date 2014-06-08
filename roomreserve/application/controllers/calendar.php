@@ -74,7 +74,8 @@ class Calendar extends MY_Controller {
 		$this->db->select()->from("tb_reserve_has_datetime")
 		->join("tb_reserve","tb_reserve.reserve_id=tb_reserve_has_datetime.tb_reserve_id")
 		->join("tb_room","tb_reserve.tb_room_id=tb_room.room_id");
-		$this->db->where("tb_reserve.approve",1);
+		$this->db->where("(tb_reserve.approve = 1 OR tb_reserve.approve = 0)",NULL,FALSE);
+		
 		$this->db->like("reserve_datetime_begin",$this->input->post("likedate"));
 		echo json_encode($this->db->get()->result_array());
 		

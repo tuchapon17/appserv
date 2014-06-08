@@ -570,7 +570,7 @@ class User extends MY_Controller
 					"tb_user_username" => $username
 			);
 			$this->db->insert("tb_user_has_privilege", $set);
-			if($this->db->trans_status()===FALSE)
+			if($this->db->trans_status()==FALSE)
 			{
 				$this->db->trans_rollback();
 				echo "0";
@@ -582,6 +582,7 @@ class User extends MY_Controller
 				$this->add_event("เพิ่มสิทธิ์ผู้ใช้งาน");
 				echo "1";
 			}
+			
 		}
 	}
 	
@@ -701,6 +702,8 @@ class User extends MY_Controller
 				array_push($set, $data);
 			}
 			$this->db->insert_batch("tb_user_has_privilege", $set);
+			//change usergroup
+			$this->db->update("tb_user",array("tb_usergroup_id"=>$usergroup_id),array("username"=>$username),1);
 		}
 		
 		if($this->db->trans_status()===FALSE):

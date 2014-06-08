@@ -63,7 +63,11 @@ echo $head;
       <div class="row">
       	<div class="col-lg-12">
       	<?php //echo $titlename_tab;?>				
-      		 	<h2><span id="cdate"></span></h2>
+      		 	<h3><span id="cdate"></span></h3>
+      		 	<div class="alert alert-info alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<span class="text-success"><i class="fa fa-circle fa-success"></i> อนุมัติแล้ว</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-warning"><i class="fa fa-circle fa-warning"></i> รอการอนุมัติ</span>
+				</div>
       			<div>
       					<div class="fleft"><strong>คาบเรียนที่</strong></div>
       					<div class="fleft pd pointer" id="pd01">1</div>
@@ -245,7 +249,7 @@ echo $js;
 							var min_start=parseInt(sBegin.substr(14,2));
 							var min_end_string=sEnd.substr(14,2);
 							var min_end=parseInt(sEnd.substr(14,2));
-	
+						var approve = resp[i].approve;
 						//var startDate = new Date(date_start+"/"+month_start+"/"+year_start+" "+hour_start+":"+min_start+":0");
 						//var endDate = new Date(date_end+"/"+month_end+"/"+year_end+" "+hour_end+":"+min_end+":0");
 						var startDate = new Date(year_start,month_start,date_start,hour_start,min_start);
@@ -279,8 +283,13 @@ echo $js;
 						$("#pd12").offset({left:($("td#18").offset().left+(5*ratio))});
 						$("#pd13").offset({left:($("td#19").offset().left+(0*ratio))});
 						$("#pd14").offset({left:($("td#19").offset().left+(50*ratio))});
+
+						//สีอักษร อนุมัติ หรือ รออนุมัติ 
+						var text_color = "";
+						if(approve == "0") text_color="text-warning";
+						else if(approve == "1") text_color="text-success";
 						
-						$(".content2").append("<div id='divcontent2-"+i+"' class='divbydate-"+resp[i].datetime_id+"'>"+room_name+" "+hour_start+":"+min_start_string+" - "+hour_end+":"+min_end_string+"</div>");
+						$(".content2").append("<div id='divcontent2-"+i+"' class='"+text_color+" divbydate-"+resp[i].datetime_id+"'>"+room_name+" "+hour_start+":"+min_start_string+" - "+hour_end+":"+min_end_string+"</div>");
 						
 						$("#divcontent2-"+i).offset({left:($("td#"+hour_start).offset().left+(min_start*ratio)),top:($("#table_bydate2 tr:nth-child(1)").offset().top+$("#table_bydate2 tr:nth-child(1)").height())});
 						

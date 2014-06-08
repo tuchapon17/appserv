@@ -2,6 +2,7 @@
 $ci=&get_instance();
 $ci->load->library("element_lib");
 $eml=$ci->element_lib;
+$fl=$ci->function_lib;
 echo $htmlopen;
 echo $head;
 ?>
@@ -38,7 +39,7 @@ echo $head;
 			      			<span id="span-time-radio1">
 			      				<p><strong>รหัสการจอง</strong>&nbsp;&nbsp;<?php echo $nr[0]["tb_reserve_id"];?></p>
 			      				<p><strong>ชื่อโครงการ</strong>&nbsp;&nbsp;<?php echo $nr[0]["project_name"];?></p>
-			      				<p><strong>ระยะเวลาเดิม</strong>&nbsp;&nbsp;<?php echo compress_two_datetime($nr[0]["reserve_datetime_begin"], $nr[0]['reserve_datetime_end']);?></p>
+			      				<p><strong>ระยะเวลาเดิม</strong>&nbsp;&nbsp;<?php echo $fl->date1_time2($nr[0]["reserve_datetime_begin"], $nr[0]['reserve_datetime_end']);?></p>
 								<div class="radio">
 									<label>
 										<input type="radio" name="reserve_time-sub1" id="reserve_time1-1" value="reserve_time1-1">

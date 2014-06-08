@@ -15,7 +15,7 @@ echo $head;
 		}
 		.fixed-table tr th:first-child, tr td:first-child, th:last-child, tr td:last-child{
 			width:auto;
-			text-align:left;
+			text-align:center;
 		}
     </style>
 <?php
@@ -28,6 +28,11 @@ echo $head;
       	<div class="col-lg-12">
       		<?php echo $assign_tab;?>
       		<div class="col-lg-8 col-lg-offset-2">
+      			<br>
+      			<div class="alert alert-info alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<span>คลิกที่ <i class="fa fa-circle fa-success"></i> เพื่อยกเลิกการโอนสิทธิ์</span>
+				</div>
       			<?php echo $table_assign_list;?>
       		</div><!-- col-lg-12 (2) -->
         </div>
@@ -46,6 +51,29 @@ echo $js;
 	$(function(){
 		active_tab();
 		assign_tab();
+		$(".fa-circle").click(function(){
+			var id = $(this).attr("id").substring(0,2);
+			var aid = $(this).attr("id").substring(3,7);
+			if(id == "s0")//canceled = 0 ยังไม่ได้ยกเลิก
+			{
+				$(this).attr("id","s1-"+aid);
+				$(this).toggleClass("fa-success fa-danger");
+				$.ajax({
+					url:"?d=privilege&c=<?=$controller?>&m=allow_assign",
+					data:{c:id, assign_id:aid},
+					type:"POST",
+					dataType:"json",
+					success:function(resp){
+						bootbox.alert(resp.assign_status);
+					},
+					error:function(error){
+						//alert("Error : "+error);
+					}
+				});
+			}
+			else return false;
+		});
+		/*
 		$(".label-assign").click(function(){
 			var c;
 			if($(this).prev().attr("class") == "allow_assign0")
@@ -66,7 +94,7 @@ echo $js;
 				});
 			}
 			else return false;
-		});
+		});*/
 	});
 	//-->
 	</script>

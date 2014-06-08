@@ -67,6 +67,8 @@ echo $head;
 								//echo "<span id='".$this->lang->line("in_discount_percent")."_error' class='hidden'>".form_error($this->lang->line("in_discount_percent"))."</span>";
 								//echo $in_room_fee;
 								//echo "<span id='".$em_name["in_room_fee"]."_error' class='hidden'>".form_error($em_name["in_room_fee"])."</span>";
+								echo $in_max_people;
+								echo "<span id='".$this->lang->line("in_max_people")."_error' class='hidden'>".form_error($this->lang->line("in_max_people"))."</span>";
 								echo $se_fee_type;
 								echo "<span id='".$this->lang->line("se_fee_type")."_error' class='hidden'>".form_error($this->lang->line("se_fee_type"))."</span>";
 								echo $in_room_fee_hour;
@@ -131,12 +133,12 @@ echo $js;
 					required:true
 				},
 				"<?php echo $this->lang->line("in_room_fee_hour");?>": {
-					required:true,
+					//required:true,
 					maxlength:9,
 					decimal62:true
 				},
 				"<?php echo $this->lang->line("in_room_fee_lump_sum");?>": {
-					required:true,
+					//required:true,
 					maxlength:9,
 					decimal62:true
 				}
@@ -172,6 +174,12 @@ echo $js;
 		}?>
 		active_tab();
 		room_tab();
+
+		// only numeric
+		$("#<?php echo $this->lang->line("in_max_people");?>").on("keydown keyup",function(){
+			var name = $(this).val();
+			$(this).val(name.replace(/[^0-9]/gi,''));
+		});
 	});
 	//-->
 	</script>

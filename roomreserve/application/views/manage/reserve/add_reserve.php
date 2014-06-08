@@ -29,7 +29,7 @@ echo $head;
       	<?php echo $reserve_tab;?>
       		<div class="col-lg-8 col-lg-offset-2" id="loginform">
 				
-      		 	<h2>จองห้อง</h2>
+      		 	<h3>จองห้อง</h3>
       		 	<div class="alert alert-info alert-dismissable">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 					<strong><span class="red-text"> *</span> จำเป็นต้องกรอก</strong>
@@ -58,7 +58,7 @@ echo $head;
       		 		echo form_error($em_name["in_fee_over_unit_lump_sum"]);*/
       		 	?>
       			</div>
-      			<form role="form" action="?d=manage&c=reserve&m=add" method="post" id="reserve_add" enctype="multipart/form-data" autocomplete="on">  
+      			<form role="form" action="?d=manage&c=reserve&m=add" method="post" id="reserve_add" enctype="multipart/form-data" autocomplete="off">  
       			<!--<form role="form" action="?c=test" method="post" id="reserve_add" enctype="multipart/form-data" autocomplete="off">-->
       			
       			<div class="panel panel-success">
@@ -79,7 +79,7 @@ echo $head;
 						echo $se_office;
 							echo "<fieldset class='scheduler-border'>".$in_office."</fieldset>";
 						echo $in_std_id;
-						echo $in_phone;
+						//echo $in_phone;
 						?>
 					</div>
 				</div>
@@ -433,7 +433,8 @@ echo $head;
 				</div>
 						<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 				</form>
-      		</div>
+      		</div><!-- col-lg-8 -->
+      		
         </div>
       </div>
       
@@ -621,7 +622,7 @@ echo $js;
 		$(document.body).on('focus', 'input[name="article_num[]"]' ,function(){
 			$("input[name='article_num[]']").numeric({ decimal: false, negative: false });
 		});
-		$("#reserve_time1,#reserve_time2").prop("checked","false");
+		$("#reserve_time1,#reserve_time2").prop("checked",false);
 		$(document.body).on('change', 'input[name="article_num[]"]' ,function(){
 			//ลบ error เดิมออก
 			if($(this).next('label.articlenum-error').length>0) $(this).next("label.articlenum-error").remove();
@@ -1225,8 +1226,8 @@ echo $js;
 				if(!$("div").hasClass("div_project_file"))
 				{
 					var html='<div class="form-group div_project_file">';
-					html+='<label for="project_file">ไฟล์เอกสารโครงการ</label>';
-					html+='<input type="file" id="project_file" multiple name="project_file[]">';
+					html+='<label for="project_file" class="pointer">อัพโหลดไฟล์เอกสารโครงการ </label>';
+					html+='<input type="file" id="project_file" multiple name="project_file[]" >';
 					html+='</div>';
 					//html+='<div class="div_project_file"><i class="fa fa-plus-square fa-lg" id="plusfile"></i></div>';
 					$("input#<?php echo $this->lang->line("in_project_name");?>").parent().after(html);

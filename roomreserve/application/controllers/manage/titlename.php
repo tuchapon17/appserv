@@ -27,6 +27,11 @@ class Titlename extends MY_Controller
 		);	
 		$this->frm->set_rules($config);
 		$this->frm->set_message("rule","message");
+		
+		$this->db->select()->from("tb_titlename")
+		->order_by("CONVERT(titlename USING ".$this->mysql_charset.")","ASC");
+		$current_titlename = $this->db->get()->result_array();
+		
 		if($this->frm->run() == false)
 		{
 			$in_titlename=array(
@@ -51,7 +56,8 @@ class Titlename extends MY_Controller
 					"bodyclose"=>$this->pel->bodyclose(),
 					"htmlclose"=>$this->pel->htmlclose(),
 					"titlename_tab"=>$this->titlename_tab(),
-					"in_titlename"=>$this->eml->form_input($in_titlename)
+					"in_titlename"=>$this->eml->form_input($in_titlename),
+					"current_titlename"=>$this->eml->multiple_select($current_titlename,"titlename")
 			);
 			$this->load->view("manage/titlename/add_titlename",$data);
 		}
@@ -98,7 +104,7 @@ class Titlename extends MY_Controller
 			if(isset($_GET['page']) && $this->check_page_num($_GET['page'])) $this->getpage=(($_GET['page']-1)*$config['per_page']);
 			else $this->getpage=0;
 			//field ที่ค้นหา
-			$searchfield=$this->check_searchfield("searchfield_article_type", "article_type_name");
+			$searchfield=$this->check_searchfield("searchfield_titlename", "titlename");
 			$search_text=null;
 			$search_text=$this->session->userdata("search_titlename");
 			if($search_text!=null)
@@ -274,7 +280,7 @@ class Titlename extends MY_Controller
 	{
 		if($this->input->post("searchfield"))
 		{
-			$this->session->set_userdata("searchfield_article_type",$this->input->post("searchfield"));
+			$this->session->set_userdata("searchfield_titlename",$this->input->post("searchfield"));
 		}
 	}
 	

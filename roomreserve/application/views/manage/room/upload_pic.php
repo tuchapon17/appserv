@@ -27,7 +27,8 @@ echo $head;
       	<div class="col-lg-12">
       		<div class="col-lg-12">
       			<h3>จัดการรูป ห้อง<?php echo $room_data[0]['room_name'];?></h3>
-      			<button type="button" class="btn btn-link" onclick="window.location='<?php echo base_url();?>?d=manage&c=room&m=pic'"><i class="fa fa-angle-double-left"></i> เลือกห้อง</button>
+      			
+      			<a class="btn btn-link" href="<?php echo base_url();?>?d=manage&c=room&m=edit"><i class="fa fa-angle-double-left"></i> เลือกห้อง</a>
 	      		<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title">เพิ่มรูป</h3>
@@ -38,7 +39,7 @@ echo $head;
 							
 						</div>
 						<div class="form-group">
-							<label class="sr-only" for="exampleInputEmail2">Email address</label>
+							<label class="sr-only" for="pic_file"></label>
 							<input type="file" name="pic_file[]" multiple="" id="pic_file">
 						</div>
 						<div class="form-group">

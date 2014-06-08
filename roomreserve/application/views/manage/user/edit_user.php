@@ -30,6 +30,7 @@ echo $head;
       		 	<form role="form" class="form-inline" action="?d=manage&c=<?=$controller?>&m=search" method="post" autocomplete="off">
       		 		<?php echo $manage_search_box;?>
       		 	</form>
+      		 	<p><a href="<?php echo base_url();?>?c=register&m=step1" target="_blank" class="btn btn-primary btn-xs" role="button"><i class="fa fa-plus fa-white"></i> เพิ่มผู้ใช้งาน</a></p>
       		 	<?php echo $table_edit;?>
       		 	<div class="alert-danger" id="login-alert">
       		 	<?php 

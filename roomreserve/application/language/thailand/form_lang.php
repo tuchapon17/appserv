@@ -37,7 +37,7 @@ $lang["in_room_type"] = "input_room_type";
 $lang["in_titlename"] = "input_titlename";
 $lang["in_id_card_number"] = "input_id_card_number";
 $lang["in_equipment_number"] = "input_equipment_number";
-$lang[""] = "";
+$lang["in_max_people"] = "input_max_people";
 $lang[""] = "";
 
 //select

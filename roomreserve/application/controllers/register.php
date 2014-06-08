@@ -17,6 +17,9 @@ class Register extends MY_Controller
 	 */
 	function step1()
 	{
+		
+		if($this->session->userdata("rs_username") && $this->fl->check_group_privilege(array("06"))) 
+			redirect(base_url());
 		$config=array(
 				array(
 						"field"=>$this->lang->line("in_username"),

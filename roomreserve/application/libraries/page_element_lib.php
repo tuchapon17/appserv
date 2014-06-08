@@ -169,7 +169,7 @@ class Page_element_lib
 		';
 		//<li class="active">
 		$html.='<li><a href="?c=calendar&m=main">ปฏิทิน</a></li>';
-		$html.='<li><a href="?d=front&c=room&m=view">ห้อง</a></li>';
+		$html.='<li><a href="?d=front&c=room&m=view">ข้อมูลห้อง</a></li>';
 		if($this->fl->check_group_privilege(array("07"),true))
 		{
 			$html.='<li><a href="?d=manage&c=reserve&m=add">จองห้อง</a></li>';
@@ -207,6 +207,8 @@ class Page_element_lib
 			
 			if($this->fl->check_group_privilege(array("06"),true))
 				$html.='<li><a href="?d=manage&c=user&m=edit">ผู้ใช้งาน</a></li>';
+			if($this->fl->check_group_privilege(array("05"),true))
+				$html.='<li><a href="?d=manage&c=auth_log&m=edit">ข้อมูลการใช้งานระบบ</a></li>';
 			$html.='<li class="divider"></li>';
 			$html.='</ul>
 				</li>
@@ -224,8 +226,8 @@ class Page_element_lib
 				$html.='<li><a href="?d=manage&c=reserve&m=edit2">จัดการการจอง</a></li>';
 			}
 		}
-		if($this->fl->check_group_privilege(array("05"),true))
-			$html.='<li><a href="?d=manage&c=auth_log&m=edit">บันทึกการเข้าสู่ระบบ</a></li>';
+		//if($this->fl->check_group_privilege(array("05"),true))
+			//$html.='<li><a href="?d=manage&c=auth_log&m=edit">ข้อมูลการใช้งานระบบ</a></li>';
 		/*if($this->fl->check_group_privilege(array("04"),true))
 		{
 			$html.='<li><a href="?d=manage&c=reserve&m=edit">จัดการการจอง</a></li>';
@@ -311,11 +313,12 @@ class Page_element_lib
 		return '
 		<footer class="text-center">
 			<p>
-        	&copy; 2013-2014 Uttaradit Rajabhat University All Rights Reserved. 
+        	&copy; 2013-2014 <a href="http://www.uru.ac.th">Uttaradit Rajabhat University</a> All Rights Reserved.
 			<br>
-			By Tuchapol Rittavee. Email: tuchapon33@hotmail.com
-				</p>
+			<a href="http://ccuru.uru.ac.th" target="_blank">ศูนย์คอมพิวเตอร์มหาวิทยาลัยราชภัฏอุตรดิตถ์</a> 0-5541-1096 ต่อ 1853
+			</p>
       	</footer>';
+		//By Tuchapol Rittavee. Email: tuchapon33@hotmail.com
 	}
 	function manage_search_box($search_text)
 	{

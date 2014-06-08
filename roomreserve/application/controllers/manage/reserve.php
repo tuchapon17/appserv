@@ -735,6 +735,7 @@ class Reserve extends MY_Controller
 			else
 			{
 				$this->db->trans_commit();
+				$this->session->set_flashdata("reserve_success","บันทึกรายการจองสำเร็จ<br>กรุณารอฟังผลการอนุมัติ  ทางอีเมลที่ได้ลงทะเบียนไว้");
 				redirect(base_url()."?d=manage&c=reserve&m=view&id=".$reserve_id);
 			}
 			
@@ -1010,11 +1011,29 @@ class Reserve extends MY_Controller
 			foreach($query as $q)
 			{
 				$html='';
-				$html.='<div class="checkbox del-checkbox">
-				<label>
-				<input type="checkbox" name="article[]" value="'.$q["tb_article_id"].'">'.$q["article_name"].' <span>(จำนวน <span class="has_article_num">'.$q["article_num"].'</span>)</span></label>
-				</div>';
-				array_push($arr,$html);
+				if($q["auto_select"] == 0)
+				{
+					$html.='<div class="checkbox del-checkbox">
+					<label>
+					<input type="checkbox" name="article[]" value="'.$q["tb_article_id"].'">'.$q["article_name"].' <span>(จำนวน <span class="has_article_num">'.$q["article_num"].' หน่วย</span>)</span></label>
+					</div>';
+					array_push($arr,$html);
+				}
+				else if($q["auto_select"] == 1)
+				{
+					$html.='
+					<div class="checkbox del-checkbox">
+						<label>
+						<input type="checkbox" checked disabled value="'.$q["tb_article_id"].'" name="article[]">'.$q["article_name"].' 
+							<span>(จำนวน <span class="has_article_num">'.$q["article_num"].' หน่วย</span>)</span>
+						</label
+						<span class="input_num">
+							<br>ระบุจำนวน
+							<input type="text" maxlength="4" class="form-control" name="article_num[]" value="'.$q["article_num"].'" disabled>
+						</span>
+					</div>';
+					array_push($arr,$html);
+				}
 			}
 			echo json_encode($arr);	
 		}
@@ -1456,10 +1475,10 @@ class Reserve extends MY_Controller
 				<th>รหัส</th>
 				<th>ชื่อโครงการ</th>
 				<th>ห้อง</th>
-				<th>ส่วนลด(%)</th>
 				<th>สถานะการอนุมัติ</th>
-				<th class="same_first_td">อนุมัติ</th>
 				<th class="same_first_td">รายละเอียด</th>
+				<th class="text-center" width="130">ส่วนลด(%)</th>
+				<th class="same_first_td">อนุมัติ</th>
 				<th>ลบ<br/><input type="checkbox" id="del_all_reserve"></th>
 		';
 		$html.='</thead>
@@ -1485,10 +1504,12 @@ class Reserve extends MY_Controller
 					<td>'.$dt["reserve_id"].'</td>
 					<td id="reserve'.$dt["reserve_id"].'">'.$dt["project_name"].'</td>
 					<td>'.$dt["room_name"].'</td>
-					<td>'.$dt["discount"].nbs(4).'<button class="btn btn-primary btn-xs" type="button" onclick=send_discount("'.$dt["reserve_id"].'");><i class="fa fa-edit fa-1x"></i>&nbsp;ส่วนลด</button></td>
-							<td>'.$approve_text[$dt['approve']].'</td>
-					<td class="text-center">'.$this->eml->btn('approve','onclick=approve_alert("'.$dt['reserve_id'].'","'.base_url().'");').'</td>
+					
+					<td>'.$approve_text[$dt['approve']].'</td>
+					
 					<td class="same_first_td">'.$this->eml->btn('view','onclick=window.open("'.base_url().'?d=manage&c=reserve&m=view&id='.$dt["reserve_id"].'","_blank")').'</td>
+					<td>'.$dt["discount"].nbs(4).'<button class="btn btn-primary btn-xs" type="button" onclick=send_discount("'.$dt["reserve_id"].'");>ส่วนลด</button></td>
+					<td class="text-center">'.$this->eml->btn('approve','onclick=approve_alert("'.$dt['reserve_id'].'","'.base_url().'");').'</td>
 					<td><input type="checkbox" value="'.$dt["reserve_id"].'" name="del_reserve[]" class="del_reserve"></td>
 			';
 			//<td class="same_first_td">'.$this->eml->btn('view','onclick=show_all_data("'.$dt["reserve_id"].'")').'</td>
@@ -1771,6 +1792,30 @@ class Reserve extends MY_Controller
 					$html.='</dl>';
 					array_push($reserve_fee, $html);
 				}
+				else if($u['fee_type_id']=="00")//ไม่คิดค่าบริการ
+				{
+					$html='';
+					//หาความต่างของเวลา จาก วัน/เวลาเริ่มต้น  - วัน/เวลาสิ้นสุด
+					$datetime_diff=$this->datetime_diff($u['reserve_datetime_begin'], $u['reserve_datetime_end']);
+					//ถ้านาทีเกิน 30 นาที ให้ บวกชม.เพิ่ม 1 และให้นาทีรีเซตเป็น 0
+					if($datetime_diff['minute'] > 10)
+					{
+						$datetime_diff['minute']=0;
+						$datetime_diff['hour']++;
+					}
+					
+					$html.='<dl class="dl-horizontal">';
+					$html.='<dt>อุปกรณ์</dt>';
+					$html.='<dd>'.$u['article_name'].'</dd>';
+					$html.='<dt>ประเภทค่าบริการ</dt>';
+					$html.='<dd>'.$u['fee_type_name'].'</dd>';
+					$html.='<dt>จำนวนเวลาที่จอง</dt>';
+					$html.='<dd>'.$datetime_diff['hour'].' ชั่วโมง</dd>';
+					$html.='<dt>จำนวนอุปกรณ์ที่จอง</dt>';
+					$html.='<dd>'.$u['unit_num'].'</dd>';
+					$html.='</dl>';
+					array_push($reserve_fee, $html);
+				}
 			}
 			//ค่าบริการของห้อง
 			$this->db->select("COUNT(tb_reserve_id) AS count_tb_reserve_id")->from("tb_reserve_has_datetime");
@@ -1785,6 +1830,7 @@ class Reserve extends MY_Controller
 			$done=0;
 			$room_fee=array();
 			$room_price_sum=0;
+			$html='';
 			foreach ($room_data as $r)
 			{
 				$datetime_diff_room=$this->datetime_diff($r['reserve_datetime_begin'], $r['reserve_datetime_end']);
@@ -1818,6 +1864,15 @@ class Reserve extends MY_Controller
 				//แบบ ชม. แสดงรายวัน
 				else if($r['tb_fee_type_id']=="02")//ชม.
 				{
+					//หาความต่างของเวลา จาก วัน/เวลาเริ่มต้น  - วัน/เวลาสิ้นสุด
+					$datetime_diff=$this->datetime_diff($u['reserve_datetime_begin'], $u['reserve_datetime_end']);
+					//ถ้านาทีเกิน 30 นาที ให้ บวกชม.เพิ่ม 1 และให้นาทีรีเซตเป็น 0
+					if($datetime_diff['minute'] > 10)
+					{
+						$datetime_diff['minute']=0;
+						$datetime_diff['hour']++;
+					}
+					
 					$room_price=($datetime_diff_room['hour']*$r['room_fee_hour']);
 					$total_price+=$room_price;
 					$room_price_sum+=$room_price;
@@ -1835,6 +1890,20 @@ class Reserve extends MY_Controller
 					$html.='<dd>'.$datetime_diff['hour'].' ชม.</dd>';
 					$html.='<dt>คิดเป็นเงิน</dt>';
 					$html.='<dd><strong><span class="text-danger">'.$room_price.' บาท</span></strong></dd>';
+					$html.='</dl>';
+					array_push($room_fee, $html);
+				}
+				else if($r['tb_fee_type_id']=="00")//ไม่คิดค่าบริการ
+				{
+					$html='';
+					$be_dt = $this->fl->date1_time2($u['reserve_datetime_begin'],$u['reserve_datetime_end']);
+					$html.='<dl class="dl-horizontal">';
+					$html.='<dt>วันเวลาที่คิดค่าบริการ</dt>';
+					$html.='<dd>'.$be_dt.'</dd>';
+					$html.='<dt>ห้อง</dt>';
+					$html.='<dd>'.$r['room_name'].'</dd>';
+					$html.='<dt>ค่าบริการ</dt>';
+					$html.='<dd>ไม่คิดค่าบริการ</dd>';
 					$html.='</dl>';
 					array_push($room_fee, $html);
 				}
@@ -1883,8 +1952,8 @@ class Reserve extends MY_Controller
 				$html.='<dd>'.$room_price_sum.' บาท</dd>';
 				$html.='<dt>ค่าครุภัณฑ์/อุปกรณ์</dt>';
 				$html.='<dd>'.$article_price_sum.' บาท</dd>';
-				$html.='<dt>ส่วนลดค่าห้อง</dt>';
-				$html.='<dd>'.$room_discount_baht.' บาท</dd>';
+				//$html.='<dt>ส่วนลดค่าห้อง</dt>';
+				//$html.='<dd>'.$room_discount_baht.' บาท</dd>';
 				$html.='<dt>ส่วนลดที่อนุมัติ'.$person_reserve_data[0]['reserve_id'].'</dt>';
 				$html.='<dd>'.$reserve_discount_baht.' บาท</dd>';
 				$html.='<dt>ค่าบริการทั้งสิ้น</dt>';
@@ -1907,8 +1976,8 @@ class Reserve extends MY_Controller
 				$html.='<dd>'.$room_price_sum.' บาท</dd>';
 				$html.='<dt>ค่าครุภัณฑ์/อุปกรณ์</dt>';
 				$html.='<dd>'.$article_price_sum.' บาท</dd>';
-				$html.='<dt>ส่วนลดค่าห้อง</dt>';
-				$html.='<dd>'.$room_discount_baht.' บาท</dd>';
+				//$html.='<dt>ส่วนลดค่าห้อง</dt>';
+				//$html.='<dd>'.$room_discount_baht.' บาท</dd>';
 				$html.='<dt>ส่วนลดที่อนุมัติ</dt>';
 				$html.='<dd>'.$reserve_discount_baht.' บาท</dd>';
 				$html.='<dt>ค่าบริการทั้งสิ้น</dt>';
@@ -2080,6 +2149,7 @@ class Reserve extends MY_Controller
 	}
 	function reserve_approve()
 	{
+		//check permission
 		$set=array("approve"=>$this->input->post($this->lang->line("se_approve")));
 		if($this->input->post($this->lang->line("se_approve")) == 1)
 		{
@@ -2087,9 +2157,54 @@ class Reserve extends MY_Controller
 			$set['approve_by']=$this->session->userdata("rs_username");
 		}
 		$where=array("reserve_id"=>@$_GET['id']);
+
+		//get username from reserve data
+		$this->db->select("tb_user_username,approve")->from("tb_reserve")
+		->where("reserve_id",@$_GET['id']);
+		$q = $this->db->get()->result_array();
+		$old_approve = $q[0]["approve"];
+		$username = $q[0]["tb_user_username"];
+		
+		$body = "<p>ผลการอนุมัติการจองของคุณได้เปลี่ยนแปลงเป็น</p>";
+		if($old_approve == 1)//ถ้าอนุมัติไปแล้ว
+		{
+			if($set["approve"] == 0 || $set["approve"] == 2)//รออนุมัติ | ส่งผู้บริหารอนุมัติ
+				$body.= "<h3 style='color:#C09853;'><u>รอการอนุมัติ</u></h3>";
+			else if($set["approve"] == 3)//ไม่อนุมัติ
+				$body.= "<h3 style='color:#C71C22;'><u>ไม่อนุมัติ</u></h3>";
+		}
+		else if($old_approve == 0 || $old_approve == 2)//ถ้ารออนุมัติ | ส่งให้ผู้บริหาร
+		{
+			if($set["approve"] == 1)
+				$body = "<p>การจองของคุณได้รับการ <u style='color:#73A839;font-weight:bold;'>อนุมัติ</u> เรียบร้อยแล้ว</p>";
+			else if($set["approve"] == 3)//ไม่อนุมัติ
+				$body.= "<h3 style='color:#C71C22;'><u>ไม่อนุมัติ</u></h3>";
+		}
+		else if($old_approve == 3)//ไม่อนุมัติ
+		{
+			if($set["approve"] == 1)
+				$body = "<p>การจองของคุณได้รับการ <u style='color:#73A839;font-weight:bold;'>อนุมัติ</u> เรียบร้อยแล้ว</p>";
+			else if($set["approve"] == 0 || $set["approve"] == 2)//รออนุมัติ | ส่งผู้บริหารอนุมัติ
+				$body.= "<h3 style='color:#C09853;'><u>รอการอนุมัติ</u></h3>";
+		}
+		$body.= "<p>สามารถดูรายละเอียดการจองของคุณได้  <a href='".base_url()."?d=manage&c=reserve&m=view&id=".@$_GET['id']."'>ที่นี่</a></p>";
+		$body.="<p>หรือ ".base_url()."?d=manage&c=reserve&m=view&id=".@$_GET['id']."</p>";
+		
+		//get user data
+		$this->db->select("firstname,lastname,email")->from("tb_user")
+		->where("username",$username);
+		$u_info = $this->db->get()->result_array();
+		
+		$subject = "แจ้งผลการจองห้องของคุณ ".@$info["firstname"]." ".@$info["lastname"]."- ระบบจัดการการจองห้อง";
+		$this->send_mail_approve($u_info[0]["email"], $subject, $body, $u_info[0]);
+		
 		//add event
 		$this->add_event("ปรับผลการอนุมัติเป็น".$this->input->post($this->lang->line("se_approve")));
 		$this->load_reserve_model->manage_edit2($set,$where,"tb_reserve","reserve_approve","สำเร็จ","ไม่สำเร็จ",$_SERVER['HTTP_REFERER']);
+		
+		
+		
+		
 	}
 	function reserve_list()
 	{
@@ -2517,6 +2632,45 @@ class Reserve extends MY_Controller
 			//add event
 			$this->add_event("อนุมัติส่วนลด");
 			echo "<p class='text-success'>กำหนดส่วนลดสำเร็จ</p>";
+		}
+	}
+	
+	function send_mail_approve($email, $subject, $body, $info='')
+	{
+		$email_sender="roomreserve17@gmail.com";
+		
+		$this->load->library("MY_phpmailer");
+		$mail             = new PHPMailer();
+		$body=$body;
+		
+		$mail->IsSMTP(); // telling the class to use SMTP
+		//$mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
+		// 1 = errors and messages
+		// 2 = messages only
+		
+		$mail->CharSet="utf-8";
+		$mail->SMTPAuth   = true;                  // enable SMTP authentication
+		$mail->SMTPSecure = "tls";                 // sets the prefix to the servier
+		$mail->Host       = "smtp.gmail.com";      // sets GMAIL as the SMTP server
+		$mail->Port       = 587;                   // set the SMTP port for the GMAIL server
+		$mail->Username   = $email_sender;  // GMAIL username
+		$mail->Password   = "tuchapon17";            // GMAIL password
+		$mail->SetFrom($email_sender, 'no-reply - '.$email_sender);//ชื่อผู้ส่ง
+		$mail->AddReplyTo($email_sender,"no-reply - ".$email_sender);//เมลสำหรับตอบกลับ , ชื่อ แสดงเมื่อตอบกลับ
+		$mail->Subject    = $subject;
+		$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!"; // optional, comment out and test
+		$mail->MsgHTML($body);
+		$address = $email;
+		$mail->AddAddress($address, @$info[0]['firstname'].' '.@$info[0]['lastname']);//เมล , ชื่อผู้รับ
+		//$mail->AddAttachment("images/phpmailer.gif");      // attachment
+		//$mail->AddAttachment("images/phpmailer_mini.gif"); // attachment
+		if(!$mail->Send()) {
+			echo json_encode(array("error","ส่งอีเมลไม่สำเร็จ<br>".$mail->ErrorInfo));
+			//echo "Mailer Error: " . $mail->ErrorInfo;
+		}
+		else
+		{
+			
 		}
 	}
 }

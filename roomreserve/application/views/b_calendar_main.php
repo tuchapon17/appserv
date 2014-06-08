@@ -144,7 +144,7 @@ echo $head;
       	<?php //echo $titlename_tab;?>
       		<div class="col-lg-10 col-lg-offset-1" id="loginform">
 				
-      		 	<h2>ปฏิทิน</h2>
+      		 	<h3>ปฏิทิน</h3>
       		 	<?php if(isset($_GET['resid'])) echo "<h4>รหัสการจอง ".$_GET['resid']."</h4>";?>
       		 	<div class="panel panel-default">
 						<div class="panel-heading" id="search-heading">
@@ -183,10 +183,11 @@ echo $js;
 		$(".table-calendar td").each(function(){
 			var count=0;
 			//.time-small loop
+			var limit = 5;
 			$(this).children("div.time-small").each(function(){
 				count++;
-				if(count==3)$(this).html("<strong>...</strong>");
-				if(count>3)$(this).remove();
+				if(count==limit)$(this).html("<strong>...</strong>");
+				if(count>limit)$(this).remove();
 			});
 		});
 

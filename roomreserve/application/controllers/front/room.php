@@ -48,11 +48,21 @@ class Room extends MY_Controller
 			$room_id=$_GET['rmid'];
 		}
 		else $room_id=($this->session->userdata("view-room"))?$this->session->userdata("view-room"):null;
-		$room_data=$this->rm->get_room_data($room_id);
-		if(sizeof($room_data)!=0) 
-			$r_id=$room_data[0]['room_id'];
+		
+		$room_data = $this->rm->get_room_data($room_id);
+		
+		if(sizeof($room_data) != 0) 
+			$r_id = $room_data[0]['room_id'];
 		else 
-			$r_id='';
+			$r_id = '';
+		
+		//article data
+		
+		$this->db->select()->from("tb_room_has_article")
+		->join("tb_article","tb_article.article_id = tb_room_has_article.tb_article_id")
+		->join("tb_fee_type","tb_fee_type.fee_type_id = tb_room_has_article.tb_fee_type_id")
+		->where("tb_room_has_article.tb_room_id",$r_id);
+		$article_data = $this->db->get()->result_array();
 		$data=array(
 				"htmlopen"=>$this->pel->htmlopen(),
 				"head"=>$this->pel->head("ข้อมูลห้อง"),
@@ -65,13 +75,14 @@ class Room extends MY_Controller
 				"get_room_list"=>$room_data,
 				"get_pic_list"=>$this->rm->get_pic_list($r_id),
 				"form_select_room"=>$this->form_select_room(),
-				"perv_next_room"=>$this->perv_next_room()
+				"perv_next_room"=>$this->perv_next_room(),
+				"article_data"=>$article_data
 		);
 		$this->load->view("front/view_room",$data);
 	}
 	function form_select_room()
 	{
-		$html='<form class="form-horizontal" role="form" action="'.base_url().'?d=front&c=room&m=form_select_room_process" method="post" autocomplete="off">';
+		$html='<form id="searchroom" class="form-horizontal" role="form" action="'.base_url().'?d=front&c=room&m=form_select_room_process" method="post" autocomplete="off">';
 		$html.='
       		 	<div class="form-group">
 					<label class="col-lg-2 control-label" for="select_room_type">ประเภทห้อง</label>

@@ -29,11 +29,11 @@ class Room extends MY_Controller
 						"label"=>$this->lang->line("t_te_room_detail"),
 						"rules"=>""
 				),
-				array(
+				/*array(
 						"field"=>$this->lang->line("in_discount_percent"),
 						"label"=>$this->lang->line("t_in_discount_percent"),
 						"rules"=>"required|max_length[6]"
-				),
+				),*/
 				/*array(
 						"field"=>"input_room_fee",
 						"label"=>"ค่าบริการ",
@@ -47,12 +47,12 @@ class Room extends MY_Controller
 				array(
 						"field"=>$this->lang->line("in_room_fee_hour"),
 						"label"=>$this->lang->line("t_in_room_fee_hour"),
-						"rules"=>"required|max_length[9]"
+						"rules"=>""
 				),
 				array(
 						"field"=>$this->lang->line("in_room_fee_lump_sum"),
 						"label"=>$this->lang->line("t_in_room_fee_lump_sum"),
-						"rules"=>"required|max_length[9]"
+						"rules"=>""
 				)
 		);
 		$this->frm->set_rules($config);
@@ -153,6 +153,18 @@ class Room extends MY_Controller
 					"IN_attr"=>'maxlength="9"',
 					"help_text"=>""
 			);
+			$in_max_people=array(
+					"LB_text"=>$this->lang->line("t_in_max_people"),
+					"LB_attr"=>$this->eml->span_redstar(),
+					"IN_type"=>'text',
+					"IN_class"=>'',
+					"IN_name"=>$this->lang->line("in_max_people"),
+					"IN_id"=>$this->lang->line("in_max_people"),
+					"IN_PH"=>'',
+					"IN_value"=>set_value($this->lang->line("in_max_people")),
+					"IN_attr"=>'maxlength="4"',
+					"help_text"=>"ตัวเลขไม่เกิน 4 หลัก"
+			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
 					"head"=>$this->pel->head($this->lang->line("ti_add_room")),
@@ -170,7 +182,8 @@ class Room extends MY_Controller
 					//"in_room_fee"=>$this->eml->form_input($in_room_fee),
 					"se_fee_type"=>$this->eml->form_select($se_fee_type),
 					"in_room_fee_hour"=>$this->eml->form_input($in_room_fee_hour),
-					"in_room_fee_lump_sum"=>$this->eml->form_input($in_room_fee_lump_sum)
+					"in_room_fee_lump_sum"=>$this->eml->form_input($in_room_fee_lump_sum),
+					"in_max_people"=>$this->eml->form_input($in_max_people)
 			);
 		
 			$this->load->view("manage/room/add_room",$data);
@@ -188,14 +201,16 @@ class Room extends MY_Controller
 					"room_fee_hour"=>$this->input->post($this->lang->line("in_room_fee_hour")),
 					"room_fee_lump_sum"=>$this->input->post($this->lang->line("in_room_fee_lump_sum"))
 			);
-			$redirect_link="?d=manage&c=room&m=add";
+			//$redirect_link="?d=manage&c=room&m=add";
+			$succ_relink="?d=manage&c=room&m=pic&rmid=".$data["room_id"];
+			$error_relink = "?d=manage&c=room&m=add";
 			//add event
 			$this->add_event($this->lang->line("ti_add_room"));
 			$this->rom->manage_add(
 					$data,
 					"tb_room",
-					$redirect_link,
-					$redirect_link,
+					$succ_relink,
+					$error_relink,
 					"room",
 					"เพิ่มห้องสำเร็จ",
 					"เพิ่มห้องไม่สำเร็จ"
@@ -219,12 +234,12 @@ class Room extends MY_Controller
 						"field"=>$this->lang->line("te_room_detail"),
 						"label"=>$this->lang->line("t_te_room_detail"),
 						"rules"=>""
-				),
-				array(
+				)
+				/*array(
 						"field"=>$this->lang->line("in_discount_percent"),
 						"label"=>$this->lang->line("t_in_discount_percent"),
 						"rules"=>"required|max_length[6]"
-				)
+				)*/
 		);
 		$this->frm->set_rules($config);
 		$this->frm->set_message("rule","message");
@@ -357,6 +372,18 @@ class Room extends MY_Controller
 					"IN_attr"=>'maxlength="9"',
 					"help_text"=>""
 			);
+			$in_max_people=array(
+					"LB_text"=>$this->lang->line("t_in_max_people"),
+					"LB_attr"=>$this->eml->span_redstar(),
+					"IN_type"=>'text',
+					"IN_class"=>'',
+					"IN_name"=>$this->lang->line("in_max_people"),
+					"IN_id"=>$this->lang->line("in_max_people"),
+					"IN_PH"=>'',
+					"IN_value"=>set_value($this->lang->line("in_max_people")),
+					"IN_attr"=>'maxlength="4"',
+					"help_text"=>"ตัวเลขไม่เกิน 4 หลัก"
+			);
 			$data=array(
 					"htmlopen"=>$this->pel->htmlopen(),
 					"head"=>$this->pel->head($this->lang->line("ti_edit_room")),
@@ -378,7 +405,8 @@ class Room extends MY_Controller
 					"table_edit"=>$this->table_edit($get_room_list),
 					"session_search_room"=>$search_text,
 					"pagination_num_rows"=>$config["total_rows"],
-					"manage_search_box"=>$this->pel->manage_search_box($search_text)
+					"manage_search_box"=>$this->pel->manage_search_box($search_text),
+					"in_max_people"=>$this->eml->form_input($in_max_people)
 			);
 			$this->load->view("manage/room/edit_room",$data);
 		}

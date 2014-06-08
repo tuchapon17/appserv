@@ -18,6 +18,7 @@ function approve_alert(r_id,base_url)
 				className: "btn-success",
 				callback: function() {
 					$("#form_approve").submit();
+					$("#sendEmailModal").modal('show');
 				}
 			},
 			danger: {

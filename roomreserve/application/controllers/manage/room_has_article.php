@@ -563,8 +563,15 @@ class Room_has_article extends MY_Controller
 	 */
 	function select_article_list()
 	{
+		
 		if($this->input->post("article_type_id")!=''):
-		$query=$this->emm->select_article_by_article_type($this->input->post("article_type_id"));
+		
+		$this->db->select()->from("tb_article")
+		->join("tb_article_type","tb_article_type.article_type_id=tb_article.tb_article_type_id")
+		->order_by("CONVERT(article_name USING ".$this->mysql_charset.")","ASC")
+		->where("tb_article_type.article_type_id",$this->input->post("article_type_id"))
+		->where("tb_article.article_id NOT IN (SELECT tb_article_id FROM tb_room_has_article)",null,false);
+		$query = $this->db->get()->result_array();
 		$data='';
 		if($query>0):
 			foreach($query AS $ar):

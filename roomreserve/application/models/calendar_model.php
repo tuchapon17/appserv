@@ -63,27 +63,43 @@ class Calendar_Model extends CI_Model
 		->join("tb_reserve","tb_reserve_has_datetime.tb_reserve_id=tb_reserve.reserve_id")
 		->join("tb_room","tb_room.room_id=tb_reserve.tb_room_id");
 		$where=array(
-				"tb_reserve.approve"=>1,
 				"tb_reserve.canceled"=>0
 		);
 		//if($reserve_id!=null)$where["tb_reserve.reserve_id"]=$reserve_id;
 		if($room_id!=null && $room_id!='all')$where['tb_reserve.tb_room_id']=$room_id;
 		$this->db->where($where);
 		$this->db->like("reserve_datetime_begin","$year-$month","after");
+		
+		//เงื่อนไข รออนุมัติ หรือ อนุมัติแล้ว
+		$this->db->where("(tb_reserve.approve = 1 OR tb_reserve.approve = 0)",NULL,FALSE);
+		
 		$query=$this->db->get()->result_array();
 		$cal_data=array();
+		$datetime_id=array();
 		foreach ($query as $row)
 		{
-			$atext=$row["room_name"]." (".substr($row["reserve_datetime_begin"],11,5)."-".substr($row["reserve_datetime_end"],11,5);
-			//$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)]="<i class='fa fa-info-circle'></i>";
-			if(!array_key_exists((int)substr($row["reserve_datetime_begin"],8,2), $cal_data))
+			$class_color="";
+			if($row["approve"] == "0") $class_color="text-warning";
+			else if($row["approve"] == "1") $class_color="text-success";
+			if(!array_key_exists($row["datetime_id"],$datetime_id))
 			{
-				//$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)]="<div class='text-left' onclick='alert(\"$row[reserve_datetime_begin].$row[reserve_datetime_end]\");'>".$row["project_name"]."</div>";
-				$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)]="<div class='time-small'><small><a href='".base_url()."?d=manage&c=reserve&m=view&id=".$row['tb_reserve_id']."' title='".$atext."'>".$atext.")</a></small></div>";
+				$atext=$row["room_name"]." (".substr($row["reserve_datetime_begin"],11,5)."-".substr($row["reserve_datetime_end"],11,5);
+				//$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)]="<i class='fa fa-info-circle'></i>";
+				
+				//ถ้าไม่พบคีย์ของอาเรย์ ให้ใส่ข้อมูลวันที่ลงไป
+				if(!array_key_exists((int)substr($row["reserve_datetime_begin"],8,2), $cal_data))
+				{
+					//$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)]="<div class='text-left' onclick='alert(\"$row[reserve_datetime_begin].$row[reserve_datetime_end]\");'>".$row["project_name"]."</div>";
+					$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)]="<div class='time-small'><small><a class='".$class_color."' href='".base_url()."?d=manage&c=reserve&m=view&id=".$row['tb_reserve_id']."' title='".$atext."'>".$atext.")</a></small></div>";
+				}
+				else
+					//สำหรับแถวสองของวันที่ ต่างกันตรง = และ .=
+					//$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)].="<div class='text-left' onclick='alert(\"$row[reserve_datetime_begin].$row[reserve_datetime_end]\");'>".$row["project_name"]."</div>";
+					$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)].="<div class='time-small'><small><a class='".$class_color."' href='".base_url()."?d=manage&c=reserve&m=view&id=".$row['tb_reserve_id']."' title='".$atext."'>".$atext.")</a></small></div>";
+				$datetime_id[$row["datetime_id"]]=$row["datetime_id"];
+				
 			}
-			else
-				//$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)].="<div class='text-left' onclick='alert(\"$row[reserve_datetime_begin].$row[reserve_datetime_end]\");'>".$row["project_name"]."</div>";
-				$cal_data[(int)substr($row["reserve_datetime_begin"],8,2)].="<div class='time-small'><small><a href='".base_url()."?d=manage&c=reserve&m=view&id=".$row['tb_reserve_id']."' title='".$atext."'>".$atext.")</a></small></div>";
+			
 		}
 		return $cal_data;
 	}

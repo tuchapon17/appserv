@@ -47,14 +47,16 @@ echo $head;
 							"in_room_fee_hour"=>$this->lang->line("in_room_fee_hour"),
 							"in_room_fee_lump_sum"=>$this->lang->line("in_room_fee_lump_sum")
 	      		 	);
-      		 		/*echo form_error($em_name["in_room_name"]);
+	      		 	/*
+      		 		echo form_error($em_name["in_room_name"]);
       		 		echo form_error($em_name["se_room_type"]);
       		 		echo form_error($em_name["te_room_detail"]);
-      		 		echo form_error($em_name["in_discount_percent"]);
+      		 		//echo form_error($em_name["in_discount_percent"]);
       		 		//echo form_error($em_name["in_room_fee"]);
       		 		echo form_error($em_name["se_fee_type"]);
       		 		echo form_error($em_name["in_room_fee_hour"]);
-      		 		echo form_error($em_name["in_room_fee_lump_sum"]);*/
+      		 		echo form_error($em_name["in_room_fee_lump_sum"]);
+      		 		*/
       		 	?>
       			</div>
       			<div class="panel panel-success">
@@ -73,6 +75,8 @@ echo $head;
 								//echo "<span id='".$this->lang->line("in_discount_percent")."_error' class='hidden'>".form_error($this->lang->line("in_discount_percent"))."</span>";
 								//echo $in_room_fee;
 								//echo "<span id='".$em_name["in_room_fee"]."_error' class='hidden'>".form_error($em_name["in_room_fee"])."</span>";
+								echo $in_max_people;
+								echo "<span id='".$this->lang->line("in_max_people")."_error' class='hidden'>".form_error($this->lang->line("in_max_people"))."</span>";
 								echo $se_fee_type;
 								echo "<span id='".$this->lang->line("se_fee_type")."_error' class='hidden'>".form_error($this->lang->line("se_fee_type"))."</span>";
 								echo $in_room_fee_hour;
@@ -138,12 +142,12 @@ echo $js;
 					required:true
 				},
 				"<?php echo $this->lang->line("in_room_fee_hour");?>": {
-					required:true,
+					//required:true,
 					maxlength:9,
 					decimal62:true
 				},
 				"<?php echo $this->lang->line("in_room_fee_lump_sum");?>": {
-					required:true,
+					//required:true,
 					maxlength:9,
 					decimal62:true
 				}
@@ -226,6 +230,7 @@ echo $js;
 				$("#<?php echo $this->lang->line("se_fee_type"); ?>").val(resp.tb_fee_type_id);
 				$("#<?php echo $this->lang->line("in_room_fee_hour"); ?>").val(resp.room_fee_hour);
 				$("#<?php echo $this->lang->line("in_room_fee_lump_sum"); ?>").val(resp.room_fee_lump_sum);
+				$("#<?php echo $this->lang->line("in_max_people");?>").val(resp.max_people);
 			},
 			error:function(error){
 				alert("Error : "+error);

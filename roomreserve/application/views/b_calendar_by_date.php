@@ -63,7 +63,7 @@ echo $head;
       <div class="row">
       	<div class="col-lg-12">
       	<?php //echo $titlename_tab;?>				
-      		 	<h2><span id="cdate"></span></h2>
+      		 	<h3><span id="cdate"></span></h3>
       			<div>
       					<div class="fleft"><strong>คาบเรียนที่</strong></div>
       					<div class="fleft pd pointer" id="pd01">1</div>

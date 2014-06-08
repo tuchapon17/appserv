@@ -2,7 +2,7 @@
 //text
 $lang["text_article_type"] = "ประเภทวัสดุครุภัณฑ์";
 $lang["text_article"] = "วัสดุครุภัณฑ์";
-$lang["text_auth_log"] = "บันทึกการเข้าสู่ระบบ";
+$lang["text_auth_log"] = "ข้อมูลการใช้งานระบบ";
 $lang["text_condition"] = "ระเบียบการใช้งานระบบ";
 $lang["text_department"] = "สาขาวิชา/งาน";
 $lang["text_faculty"] = "คณะ/กอง";
@@ -56,7 +56,7 @@ $lang["t_in_titlename"] = "คำนำหน้าชื่อ";
 $lang["t_in_id_card_number"] = "เลขประจำตัวประชาชน";
 $lang["t_in_equipment_number"] = "เลขครุภัณฑ์";
 $lang["t_in_othertitlename"] = "คำนำหน้าชื่ออื่นๆ";
-$lang[""] = "";
+$lang["t_in_max_people"] = "ความจุห้อง (คน)";
 
 //se
 $lang["t_se_article_type"] = "ประเภทวัสดุครุภัณฑ์";
@@ -91,7 +91,7 @@ $lang["ti_add_article_type"] = "เพิ่มประเภทวัสดุ
 $lang["ti_edit_article_type"] = "แก้ไข/ลบประเภทวัสดุครุภัณฑ์";
 $lang["ti_add_article"] = "เพิ่มวัสดุครุภัณฑ์";
 $lang["ti_edit_article"] = "แก้ไข/ลบวัสดุครุภัณฑ์";
-$lang["ti_edit_auth_log"] = "บันทึกการเข้าสู่ระบบ";
+$lang["ti_edit_auth_log"] = "ข้อมูลการใช้งานระบบ";
 $lang["ti_edit_condition"] = "แก้ไขระเบียบการใช้งานระบบ";
 $lang["ti_add_department"] = "เพิ่มสาขาวิชา/งาน";
 $lang["ti_edit_department"] = "แก้ไข/ลบสาขาวิชา/งาน";

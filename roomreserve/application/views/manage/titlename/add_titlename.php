@@ -46,6 +46,16 @@ echo $head;
 							<div class="text-right"><?php echo $eml->btn('submit','');?></div>
 						</form>		
 					</div>
+					
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title"><strong><?php echo $this->lang->line("text_titlename");?>ที่มี</strong></h3>
+						</div>
+						<div class="panel-body">
+							<?php echo $current_titlename;?>
+						</div>
+					</div>
+					
 				</div>
       		</div>
         </div>

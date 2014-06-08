@@ -129,7 +129,13 @@ echo $head;
       	<?php //echo $titlename_tab;?>
       		<div class="col-lg-10 col-lg-offset-1" id="loginform">
 				
-      		 	<h2>ปฏิทิน</h2>
+      		 	<h3>ปฏิทิน</h3>
+      		 	
+      		 	<div class="alert alert-info alert-dismissable">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					<span class="text-success"><i class="fa fa-circle fa-success"></i> อนุมัติแล้ว</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-warning"><i class="fa fa-circle fa-warning"></i> รอการอนุมัติ</span>
+				</div>
+      		 	
       		 	<?php if(isset($_GET['resid'])) echo "<h4>รหัสการจอง ".$_GET['resid']."</h4>";?>
       		 	<div class="panel panel-default">
 						<div class="panel-heading" id="search-heading">
@@ -157,16 +163,16 @@ echo $js;
 	<script type="text/javascript">
 	<!--
 	$(function(){
-		/*
-		* วนลูปทุก td เพื่อ ลบ <div class='time-small'> ให้เหลือแค่ 2 แถว แถวที่ 3 ให้เป็น ... 
-		*/
+		
+		//วนลูปทุก td เพื่อ ลบ <div class='time-small'> ให้เหลือแค่ 2 แถว แถวที่ 3 ให้เป็น ... 
 		$(".table-calendar td").each(function(){
 			var count=0;
 			//.time-small loop
+			var limit = 5;
 			$(this).children("div.time-small").each(function(){
 				count++;
-				if(count==3)$(this).html("<strong>...</strong>");
-				if(count>3)$(this).remove();
+				if(count==limit)$(this).html("<strong>...</strong>");
+				if(count>limit)$(this).remove();
 			});
 		});
 

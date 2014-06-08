@@ -1065,7 +1065,7 @@ EOT;
 		$graph->Stroke($graph_file_location);
 		copy("upload/".$graph_full_name, "upload/".$graph_file_name."_1".$graph_file_ext);
 		//$data["graph"] = $graph_file_location;
-		chmod("upload/".$graph_file_name."_1".$graph_file_ext, 0777);
+			//chmod("upload/".$graph_file_name."_1".$graph_file_ext, 0777);
 		//$this->load->view("test_graph",$data);
 		return $graph_file_name."_1".$graph_file_ext;
 	}

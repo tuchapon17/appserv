@@ -91,6 +91,7 @@ class Login extends MY_Controller
 	}
 	function forgot_password()
 	{
+		if($this->session->userdata("rs_username")) redirect(base_url());
 		$data=array(
 				"htmlopen"=>$this->pel->htmlopen(),
 				"head"=>$this->pel->head("ลืมรหัสผ่าน"),

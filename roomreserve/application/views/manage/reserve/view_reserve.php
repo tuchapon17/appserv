@@ -95,11 +95,15 @@ echo $head;
 	      		 					$r_date = $fl->date1_time2($val['reserve_datetime_begin'],$val['reserve_datetime_end']);
 	      		 					echo "<dd>".($index+1).".
 									<a href='".base_url()."?c=calendar&m=bydate&cdate=".
-									substr($val['reserve_datetime_begin'],0,10)."' target='_blank'>".$r_date."</a>&nbsp;
-      								<a href='".base_url()."?d=manage&c=reserve&m=edit_detail&id="
-									.$rd["reserve_id"]."&t=datetime&did=".$val["datetime_id"]."'>
-									<i class='fa fa-edit'></i></a>
-      								</dd>";
+									substr($val['reserve_datetime_begin'],0,10)."' target='_blank'>".$r_date."</a>&nbsp;";
+      								
+	      		 					if($fl->check_group_privilege(array("02"),true))
+	      		 					{
+	      		 						echo "<a href='".base_url()."?d=manage&c=reserve&m=edit_detail&id="
+	      		 								.$rd["reserve_id"]."&t=datetime&did=".$val["datetime_id"]."'>
+	      		 								<i class='fa fa-edit'></i></a>";
+	      		 					}
+      								echo "</dd>";
 	      		 				}
 	      		 				?>
 	      		 			</dl>
@@ -190,10 +194,10 @@ echo $head;
 						<div class="text-center"><h4>ค่าบริการห้อง</h4></div>
 						<div class="row">
 							<?php 
-							foreach($room_fee as $r)
+							foreach($room_fee as $rf)
 							{
 								echo '<div class="col-lg-6">';
-								echo $r;
+								echo $rf;
 								echo '</div>';
 							}
 							?>
@@ -230,6 +234,13 @@ echo $js;
 		if($this->session->flashdata("edit_reserve_datetime_message"))
 		{?>
 			bootbox.alert("<?php echo $this->session->flashdata("edit_reserve_datetime_message");?>"); 
+		<?php
+		}?>
+		
+		<?php
+		if($this->session->flashdata("reserve_success"))
+		{?>
+			bootbox.alert("<?php echo $this->session->flashdata("reserve_success");?>"); 
 		<?php
 		}?>
 		

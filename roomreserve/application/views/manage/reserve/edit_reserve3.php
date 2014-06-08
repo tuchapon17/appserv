@@ -35,6 +35,24 @@ echo $head;
       		 	<div class="alert-danger" id="login-alert">
       			</div>
       		</div>
+      		
+      		<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="sendEmailModal">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content" >
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					        <h4 class="modal-title" id="sendEmailModalHeader">แจ้งผลการอนุมัติทางอีเมล</h4>
+					    </div>
+					    <div class="modal-body" id="sendEmailModalBody">
+					    	<p>กรุณารอสักครู่...<br>ระบบกำลังดำเนินการส่งผลการอนุมัติให้กับผู้ใช้งาน</p>
+					    </div>
+						<!-- <div class="modal-footer" id="sendEmailModalFooter">
+							
+				      	</div> -->
+					</div>
+				</div>
+			</div>
+			
         </div>
       </div>
       
